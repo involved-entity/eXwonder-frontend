@@ -11,7 +11,7 @@
           <button
               type="submit"
               class="mt-2 p-1 w-full uppercase font-semibold text-gray-300 rounded bg-violet-900 border border-transparent hover:bg-violet-950 hover:border hover:border-violet-950"
-          >Submit</button>
+          >Login</button>
         </div>
       </div>
     </div>
