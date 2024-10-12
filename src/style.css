@@ -1,1 +1,18 @@
+@import url("https://fonts.googleapis.com/css2?family=Varela+Round&display=swap");
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    background-color: #1b1919;
+    font-family: 'Varela Round', 'URW Gothic', 'sans-serif';
+}
+
+.bg-gray-custom {
+    background-color: #1b1919;
+}
+
+.gray-custom {
+    color: #1b1919
+}
