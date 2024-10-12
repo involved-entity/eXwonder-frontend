@@ -7,6 +7,9 @@
 body {
     background-color: #1b1919;
     font-family: 'Varela Round', 'URW Gothic', 'sans-serif';
+    overflow-y: hidden;
+    margin: 0;
+    padding: 0;
 }
 
 .bg-gray-custom {
@@ -15,4 +18,12 @@ body {
 
 .gray-custom {
     color: #1b1919
+}
+
+.inactive {
+    border-left: 2px solid darkgrey;
+}
+
+.active {
+    border-left: 2px solid darkcyan;
 }
