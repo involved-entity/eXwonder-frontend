@@ -1,8 +1,9 @@
 import axios from 'axios';
+import BaseUrl from "../settings.js";
 
 const fetchClient = () => {
     const defaultOptions = {
-        baseURL: 'http://localhost:8000',
+        baseURL: BaseUrl,
     };
 
     let instance = axios.create(defaultOptions);

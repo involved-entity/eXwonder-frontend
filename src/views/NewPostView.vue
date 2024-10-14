@@ -1,6 +1,7 @@
 <template>
   <div class="container" style="border: 15px solid #111; background-color: #272727">
-    <div class="shadow-xl shadow-cyan-500/50 h-screen items-center">
+<!--    <div class="shadow-xl shadow-cyan-500/50 h-screen items-center">-->
+    <div class="justify-center shadow-xl shadow-cyan-500/50">
       <p class="text-gray-300 text-4xl ms-3 mt-3">New post uploading</p>
       <hr class="ms-3 mr-3 mt-4 mb-4 border-gray-600">
 
@@ -17,6 +18,7 @@
           required
           multiple
           ref="images"
+          @change="imagesChanged"
       >
 
       <label
@@ -33,14 +35,15 @@
           v-model="signature"
       />
 
-      <div class="justify-center">
-        <button
-            type="submit"
-            @click="submit"
-            class="ms-3 mt-4 p-1 w-3/12 uppercase font-semibold text-gray-300 rounded bg-violet-900 border border-transparent
-                   transition-all duration-200 hover:bg-violet-950 hover:border hover:border-violet-950"
-        >Submit</button>
-      </div>
+      <button
+          type="submit"
+          @click="submit"
+          class="ms-3 mb-5 mt-4 p-1 w-3/12 uppercase font-semibold text-gray-300 rounded bg-violet-900 border border-transparent
+                 disabled:bg-purple-950 disabled:text-gray-500 transition-all duration-200"
+          :class="{'hover:bg-violet-950 hover:border hover:border-violet-950': isValid}"
+          :disabled="!isValid"
+      >Submit</button>
+      <div class="loader mb-5 mx-auto" v-if="loading"></div>
     </div>
   </div>
 </template>
@@ -48,30 +51,44 @@
 <script>
 import {mapStores} from 'pinia'
 import {usePostsStore} from "../stores/postsStore.js";
+import axios from "axios";
 
 export default {
   data() {
     return {
-      signature: ''
+      images: [],
+      signature: '',
+      loading: false,
+      errors: {}
     }
   },
   methods: {
     async submit() {
-      if (this.isValid()) {
+      if (this.isValid) {
+        this.loading = true
         const formData = new FormData()
-        for (let index = 0; index < this.$refs.images.files.length; index++) {
+        for (let index = 0; index < this.images.length; index++) {
           formData.append("image" + index, this.$refs.images.files[index])
         }
         formData.append('signature', this.signature)
         const response = await this.postsStore.createPost(formData)
-        console.log(response)
+        if (response.status === axios.HttpStatusCode.Created) {
+          this.errors = {}
+          this.$router.push({name: 'user'})
+        } else {
+          this.errors = response.response.data
+        }
+        this.loading = false
       }
     },
-    isValid() {
-      return this.$refs.images?.files.length > 0 && this.$refs.images?.files.length <= 10
+    imagesChanged() {
+      this.images = this.$refs.images.files
     }
   },
   computed: {
+    isValid() {
+      return this.images.length > 0 && this.images.length <= 10
+    },
     ...mapStores(usePostsStore)
   }
 }

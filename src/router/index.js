@@ -12,6 +12,7 @@ const routes = [
     {path: '/sing-up/', name: 'sing-up', component: RegisterView, meta: {requireNoLogin: true}},
     {path: '/2fa/', name: '2fa', component: TwoFactorAuthenticationView, meta: {requireNoLogin: true}},
     {path: '/new/', name: 'new-post', component: NewPostView, meta: {requireLogin: true}},
+    {path: '/', name: 'user', component: HomeView, meta: {requireLogin: true}},
 ]
 
 const router = createRouter({

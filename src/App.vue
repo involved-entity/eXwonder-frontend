@@ -7,18 +7,19 @@
       <router-view></router-view>
     </div>
     <div class="w-1/5" v-if="authenticationStore.isAuth">
-
+      <the-sidebar></the-sidebar>
     </div>
   </div>
 </template>
 
 <script>
 import TheNavbar from "./components/TheNavbar.vue";
+import TheSidebar from "./components/TheSidebar.vue";
 import {mapStores} from 'pinia'
 import {useAuthenticationStore} from './stores/authenticationStore.js'
 
 export default {
-  components: {TheNavbar},
+  components: {TheSidebar, TheNavbar},
   computed: {
     ...mapStores(useAuthenticationStore)
   }
