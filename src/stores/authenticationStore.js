@@ -1,5 +1,5 @@
 import {defineStore} from 'pinia'
-import axios from 'axios'
+import axios from '../client'
 
 export const useAuthenticationStore = defineStore("authentication", {
     state() {
@@ -15,7 +15,6 @@ export const useAuthenticationStore = defineStore("authentication", {
                 localStorage.setItem('token', response.data.token)
                 this.token = response.data.token
                 this.isAuth = true
-                axios.defaults.headers.common["Authorization"] = `Token ${this.token}`
             }
             return response
         },
@@ -25,7 +24,6 @@ export const useAuthenticationStore = defineStore("authentication", {
         logout() {
             this.token = ''
             localStorage.removeItem('token')
-            axios.defaults.headers.common["Authorization"] = ''
             this.isAuth = false
         }
     }
