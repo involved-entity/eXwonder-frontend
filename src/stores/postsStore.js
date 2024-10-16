@@ -7,6 +7,9 @@ export const usePostsStore = defineStore("posts", {
             return await axios.post('/api/v1/posts/posts/', formData, {
                 headers: {'Content-Type': 'multipart/form-data'}
             }).catch((error) => error)
+        },
+        async getUserPosts(username, page = 1) {
+            return await axios.get(`/api/v1/posts/posts/?user=${username}&page=${page}`).catch((error) => error)
         }
     }
 })

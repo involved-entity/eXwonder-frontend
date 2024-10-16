@@ -1,13 +1,16 @@
 <template>
   <div class="flex">
-    <div class="w-1/5" v-if="authenticationStore.isAuth">
+    <div class="w-1/5 fixed top-0 left-0" v-if="authenticationStore.isAuth">
       <the-navbar></the-navbar>
     </div>
-    <div :class="{'w-3/5': authenticationStore.isAuth, 'w-full': !authenticationStore.isAuth}">
-      <router-view></router-view>
-    </div>
-    <div class="w-1/5" v-if="authenticationStore.isAuth">
+    <div class="w-1/5 fixed top-0 right-0" v-if="authenticationStore.isAuth">
       <the-sidebar></the-sidebar>
+    </div>
+    <div :class="{
+      'w-3/5': authenticationStore.isAuth, 'w-full': !authenticationStore.isAuth,
+      'm-auto': authenticationStore.isAuth
+    }">
+      <router-view></router-view>
     </div>
   </div>
 </template>

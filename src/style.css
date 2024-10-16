@@ -7,7 +7,6 @@
 body {
     background-color: #111;
     font-family: 'Varela Round', 'URW Gothic', 'sans-serif';
-    overflow-y: hidden;
     margin: 0;
     padding: 0;
 }
@@ -28,32 +27,6 @@ body {
     border-left: 2px solid darkcyan;
 }
 
-/*!* HTML: <div class="loader"></div> *!*/
-/*.loader {*/
-/*    width: 65px;*/
-/*    height: 30px;*/
-/*    position: relative;*/
-/*}*/
-/*.loader:before {*/
-/*    content: "";*/
-/*    position: absolute;*/
-/*    border-radius: 50px;*/
-/*    box-shadow: 0 0 0 3px inset #fff;*/
-/*    animation: l3 0.75s infinite alternate;*/
-/*}*/
-/*@keyframes l3 {*/
-/*    0% {*/
-/*        inset: 0 35px 0 0;*/
-/*    }*/
-/*    50% {*/
-/*        inset: 0 0 0 0;*/
-/*    }*/
-/*    100% {*/
-/*        inset: 0 0 0 35px;*/
-/*    }*/
-/*}*/
-
-/* HTML: <div class="loader"></div> */
 .loader {
     width: 30px;
     aspect-ratio: 1;

@@ -5,6 +5,7 @@ import HomeView from "../views/HomeView.vue";
 import {useAuthenticationStore} from '../stores/authenticationStore.js'
 import TwoFactorAuthenticationView from "../views/TwoFactorAuthenticationView.vue";
 import NewPostView from "../views/NewPostView.vue";
+import UserView from "../views/UserView.vue";
 
 const routes = [
     {path: '/', name: 'home', component: HomeView, meta: {requireLogin: true}},
@@ -12,7 +13,7 @@ const routes = [
     {path: '/sing-up/', name: 'sing-up', component: RegisterView, meta: {requireNoLogin: true}},
     {path: '/2fa/', name: '2fa', component: TwoFactorAuthenticationView, meta: {requireNoLogin: true}},
     {path: '/new/', name: 'new-post', component: NewPostView, meta: {requireLogin: true}},
-    {path: '/', name: 'user', component: HomeView, meta: {requireLogin: true}},
+    {path: '/:username/', name: 'user', component: UserView, meta: {requireLogin: true}, props: true},
 ]
 
 const router = createRouter({

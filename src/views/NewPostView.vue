@@ -1,6 +1,5 @@
 <template>
   <div class="container" style="border: 15px solid #111; background-color: #272727">
-<!--    <div class="shadow-xl shadow-cyan-500/50 h-screen items-center">-->
     <div class="justify-center shadow-xl shadow-cyan-500/50">
       <p class="text-gray-300 text-4xl ms-3 mt-3">New post uploading</p>
       <hr class="ms-3 mr-3 mt-4 mb-4 border-gray-600">
@@ -12,7 +11,7 @@
       <input
           class="block ms-3 mr-3 text-lg text-gray-400 border border-gray-300 rounded-lg cursor-pointer
           bg-gray-50 focus:outline-none dark:bg-gray-700 dark:border-gray-600
-          dark:placeholder-gray-400"
+          dark:placeholder-gray-400 file:block"
           id="images_input"
           type="file"
           required
@@ -43,7 +42,9 @@
           :class="{'hover:bg-violet-950 hover:border hover:border-violet-950': isValid}"
           :disabled="!isValid"
       >Submit</button>
-      <div class="loader mb-5 mx-auto" v-if="loading"></div>
+	  <div class="pb-5" v-if="loading">
+		<div class="loader mx-auto"></div>
+	  </div>
     </div>
   </div>
 </template>
@@ -51,6 +52,7 @@
 <script>
 import {mapStores} from 'pinia'
 import {usePostsStore} from "../stores/postsStore.js";
+import {useAuthenticationStore} from '../stores/authenticationStore.js'
 import axios from "axios";
 
 export default {
@@ -74,7 +76,7 @@ export default {
         const response = await this.postsStore.createPost(formData)
         if (response.status === axios.HttpStatusCode.Created) {
           this.errors = {}
-          this.$router.push({name: 'user'})
+          this.$router.push({name: 'user', params: {username: this.authenticationStore.username}})
         } else {
           this.errors = response.response.data
         }
@@ -89,7 +91,7 @@ export default {
     isValid() {
       return this.images.length > 0 && this.images.length <= 10
     },
-    ...mapStores(usePostsStore)
+    ...mapStores(usePostsStore, useAuthenticationStore)
   }
 }
 </script>
