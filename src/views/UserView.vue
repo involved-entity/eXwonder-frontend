@@ -13,20 +13,41 @@
         </div>
 
         <div v-else>
-          <img :src="avatar" alt="avatar" class="rounded-full w-1/6 h-1/6 m-auto my-3">
-          <p class="text-gray-300 text-xl text-center">{{username}}</p>
-          <div class="flex justify-center text-xl text-gray-400 mt-1 pb-1">
-            <div class="text-center pr-5" style="border-right: 1px solid gray">
-              <div class="text-2xl font-semibold">{{followersCount}}</div>
-              <div>Followers</div>
+          <div class="flex justify-center">
+            <div class="w-1/6 ms-3 my-3">
+              <img :src="requestedUser.avatar" alt="avatar" class="rounded-full max-w-full">
             </div>
-            <button
-                type="button"
-                class="text-center ml-5 hover:bg-gray-800"
-            >
-              <span class="text-2xl font-semibold">{{followingsCount}}</span><br>
-              <span>Followings</span>
-            </button>
+            <div class="ms-3 relative">
+              <p class="text-gray-300 text-xl mt-5">{{username}}</p>
+              <button
+                  class="text-white text-lg  absolute top-0 right-0 mt-5 px-5 rounded-xl"
+                  type="button"
+                  :class="{'bg-gray-600': !followings.followed, 'bg-blue-600': followings.followed, 'hidden': authenticationStore.id === requestedUser.id}"
+                  @click="followUser"
+              >
+                {{followings.followed ? 'followed' : 'follow'}}
+              </button>
+              <div class="flex text-xl text-gray-400 pb-1 mt-auto">
+                <div class="pr-4">
+                  <div class="text-xl">
+                    <span class="text-gray-300 font-semibold">{{posts.length}}</span>
+                    posts
+                  </div>
+                </div>
+                <div class="pr-4">
+                  <div class="text-xl">
+                    <span class="text-gray-300 font-semibold">{{followings.followersCount}}</span>
+                    followers
+                  </div>
+                </div>
+                <div>
+                  <div class="text-xl">
+                    <span class="text-gray-300 font-semibold">{{followings.followingsCount}}</span>
+                    followings
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div class="ps-3 pr-3 pb-5 h-1">
@@ -44,41 +65,65 @@
 import {mapStores} from 'pinia'
 import {useUsersStore} from "../stores/usersStore.js";
 import {usePostsStore} from "../stores/postsStore.js";
+import {useAuthenticationStore} from "../stores/authenticationStore.js";
 
 import AppPostsGrid from "../components/AppPostsGrid.vue";
+import axios from "axios";
 
 export default {
   props: ['username'],
   data() {
     return {
-      id: 0,
-      avatar: null,
-      followersCount: '0',
-      followingsCount: '0',
-      followings: [],
+      requestedUser: {
+        id: 0,
+        avatar: null,
+      },
+      followings: {
+        followersCount: 0,
+        followingsCount: 0,
+        followings: [],
+        followed: false
+      },
       posts: [],
       loading: false,
-      errorFetchUser: false
+      errorFetchUser: false,
+    }
+  },
+  methods: {
+    async followUser() {
+      if (!this.followings.followed) {
+        const response = await this.usersStore.follow(this.requestedUser.id)
+        if (response.status === axios.HttpStatusCode.Created) {
+          this.followings.followed = true
+          this.followings.followersCount++
+        }
+      } else {
+        const response = await this.usersStore.disfollow(this.requestedUser.id)
+        if (response.status === axios.HttpStatusCode.NoContent) {
+          this.followings.followed = false
+          this.followings.followersCount--
+        }
+      }
     }
   },
   async beforeMount() {
     this.loading = true
     const user = await this.usersStore.getUser(this.username)
     if (!user) {this.errorFetchUser = 'User is not found. :('} else {
-      this.id = user.id
-      this.avatar = user.avatar
-      let followers = await this.usersStore.getUserFollowersCount(this.id)
-      this.followersCount = followers.data.count
-      let followings = await this.usersStore.getUserFollowings(this.id)
-      this.followingsCount = followings.data.count
-      this.followings = followings.data.results
+      this.requestedUser.id = user.id
+      this.requestedUser.avatar = user.avatar
+      let followers = await this.usersStore.getUserFollowersCount(this.requestedUser.id)
+      this.followings.followersCount = followers.data.count
+      let followings = await this.usersStore.getUserFollowings(this.requestedUser.id)
+      this.followings.followingsCount = followings.data.count
+      this.followings.followings = followings.data.results
       const posts = await this.postsStore.getUserPosts(this.username)
       this.posts = posts.data.results
     }
     this.loading = false
   },
   computed: {
-    ...mapStores(useUsersStore, usePostsStore)
+    ...mapStores(useUsersStore, usePostsStore, useAuthenticationStore)
   },
   components: {
     AppPostsGrid

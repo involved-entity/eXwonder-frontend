@@ -34,8 +34,7 @@
     </div>
     <div v-for="post in posts" :key="post.id">
       <app-post-modal
-          :images="post.images"
-          :comments="[]"
+          :post="post"
           v-if="post.isModalVisible"
           @close="exitModal(post)"
       ></app-post-modal>
@@ -55,11 +54,9 @@ export default {
   },
   methods: {
     showModal(post) {
-      console.log(true)
       post.isModalVisible = true
     },
     exitModal(post) {
-      console.log(false, post)
       post.isModalVisible = false
     }
   },

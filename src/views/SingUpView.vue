@@ -28,7 +28,13 @@
           <input type="password" placeholder="Your password" class="text-gray-400 bg-gray-custom w-full p-1 outline-none rounded mt-1" v-model="password1">
 
           <p class="text-lg ms-1 text-gray-300 inline-block mt-1">Password repeat:</p><br>
-          <input type="password" placeholder="Repeat your password" class="text-gray-400 bg-gray-custom w-full p-1 outline-none rounded mt-1" v-model="password2">
+          <input
+              type="password"
+              placeholder="Repeat your password"
+              class="text-gray-400 bg-gray-custom w-full p-1 outline-none rounded mt-1"
+              v-model="password2"
+              @keyup.enter="submit"
+          >
 
           <button
               type="submit"

@@ -2,7 +2,7 @@
   <div
       class="fixed inset-0 bg-opacity-90 bg-black flex justify-center items-center"
   >
-    <div class=" flex h-3/4 text-gray-300">
+    <div class="flex h-3/4 text-gray-300">
       <div class="w-4/6 flex">
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -14,31 +14,104 @@
         >
           <path fill-rule="evenodd" d="M7.72 12.53a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 1 1 1.06 1.06L9.31 12l6.97 6.97a.75.75 0 1 1-1.06 1.06l-7.5-7.5Z" clip-rule="evenodd" />
         </svg>
-        <img :src="images[activeImage].image" alt="Post image" class="max-h-full">
+        <img :src="post.images[activeImage].image" alt="Post image" class="max-h-full">
         <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill="currentColor"
             class="size-10 me-auto my-auto"
-            :class="{'opacity-100 cursor-pointer': activeImage + 1 < images.length, 'opacity-0': activeImage + 1 >= images.length}"
+            :class="{'opacity-100 cursor-pointer': activeImage + 1 < post.images.length, 'opacity-0': activeImage + 1 >= post.images.length}"
             @click="nextImage"
         >
           <path fill-rule="evenodd" d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z" clip-rule="evenodd" />
         </svg>
       </div>
-      <div class="w-80 rounded-2xl" style="background-color: #111">
-        <div class="m-3">
-          <div class="grid grid-cols-2">
-            <div class="col-span-1 text-2xl">Comments</div>
+      <div class="rounded-2xl overflow-y-auto flex flex-col mb-auto max-h-full" style="background-color: #111; max-width: 22rem">
+        <div class="sticky top-0 left-0 pt-3 pb-1" style="background-color: #050505">
+          <div class="grid grid-cols-2 mx-3">
+            <div class="col-span-1 text-2xl flex">Comments <div class="ms-1">({{post.comments_count}})</div></div>
             <div class="col-span-1 ms-auto cursor-pointer" @click="close">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-8">
                 <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
               </svg>
             </div>
           </div>
+        </div>
+        <div class="m-2">
+          <div class="mt-2" v-if="comments.length">
+            <div class="mb-3 flex" v-for="comment in comments" :key="comment.id">
+              <img :src="comment.author.avatar" alt="avatar" class="w-11 rounded-full h-11">
+              <div class="ms-3">
+                {{comment.author.username}}
+                <div class="text-gray-500 text-sm">{{comment.comment}}</div>
+              </div>
+            </div>
+          </div>
 
-          <div class="my-1 h-1">
-            <hr class="border border-gray-600">
+          <div class="text-center text-3xl text-gray-500 h-full" v-else>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-36 mx-auto">
+              <path d="M4.913 2.658c2.075-.27 4.19-.408 6.337-.408 2.147 0 4.262.139 6.337.408 1.922.25 3.291 1.861 3.405 3.727a4.403 4.403 0 0 0-1.032-.211 50.89 50.89 0 0 0-8.42 0c-2.358.196-4.04 2.19-4.04 4.434v4.286a4.47 4.47 0 0 0 2.433 3.984L7.28 21.53A.75.75 0 0 1 6 21v-4.03a48.527 48.527 0 0 1-1.087-.128C2.905 16.58 1.5 14.833 1.5 12.862V6.638c0-1.97 1.405-3.718 3.413-3.979Z" />
+              <path d="M15.75 7.5c-1.376 0-2.739.057-4.086.169C10.124 7.797 9 9.103 9 10.609v4.285c0 1.507 1.128 2.814 2.67 2.94 1.243.102 2.5.157 3.768.165l2.782 2.781a.75.75 0 0 0 1.28-.53v-2.39l.33-.026c1.542-.125 2.67-1.433 2.67-2.94v-4.286c0-1.505-1.125-2.811-2.664-2.94A49.392 49.392 0 0 0 15.75 7.5Z" />
+            </svg>
+            No comments.
+          </div>
+        </div>
+        <div class="sticky bottom-0 left-0 w-full py-3 grid grid-cols-12" style="background-color: #050505; height: 28%">
+          <div class="col-span-2">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="size-6 mx-auto cursor-pointer"
+                v-if="!post.is_liked"
+                @click="likePost(true)"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+            </svg>
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="size-6 mx-auto cursor-pointer"
+                v-if="post.is_liked"
+                @click="likePost(false)"
+            >
+              <path d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z" />
+            </svg>
+            <div
+                class="text-white text-center"
+                :class="{'text-xl': String(post.likes_count).length <= 2, 'text-md': String(post.likes_count).length > 2}"
+            >{{post.likes_count}}</div>
+          </div>
+          <div class="col-span-8">
+            <div class="h-full">
+              <textarea
+                  class="w-full outline-none p-1 border h-3/4"
+                  :class="{'border-red-600': errors.commentInput, 'border-transparent': !errors.commentInput}"
+                  placeholder="Your comment here"
+                  style="background-color: #090909"
+                  v-model="commentInput"
+                  @keyup.enter="createComment"
+              ></textarea>
+              <p><small
+                  class="py-1 text-red-600"
+                  :class="{'text-red-600': errors.commentInput, 'text-transparent': !errors.commentInput}"
+                  v-if="errors.commentInput"
+              >{{errors.commentInput}}</small></p>
+            </div>
+          </div>
+          <div class="col-span-2 ms-1">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="size-6 cursor-pointer"
+                @click="createComment"
+            >
+              <path d="M3.478 2.404a.75.75 0 0 0-.926.941l2.432 7.905H13.5a.75.75 0 0 1 0 1.5H4.984l-2.432 7.905a.75.75 0 0 0 .926.94 60.519 60.519 0 0 0 18.445-8.986.75.75 0 0 0 0-1.218A60.517 60.517 0 0 0 3.478 2.404Z" />
+            </svg>
           </div>
         </div>
       </div>
@@ -47,21 +120,26 @@
 </template>
 
 <script>
+import {useCommentsStore} from '../stores/commentsStore.js'
+import {useAuthenticationStore} from "../stores/authenticationStore.js";
+import {mapStores} from "pinia";
+import axios from "axios";
+
 export default {
   emits: ['close'],
   props: {
-    images: {
-      type: Array,
-      required: true
-    },
-    comments: {
-      type: Array,
+    post: {
+      type: Object,
       required: true
     }
   },
   data() {
     return {
-      activeImage: 0
+      activeImage: 0,
+      loading: false,
+      comments: [],
+      commentInput: '',
+      errors: []
     }
   },
   methods: {
@@ -72,10 +150,44 @@ export default {
       }
     },
     nextImage() {
-      if (this.activeImage + 1 < this.images.length) {
+      if (this.activeImage + 1 < this.post.images.length) {
         this.activeImage++
       }
+    },
+    async createComment() {
+      if (this.commentInput.length >= 10 && this.commentInput.length <= 2048) {
+        const response = await this.commentsStore.addComment(this.post.id, this.commentInput)
+        if (response.status === axios.HttpStatusCode.Created) {
+          this.errors.commentInput = undefined
+          this.commentInput = ''
+          this.post.comments_count += 1
+          await this.updateComments()
+        }
+      } else {
+        this.errors.commentInput = 'Comment too short or so long.'
+      }
+    },
+    async likePost(action) {
+      if (action && !this.post.is_liked) {
+        await this.commentsStore.addLike(this.post.id)
+        this.post.is_liked = true
+        this.post.likes_count += 1
+      } else if (!action && this.post.is_liked) {
+        await this.commentsStore.deleteLike(this.post.id)
+        this.post.is_liked = false
+        this.post.likes_count -= 1
+      }
+    },
+    async updateComments() {
+      const comments = await this.commentsStore.getPostComments(this.post.id)
+      this.comments = comments.data.results
     }
+  },
+  async beforeMount() {
+    await this.updateComments()
+  },
+  computed: {
+    ...mapStores(useCommentsStore, useAuthenticationStore)
   }
 }
 </script>

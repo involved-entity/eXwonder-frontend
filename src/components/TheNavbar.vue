@@ -3,7 +3,7 @@
     <div style="border: 15px solid #111; background-color: #272727">
       <div class="h-screen items-center flex justify-center shadow-xl shadow-cyan-500/50">
         <div class="grid grid-cols-1 items-center ps-1">
-          <router-link to="/" :class="{'inactive': $route.path !== '/'}">
+          <router-link :to="{name: 'home'}" :class="{'inactive': $route.path !== '/'}">
             <button class="flex hover:bg-gray-800 items-center ps-3 pe-3">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-white">
                 <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
@@ -12,7 +12,7 @@
             </button>
           </router-link>
 
-          <router-link to="/search/" :class="{'inactive': $route.path.indexOf('/search') === -1}">
+          <router-link :to="{name: 'search-user'}" :class="{'inactive': $route.path.name !== 'search-user'}">
             <button class="flex hover:bg-gray-800 items-center ps-3 pe-3">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-white">
                 <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />

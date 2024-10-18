@@ -12,6 +12,12 @@ export const useUsersStore = defineStore('users', {
         },
         async getUserFollowersCount(id) {
             return await axios.get(`/api/v1/account/followers/user/?id=${id}`).catch(error => error)
+        },
+        async follow(id) {
+            return await axios.post('/api/v1/account/followings/', {following: id}).catch(error => error)
+        },
+        async disfollow(id) {
+            return await axios.post('/api/v1/account/followings/disfollow/', {following: id}).catch(error => error)
         }
     }
 })
