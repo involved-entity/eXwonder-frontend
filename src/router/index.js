@@ -15,7 +15,7 @@ const routes = [
     {path: '/2fa/', name: '2fa', component: TwoFactorAuthenticationView, meta: {requireNoLogin: true}},
     {path: '/new/', name: 'new-post', component: NewPostView, meta: {requireLogin: true}},
     {path: '/search/', name: 'search-user', component: SearchView, meta: {requireLogin: true}},
-    {path: '/:username/', name: 'user', component: UserView, meta: {requireLogin: true}, props: true},
+    {path: '/:username/', name: 'user', component: UserView, meta: {requireLogin: true}},
 ]
 
 const router = createRouter({

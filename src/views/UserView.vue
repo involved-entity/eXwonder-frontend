@@ -18,7 +18,7 @@
               <img :src="requestedUser.avatar" alt="avatar" class="rounded-full max-w-full">
             </div>
             <div class="ms-3 relative">
-              <p class="text-gray-300 text-xl mt-5">{{username}}</p>
+              <p class="text-gray-300 text-xl mt-5">{{requestedUser.username}}</p>
               <button
                   class="text-white text-lg  absolute top-0 right-0 mt-5 px-5 rounded-xl"
                   type="button"
@@ -69,13 +69,14 @@ import {useAuthenticationStore} from "../stores/authenticationStore.js";
 
 import AppPostsGrid from "../components/AppPostsGrid.vue";
 import axios from "axios";
+import BaseUrl from "../settings.js";
 
 export default {
-  props: ['username'],
   data() {
     return {
       requestedUser: {
         id: 0,
+        username: '',
         avatar: null,
       },
       followings: {
@@ -104,23 +105,29 @@ export default {
           this.followings.followersCount--
         }
       }
+    },
+    async updateUserInfo(username = null) {
+      this.loading = true
+      this.requestedUser.username = username ? username : this.$route.params.username
+      const user = await this.usersStore.getUser(this.requestedUser.username)
+      if (!user) {this.errorFetchUser = 'User is not found. :('} else {
+        console.log(user.id, this.authenticationStore.id)
+        this.requestedUser.id = user.id
+        this.requestedUser.avatar = BaseUrl + user.avatar
+        this.followings.followersCount = user.followers_count
+        this.followings.followingsCount = user.followings_count
+        this.followings.followed = user.is_followed
+        const posts = await this.postsStore.getUserPosts(this.requestedUser.username)
+        this.posts = posts.data.results
+      }
+      this.loading = false
     }
   },
   async beforeMount() {
-    this.loading = true
-    const user = await this.usersStore.getUser(this.username)
-    if (!user) {this.errorFetchUser = 'User is not found. :('} else {
-      this.requestedUser.id = user.id
-      this.requestedUser.avatar = user.avatar
-      let followers = await this.usersStore.getUserFollowersCount(this.requestedUser.id)
-      this.followings.followersCount = followers.data.count
-      let followings = await this.usersStore.getUserFollowings(this.requestedUser.id)
-      this.followings.followingsCount = followings.data.count
-      this.followings.followings = followings.data.results
-      const posts = await this.postsStore.getUserPosts(this.username)
-      this.posts = posts.data.results
-    }
-    this.loading = false
+    await this.updateUserInfo()
+  },
+  async beforeRouteUpdate(to) {
+    await this.updateUserInfo(to.params.username)
   },
   computed: {
     ...mapStores(useUsersStore, usePostsStore, useAuthenticationStore)
