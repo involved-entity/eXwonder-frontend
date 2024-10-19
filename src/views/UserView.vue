@@ -111,7 +111,6 @@ export default {
       this.requestedUser.username = username ? username : this.$route.params.username
       const user = await this.usersStore.getUser(this.requestedUser.username)
       if (!user) {this.errorFetchUser = 'User is not found. :('} else {
-        console.log(user.id, this.authenticationStore.id)
         this.requestedUser.id = user.id
         this.requestedUser.avatar = BaseUrl + user.avatar
         this.followings.followersCount = user.followers_count
@@ -119,6 +118,7 @@ export default {
         this.followings.followed = user.is_followed
         const posts = await this.postsStore.getUserPosts(this.requestedUser.username)
         this.posts = posts.data.results
+        console.log(this.posts)
       }
       this.loading = false
     }

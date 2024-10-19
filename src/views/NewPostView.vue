@@ -10,13 +10,13 @@
       >1. Upload post images (up to 10):</label>
       <input
           class="block ms-3 mr-3 text-lg text-gray-400 border border-gray-300 rounded-lg cursor-pointer
-          bg-gray-50 focus:outline-none dark:bg-gray-700 dark:border-gray-600
-          dark:placeholder-gray-400 file:block"
+          bg-gray-50 focus:outline-none file:bg-slate-600 file:border-slate-600 file:text-gray-950"
           id="images_input"
           type="file"
           required
           multiple
           ref="images"
+          style="background-color: #202020; border-color: #202020"
           @change="imagesChanged"
       >
 
@@ -26,10 +26,9 @@
       >2. Signature post:</label>
       <textarea
           id="signature_input"
-          rows="5"
-          class="block p-2.5 ms-3 -mr-10 w-11/12 text-lg text-gray-400 bg-gray-50 rounded-lg border border-gray-900
-          focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600
-          dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          rows="7"
+          class="p-2.5 ms-3 -mr-10 w-11/12 text-lg text-gray-400 rounded-lg border border-gray-900 outline-none"
+          style="background-color: #202020; border-color: #202020"
           placeholder="Choose signature for your post (optional)"
           v-model="signature"
       />
