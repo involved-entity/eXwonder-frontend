@@ -36,9 +36,36 @@
               </svg>
             </div>
           </div>
+          <div class="ps-3 pr-3 h-1" v-if="post.signature.length">
+            <hr class="border border-gray-600">
+          </div>
+          <div class="m-2 flex" v-if="post.signature.length && post.signature.length <= 100">
+            <img :src="post.author.avatar" alt="avatar" class="w-11 rounded-full h-11">
+            <div class="ms-3">
+              {{post.author.username}}
+              <div class="text-gray-500 text-sm">{{post.signature}}</div>
+            </div>
+          </div>
+          <div
+              class="m-2 flex cursor-pointer"
+              v-else-if="post.signature.length && post.signature.length > 100"
+              @click="signatureExpanded = !signatureExpanded"
+          >
+            <img :src="post.author.avatar" alt="avatar" class="w-11 rounded-full h-11">
+            <div class="ms-3">
+              {{post.author.username}}
+              <div class="text-gray-500 text-sm">
+                {{signatureExpanded ? post.signature : post.signature.slice(0, 32)}}
+                <span class="text-white" v-if="!signatureExpanded">...</span>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="m-2">
-          <div class="mt-2" v-if="comments.length">
+          <div class="py-10" v-if="commentsLoading">
+            <div class="loader mx-auto"></div>
+          </div>
+          <div class="mt-1" v-else-if="comments.length">
             <div class="mb-3 flex" v-for="comment in comments" :key="comment.id">
               <img :src="comment.author.avatar" alt="avatar" class="w-11 rounded-full h-11">
               <div class="ms-3">
@@ -88,7 +115,7 @@
           <div class="col-span-8">
             <div class="h-full">
               <textarea
-                  class="w-full outline-none p-1 border h-3/4"
+                  class="w-full outline-none p-1 border"
                   :class="{'border-red-600': errors.commentInput, 'border-transparent': !errors.commentInput}"
                   placeholder="Your comment here"
                   style="background-color: #090909"
@@ -136,7 +163,8 @@ export default {
   data() {
     return {
       activeImage: 0,
-      loading: false,
+      commentsLoading: false,
+      signatureExpanded: false,
       comments: [],
       commentInput: '',
       errors: []
@@ -179,8 +207,10 @@ export default {
       }
     },
     async updateComments() {
+      this.commentsLoading = true
       const comments = await this.commentsStore.getPostComments(this.post.id)
       this.comments = comments.data.results
+      this.commentsLoading = false
     }
   },
   async beforeMount() {
