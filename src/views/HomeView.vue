@@ -21,7 +21,7 @@ export default {
     }
   },
   async beforeMount() {
-    const response = await this.postsStore.getUserPosts('') // wtf yeah?
+    const response = await this.postsStore.getUserPosts('yoonarin') // wtf yeah?
     this.updates = response.data.results
     const followsUsernames = []
     this.updates.forEach(post => {

@@ -1,5 +1,5 @@
 <template>
-  <div class="py-3 overflow-x-hidden flex flex-nowrap relative px-5" v-if="users.length" ref="users">
+  <div class="py-3 overflow-x-hidden flex flex-nowrap relative px-10" v-if="users.length" ref="users">
     <button
         class="rounded-full size-7 bg-gray-500 sticky left-5 top-1/2"
         @click="scroll(-200)"
