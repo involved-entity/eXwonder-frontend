@@ -3,14 +3,14 @@
     <div class="w-3/12 fixed top-0 left-0" v-if="authenticationStore.isAuth">
       <the-navbar></the-navbar>
     </div>
+    <div class="w-3/12 fixed top-0 right-0" v-if="authenticationStore.isAuth">
+      <the-sidebar></the-sidebar>
+    </div>
     <div :class="{
       'w-6/12': authenticationStore.isAuth, 'w-full': !authenticationStore.isAuth,
       'm-auto': authenticationStore.isAuth
     }">
       <router-view></router-view>
-    </div>
-    <div class="w-3/12 fixed top-0 right-0" v-if="authenticationStore.isAuth">
-      <the-sidebar></the-sidebar>
     </div>
   </div>
 </template>
