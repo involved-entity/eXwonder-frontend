@@ -1,8 +1,11 @@
 <template>
   <div class="container" style="border: 15px solid #111; background-color: #272727">
     <div class="shadow-xl shadow-cyan-500/50 w-full">
-      <app-users-scroll class="mx-5 w-full" :users="updatedFollows"></app-users-scroll>
-      <app-posts-feed :posts="updates"></app-posts-feed>
+      <div class="py-10" v-if="loading">
+        <div class="loader mx-auto"></div>
+      </div>
+      <app-users-scroll class="mx-5 w-full" :users="updatedFollows" v-if="!loading"></app-users-scroll>
+      <app-posts-feed :posts="updates" v-if="!loading"></app-posts-feed>
     </div>
   </div>
 </template>
@@ -18,10 +21,12 @@ export default {
     return {
       updates: [],
       updatedFollows: [],
+      loading: false
     }
   },
   async beforeMount() {
-    const response = await this.postsStore.getUserPosts('yoonarin') // wtf yeah?
+    this.loading = true
+    const response = await this.postsStore.getUserPosts('') // wtf yeah?
     this.updates = response.data.results
     const followsUsernames = []
     this.updates.forEach(post => {
@@ -31,6 +36,7 @@ export default {
       }
       post.activeImage = 0
     })
+    this.loading = false
   },
   computed: {
     ...mapStores(usePostsStore)

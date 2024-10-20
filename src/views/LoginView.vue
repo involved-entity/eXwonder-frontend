@@ -62,7 +62,7 @@ export default {
         const response = await this.authenticationStore.login(this.username, this.password)
         if (response.status === axios.HttpStatusCode.Ok) {
           this.errors = {}
-          this.$router.push({name: 'home'})
+          this.$router.push({name: 'feed'})
         } else if (response.status === axios.HttpStatusCode.Accepted) {
           this.errors = {}
           this.$router.push({name: '2fa'})

@@ -2,7 +2,7 @@
   <div
       class="fixed inset-0 bg-opacity-90 bg-black flex justify-center items-center"
   >
-    <div class="flex h-3/4 text-gray-300">
+    <div class="flex h-5/6 text-gray-300">
       <div class="w-4/6 flex">
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -102,7 +102,7 @@
                   placeholder="Your comment here"
                   style="background-color: #090909"
                   v-model="commentInput"
-                  @keyup.enter="createComment"
+                  @keyup.ctrl.enter="createComment"
               ></textarea>
               <p><small
                   class="py-1 text-red-600"
