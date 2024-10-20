@@ -1,20 +1,17 @@
 <template>
-  <main>
-    <div style="border: 15px solid #111; background-color: #272727">
-      <div class="justify-center shadow-xl shadow-cyan-500/50">
-        <img :src="avatar" alt="avatar" class="rounded-full w-1/2 h-1/2 m-auto my-3">
-        <p class="text-gray-300 text-xl text-center">{{username}}</p>
-        <div class="ms-3 mr-3 pb-3">
-          <button
-              class="mt-2 p-1 w-full uppercase font-semibold text-gray-300 rounded bg-violet-900 border border-transparent
-                     hover:bg-violet-950 hover:border hover:border-violet-950"
-              @click="logout"
-          >Logout</button>
-          <div class="loader mt-5 mb-3 mx-auto" v-if="loading"></div>
-        </div>
-      </div>
+  <nav class="w-4/5 mt-10 ms-3">
+    <div class="my-3 flex">
+      <img :src="avatar" alt="avatar" class="rounded-full size-8 my-auto">
+      <p class="text-gray-300 text-lg my-auto ms-3">{{username}}</p>
+      <button
+          class="p-1 uppercase font-semibold text-gray-300 rounded bg-violet-900 border border-transparent
+                 my-auto ms-auto hover:bg-violet-950 hover:border hover:border-violet-950"
+          @click="logout"
+      >Logout</button>
     </div>
-  </main>
+    <p class="text-gray-600">&#169; 2024 EXWONDER</p>
+    <div class="loader mt-5 mx-auto" v-if="loading"></div>
+  </nav>
 </template>
 
 <script>

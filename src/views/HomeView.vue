@@ -1,6 +1,6 @@
 <template>
-  <div class="container rounded-3xl" style="border: 15px solid #111">
-    <div class="shadow-xl shadow-cyan-500/50 w-full" style="background-color: #050505">
+  <div class="container" style="border: 15px solid #111; background-color: #272727">
+    <div class="shadow-xl shadow-cyan-500/50 w-full">
       <app-users-scroll class="mx-5 w-full" :users="updatedFollows"></app-users-scroll>
       <app-posts-feed :posts="updates"></app-posts-feed>
     </div>
