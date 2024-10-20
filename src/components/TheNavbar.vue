@@ -1,7 +1,7 @@
 <template>
   <main>
     <div style="border: 15px solid #111; background-color: #272727">
-      <div class="h-screen items-center flex justify-center shadow-xl shadow-cyan-500/50">
+      <div class="h-screen items-center flex justify-center shadow-xl shadow-cyan-500/50" >
         <div class="grid grid-cols-1 items-center ps-1">
           <router-link :to="{name: 'home'}" :class="{'inactive': $route.path.name !== 'home'}">
             <button class="flex hover:bg-gray-800 items-center ps-3 pe-3">

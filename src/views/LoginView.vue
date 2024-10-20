@@ -10,6 +10,7 @@
               placeholder="Your username"
               class="text-gray-400 bg-gray-custom w-full p-1 outline-none rounded mt-1" v-model="username"
               :class="{'border border-red-600': errors.non_field_errors}"
+              @keyup.down="$refs.password_input.focus()"
           >
           <p><small class="p-1 text-red-600" v-if="errors.non_field_errors">{{errors.non_field_errors[0]}}</small></p>
 
@@ -21,6 +22,7 @@
               v-model="password"
               :class="{'border border-red-600': errors.non_field_errors}"
               @keyup.enter="submit"
+              ref="password_input"
           >
           <p><small class="p-1 text-red-600" v-if="errors.non_field_errors">{{errors.non_field_errors[0]}}</small></p>
 

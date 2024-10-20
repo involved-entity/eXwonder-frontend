@@ -10,6 +10,9 @@ export const usePostsStore = defineStore("posts", {
         },
         async getUserPosts(username, page = 1) {
             return await axios.get(`/api/v1/posts/posts/?user=${username}&page=${page}`).catch((error) => error)
+        },
+        async getPostsTop(top = 'updates', page = 1) {
+            return await axios.get(`/api/v1/posts/posts/?top=${top}&page=${page}`).catch(error => error)
         }
     }
 })
