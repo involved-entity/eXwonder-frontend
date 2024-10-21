@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-md px-3 mx-auto">
+  <div class="max-w-sm px-3 mx-auto">
     <div class="pb-3" v-for="post in posts" :key="post.id">
       <div class="flex w-full mb-1">
         <router-link :to="'/' + post.author.username + '/'">
@@ -69,7 +69,7 @@
             <path fill-rule="evenodd" d="M5.337 21.718a6.707 6.707 0 0 1-.533-.074.75.75 0 0 1-.44-1.223 3.73 3.73 0 0 0 .814-1.686c.023-.115-.022-.317-.254-.543C3.274 16.587 2.25 14.41 2.25 12c0-5.03 4.428-9 9.75-9s9.75 3.97 9.75 9c0 5.03-4.428 9-9.75 9-.833 0-1.643-.097-2.417-.279a6.721 6.721 0 0 1-4.246.997Z" clip-rule="evenodd" />
           </svg>
           <span
-              class="text-white"
+              class="text-white ms-1"
               :class="{'text-xl': String(post.comments_count).length <= 2, 'text-md': String(post.comments_count).length > 2}"
           >{{post.comments_count}}</span>
         </div>
@@ -84,18 +84,25 @@
             v-if="post.comments_count > 0"
         >View all {{post.comments_count}} comments</button>
       </div>
-      <div class="flex">
-        <textarea
-            placeholder="Your comment here"
-            class="text-gray-400 bg-gray-custom w-full p-1 outline-none rounded mt-1"
-            @keyup.ctrl.enter="createComment"
-        ></textarea>
+      <div class="w-full flex">
+        <div class="w-11/12">
+          <textarea
+              placeholder="Your comment here"
+              class="text-gray-400 bg-gray-custom w-full p-1 outline-none rounded mt-1 border"
+              :class="{'border-red-600': errors[post.id], 'border-transparent': !errors[post.id]}"
+              :ref="'comment_input_' + String(post.id)"
+              @keyup.ctrl.enter="createComment(post)"
+          ></textarea>
+          <p v-if="errors[post.id]"><small
+              class="py-1 text-red-600"
+          >{{errors[post.id]}}</small></p>
+        </div>
         <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill="currentColor"
-            class="size-6 cursor-pointer my-auto text-gray-300"
-            @click="createComment"
+            class="size-6 cursor-pointer my-auto text-gray-300 w-1/12"
+            @click="createComment(post)"
         >
           <path d="M3.478 2.404a.75.75 0 0 0-.926.941l2.432 7.905H13.5a.75.75 0 0 1 0 1.5H4.984l-2.432 7.905a.75.75 0 0 0 .926.94 60.519 60.519 0 0 0 18.445-8.986.75.75 0 0 0 0-1.218A60.517 60.517 0 0 0 3.478 2.404Z" />
         </svg>
@@ -111,6 +118,9 @@
 <script>
 import AppLikeButton from "./AppLikeButton.vue";
 import AppPostModal from "./AppPostModal.vue";
+import {useCommentsStore} from "../stores/commentsStore.js";
+import {mapStores} from "pinia";
+import axios from "axios";
 
 export default {
   components: {AppLikeButton, AppPostModal},
@@ -122,7 +132,8 @@ export default {
   },
   data() {
     return {
-      activeModalPost: {}
+      activeModalPost: {},
+      errors: {}
     }
   },
   methods: {
@@ -132,7 +143,24 @@ export default {
       } else {
         post.activeImage--
       }
-    }
+    },
+    async createComment(post) {
+      const commentInput = this.$refs['comment_input_' + String(post.id)][0]
+      if (commentInput.value.length >= 10 && commentInput.value.length <= 2048) {
+        const response = await this.commentsStore.addComment(post.id, commentInput.value)
+        if (response.status === axios.HttpStatusCode.Created) {
+          this.errors[post.id] = undefined
+          commentInput.value = ''
+          post.comments_count += 1
+          post.is_commented = true
+        }
+      } else {
+        this.errors[post.id] = 'Comment too short or so long.'
+      }
+    },
+  },
+  computed: {
+    ...mapStores(useCommentsStore)
   }
 }
 </script>
