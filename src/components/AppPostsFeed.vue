@@ -77,6 +77,13 @@
       <div class="text-gray-300" v-if="post.signature.length">
         <span class="text-white font-extrabold">{{post.author.username}}</span> {{post.signature}}
       </div>
+      <div>
+        <button
+            class="text-white font-extrabold hover:text-gray-400"
+            @click="activeModalPost = post"
+            v-if="post.comments_count > 0"
+        >View all {{post.comments_count}} comments</button>
+      </div>
       <div class="flex">
         <textarea
             placeholder="Your comment here"
@@ -97,18 +104,25 @@
         <hr class="border border-gray-600">
       </div>
     </div>
+    <app-post-modal :post="activeModalPost" v-if="activeModalPost.id" @close="activeModalPost = {}"></app-post-modal>
   </div>
 </template>
 
 <script>
 import AppLikeButton from "./AppLikeButton.vue";
+import AppPostModal from "./AppPostModal.vue";
 
 export default {
-  components: {AppLikeButton},
+  components: {AppLikeButton, AppPostModal},
   props: {
     posts: {
       type: Array,
       required: true
+    }
+  },
+  data() {
+    return {
+      activeModalPost: {}
     }
   },
   methods: {

@@ -1,15 +1,17 @@
 <template>
-  <main >
+  <main>
     <div class="container" style="border: 15px solid #111; background-color: #272727">
       <div class="shadow-xl shadow-cyan-500/50">
         <div class="p1">
           <div class="text-center text-gray-300 font-bold text-3xl space-x-5">
             <button
                 class="transition-all duration-300 hover:text-gray-400"
+                :class="{'border-b border-gray-300 hover:border-gray-400 mb-1': activeTab === 0}"
                 @click="changeActiveTab('recent')"
             >Recent</button>
             <button
                 class="transition-all duration-300 hover:text-gray-400"
+                :class="{'border-b border-gray-300 hover:border-gray-400 mb-1': activeTab === 1}"
                 @click="changeActiveTab('likes')"
             >Likes</button>
           </div>
