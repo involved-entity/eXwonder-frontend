@@ -10,7 +10,7 @@
             {{post.author.username}}
           </router-link>
         </p>
-        <p class="text-gray-600 text-md my-auto ms-auto">{{post.time_added.time_added}}</p>
+        <p class="text-gray-600 text-md my-auto ms-auto">{{post.time_added.time_added}} ago</p>
       </div>
       <div class="relative">
         <button class="size-7 absolute left-1 top-1/2 bg-gray-50 rounded-full"

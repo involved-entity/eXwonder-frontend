@@ -1,7 +1,5 @@
 <template>
-  <div
-      class="fixed inset-0 bg-opacity-90 bg-black flex justify-center items-center"
-  >
+  <div class="fixed inset-0 bg-opacity-90 bg-black flex justify-center items-center">
     <div class="flex h-5/6 text-gray-300">
       <div class="w-4/6 flex">
         <svg
@@ -26,12 +24,12 @@
           <path fill-rule="evenodd" d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z" clip-rule="evenodd" />
         </svg>
       </div>
-      <div class="rounded-2xl overflow-y-auto flex flex-col mb-auto max-h-full" style="background-color: #111; max-width: 22rem">
+      <div class="rounded-2xl overflow-y-auto flex flex-col mb-auto max-h-full w-[24rem]" style="background-color: #111">
         <div class="sticky top-0 left-0 pt-3 pb-1" style="background-color: #050505">
           <div class="grid grid-cols-2 mx-3">
             <div class="col-span-1 text-2xl flex justify-start">Comments <div class="ms-1">({{post.comments_count}})</div></div>
             <div class="flex col-span-1 ms-auto">
-              <div class="cursor-pointer mr-1">
+              <div class="cursor-pointer mr-1" v-if="post.author.id === authenticationStore.id">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
                 </svg>
@@ -43,25 +41,26 @@
               </div>
             </div>
           </div>
-          <div class="ps-3 pr-3 h-1" v-if="post.signature.length">
+          <div class="ps-3 pr-3 h-1">
             <hr class="border border-gray-600">
           </div>
-          <div class="m-2 flex" v-if="post.signature.length && post.signature.length <= 100">
-            <img :src="post.author.avatar" alt="avatar" class="w-11 rounded-full h-11">
+          <div class="m-2 flex">
+            <router-link :to="'/' + post.author.username + '/'">
+              <img :src="post.author.avatar" alt="avatar" class="w-11 rounded-full h-11">
+            </router-link>
             <div class="ms-3">
-              {{post.author.username}}
-              <div class="text-gray-500 text-sm">{{post.signature}}</div>
-            </div>
-          </div>
-          <div
-              class="m-2 flex cursor-pointer"
-              v-else-if="post.signature.length && post.signature.length > 100"
-              @click="signatureExpanded = !signatureExpanded"
-          >
-            <img :src="post.author.avatar" alt="avatar" class="w-11 rounded-full h-11">
-            <div class="ms-3">
-              {{post.author.username}}
-              <div class="text-gray-500 text-sm">
+              <div
+                  class="flex"
+                  :class="{'h-full items-center justify-center': !post.signature.length}"
+              ><router-link :to="'/' + post.author.username + '/'" class="hover:text-gray-400">{{post.author.username}}</router-link>
+                <p class="text-gray-400 text-md ms-2">{{post.time_added.time_added}} ago</p>
+              </div>
+              <div class="text-gray-500 text-sm" v-if="post.signature.length && post.signature.length <= 100">{{post.signature}}</div>
+              <div
+                  class="text-gray-500 text-sm cursor-pointer"
+                  v-if="post.signature.length && post.signature.length > 100"
+                  @click="signatureExpanded = !signatureExpanded"
+              >
                 {{signatureExpanded ? post.signature : post.signature.slice(0, 32)}}
                 <span class="text-white" v-if="!signatureExpanded">...</span>
               </div>
@@ -74,9 +73,14 @@
           </div>
           <div class="mt-1" v-else-if="comments.length">
             <div class="mb-3 flex" v-for="comment in comments" :key="comment.id">
-              <img :src="comment.author.avatar" alt="avatar" class="w-11 rounded-full h-11">
+              <router-link :to="'/' + comment.author.username + '/'">
+                <img :src="comment.author.avatar" alt="avatar" class="w-11 rounded-full h-11">
+              </router-link>
               <div class="ms-3">
-                {{comment.author.username}}
+                <div class="flex">
+                  <router-link :to="'/' + comment.author.username + '/'" class="hover:text-gray-400">{{comment.author.username}}</router-link>
+                  <p class="text-gray-400 text-md ms-2">{{comment.time_added.time_added}} ago</p>
+                </div>
                 <div class="text-gray-500 text-sm">{{comment.comment}}</div>
               </div>
             </div>

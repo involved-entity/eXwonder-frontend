@@ -22,8 +22,9 @@
               <button
                   class="text-white text-lg  absolute top-0 right-0 mt-5 px-5 rounded-xl"
                   type="button"
-                  :class="{'bg-gray-600': !followings.followed, 'bg-blue-600': followings.followed, 'hidden': authenticationStore.id === requestedUser.id}"
+                  :class="{'bg-gray-600': !followings.followed, 'bg-blue-600': followings.followed}"
                   @click="followUser"
+                  v-if="authenticationStore.id !== requestedUser.id"
               >
                 {{followings.followed ? 'followed' : 'follow'}}
               </button>
@@ -34,13 +35,20 @@
                     posts
                   </div>
                 </div>
-                <div class="pr-4">
+                <div
+                    class="pr-4"
+                    :class="{'cursor-pointer hover:text-gray-500': authenticationStore.username === requestedUser.username && followings.followersCount > 0}"
+                    @click="showModal('followers')"
+                >
                   <div class="text-xl">
                     <span class="text-gray-300 font-semibold">{{followings.followersCount}}</span>
                     followers
                   </div>
                 </div>
-                <div>
+                <div
+                    :class="{'cursor-pointer hover:text-gray-500': followings.followingsCount > 0}"
+                    @click="showModal('followings')"
+                >
                   <div class="text-xl">
                     <span class="text-gray-300 font-semibold">{{followings.followingsCount}}</span>
                     followings
@@ -54,7 +62,23 @@
             <hr class="border border-gray-600">
           </div>
 
-          <app-posts-grid :posts="posts" v-if="posts"></app-posts-grid>
+          <app-posts-grid :posts="posts" v-if="posts" />
+          <app-subscriptions-modal
+              :follows-count="followings.followersCount"
+              follow-mode="followers"
+              :requested-user-id="requestedUser.id"
+              @close="showFollowersModal = false"
+              @userLeave="showFollowingsModal = false; showFollowersModal = false"
+              v-if="showFollowersModal"
+          />
+          <app-subscriptions-modal
+              :follows-count="followings.followingsCount"
+              follow-mode="followings"
+              :requested-user-id="requestedUser.id"
+              @close="showFollowingsModal = false"
+              @userLeave="showFollowingsModal = false; showFollowersModal = false"
+              v-if="showFollowingsModal"
+          />
         </div>
       </div>
     </div>
@@ -68,6 +92,7 @@ import {usePostsStore} from "../stores/postsStore.js";
 import {useAuthenticationStore} from "../stores/authenticationStore.js";
 
 import AppPostsGrid from "../components/AppPostsGrid.vue";
+import AppSubscriptionsModal from "../components/AppSubscriptionsModal.vue";
 import axios from "axios";
 import BaseUrl from "../settings.js";
 
@@ -85,6 +110,8 @@ export default {
         followings: [],
         followed: false
       },
+      showFollowersModal: false,
+      showFollowingsModal: false,
       posts: [],
       loading: false,
       errorFetchUser: false,
@@ -106,6 +133,19 @@ export default {
         }
       }
     },
+    showModal(modal) {
+      switch (modal) {
+        case 'followers':
+          if (this.authenticationStore.username === this.requestedUser.username && this.followings.followersCount > 0) {
+            this.showFollowersModal = true
+          }
+          break
+        case 'followings':
+          if (this.followings.followingsCount > 0) {
+            this.showFollowingsModal = true
+          }
+      }
+    },
     async updateUserInfo(username = null) {
       this.loading = true
       this.requestedUser.username = username ? username : this.$route.params.username
@@ -118,7 +158,6 @@ export default {
         this.followings.followed = user.is_followed
         const posts = await this.postsStore.getUserPosts(this.requestedUser.username)
         this.posts = posts.data.results
-        console.log(this.posts)
       }
       this.loading = false
     }
@@ -133,7 +172,8 @@ export default {
     ...mapStores(useUsersStore, usePostsStore, useAuthenticationStore)
   },
   components: {
-    AppPostsGrid
+    AppPostsGrid,
+    AppSubscriptionsModal
   }
 }
 </script>

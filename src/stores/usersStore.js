@@ -7,11 +7,10 @@ export const useUsersStore = defineStore('users', {
             const response = await axios.get(`/api/v1/account/user/?username=${username}&fields=all`).catch((error => error))
             return response.data
         },
-        async getUserFollowings(id, page = 1) {
-            return await axios.get(`/api/v1/account/followings/user/${id}/?page=${page}`).catch(error => error)
-        },
-        async getUserFollowersCount(id) {
-            return await axios.get(`/api/v1/account/followers/user/?id=${id}`).catch(error => error)
+        async getUserFollowings(id, page = 1, search = null) {
+            let url = `/api/v1/account/followings/user/${id}/?page=${page}`
+            if (search) {url = url + `&search=${search}`}
+            return await axios.get(url).catch(error => error)
         },
         async follow(id) {
             return await axios.post('/api/v1/account/followings/', {following: id}).catch(error => error)
@@ -22,6 +21,9 @@ export const useUsersStore = defineStore('users', {
         async searchUsers(usernameQuery) {
             const response = await axios.get(`/api/v1/account/account/?search=${usernameQuery}`).catch(error => error)
             return response.data.results
+        },
+        async getMyFollowers() {
+            return await axios.get('/api/v1/account/followers/').catch(error => error)
         }
     }
 })

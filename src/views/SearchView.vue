@@ -51,8 +51,9 @@
               <button
                   class="text-white text-lg mt-5 px-5 rounded-xl"
                   type="button"
-                  :class="{'bg-gray-600': !result.is_followed, 'bg-blue-600': result.is_followed, 'hidden': authenticationStore.id === result.id}"
+                  :class="{'bg-gray-600': !result.is_followed, 'bg-blue-600': result.is_followed}"
                   @click="followUser(result)"
+                  v-if="authenticationStore.id !== result.id"
               >
                 {{result.is_followed ? 'followed' : 'follow'}}
               </button>
