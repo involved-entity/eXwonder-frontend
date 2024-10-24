@@ -24,7 +24,7 @@
           <path fill-rule="evenodd" d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z" clip-rule="evenodd" />
         </svg>
       </div>
-      <div class="rounded-2xl overflow-y-auto flex flex-col mb-auto max-h-full w-[24rem]" style="background-color: #111">
+      <div class="rounded-2xl overflow-y-auto overflow-x-hidden flex flex-col mb-auto max-h-full w-[24rem]" style="background-color: #111">
         <div class="sticky top-0 left-0 pt-3 pb-1" style="background-color: #050505">
           <div class="grid grid-cols-2 mx-3">
             <div class="col-span-1 text-2xl flex justify-start">Comments <div class="ms-1">({{post.comments_count}})</div></div>
@@ -44,15 +44,15 @@
           <div class="ps-3 pr-3 h-1">
             <hr class="border border-gray-600">
           </div>
-          <div class="m-2 grid grid-cols-8">
-            <router-link :to="'/' + post.author.username + '/'" class="col-span-1">
+          <div class="m-2 w-full grid grid-cols-8">
+            <router-link :to="'/' + post.author.username + '/'" class="col-span-1" active-class="">
               <img :src="post.author.avatar" alt="avatar" class="w-11 h-11 rounded-full">
             </router-link>
             <div class="ms-3 col-span-6">
               <div
                   class="flex"
                   :class="{'h-full items-center justify-center': !post.signature.length}"
-              ><router-link :to="'/' + post.author.username + '/'" class="hover:text-gray-400">{{post.author.username}}</router-link>
+              ><router-link :to="'/' + post.author.username + '/'" class="hover:text-gray-400" active-class="">{{post.author.username}}</router-link>
                 <p class="text-gray-400 text-md ms-2">{{post.time_added.time_added}} ago</p>
               </div>
               <div class="text-gray-500 text-sm" v-if="post.signature.length && post.signature.length <= 100">{{post.signature}}</div>
@@ -65,7 +65,7 @@
                 <span class="text-white" v-if="!signatureExpanded">...</span>
               </div>
             </div>
-            <app-save-post-button :post="post" class="col-span-1"></app-save-post-button>
+            <app-save-post-button :post="post" class="col-span-1 justify-end"></app-save-post-button>
           </div>
         </div>
         <div class="m-2">
