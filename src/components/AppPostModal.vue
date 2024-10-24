@@ -46,7 +46,7 @@
           </div>
           <div class="m-2 w-full grid grid-cols-8">
             <router-link :to="'/' + post.author.username + '/'" class="col-span-1" active-class="">
-              <img :src="post.author.avatar" alt="avatar" class="w-11 h-11 rounded-full">
+              <img :src="post.author.avatar" alt="avatar" class="w-11 h-11 rounded-full mx-auto">
             </router-link>
             <div class="ms-3 col-span-6">
               <div
@@ -73,17 +73,18 @@
             <div class="loader mx-auto"></div>
           </div>
           <div class="mt-1" v-else-if="comments.length">
-            <div class="mb-3 flex" v-for="comment in comments" :key="comment.id">
-              <router-link :to="'/' + comment.author.username + '/'">
-                <img :src="comment.author.avatar" alt="avatar" class="w-11 rounded-full h-11">
+            <div class="mb-3 grid grid-cols-8" v-for="comment in comments" :key="comment.id">
+              <router-link :to="'/' + comment.author.username + '/'" class="col-span-1">
+                <img :src="comment.author.avatar" alt="avatar" class="w-11 rounded-full h-11 mx-auto">
               </router-link>
-              <div class="ms-3">
+              <div class="ms-3 col-span-6">
                 <div class="flex">
                   <router-link :to="'/' + comment.author.username + '/'" class="hover:text-gray-400">{{comment.author.username}}</router-link>
                   <p class="text-gray-400 text-md ms-2">{{comment.time_added.time_added}} ago</p>
                 </div>
                 <div class="text-gray-500 text-sm">{{comment.comment}}</div>
               </div>
+              <app-comment-like-button :comment="comment" class="col-span-1 justify-end"></app-comment-like-button>
             </div>
           </div>
 
@@ -140,9 +141,10 @@ import {mapStores} from "pinia";
 import axios from "axios";
 import AppLikeButton from "./AppLikeButton.vue";
 import AppSavePostButton from "./AppSavePostButton.vue";
+import AppCommentLikeButton from "./AppCommentLikeButton.vue";
 
 export default {
-  components: {AppSavePostButton, AppLikeButton},
+  components: {AppCommentLikeButton, AppSavePostButton, AppLikeButton},
   emits: ['close'],
   props: {
     post: {
