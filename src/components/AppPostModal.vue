@@ -44,11 +44,11 @@
           <div class="ps-3 pr-3 h-1">
             <hr class="border border-gray-600">
           </div>
-          <div class="m-2 flex">
-            <router-link :to="'/' + post.author.username + '/'">
-              <img :src="post.author.avatar" alt="avatar" class="w-11 rounded-full h-11">
+          <div class="m-2 grid grid-cols-8">
+            <router-link :to="'/' + post.author.username + '/'" class="col-span-1">
+              <img :src="post.author.avatar" alt="avatar" class="w-11 h-11 rounded-full">
             </router-link>
-            <div class="ms-3">
+            <div class="ms-3 col-span-6">
               <div
                   class="flex"
                   :class="{'h-full items-center justify-center': !post.signature.length}"
@@ -65,6 +65,7 @@
                 <span class="text-white" v-if="!signatureExpanded">...</span>
               </div>
             </div>
+            <app-save-post-button :post="post" class="col-span-1"></app-save-post-button>
           </div>
         </div>
         <div class="m-2">
@@ -138,9 +139,10 @@ import {useAuthenticationStore} from "../stores/authenticationStore.js";
 import {mapStores} from "pinia";
 import axios from "axios";
 import AppLikeButton from "./AppLikeButton.vue";
+import AppSavePostButton from "./AppSavePostButton.vue";
 
 export default {
-  components: {AppLikeButton},
+  components: {AppSavePostButton, AppLikeButton},
   emits: ['close'],
   props: {
     post: {
