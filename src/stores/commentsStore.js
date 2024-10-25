@@ -12,6 +12,9 @@ export const useCommentsStore = defineStore("comments", {
                 comment
             }).catch(error => error)
         },
+        async deleteComment(commentId) {
+            return await axios.delete(`/api/v1/posts/comments/${commentId}/`).catch(error => error)
+        },
         async addLike(postId) {
             return await axios.post(`/api/v1/posts/post-likes/`, {
                 post_id: postId
