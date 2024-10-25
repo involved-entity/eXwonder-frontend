@@ -29,10 +29,34 @@
           <div class="grid grid-cols-2 mx-3">
             <div class="col-span-1 text-2xl flex justify-start">Comments <div class="ms-1">({{post.comments_count}})</div></div>
             <div class="flex col-span-1 ms-auto">
-              <div class="cursor-pointer mr-1" v-if="post.author.id === authenticationStore.id">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
-                </svg>
+              <div class="mr-1" v-if="post.author.id === authenticationStore.id">
+                <button id="dropdownButton" class="cursor-pointer" type="button">
+                  <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="size-8"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+                  </svg>
+                </button>
+                <div id="dropdownMenu" class="z-10 hidden bg-gray-custom divide-y divide-gray-100 rounded shadow w-36">
+                  <ul class="py-1 text-sm text-gray-300" aria-labelledby="dropdownButton">
+                    <li>
+                      <button
+                          class="px-3 py-2 text-red-600 flex"
+                          @click="postDelete"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                        </svg>
+                        <span class="ms-1">Delete post</span>
+                      </button>
+                    </li>
+                  </ul>
+                </div>
               </div>
               <div class="cursor-pointer" @click="close">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-8">
@@ -51,9 +75,9 @@
             <div class="ms-3 col-span-6">
               <div
                   class="flex"
-                  :class="{'h-full items-center justify-center': !post.signature.length}"
+                  :class="{'h-full items-center': !post.signature.length}"
               ><router-link :to="'/' + post.author.username + '/'" class="hover:text-gray-400" active-class="">{{post.author.username}}</router-link>
-                <p class="text-gray-400 text-md ms-2">{{post.time_added.time_added}} ago</p>
+                <p class="text-gray-400 text-sm ms-2">{{post.time_added.time_added}} ago</p>
               </div>
               <div class="text-gray-500 text-sm" v-if="post.signature.length && post.signature.length <= 100">{{post.signature}}</div>
               <div
@@ -80,7 +104,7 @@
               <div class="ms-3 col-span-6">
                 <div class="flex">
                   <router-link :to="'/' + comment.author.username + '/'" class="hover:text-gray-400">{{comment.author.username}}</router-link>
-                  <p class="text-gray-400 text-md ms-2">{{comment.time_added.time_added}} ago</p>
+                  <p class="text-gray-400 text-sm ms-2">{{comment.time_added.time_added}} ago</p>
                 </div>
                 <div class="text-gray-500 text-sm">{{comment.comment}}</div>
               </div>
@@ -137,11 +161,13 @@
 <script>
 import {useCommentsStore} from '../stores/commentsStore.js'
 import {useAuthenticationStore} from "../stores/authenticationStore.js";
+import {usePostsStore} from "../stores/postsStore.js";
 import {mapStores} from "pinia";
 import axios from "axios";
 import AppLikeButton from "./AppLikeButton.vue";
 import AppSavePostButton from "./AppSavePostButton.vue";
 import AppCommentLikeButton from "./AppCommentLikeButton.vue";
+import {Dropdown} from "flowbite";
 
 export default {
   components: {AppCommentLikeButton, AppSavePostButton, AppLikeButton},
@@ -192,13 +218,36 @@ export default {
       const comments = await this.commentsStore.getPostComments(this.post.id)
       this.comments = comments.data.results
       this.commentsLoading = false
+    },
+    async postDelete() {
+      if (this.authenticationStore.id === this.post.author.id) {
+        const response = await this.postsStore.deletePost(this.post.id)
+        if (response.status === axios.HttpStatusCode.NoContent) {
+          this.$router.push({name: 'feed'})
+        }
+      }
     }
   },
   async beforeMount() {
     await this.updateComments()
   },
+  mounted() {
+    const $targetEl = document.getElementById('dropdownMenu');
+
+    const $triggerEl = document.getElementById('dropdownButton');
+
+    const options = {
+      placement: 'bottom',
+      offsetSkidding: 0,
+      offsetDistance: 10,
+    };
+
+    if ($targetEl) {
+      const dropdown = new Dropdown($targetEl, $triggerEl, options);
+    }
+  },
   computed: {
-    ...mapStores(useCommentsStore, useAuthenticationStore)
+    ...mapStores(useCommentsStore, useAuthenticationStore, usePostsStore)
   }
 }
 </script>
