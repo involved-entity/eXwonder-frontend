@@ -203,11 +203,13 @@ export default {
       }
     },
     getPostIndex(postToFind) {
+      let retIndex
       this.posts.forEach((post, index) => {
         if (post.id === postToFind.id) {
-          return index
+          retIndex = index
         }
       })
+      return retIndex
     },
     async postDelete(post) {
       if (this.authenticationStore.id === post.author.id) {
