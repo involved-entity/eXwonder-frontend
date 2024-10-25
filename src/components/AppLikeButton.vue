@@ -26,7 +26,7 @@
     </svg>
     <div
         class="text-white"
-        :class="{'text-xl': String(post.likes_count).length <= 2, 'text-md': String(post.likes_count).length > 2, 'text-center': centered}"
+        :class="{'text-xl': String(post.likes_count).length <= 2, 'text-md': String(post.likes_count).length > 2, 'text-center': centered, 'ms-1': !centered}"
     >
       {{post.likes_count}}
     </div>
