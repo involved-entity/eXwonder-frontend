@@ -90,6 +90,7 @@ export default {
           this.$router.push({name: 'feed'})
         } else if (response.status === axios.HttpStatusCode.Accepted) {
           this.errors = {}
+          this.authenticationStore.sessionKey = response.data.session_key
           this.$router.push({name: '2fa'})
         } else {
           this.errors = response.response.data

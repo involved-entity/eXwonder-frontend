@@ -5,6 +5,7 @@ import coreAxios from 'axios'
 export const useAuthenticationStore = defineStore("authentication", {
     state() {
         return {
+            sessionKey: null,
             isAuth: !!localStorage.getItem('token'),
             token: localStorage.getItem('token') ?? '',
             id: 0,
@@ -19,6 +20,18 @@ export const useAuthenticationStore = defineStore("authentication", {
     actions: {
         async login(username, password) {
             const response = await axios.post('/api/v1/account/account/login/', {username, password}).catch((error) => error)
+            if (response.data?.token) {
+                localStorage.setItem('token', response.data.token)
+                this.token = response.data.token
+                this.isAuth = true
+            }
+            return response
+        },
+        async twoFactorAuthentication(code) {
+            const response = await axios.post('/api/v1/account/account/two-factor-authentication/', {
+                auth_code: code,
+                session_key: this.sessionKey
+            }).catch((error) => error)
             if (response.data?.token) {
                 localStorage.setItem('token', response.data.token)
                 this.token = response.data.token

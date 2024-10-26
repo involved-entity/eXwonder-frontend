@@ -21,8 +21,6 @@ import {useAuthenticationStore} from "../stores/authenticationStore.js";
 export default {
   data() {
     return {
-      username: null,
-      avatar: null,
       loading: false
     }
   },
