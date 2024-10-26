@@ -17,12 +17,10 @@
 <script>
 import {mapStores} from 'pinia'
 import {useAuthenticationStore} from "../stores/authenticationStore.js";
-import BaseUrl from "../settings.js";
 
 export default {
   data() {
     return {
-      id: 0,
       username: null,
       avatar: null,
       loading: false
@@ -34,16 +32,18 @@ export default {
       await this.authenticationStore.logout()
       this.$router.push({name: 'login'})
       this.loading = false
+    },
+    async updateSidebar() {
+      await this.authenticationStore.getMe()
     }
   },
   async mounted() {
-    const {id, username, avatar} = await this.authenticationStore.getMe()
-    this.id = id
-    this.username = username
-    this.avatar = BaseUrl + avatar
+    await this.updateSidebar()
   },
   computed: {
-    ...mapStores(useAuthenticationStore)
+    ...mapStores(useAuthenticationStore),
+    username() {return this.authenticationStore.username},
+    avatar() {return this.authenticationStore.avatar},
   }
 }
 </script>

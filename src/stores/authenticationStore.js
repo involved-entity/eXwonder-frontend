@@ -1,5 +1,6 @@
 import {defineStore} from 'pinia'
 import axios from '../client'
+import coreAxios from 'axios'
 
 export const useAuthenticationStore = defineStore("authentication", {
     state() {
@@ -7,8 +8,12 @@ export const useAuthenticationStore = defineStore("authentication", {
             isAuth: !!localStorage.getItem('token'),
             token: localStorage.getItem('token') ?? '',
             id: 0,
+            email: '',
+            timezone: '',
+            is2faEnabled: null,
             username: null,
-            avatar: null
+            avatar: null,
+            availibleTimezones: []
         }
     },
     actions: {
@@ -33,14 +38,29 @@ export const useAuthenticationStore = defineStore("authentication", {
             this.username = null
             this.avatar = null
         },
-        async getMe() {
-            if (!this.id) {
-                const response = await axios.get('/api/v1/account/account/my/').catch((error) => error)
-                this.id = response.data.id
-                this.username = response.data.username
-                this.avatar = response.data.avatar
+        async getMe(permanent = false) {
+            if (!this.id || permanent) {
+                const response = await axios.get('/api/v1/account/account/me/').catch((error) => error)
+                this.id = response.data.user.id
+                this.email = response.data.user.email
+                this.timezone = response.data.user.timezone
+                this.is2faEnabled = response.data.user.is_2fa_enabled
+                this.username = response.data.user.username
+                this.avatar = response.data.user.avatar
+                this.availibleTimezones = response.data.availible_timezones
             }
-            return {id: this.id, username: this.username, avatar: this.avatar}
+            return {username: this.username, avatar: this.avatar}
+        },
+        async updateSettings(data) {
+            const response = await axios.patch('/api/v1/account/account/update-me/', data, {
+                headers: {'Content-Type': 'multipart/form-data'}
+            }).catch(error => error)
+            if (response.status === coreAxios.HttpStatusCode.NoContent) {
+                await this.getMe(true)
+                return undefined
+            } else {
+                return response.response.data
+            }
         }
     }
 })

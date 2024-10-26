@@ -94,7 +94,6 @@ import {useAuthenticationStore} from "../stores/authenticationStore.js";
 import AppPostsGrid from "../components/AppPostsGrid.vue";
 import AppSubscriptionsModal from "../components/AppSubscriptionsModal.vue";
 import axios from "axios";
-import BaseUrl from "../settings.js";
 
 export default {
   data() {
@@ -152,7 +151,7 @@ export default {
       const user = await this.usersStore.getUser(this.requestedUser.username)
       if (!user) {this.errorFetchUser = 'User is not found. :('} else {
         this.requestedUser.id = user.id
-        this.requestedUser.avatar = BaseUrl + user.avatar
+        this.requestedUser.avatar = user.avatar
         this.followings.followersCount = user.followers_count
         this.followings.followingsCount = user.followings_count
         this.followings.followed = user.is_followed
