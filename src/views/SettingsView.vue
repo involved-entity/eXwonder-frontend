@@ -63,7 +63,7 @@
               :disabled="!isValid"
               @click="submit"
           >Save & Close</button>
-          <div class="loader my-5 mx-auto" v-if="loading"></div>
+          <div class="loader my-5 ms-3" v-if="loading"></div>
         </div>
       </div>
     </div>

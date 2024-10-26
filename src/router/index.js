@@ -9,6 +9,7 @@ import UserView from "../views/UserView.vue";
 import SearchView from "../views/SearchView.vue";
 import ExploreView from "../views/ExploreView.vue";
 import SettingsView from "../views/SettingsView.vue";
+import SavedPostsView from "../views/SavedPostsView.vue";
 
 const routes = [
     {path: '/feed/', name: 'feed', component: FeedView, meta: {requireLogin: true}},
@@ -18,6 +19,7 @@ const routes = [
     {path: '/new/', name: 'new-post', component: NewPostView, meta: {requireLogin: true}},
     {path: '/search/', name: 'search-user', component: SearchView, meta: {requireLogin: true}},
     {path: '/explore/', name: 'explore', component: ExploreView, meta: {requireLogin: true}},
+    {path: '/saved/', name: 'saved-posts', component: SavedPostsView, meta: {requireLogin: true}},
     {path: '/settings/', name: 'settings', component: SettingsView, meta: {requireLogin: true}},
     {path: '/:username/', name: 'user', component: UserView, meta: {requireLogin: true}},
 ]

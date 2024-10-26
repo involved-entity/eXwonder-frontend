@@ -20,7 +20,7 @@ export const usePostsStore = defineStore("posts", {
         async removePostFromSaved(postId) {
             return await axios.delete(`/api/v1/posts/saved/${postId}/`).catch(error => error)
         },
-        async getSavedPosts(postId, page = 1) {
+        async getSavedPosts(page = 1) {
             return await axios.get(`/api/v1/posts/saved/?page=${page}`).catch(error => error)
         },
         async deletePost(postId) {

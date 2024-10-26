@@ -29,6 +29,15 @@
           </button>
         </router-link>
 
+        <router-link :to="{name: 'saved-posts'}" :class="{'inactive': $route.path.name !== 'saved-posts'}">
+          <button class="flex hover:bg-gray-800 items-center ps-3 pe-3">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-white">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 3.75V16.5L12 14.25 7.5 16.5V3.75m9 0H18A2.25 2.25 0 0 1 20.25 6v12A2.25 2.25 0 0 1 18 20.25H6A2.25 2.25 0 0 1 3.75 18V6A2.25 2.25 0 0 1 6 3.75h1.5m9 0h-9" />
+            </svg>
+            <span class="text-gray-300 text-2xl ms-3">Saved</span>
+          </button>
+        </router-link>
+
         <router-link :to="{name: 'new-post'}" :class="{'inactive': $route.path.name !== 'new-post'}">
           <button class="flex hover:bg-gray-800 items-center ps-3 pe-3">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-white">
