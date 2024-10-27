@@ -89,12 +89,12 @@ export default {
     async submit() {
       if (this.isValid) {
         this.loading = true
-        const response = await this.authenticationStore.singUp(this.username, this.password1, this.email.length ? this.email : null)
-        if (response.status === axios.HttpStatusCode.Created) {
+        const {success, data} = await this.authenticationStore.singUp(this.username, this.password1, this.email.length ? this.email : null)
+        if (success) {
           this.errors = {}
           this.$router.push({name: 'login'})
         } else {
-          this.errors = response.response.data
+          this.errors = data
         }
         this.loading = false
       }

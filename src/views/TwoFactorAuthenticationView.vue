@@ -1,27 +1,7 @@
 <template>
   <main>
     <div class="h-screen items-center flex justify-center gap-x-5">
-      <div class="border border-gray-300 rounded-2xl w-2/5 h-3/4 relative" style="background-color: #222">
-        <div class="text-3xl text-center text-gray-300 font-bold mt-1">Welcome to eXwonder!</div>
-        <div class="m-3">
-          <p class="text-lg ms-1 text-gray-400 inline-block">
-            Simple image hosting. Features:<br><br>
-
-            1. Adding posts with images and captions (up to 10)<br>
-            2. Likes and comments<br>
-            3. Saving posts<br>
-            4. Top posts by likes and date added<br>
-            5. Subscriptions<br>
-            6. News feed<br>
-            7. Extensive account settings<br>
-          </p>
-        </div>
-        <div class="absolute bottom-0 left-0 w-full">
-          <p class="text-xl text-gray-300 mx-3 mb-1">Dont have an account?
-            <router-link :to="{name: 'sing-up'}" class="border-b border-gray-300 hover:border-blue-600 hover:text-blue-600">Sing up</router-link>
-          </p>
-        </div>
-      </div>
+      <app-description :links="['login']"/>
       <div class="border border-gray-300 rounded-2xl w-2/5 h-3/4" style="background-color: #222">
         <div class="w-full flex h-full items-center justify-center">
           <div class="w-2/3">
@@ -57,9 +37,10 @@
 <script>
 import {mapStores} from "pinia";
 import {useAuthenticationStore} from "../stores/authenticationStore.js";
-import axios from 'axios'
+import AppDescription from "../components/AppDescription.vue";
 
 export default {
+  components: {AppDescription},
   data() {
     return {
       loading: false,
@@ -70,12 +51,12 @@ export default {
   methods: {
     async submit() {
       if (this.isValid) {
-        const response = await this.authenticationStore.twoFactorAuthentication(this.code)
-        if (response.status === axios.HttpStatusCode.Ok) {
+        const {success, data} = await this.authenticationStore.twoFactorAuthentication(this.code)
+        if (success) {
           this.errors = {}
           this.$router.push({name: 'feed'})
         } else {
-          this.errors.code = response.response.data.detail
+          this.errors.code = data.detail
         }
       }
     }

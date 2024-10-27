@@ -79,6 +79,7 @@
 
 <script>
 import {mapStores} from "pinia";
+import {useAccountStore} from "../stores/accountStore.js";
 import {useAuthenticationStore} from "../stores/authenticationStore.js";
 
 export default {
@@ -89,7 +90,7 @@ export default {
       timezone: '',
       is2faEnabled: null,
       avatar: '',
-      errors: []
+      errors: {}
     }
   },
   methods: {
@@ -97,11 +98,11 @@ export default {
       if (this.isValid) {
         this.loading = true
         const data = {email: this.email, timezone: this.timezone, is_2fa_enabled: this.is2faEnabled, avatar: this.avatar}
-        const errors = await this.authenticationStore.updateSettings(data)
+        const errors = await this.accountStore.updateSettings(data)
         if (errors) {
           this.errors = errors
         } else {
-          this.errors = []
+          this.errors = {}
           this.$router.push('/' + this.authenticationStore.username + "/")
         }
         this.loading = false
@@ -115,7 +116,7 @@ export default {
     this.is2faEnabled = this.authenticationStore.is2faEnabled
   },
   computed: {
-    ...mapStores(useAuthenticationStore),
+    ...mapStores(useAccountStore, useAuthenticationStore),
     isValid() {
       return this.email !== '' || this.timezone !== '' || this.is2faEnabled !== this.authenticationStore.is2faEnabled || this.avatar !== ''
     }

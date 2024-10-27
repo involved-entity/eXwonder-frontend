@@ -1,17 +1,17 @@
 import { createWebHistory, createRouter } from 'vue-router'
 import {useAuthenticationStore} from '../stores/authenticationStore.js'
-import LoginView from "../views/LoginView.vue";
-import SingUpView from "../views/SingUpView.vue";
-import FeedView from "../views/FeedView.vue";
-import TwoFactorAuthenticationView from "../views/TwoFactorAuthenticationView.vue";
-import NewPostView from "../views/NewPostView.vue";
-import UserView from "../views/UserView.vue";
-import SearchView from "../views/SearchView.vue";
-import ExploreView from "../views/ExploreView.vue";
-import SettingsView from "../views/SettingsView.vue";
-import SavedPostsView from "../views/SavedPostsView.vue";
-import ResetPasswordView from "../views/ResetPasswordView.vue";
-import ChangePasswordView from "../views/ChangePasswordView.vue";
+import LoginView from "../views/LoginView.vue"
+import SingUpView from "../views/SingUpView.vue"
+import FeedView from "../views/FeedView.vue"
+import TwoFactorAuthenticationView from "../views/TwoFactorAuthenticationView.vue"
+import NewPostView from "../views/NewPostView.vue"
+import UserView from "../views/UserView.vue"
+import SearchView from "../views/SearchView.vue"
+import ExploreView from "../views/ExploreView.vue"
+import SettingsView from "../views/SettingsView.vue"
+import SavedPostsView from "../views/SavedPostsView.vue"
+import ResetPasswordView from "../views/ResetPasswordView.vue"
+import ChangePasswordView from "../views/ChangePasswordView.vue"
 
 const routes = [
     {path: '/feed/', name: 'feed', component: FeedView, meta: {requireLogin: true}},
@@ -32,28 +32,21 @@ const router = createRouter({
     routes,
     history: createWebHistory(),
     linkActiveClass: 'active',
-    linkExactActiveClass: ''
 })
 
 router.beforeEach((to, from, next) => {
     const authenticationStore = useAuthenticationStore()
 
-    if (to.meta.requireLogin) {
-        if (!authenticationStore.isAuth) {
-            return next('/login/')
-        }
-    } else if (to.meta.requireNoLogin) {
-        if (authenticationStore.isAuth) {
-            return next('/')
-        }
+    if (to.meta.requireLogin && !authenticationStore.isAuth) {
+        return next({name: 'login'})
     }
 
-    if (to.name === '2fa') {
-        if (!(from.name === 'login')) {return next('/login/')}
-    }
-
-    if (to.path === '/') {
-        return next('/feed/')
+    if (
+        (to.meta.requireNoLogin && authenticationStore.isAuth)
+        || (to.name === '2fa' && !(from.name === 'login'))
+        || (to.path === '/')
+    ) {
+        return next({name: 'feed'})
     }
 
     return next()

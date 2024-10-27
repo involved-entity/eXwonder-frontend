@@ -119,14 +119,14 @@ export default {
   methods: {
     async followUser() {
       if (!this.followings.followed) {
-        const response = await this.usersStore.follow(this.requestedUser.id)
-        if (response.status === axios.HttpStatusCode.Created) {
+        const {success, data} = await this.usersStore.follow(this.requestedUser.id)
+        if (success) {
           this.followings.followed = true
           this.followings.followersCount++
         }
       } else {
-        const response = await this.usersStore.disfollow(this.requestedUser.id)
-        if (response.status === axios.HttpStatusCode.NoContent) {
+        const {success, data} = await this.usersStore.disfollow(this.requestedUser.id)
+        if (success) {
           this.followings.followed = false
           this.followings.followersCount--
         }

@@ -53,8 +53,7 @@
 
 <script>
 import {mapStores} from "pinia";
-import {useAuthenticationStore} from "../stores/authenticationStore.js";
-import axios from 'axios'
+import {useAccountStore} from "../stores/accountStore.js";
 
 export default {
   data() {
@@ -68,11 +67,11 @@ export default {
   },
   methods: {
     async submit() {
-      const response = await this.authenticationStore.changePassword(this.oldPassword, this.newPassword1, this.newPassword2)
-      if (response.status !== axios.HttpStatusCode.Ok) {
-        this.errors = response.response.data
-      } else {
+      const {success, data} = await this.accountStore.changePassword(this.oldPassword, this.newPassword1, this.newPassword2)
+      if (success) {
         this.$router.push({name: 'feed'})
+      } else {
+        this.errors = data
       }
     }
   },
@@ -83,7 +82,7 @@ export default {
       const newPassword2 = this.newPassword2.length >= 8 && this.newPassword1 === this.newPassword2
       return oldPassword && newPassword1 && newPassword2
     },
-    ...mapStores(useAuthenticationStore)
+    ...mapStores(useAccountStore)
   }
 }
 </script>

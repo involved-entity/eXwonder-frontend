@@ -28,7 +28,7 @@
 
 <script>
 import {mapStores} from "pinia";
-import {useAuthenticationStore} from "../stores/authenticationStore.js";
+import {useAccountStore} from "../stores/accountStore.js";
 
 export default {
   data() {
@@ -41,10 +41,10 @@ export default {
   methods: {
     async submit() {
       this.loading = true
-      await this.authenticationStore.resetPassword(this.email)
+      await this.accountStore.resetPassword(this.email)
       this.loading = false
     }
   },
-  computed: {...mapStores(useAuthenticationStore)}
+  computed: {...mapStores(useAccountStore)}
 }
 </script>

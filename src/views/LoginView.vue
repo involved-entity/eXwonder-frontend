@@ -66,16 +66,19 @@ export default {
     async submit() {
       if (this.isValid) {
         this.loading = true
-        const response = await this.authenticationStore.login(this.username, this.password)
-        if (response.status === axios.HttpStatusCode.Ok) {
+        const {success, data} = await this.authenticationStore.login(this.username, this.password)
+        if (success && data.code === 'CODE_SENDED') {
           this.errors = {}
-          this.$router.push({name: 'feed'})
-        } else if (response.status === axios.HttpStatusCode.Accepted) {
-          this.errors = {}
-          this.authenticationStore.sessionKey = response.data.session_key
+          this.authenticationStore.sessionKey = data.session_key
           this.$router.push({name: '2fa'})
+        } else if (success) {
+          this.errors = {}
+          localStorage.setItem('token', data.token)
+          this.authenticationStore.token = data.token
+          this.authenticationStore.isAuth = true
+          this.$router.push({name: 'feed'})
         } else {
-          this.errors = response.response.data
+          this.errors = data
         }
         this.loading = false
       }
