@@ -68,12 +68,28 @@ export const useAuthenticationStore = defineStore("authentication", {
             const response = await axios.patch('/api/v1/account/account/update-me/', data, {
                 headers: {'Content-Type': 'multipart/form-data'}
             }).catch(error => error)
-            if (response.status === coreAxios.HttpStatusCode.NoContent) {
-                await this.getMe(true)
-                return undefined
-            } else {
+            if (response.status !== coreAxios.HttpStatusCode.NoContent) {
                 return response.response.data
             }
+            await this.getMe(true)
+        },
+        async resetPassword(email) {
+            return await axios.post('/api/v1/account/password-reset/', {email}).catch(error => error)
+        },
+        async resetPasswordConfirm(uid, token, password1, password2) {
+            const response = await axios.post('/api/v1/account/password-reset-confirm/', {
+                uid,
+                token,
+                new_password1: password1,
+                new_password2: password2
+            }).catch(error => error)
+            if (response.status !== coreAxios.HttpStatusCode.Ok) {
+                if (response.response.data.new_password2?.length) {
+                    return 'Password is too common.'
+                }
+                return 'Token is invalid. Please retry to reset password.'
+            }
+            return ''
         }
     }
 })
