@@ -8,7 +8,7 @@
         <hr class="border border-gray-600">
       </div>
       <div class="flex ps-3 pr-3 pb-5">
-        <img :src="authenticationStore.avatar" alt="avatar" class="min-w-[9rem] size-36">
+        <img :src="authenticationStore.avatar" alt="avatar" class="min-w-[10rem] size-40">
         <div class="ms-5">
           <p class="text-lg ms-1 text-gray-300 inline-block">E-mail:</p><br>
           <input
@@ -63,6 +63,13 @@
               :disabled="!isValid"
               @click="submit"
           >Save & Close</button>
+          <router-link :to="{name: 'change-password'}">
+            <button
+                type="button"
+                class="mt-3 ms-3 py-1 px-3 uppercase font-semibold text-gray-300 rounded bg-green-700 border border-transparent
+                transition-all duration-200 hover:bg-green-800 hover:border hover:border-green-800"
+            >Change Password</button>
+          </router-link>
           <div class="loader my-5 ms-3" v-if="loading"></div>
         </div>
       </div>

@@ -11,6 +11,7 @@ import ExploreView from "../views/ExploreView.vue";
 import SettingsView from "../views/SettingsView.vue";
 import SavedPostsView from "../views/SavedPostsView.vue";
 import ResetPasswordView from "../views/ResetPasswordView.vue";
+import ChangePasswordView from "../views/ChangePasswordView.vue";
 
 const routes = [
     {path: '/feed/', name: 'feed', component: FeedView, meta: {requireLogin: true}},
@@ -23,6 +24,7 @@ const routes = [
     {path: '/explore/', name: 'explore', component: ExploreView, meta: {requireLogin: true}},
     {path: '/saved/', name: 'saved-posts', component: SavedPostsView, meta: {requireLogin: true}},
     {path: '/settings/', name: 'settings', component: SettingsView, meta: {requireLogin: true}},
+    {path: '/change-password/', name: 'change-password', component: ChangePasswordView, meta: {requireLogin: true}},
     {path: '/:username/', name: 'user', component: UserView, meta: {requireLogin: true}},
 ]
 

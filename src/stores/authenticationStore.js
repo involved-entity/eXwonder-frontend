@@ -90,6 +90,14 @@ export const useAuthenticationStore = defineStore("authentication", {
                 return 'Token is invalid. Please retry to reset password.'
             }
             return ''
+        },
+        async changePassword(oldPassword, newPassword1, newPassword2) {
+            const response = await axios.post('/api/v1/account/password-change/', {
+                old_password: oldPassword,
+                new_password1: newPassword1,
+                new_password2: newPassword2
+            }).catch(error => error)
+            return response
         }
     }
 })
