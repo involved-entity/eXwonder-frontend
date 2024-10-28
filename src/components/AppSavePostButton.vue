@@ -37,19 +37,17 @@ export default {
   },
   methods: {
     async savePost(post, action = true) {
+      let response = undefined
       switch (action) {
         case true:
-          let addPostResponse = await this.postsStore.addPostToSaved(post.id)
-          if (addPostResponse.status === axios.HttpStatusCode.Created) {
-            post.is_saved = true
-          }
+          response = await this.postsStore.addPostToSaved(post.id)
           break
         case false:
-          let removePostResponse = await this.postsStore.removePostFromSaved(post.id)
-          if (removePostResponse.status === axios.HttpStatusCode.NoContent) {
-            post.is_saved = false
-          }
+          response = await this.postsStore.removePostFromSaved(post.id)
           break
+      }
+      if (response.success) {
+        post.is_saved = !post.is_saved
       }
     }
   },

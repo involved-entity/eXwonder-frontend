@@ -35,7 +35,7 @@
 
 <script>
 import {mapStores} from "pinia";
-import {useCommentsStore} from "../stores/commentsStore.js";
+import {usePostsStore} from "../stores/postsStore.js";
 
 export default {
   props: {
@@ -57,18 +57,18 @@ export default {
   methods: {
     async likePost(action) {
       if (action && !this.post.is_liked) {
-        await this.commentsStore.addLike(this.post.id)
+        await this.postsStore.addPostLike(this.post.id)
         this.post.is_liked = true
         this.post.likes_count += 1
       } else if (!action && this.post.is_liked) {
-        await this.commentsStore.deleteLike(this.post.id)
+        await this.postsStore.deletePostLike(this.post.id)
         this.post.is_liked = false
         this.post.likes_count -= 1
       }
     },
   },
   computed: {
-    ...mapStores(useCommentsStore)
+    ...mapStores(usePostsStore)
   }
 }
 </script>

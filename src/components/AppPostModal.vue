@@ -153,8 +153,8 @@
               ></textarea>
               <p><small
                   class="py-1 text-red-600"
-                  :class="{'text-red-600': errors.commentInput, 'text-transparent': !errors.commentInput}"
-                  v-if="errors.commentInput"
+                  :class="{'text-red-600': errors.commentInput?.length, 'text-transparent': !errors.commentInput?.length}"
+                  v-if="errors.commentInput?.length"
               >{{errors.commentInput}}</small></p>
             </div>
           </div>
@@ -219,8 +219,8 @@ export default {
     },
     async createComment() {
       if (this.commentInput.length >= 10 && this.commentInput.length <= 2048) {
-        const response = await this.commentsStore.addComment(this.post.id, this.commentInput)
-        if (response.status === axios.HttpStatusCode.Created) {
+        const {success, data} = await this.commentsStore.addComment(this.post.id, this.commentInput)
+        if (success) {
           this.errors.commentInput = undefined
           this.commentInput = ''
           this.post.comments_count += 1
@@ -238,8 +238,8 @@ export default {
     },
     async postDelete() {
       if (this.authenticationStore.id === this.post.author.id) {
-        const response = await this.postsStore.deletePost(this.post.id)
-        if (response.status === axios.HttpStatusCode.NoContent) {
+        const {success, data} = await this.postsStore.deletePost(this.post.id)
+        if (success) {
           this.$router.push({name: 'feed'})
         }
       }
@@ -255,8 +255,8 @@ export default {
     },
     async commentDelete(comment) {
       if (this.authenticationStore.id === comment.author.id) {
-        const response = await this.commentsStore.deleteComment(comment.id)
-        if (response.status === axios.HttpStatusCode.NoContent) {
+        const {success, data} = await this.commentsStore.deleteComment(comment.id)
+        if (success) {
           this.comments.splice(this.getCommentIndex(comment), 1)
           this.post.comments_count--
         }

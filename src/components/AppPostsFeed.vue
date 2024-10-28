@@ -191,8 +191,8 @@ export default {
     async createComment(post) {
       const commentInput = this.$refs['comment_input_' + String(post.id)][0]
       if (commentInput.value.length >= 10 && commentInput.value.length <= 2048) {
-        const response = await this.commentsStore.addComment(post.id, commentInput.value)
-        if (response.status === axios.HttpStatusCode.Created) {
+        const {success, data} = await this.commentsStore.addComment(post.id, commentInput.value)
+        if (success) {
           this.errors[post.id] = undefined
           commentInput.value = ''
           post.comments_count += 1
@@ -213,8 +213,8 @@ export default {
     },
     async postDelete(post) {
       if (this.authenticationStore.id === post.author.id) {
-        const response = await this.postsStore.deletePost(post.id)
-        if (response.status === axios.HttpStatusCode.NoContent) {
+        const {success, data} = await this.postsStore.deletePost(post.id)
+        if (success) {
           this.posts.splice(this.getPostIndex(post), 1)
         }
       }

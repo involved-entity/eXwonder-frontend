@@ -47,7 +47,6 @@ export default {
         post.post.is_saved = post.is_saved
         return post.post
       })
-      console.log(this.saved)
       this.loading = false
     }
   },

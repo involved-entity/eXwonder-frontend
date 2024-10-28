@@ -72,12 +72,12 @@ export default {
           formData.append("image" + index, this.$refs.images.files[index])
         }
         formData.append('signature', this.signature)
-        const response = await this.postsStore.createPost(formData)
-        if (response.status === axios.HttpStatusCode.Created) {
+        const {success, data} = await this.postsStore.createPost(formData)
+        if (success) {
           this.errors = {}
           this.$router.push({name: 'user', params: {username: this.authenticationStore.username}})
         } else {
-          this.errors = response.response.data
+          this.errors = data
         }
         this.loading = false
       }
