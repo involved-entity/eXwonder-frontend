@@ -1,32 +1,29 @@
 <template>
-  <div class="container" style="border: 15px solid #111; background-color: #272727">
-    <div class="shadow-xl shadow-cyan-500/50">
-      <div class="text-center text-gray-300 font-bold text-3xl">
-        Settings
-      </div>
-      <div class="ps-3 pr-3 pb-5 h-1">
+  <div class="container-border">
+    <div class="shadow">
+      <div class="ps-3 pr-3 pb-5 h-1 pt-3">
         <hr class="border border-gray-600">
       </div>
       <div class="flex ps-3 pr-3 pb-5">
         <img :src="authenticationStore.avatar" alt="avatar" class="min-w-[10rem] size-40">
         <div class="ms-5">
-          <p class="text-lg ms-1 text-gray-300 inline-block">E-mail:</p><br>
+          <p class="form-label">E-mail:</p>
           <input
               type="email"
               :placeholder="authenticationStore.email"
-              class="text-gray-400 bg-gray-custom w-3/4 p-1 outline-none rounded mt-1" v-model="email"
-              :class="{'border border-red-600': errors.email?.length}"
+              class="form-input !w-3/4" v-model="email"
+              :class="{'border-red': errors.email?.length}"
               @keyup.down="$refs.timezoneInput.focus()"
           >
-          <p><small class="p-1 text-red-600" v-if="errors.email?.length">{{errors.email[0]}}</small></p>
+          <p><small class="form-error-label" v-if="errors.email?.length">{{errors.email[0]}}</small></p>
 
-          <p class="text-lg ms-1 text-gray-300 mt-3">Time zone:</p>
+          <p class="form-label">Time zone:</p>
           <input
               type="text"
               :placeholder="authenticationStore.timezone"
               v-model="timezone"
-              class="text-gray-400 bg-gray-custom w-3/4 p-1 outline-none rounded mt-1"
-              :class="{'border border-red-600': errors.timezone?.length}"
+              class="form-input !w-3/4"
+              :class="{'border-red': errors.timezone?.length}"
               @keyup.enter="$refs.is2faEnabled.focus()"
               ref="timezoneInput"
               list="timezones"
@@ -34,9 +31,9 @@
           <datalist id="timezones">
             <option v-for="timezone in authenticationStore.availibleTimezones">{{ timezone }}</option>
           </datalist>
-          <p><small class="p-1 text-red-600" v-if="errors.timezone?.length">{{errors.timezone[0]}}</small></p>
+          <p><small class="form-error-label" v-if="errors.timezone?.length">{{errors.timezone[0]}}</small></p>
 
-          <p class="text-lg ms-1 text-gray-300 mt-3">Is 2FA enabled:</p>
+          <p class="form-label">Is 2FA enabled:</p>
           <input
               type="checkbox"
               v-model="is2faEnabled"
@@ -45,7 +42,7 @@
           >
           <p></p>
 
-          <p class="text-lg ms-1 text-gray-300 mt-3">Avatar:</p>
+          <p class="form-label">Avatar:</p>
           <input
               class="px-1 w-3/4 text-lg text-gray-400 border border-gray-300 rounded-lg cursor-pointer
               bg-gray-50 focus:outline-none file:bg-slate-600 file:border-slate-600 file:text-gray-950"
@@ -54,20 +51,17 @@
               style="background-color: #202020; border-color: #202020"
               @change="avatarChanged"
           >
-
           <button
               type="submit"
-              class="mt-3 py-1 px-3 uppercase font-semibold text-gray-300 rounded bg-violet-900 border border-transparent
-              disabled:bg-purple-950 disabled:text-gray-500 transition-all duration-200"
-              :class="{'hover:bg-violet-950 hover:border hover:border-violet-950': isValid}"
+              class="mt-3 btn-no-w btn-green"
+              :class="{'btn-green-hover': isValid}"
               :disabled="!isValid"
               @click="submit"
           >Save & Close</button>
           <router-link :to="{name: 'change-password'}">
             <button
                 type="button"
-                class="mt-3 ms-3 py-1 px-3 uppercase font-semibold text-gray-300 rounded bg-green-700 border border-transparent
-                transition-all duration-200 hover:bg-green-800 hover:border hover:border-green-800"
+                class="mt-3 ms-3 btn-no-w btn-green btn-green-hover"
             >Change Password</button>
           </router-link>
           <div class="loader my-5 ms-3" v-if="loading"></div>

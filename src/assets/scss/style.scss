@@ -65,6 +65,9 @@ body {
 .btn {
   @apply py-1 w-full px-3 uppercase font-semibold rounded border border-transparent transition-all duration-300;
 }
+.btn-no-w {
+  @apply py-1 px-3 uppercase font-semibold rounded border border-transparent transition-all duration-300;
+}
 
 .btn-green {
   @apply text-gray-300 bg-emerald-700 disabled:bg-emerald-800 disabled:text-gray-500;
@@ -86,6 +89,12 @@ body {
 .header-2xl {
   @apply text-2xl text-center text-gray-300 font-bold my-1;
 }
+.header-xl {
+  @apply text-xl text-center text-gray-300 font-bold my-1;
+}
+.header-transition {
+  @apply transition-all duration-300 hover:text-gray-400;
+}
 
 .hw-centered {
   @apply h-screen items-center flex justify-center;
@@ -97,7 +106,7 @@ body {
 }
 
 .form-label {
-  @apply text-lg ms-1 text-gray-300 inline-block;
+  @apply text-lg ms-1 text-gray-300;
 }
 .form-input {
   @apply text-gray-400 bg-gray-custom w-full p-1 outline-none rounded mt-1;
@@ -121,4 +130,14 @@ body {
 
 .link {
   @apply text-blue-600 hover:border-b hover:border-blue-600;
+}
+
+.container-border {
+  @apply container;
+  border: 15px solid #111;
+  background-color: #272727;
+}
+
+.shadow {
+  @apply shadow-xl shadow-cyan-500/50;
 }
