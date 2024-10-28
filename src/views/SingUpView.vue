@@ -1,68 +1,67 @@
 <template>
-  <main>
-    <div class="h-screen items-center flex justify-center gap-x-5">
-      <app-description-component :links="['login']"/>
-      <div class="border border-gray-300 rounded-2xl w-2/5 h-3/4" style="background-color: #222">
-        <div class="w-full flex h-full items-center justify-center">
-          <div class="w-2/3">
-            <div class="text-3xl text-center text-gray-300 font-bold mt-1">Sing Up</div>
-            <div class="m-3">
-              <p class="text-lg ms-1 text-gray-300 inline-block">Username:</p><br>
-              <input
-                  type="text"
-                  placeholder="Your username"
-                  class="text-gray-400 bg-gray-custom w-full p-1 outline-none rounded mt-1"
-                  :class="{'border border-red-600': errors.username}"
-                  v-model="username"
-                  @keyup.down="$refs.email_input.focus()"
-              >
-              <p><small class="p-1 text-red-600" v-if="errors.username">{{errors.username[0]}}</small></p>
+  <main class="relative">
+    <div class="hw-centered">
+      <div class="card">
+        <div class="w-full h-full items-center justify-center">
+          <div class="header-3xl">Sing Up</div>
+          <div class="mx-3 mb-3 mt-1">
+            <p class="form-label">Username:</p><br>
+            <input
+                type="text"
+                placeholder="Your username"
+                class="form-input"
+                :class="{'border-red': errors.username}"
+                v-model="username"
+                @keyup.down="$refs.emailInput.focus()"
+            >
+            <p><small class="form-error-label" v-if="errors.username">{{errors.username[0]}}</small></p>
 
-              <p class="text-lg ms-1 text-gray-300 inline-block mt-1">Email:</p><br>
-              <input
-                  type="email"
-                  placeholder="Your email (optional)"
-                  class="text-gray-400 bg-gray-custom w-full p-1 outline-none rounded mt-1"
-                  :class="{'border border-red-600': errors.email}"
-                  v-model="email"
-                  ref="email_input"
-                  @keyup.down="$refs.password1_input.focus()"
-              >
-              <p><small class="p-1 text-red-600" v-if="errors.email">{{errors.email[0]}}</small></p>
+            <p class="form-label">Email:</p><br>
+            <input
+                type="email"
+                placeholder="Your email (optional)"
+                class="form-input"
+                :class="{'border-red': errors.email}"
+                v-model="email"
+                ref="emailInput"
+                @keyup.down="$refs.password1Input.focus()"
+            >
+            <p><small class="form-error-label" v-if="errors.email">{{errors.email[0]}}</small></p>
 
-              <p class="text-lg ms-1 text-gray-300 inline-block mt-1">Password:</p><br>
-              <input
-                  type="password"
-                  placeholder="Your password"
-                  class="text-gray-400 bg-gray-custom w-full p-1 outline-none rounded mt-1"
-                  v-model="password1"
-                  ref="password1_input"
-                  @keyup.down="$refs.password2_input.focus()"
-              >
+            <p class="form-label">Password:</p><br>
+            <input
+                type="password"
+                placeholder="Your password"
+                class="form-input"
+                v-model="password1"
+                ref="password1Input"
+                @keyup.down="$refs.password2Input.focus()"
+            >
 
-              <p class="text-lg ms-1 text-gray-300 inline-block mt-1">Password repeat:</p><br>
-              <input
-                  type="password"
-                  placeholder="Repeat your password"
-                  class="text-gray-400 bg-gray-custom w-full p-1 outline-none rounded mt-1"
-                  v-model="password2"
-                  ref="password2_input"
-                  @keyup.enter="submit"
-              >
+            <p class="form-label">Password repeat:</p><br>
+            <input
+                type="password"
+                placeholder="Repeat your password"
+                class="form-input"
+                v-model="password2"
+                ref="password2Input"
+                @keyup.enter="submit"
+            >
 
-              <button
-                  type="submit"
-                  class="mt-2 p-1 w-full uppercase font-semibold text-gray-300 rounded bg-violet-900 border border-transparent
-                     disabled:bg-purple-950 disabled:text-gray-500 transition-all duration-200"
-                  :class="{'hover:bg-violet-950 hover:border hover:border-violet-950': isValid}"
-                  @click="submit"
-                  :disabled="!isValid"
-              >Sing Up</button>
-              <div class="loader my-5 mx-auto" v-if="loading"></div>
-            </div>
+            <button
+                type="submit"
+                class="mt-2 btn btn-green"
+                :class="{'btn-gree-hover': isValid}"
+                @click="submit"
+                :disabled="!isValid"
+            >Sing Up</button>
+            <div class="loader my-5 mx-auto" v-if="loading"></div>
           </div>
         </div>
       </div>
+    </div>
+    <div class="footer-link-9">
+      Already have an account? <router-link :to="{name: 'login'}" class="link">Log in</router-link>
     </div>
   </main>
 </template>

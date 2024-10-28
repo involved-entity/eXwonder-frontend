@@ -37,9 +37,8 @@
 
             <button
                 type="submit"
-                class="mt-3 py-1 w-full px-3 uppercase font-semibold text-gray-300 rounded bg-green-700 border border-transparent
-                disabled:bg-green-800 disabled:text-gray-500 transition-all duration-200"
-                :class="{'hover:bg-green-800 hover:border hover:border-green-800': isValid}"
+                class="mt-3 btn btn-green"
+                :class="{'btn-green-hover': isValid}"
                 :disabled="!isValid"
                 @click="submit"
             >Change Password</button>

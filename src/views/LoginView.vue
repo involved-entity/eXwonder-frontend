@@ -1,47 +1,47 @@
 <template>
-  <main>
-    <div class="h-screen items-center flex justify-center gap-x-5">
-      <app-description-component :links="['sing-up', 'reset-password']"/>
-      <div class="border border-gray-300 rounded-2xl w-2/5 h-3/4" style="background-color: #222">
-        <div class="w-full flex h-full items-center justify-center">
-          <div class="w-2/3">
-            <div class="text-3xl text-center text-gray-300 font-bold mt-1">Login</div>
-            <div class="m-3">
-              <p class="text-lg ms-1 text-gray-300 inline-block">Username:</p><br>
-              <input
-                  type="text"
-                  placeholder="Your username"
-                  class="text-gray-400 bg-gray-custom w-full p-1 outline-none rounded mt-1" v-model="username"
-                  :class="{'border border-red-600': errors.non_field_errors}"
-                  @keyup.down="$refs.password_input.focus()"
-              >
-              <p><small class="p-1 text-red-600" v-if="errors.non_field_errors">{{errors.non_field_errors[0]}}</small></p>
+  <main class="relative">
+    <div class="hw-centered">
+      <div class="card">
+        <div class="w-full h-full items-center justify-center">
+          <div class="header-3xl">Login</div>
+          <div class="mx-3 mb-3 mt-1">
+            <p class="form-label">Username:</p><br>
+            <input
+                type="text"
+                placeholder="Your username"
+                class="form-input" v-model="username"
+                :class="{'border-red': errors.non_field_errors}"
+                @keyup.down="$refs.password_input.focus()"
+            >
+            <p><small class="form-error-label" v-if="errors.non_field_errors">{{errors.non_field_errors[0]}}</small></p>
 
-              <p class="text-lg ms-1 text-gray-300 mt-1">Password:</p>
-              <input
-                  type="password"
-                  placeholder="Your password"
-                  class="text-gray-400 bg-gray-custom w-full p-1 outline-none rounded mt-1"
-                  v-model="password"
-                  :class="{'border border-red-600': errors.non_field_errors}"
-                  @keyup.enter="submit"
-                  ref="password_input"
-              >
-              <p><small class="p-1 text-red-600" v-if="errors.non_field_errors">{{errors.non_field_errors[0]}}</small></p>
+            <p class="form-label mt-1">Password:</p>
+            <input
+                type="password"
+                placeholder="Your password"
+                class="form-input"
+                v-model="password"
+                :class="{'border-red': errors.non_field_errors}"
+                @keyup.enter="submit"
+                ref="password_input"
+            >
+            <p><small class="form-error-label" v-if="errors.non_field_errors">{{errors.non_field_errors[0]}}</small></p>
 
-              <button
-                  type="submit"
-                  class="mt-2 p-1 w-full uppercase font-semibold text-gray-300 rounded bg-violet-900 border border-transparent
-              disabled:bg-purple-950 disabled:text-gray-500 transition-all duration-200"
-                  :class="{'hover:bg-violet-950 hover:border hover:border-violet-950': isValid}"
-                  :disabled="!isValid"
-                  @click="submit"
-              >Login</button>
-              <div class="loader my-5 mx-auto" v-if="loading"></div>
-            </div>
+            <button
+                type="submit"
+                class="mt-2 btn btn-green"
+                :class="{'btn-green-hover': isValid}"
+                :disabled="!isValid"
+                @click="submit"
+            >Login</button>
+            <div class="loader my-5 mx-auto" v-if="loading"></div>
           </div>
         </div>
       </div>
+    </div>
+    <div class="footer-link-16 flex flex-col">
+      <span class="mx-auto">Don't have an account? <router-link :to="{name: 'sing-up'}" class="link">Sing up</router-link></span>
+      <span>Forgive your password? <router-link :to="{name: 'reset-password'}" class="link">Reset password</router-link></span>
     </div>
   </main>
 </template>

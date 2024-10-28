@@ -1,35 +1,35 @@
 <template>
-  <div class="border border-gray-300 rounded-2xl w-2/5 h-3/4" style="background-color: #222">
-    <div class="w-full flex h-full items-center justify-center">
-      <div class="w-2/3">
-        <div class="text-3xl text-center text-gray-300 font-bold mt-1">Password reset confirm</div>
-        <div class="m-3">
-          <p class="text-lg ms-1 text-gray-300 inline-block">Password:</p><br>
-          <input
-              type="password"
-              placeholder="Your new password"
-              class="text-gray-400 bg-gray-custom w-full p-1 outline-none rounded mt-1" v-model="password1"
-          >
-          <p><small class="p-1 text-red-600" v-if="error.length">{{error}}</small></p>
+  <div class="card">
+    <div class="w-full h-full items-center justify-center">
+      <div class="header-3xl">Confirm</div>
+      <div class="m-3">
+        <p class="form-label">Password:</p><br>
+        <input
+            type="password"
+            placeholder="Your new password"
+            class="form-input" v-model="password1"
+            @keyup.down="$refs.repeat.focus()"
+        >
+        <p><small class="form-error-label" v-if="error.length">{{error}}</small></p>
 
-          <p class="text-lg ms-1 text-gray-300 inline-block">Password repeat:</p><br>
-          <input
-              type="password"
-              placeholder="Your new password"
-              class="text-gray-400 bg-gray-custom w-full p-1 outline-none rounded mt-1" v-model="password2"
-          >
-          <p><small class="p-1 text-red-600" v-if="error.length">{{error}}</small></p>
+        <p class="form-label">Password repeat:</p><br>
+        <input
+            type="password"
+            placeholder="Your new password"
+            class="form-input" v-model="password2"
+            ref="repeat"
+            @keyup.enter="submit"
+        >
+        <p><small class="form-error-label" v-if="error.length">{{error}}</small></p>
 
-          <button
-              type="submit"
-              class="mt-2 p-1 w-full uppercase font-semibold text-gray-300 rounded bg-violet-900 border border-transparent
-              disabled:bg-purple-950 disabled:text-gray-500 transition-all duration-200"
-              :class="{'hover:bg-violet-950 hover:border hover:border-violet-950': isValid}"
-              :disabled="!isValid"
-              @click="submit"
-          >Confirm</button>
-          <div class="loader my-5 mx-auto" v-if="loading"></div>
-        </div>
+        <button
+            type="submit"
+            class="mt-2 btn btn-green"
+            :class="{'btn-green-hover': isValid}"
+            :disabled="!isValid"
+            @click="submit"
+        >Confirm</button>
+        <div class="loader my-5 mx-auto" v-if="loading"></div>
       </div>
     </div>
   </div>

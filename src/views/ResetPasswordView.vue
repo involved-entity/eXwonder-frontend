@@ -1,9 +1,11 @@
 <template>
-  <main>
-    <div class="h-screen items-center flex justify-center gap-x-5">
-      <app-description-component :links="['login']"/>
+  <main class="relative">
+    <div class="hw-centered">
       <the-reset-password v-if="!(this.uid?.length && this.token?.length)"/>
       <the-reset-password-confirm :token="this.token" :uid="this.uid" v-if="this.uid?.length && this.token?.length"/>
+    </div>
+    <div class="footer-link-16">
+      Already have an account? <router-link :to="{name: 'login'}" class="link">Log in</router-link>
     </div>
   </main>
 </template>
