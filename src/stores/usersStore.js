@@ -1,6 +1,6 @@
 import {defineStore} from "pinia"
 import {request} from "../helpers/index.js"
-import axiosCore from "axios";
+import axiosCore from "axios"
 
 export const useUsersStore = defineStore('users', {
     actions: {

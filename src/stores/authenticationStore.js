@@ -1,5 +1,4 @@
 import {defineStore} from 'pinia'
-import axios from '../client'
 import axiosCore from 'axios'
 import {request} from "../helpers/index.js"
 

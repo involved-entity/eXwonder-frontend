@@ -1,6 +1,5 @@
 import {defineStore} from 'pinia'
-import axios from '../client'
-import {request} from "../helpers";
+import {request} from "../helpers"
 import axiosCore from 'axios'
 
 export const usePostsStore = defineStore("posts", {
