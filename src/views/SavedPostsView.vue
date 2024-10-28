@@ -18,12 +18,11 @@
 </template>
 
 <script>
-import AppPostsGrid from "../components/AppPostsGrid.vue";
-import {usePostsStore} from "../stores/postsStore.js";
-import {mapStores} from "pinia";
+import AppPostsGrid from "../components/AppPostsGrid.vue"
+import {usePostsStore} from "../stores/postsStore.js"
+import {mapStores} from "pinia"
 
 export default {
-  components: {AppPostsGrid},
   data() {
     return {
       loading: false,
@@ -35,6 +34,7 @@ export default {
       this.loading = true
       const response = await this.postsStore.getSavedPosts()
       this.saved = response.data.results
+
       this.saved = this.saved.map(post => {
         post.post.likes_count = post.likes_count
         post.post.comments_count = post.comments_count
@@ -43,12 +43,14 @@ export default {
         post.post.is_saved = post.is_saved
         return post.post
       })
+
       this.loading = false
     }
   },
   async mounted() {
     await this.getPostsSaved()
   },
-  computed: {...mapStores(usePostsStore)}
+  computed: {...mapStores(usePostsStore)},
+  components: {AppPostsGrid}
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
   <main>
-    <div class="container" style="border: 15px solid #111; background-color: #272727">
-      <div class="shadow-xl shadow-cyan-500/50">
+    <div class="container-border">
+      <div class="shadow">
         <div class="py-10" v-if="loading">
           <div class="loader mx-auto"></div>
         </div>
@@ -20,7 +20,7 @@
             <div class="ms-3 relative">
               <p class="text-gray-300 text-xl mt-5">{{requestedUser.username}}</p>
               <button
-                  class="text-white text-lg  absolute top-0 right-0 mt-5 px-5 rounded-xl"
+                  class="text-white text-lg absolute top-0 right-0 mt-5 px-5 rounded-xl"
                   type="button"
                   :class="{'bg-gray-600': !followings.followed, 'bg-blue-600': followings.followed}"
                   @click="followUser"
@@ -87,13 +87,12 @@
 
 <script>
 import {mapStores} from 'pinia'
-import {useUsersStore} from "../stores/usersStore.js";
-import {usePostsStore} from "../stores/postsStore.js";
-import {useAuthenticationStore} from "../stores/authenticationStore.js";
+import {useUsersStore} from "../stores/usersStore.js"
+import {usePostsStore} from "../stores/postsStore.js"
+import {useAuthenticationStore} from "../stores/authenticationStore.js"
 
-import AppPostsGrid from "../components/AppPostsGrid.vue";
-import AppSubscriptionsModal from "../components/AppSubscriptionsModal.vue";
-import axios from "axios";
+import AppPostsGrid from "../components/AppPostsGrid.vue"
+import AppSubscriptionsModal from "../components/AppSubscriptionsModal.vue"
 
 export default {
   data() {
@@ -120,6 +119,7 @@ export default {
     async followUser() {
       if (!this.followings.followed) {
         const {success, data} = await this.usersStore.follow(this.requestedUser.id)
+
         if (success) {
           this.followings.followed = true
           this.followings.followersCount++
@@ -149,6 +149,7 @@ export default {
       this.loading = true
       this.requestedUser.username = username ? username : this.$route.params.username
       const user = await this.usersStore.getUser(this.requestedUser.username)
+
       if (!user) {this.errorFetchUser = 'User is not found. :('} else {
         this.requestedUser.id = user.id
         this.requestedUser.avatar = user.avatar
@@ -158,6 +159,7 @@ export default {
         const posts = await this.postsStore.getUserPosts(this.requestedUser.username)
         this.posts = posts.data.results
       }
+
       this.loading = false
     }
   },
@@ -167,12 +169,7 @@ export default {
   async beforeRouteUpdate(to) {
     await this.updateUserInfo(to.params.username)
   },
-  computed: {
-    ...mapStores(useUsersStore, usePostsStore, useAuthenticationStore)
-  },
-  components: {
-    AppPostsGrid,
-    AppSubscriptionsModal
-  }
+  computed: {...mapStores(useUsersStore, usePostsStore, useAuthenticationStore)},
+  components: {AppPostsGrid, AppSubscriptionsModal}
 }
 </script>

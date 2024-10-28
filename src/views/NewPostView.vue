@@ -44,9 +44,8 @@
 
 <script>
 import {mapStores} from 'pinia'
-import {usePostsStore} from "../stores/postsStore.js";
+import {usePostsStore} from "../stores/postsStore.js"
 import {useAuthenticationStore} from '../stores/authenticationStore.js'
-import axios from "axios";
 
 export default {
   data() {

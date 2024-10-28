@@ -5,7 +5,7 @@
         <div class="w-full h-full items-center justify-center">
           <div class="header-3xl">2FA</div>
           <div class="m-3">
-            <p class="form-label">Code:</p><br>
+            <p class="form-label">Code:</p>
             <input
                 type="text"
                 placeholder="2FA code (check your email)"
@@ -34,12 +34,11 @@
 </template>
 
 <script>
-import {mapStores} from "pinia";
-import {useAuthenticationStore} from "../stores/authenticationStore.js";
-import AppDescription from "../components/AppDescription.vue";
+import {mapStores} from "pinia"
+import {useAuthenticationStore} from "../stores/authenticationStore.js"
+import AppDescription from "../components/AppDescription.vue"
 
 export default {
-  components: {AppDescription},
   data() {
     return {
       loading: false,
@@ -51,6 +50,7 @@ export default {
     async submit() {
       if (this.isValid) {
         const {success, data} = await this.authenticationStore.twoFactorAuthentication(this.code)
+
         if (success) {
           this.errors = {}
           this.$router.push({name: 'feed'})
@@ -63,6 +63,7 @@ export default {
   computed: {
     isValid() {return this.code.length === 5},
     ...mapStores(useAuthenticationStore)
-  }
+  },
+  components: {AppDescription}
 }
 </script>

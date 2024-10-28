@@ -5,7 +5,7 @@
         <div class="w-full h-full items-center justify-center">
           <div class="header-3xl">Sing Up</div>
           <div class="mx-3 mb-3 mt-1">
-            <p class="form-label">Username:</p><br>
+            <p class="form-label">Username:</p>
             <input
                 type="text"
                 placeholder="Your username"
@@ -16,7 +16,7 @@
             >
             <p><small class="form-error-label" v-if="errors.username">{{errors.username[0]}}</small></p>
 
-            <p class="form-label">Email:</p><br>
+            <p class="form-label">Email:</p>
             <input
                 type="email"
                 placeholder="Your email (optional)"
@@ -28,7 +28,7 @@
             >
             <p><small class="form-error-label" v-if="errors.email">{{errors.email[0]}}</small></p>
 
-            <p class="form-label">Password:</p><br>
+            <p class="form-label">Password:</p>
             <input
                 type="password"
                 placeholder="Your password"
@@ -38,7 +38,7 @@
                 @keyup.down="$refs.password2Input.focus()"
             >
 
-            <p class="form-label">Password repeat:</p><br>
+            <p class="form-label">Password repeat:</p>
             <input
                 type="password"
                 placeholder="Repeat your password"
@@ -69,11 +69,9 @@
 <script>
 import {mapStores} from 'pinia'
 import {useAuthenticationStore} from '../stores/authenticationStore.js'
-import axios from "axios";
-import AppDescriptionComponent from "../components/AppDescription.vue";
+import AppDescriptionComponent from "../components/AppDescription.vue"
 
 export default {
-  components: {AppDescriptionComponent},
   data() {
     return {
       username: '',
@@ -89,12 +87,14 @@ export default {
       if (this.isValid) {
         this.loading = true
         const {success, data} = await this.authenticationStore.singUp(this.username, this.password1, this.email.length ? this.email : null)
+
         if (success) {
           this.errors = {}
           this.$router.push({name: 'login'})
         } else {
           this.errors = data
         }
+
         this.loading = false
       }
     }
@@ -109,6 +109,7 @@ export default {
           (this.password1 !== this.password2));
     },
     ...mapStores(useAuthenticationStore)
-  }
+  },
+  components: {AppDescriptionComponent}
 }
 </script>

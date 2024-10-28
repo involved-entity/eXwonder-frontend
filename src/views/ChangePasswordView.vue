@@ -5,7 +5,7 @@
         <div class="w-2/3">
           <div class="header-2xl">Change your account password</div>
           <div class="mx-3 mb-3 mt-1">
-            <p class="form-label">Old password:</p><br>
+            <p class="form-label">Old password:</p>
             <input
                 type="password"
                 placeholder="Your old password"
@@ -51,8 +51,8 @@
 </template>
 
 <script>
-import {mapStores} from "pinia";
-import {useAccountStore} from "../stores/accountStore.js";
+import {mapStores} from "pinia"
+import {useAccountStore} from "../stores/accountStore.js"
 
 export default {
   data() {

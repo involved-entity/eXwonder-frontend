@@ -72,9 +72,9 @@
 </template>
 
 <script>
-import {mapStores} from "pinia";
-import {useAccountStore} from "../stores/accountStore.js";
-import {useAuthenticationStore} from "../stores/authenticationStore.js";
+import {mapStores} from "pinia"
+import {useAccountStore} from "../stores/accountStore.js"
+import {useAuthenticationStore} from "../stores/authenticationStore.js"
 
 export default {
   data() {
@@ -93,12 +93,14 @@ export default {
         this.loading = true
         const data = {email: this.email, timezone: this.timezone, is_2fa_enabled: this.is2faEnabled, avatar: this.avatar}
         const errors = await this.accountStore.updateSettings(data)
+
         if (errors) {
           this.errors = errors
         } else {
           this.errors = {}
           this.$router.push('/' + this.authenticationStore.username + "/")
         }
+
         this.loading = false
       }
     },
@@ -110,10 +112,10 @@ export default {
     this.is2faEnabled = this.authenticationStore.is2faEnabled
   },
   computed: {
-    ...mapStores(useAccountStore, useAuthenticationStore),
     isValid() {
       return this.email !== '' || this.timezone !== '' || this.is2faEnabled !== this.authenticationStore.is2faEnabled || this.avatar !== ''
-    }
+    },
+    ...mapStores(useAccountStore, useAuthenticationStore)
   }
 }
 </script>

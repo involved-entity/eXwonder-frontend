@@ -3,7 +3,7 @@
     <div class="w-full h-full items-center justify-center">
       <div class="header-3xl">Password reset</div>
       <div class="m-3">
-        <p class="form-label">Email:</p><br>
+        <p class="form-label">Email:</p>
         <input
             type="email"
             placeholder="Your email"

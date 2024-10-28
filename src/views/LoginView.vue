@@ -5,13 +5,13 @@
         <div class="w-full h-full items-center justify-center">
           <div class="header-3xl">Login</div>
           <div class="mx-3 mb-3 mt-1">
-            <p class="form-label">Username:</p><br>
+            <p class="form-label">Username:</p>
             <input
                 type="text"
                 placeholder="Your username"
                 class="form-input" v-model="username"
                 :class="{'border-red': errors.non_field_errors}"
-                @keyup.down="$refs.password_input.focus()"
+                @keyup.down="$refs.passwordInput.focus()"
             >
             <p><small class="form-error-label" v-if="errors.non_field_errors">{{errors.non_field_errors[0]}}</small></p>
 
@@ -23,7 +23,7 @@
                 v-model="password"
                 :class="{'border-red': errors.non_field_errors}"
                 @keyup.enter="submit"
-                ref="password_input"
+                ref="passwordInput"
             >
             <p><small class="form-error-label" v-if="errors.non_field_errors">{{errors.non_field_errors[0]}}</small></p>
 
@@ -48,12 +48,10 @@
 
 <script>
 import {mapStores} from 'pinia'
-import {useAuthenticationStore} from "../stores/authenticationStore.js";
-import axios from "axios";
-import AppDescriptionComponent from "../components/AppDescription.vue";
+import {useAuthenticationStore} from "../stores/authenticationStore.js"
+import AppDescriptionComponent from "../components/AppDescription.vue"
 
 export default {
-  components: {AppDescriptionComponent},
   data() {
     return {
       username: '',
@@ -67,6 +65,7 @@ export default {
       if (this.isValid) {
         this.loading = true
         const {success, data} = await this.authenticationStore.login(this.username, this.password)
+
         if (success && data.code === 'CODE_SENDED') {
           this.errors = {}
           this.authenticationStore.sessionKey = data.session_key
@@ -80,6 +79,7 @@ export default {
         } else {
           this.errors = data
         }
+
         this.loading = false
       }
     }
@@ -94,6 +94,7 @@ export default {
       return true
     },
     ...mapStores(useAuthenticationStore)
-  }
+  },
+  components: {AppDescriptionComponent}
 }
 </script>

@@ -11,12 +11,11 @@
 </template>
 
 <script>
-import AppDescriptionComponent from "../components/AppDescription.vue";
-import TheResetPassword from "../components/TheResetPassword.vue";
-import TheResetPasswordConfirm from "../components/TheResetPasswordConfirm.vue";
+import AppDescriptionComponent from "../components/AppDescription.vue"
+import TheResetPassword from "../components/TheResetPassword.vue"
+import TheResetPasswordConfirm from "../components/TheResetPasswordConfirm.vue"
 
 export default {
-  components: {TheResetPasswordConfirm, AppDescriptionComponent, TheResetPassword},
   data() {
     return {
       uid: '',
@@ -30,6 +29,7 @@ export default {
       }
     })
     this.uid = this.$route.query.uid
-  }
+  },
+  components: {TheResetPasswordConfirm, AppDescriptionComponent, TheResetPassword}
 }
 </script>

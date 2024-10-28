@@ -1,6 +1,6 @@
 <template>
-  <div class="container" style="border: 15px solid #111; background-color: #272727">
-    <div class="shadow-xl shadow-cyan-500/50 w-full">
+  <div class="container-border">
+    <div class="shadow">
       <div class="py-10" v-if="loading">
         <div class="loader mx-auto"></div>
       </div>
@@ -11,10 +11,10 @@
 </template>
 
 <script>
-import {usePostsStore} from "../stores/postsStore.js";
-import AppUsersScroll from "../components/AppUsersScroll.vue";
-import AppPostsFeed from "../components/AppPostsFeed.vue";
-import {mapStores} from "pinia";
+import {usePostsStore} from "../stores/postsStore.js"
+import AppUsersScroll from "../components/AppUsersScroll.vue"
+import AppPostsFeed from "../components/AppPostsFeed.vue"
+import {mapStores} from "pinia"
 
 export default {
   data() {
@@ -38,12 +38,7 @@ export default {
     })
     this.loading = false
   },
-  computed: {
-    ...mapStores(usePostsStore)
-  },
-  components: {
-    AppUsersScroll,
-    AppPostsFeed
-  }
+  computed: {...mapStores(usePostsStore)},
+  components: {AppUsersScroll, AppPostsFeed}
 }
 </script>

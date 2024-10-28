@@ -26,6 +26,9 @@ body {
 .active {
   border-left: 2px solid darkcyan;
 }
+.active-tab {
+  @apply border-b border-gray-300 hover:border-gray-400 mb-1;
+}
 
 .loader {
   width: 30px;
@@ -81,6 +84,10 @@ body {
 }
 .btn-violet-hover {
   @apply hover:bg-violet-950 hover:border hover:border-violet-950;
+}
+
+.btn-follow {
+  @apply text-white text-lg rounded;
 }
 
 .header-3xl {

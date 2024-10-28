@@ -3,7 +3,7 @@
     <div class="w-full h-full items-center justify-center">
       <div class="header-3xl">Confirm</div>
       <div class="m-3">
-        <p class="form-label">Password:</p><br>
+        <p class="form-label">Password:</p>
         <input
             type="password"
             placeholder="Your new password"
@@ -12,7 +12,7 @@
         >
         <p><small class="form-error-label" v-if="error.length">{{error}}</small></p>
 
-        <p class="form-label">Password repeat:</p><br>
+        <p class="form-label">Password repeat:</p>
         <input
             type="password"
             placeholder="Your new password"
