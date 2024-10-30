@@ -1,30 +1,32 @@
 <template>
-  <div class="flex">
-    <div class="w-3/12 fixed top-0 left-0" v-if="authenticationStore.isAuth">
-      <the-navbar></the-navbar>
+  <div class="flex relative">
+    <div class="w-3/12 fixed top-0 left-0 hidden lg:block" v-if="authenticationStore.isAuth">
+      <the-navbar/>
     </div>
-    <div class="w-3/12 fixed top-0 right-0" v-if="authenticationStore.isAuth">
-      <the-sidebar></the-sidebar>
+    <div class="w-3/12 fixed top-0 right-0 hidden lg:block" v-if="authenticationStore.isAuth">
+      <the-sidebar/>
     </div>
     <div :class="{
-      'w-6/12': authenticationStore.isAuth, 'w-full': !authenticationStore.isAuth,
+      'w-full lg:w-6/12': authenticationStore.isAuth, 'w-full': !authenticationStore.isAuth,
       'm-auto': authenticationStore.isAuth
     }">
-      <router-view></router-view>
+      <router-view/>
+    </div>
+    <div class="w-full fixed bottom-0 left-0 block lg:hidden" v-if="authenticationStore.isAuth">
+      <the-bottom-navbar/>
     </div>
   </div>
 </template>
 
 <script>
-import TheNavbar from "./components/TheNavbar.vue";
-import TheSidebar from "./components/TheSidebar.vue";
+import TheNavbar from "./components/TheNavbar.vue"
+import TheSidebar from "./components/TheSidebar.vue"
+import TheBottomNavbar from "./components/TheBottomNavbar.vue"
 import {mapStores} from 'pinia'
 import {useAuthenticationStore} from './stores/authenticationStore.js'
 
 export default {
-  components: {TheSidebar, TheNavbar},
-  computed: {
-    ...mapStores(useAuthenticationStore)
-  }
+  components: {TheSidebar, TheNavbar, TheBottomNavbar},
+  computed: {...mapStores(useAuthenticationStore)}
 }
 </script>

@@ -17,7 +17,7 @@
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
         fill="currentColor"
-        class="size-6 cursor-pointer"
+        class="size-6 cursor-pointer text-red-600"
         :class="{'mx-auto': centered}"
         v-if="post.is_liked"
         @click="likePost(false)"

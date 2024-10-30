@@ -20,10 +20,10 @@
         v-for="user in users"
         style="flex: 0 0 auto; width: 10%;"
     >
-      <router-link :to="'/' + user.username + '/'">
+      <router-link :to="'/' + user.username + '/'" @click="routeStore.changeActiveLink('user')">
         <img :src="user.avatar" alt="user" class="rounded-full mb-1">
       </router-link>
-      <router-link :to="'/' + user.username + '/'" class="header-transition">
+      <router-link :to="'/' + user.username + '/'" class="header-transition" @click="routeStore.changeActiveLink('user')">
         <p class="text-center">{{user.username}}</p>
       </router-link>
     </div>
@@ -46,6 +46,9 @@
 </template>
 
 <script>
+import {mapStores} from "pinia"
+import {useRouteStore} from "../stores/routeStore.js"
+
 export default {
   props: {
     users: {
@@ -57,6 +60,7 @@ export default {
     scroll(value) {
       this.$refs.users.scrollBy({left: value, behavior: 'smooth'})
     }
-  }
+  },
+  computed: {...mapStores(useRouteStore)}
 }
 </script>

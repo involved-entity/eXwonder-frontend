@@ -16,7 +16,7 @@
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
         fill="currentColor"
-        class="btn-svg mx-auto"
+        class="btn-svg mx-auto text-red-600"
         v-if="comment.is_liked"
         @click="likeComment(false)"
     >

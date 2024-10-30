@@ -2,10 +2,10 @@
   <div class="max-w-sm px-3 mx-auto">
     <div class="pb-3" v-for="post in posts" :key="post.id">
       <div class="flex w-full mb-1">
-        <router-link :to="'/' + post.author.username + '/'">
+        <router-link :to="'/' + post.author.username + '/'" @click="routeStore.changeActiveLink('user')">
           <img :src="post.author.avatar" alt="avatar" class="size-8 rounded-full">
         </router-link>
-        <p class="text-gray-300 text-md my-auto ms-1">
+        <p class="text-gray-300 text-md my-auto ms-1" @click="routeStore.changeActiveLink('user')">
           <router-link :to="'/' + post.author.username + '/'" class="hover:text-gray-400">
             {{post.author.username}}
           </router-link>
@@ -161,6 +161,7 @@ import AppPostModal from "./AppPostModal.vue"
 import AppSavePostButton from "./AppSavePostButton.vue"
 import {useCommentsStore} from "../stores/commentsStore.js"
 import {usePostsStore} from "../stores/postsStore.js"
+import {useRouteStore} from "../stores/routeStore.js"
 import {useAuthenticationStore} from "../stores/authenticationStore.js"
 import {mapStores} from "pinia"
 import {Dropdown} from "flowbite"
@@ -236,6 +237,6 @@ export default {
       }
     })
   },
-  computed: {...mapStores(useCommentsStore, usePostsStore, useAuthenticationStore)}
+  computed: {...mapStores(useCommentsStore, usePostsStore, useAuthenticationStore, useRouteStore)}
 }
 </script>

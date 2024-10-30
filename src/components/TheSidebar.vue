@@ -1,10 +1,10 @@
 <template>
-  <nav class="w-4/5 mt-10 ms-3">
+  <nav class="w-5/6 mt-10 ms-1 xl:ms-3">
     <div class="my-3 flex">
       <img :src="avatar" alt="avatar" class="rounded-full size-8 my-auto">
-      <p class="text-gray-300 text-lg my-auto ms-3">{{username}}</p>
+      <p class="text-gray-300 my-auto ms-1 xl:ms-3 text-sm xl:text-md">{{username}}</p>
       <button
-          class="!p-1 my-auto ms-auto btn-no-w btn-green btn-green-hover"
+          class="!p-1 my-auto ms-auto btn-no-w btn-green btn-green-hover text-sm xl:text-md"
           @click="logout"
       >Logout</button>
     </div>

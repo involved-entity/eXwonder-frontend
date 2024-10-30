@@ -69,14 +69,17 @@
             <hr class="border border-gray-600">
           </div>
           <div class="m-2 w-full grid grid-cols-8">
-            <router-link :to="'/' + post.author.username + '/'" class="col-span-1" active-class="">
+            <router-link :to="'/' + post.author.username + '/'" class="col-span-1" active-class="" @click="routeStore.changeActiveLink('user')">
               <img :src="post.author.avatar" alt="avatar" class="w-11 h-11 rounded-full mx-auto">
             </router-link>
             <div class="ms-3 col-span-6">
               <div
                   class="flex"
                   :class="{'h-full items-center': !post.signature.length}"
-              ><router-link :to="'/' + post.author.username + '/'" class="hover:text-gray-400" active-class="">{{post.author.username}}</router-link>
+              >
+                <router-link :to="'/' + post.author.username + '/'" class="hover:text-gray-400" active-class="" @click="routeStore.changeActiveLink('user')">
+                  {{post.author.username}}
+                </router-link>
                 <p class="text-gray-400 text-sm ms-2 montserrat">{{post.time_added.time_added}} ago</p>
               </div>
               <div class="text-gray-500 text-sm" v-if="post.signature.length && post.signature.length <= 100">{{post.signature}}</div>
@@ -101,12 +104,14 @@
 
           <div class="mt-1" v-else-if="comments.length">
             <div class="mb-3 grid grid-cols-8" v-for="comment in comments" :key="comment.id">
-              <router-link :to="'/' + comment.author.username + '/'" class="col-span-1">
+              <router-link :to="'/' + comment.author.username + '/'" class="col-span-1" @click="routeStore.changeActiveLink('user')">
                 <img :src="comment.author.avatar" alt="avatar" class="w-11 rounded-full h-11 mx-auto">
               </router-link>
               <div class="ms-3 col-span-6">
                 <div class="flex">
-                  <router-link :to="'/' + comment.author.username + '/'" class="hover:text-gray-400">{{comment.author.username}}</router-link>
+                  <router-link :to="'/' + comment.author.username + '/'" class="hover:text-gray-400" @click="routeStore.changeActiveLink('user')">
+                    {{comment.author.username}}
+                  </router-link>
                   <p class="text-gray-400 text-sm ms-2 my-auto montserrat">{{comment.time_added.time_added}} ago</p>
                   <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -179,6 +184,7 @@
 import {useCommentsStore} from '../stores/commentsStore.js'
 import {useAuthenticationStore} from "../stores/authenticationStore.js"
 import {usePostsStore} from "../stores/postsStore.js"
+import {useRouteStore} from "../stores/routeStore.js"
 import {mapStores} from "pinia"
 import AppLikeButton from "./AppLikeButton.vue"
 import AppSavePostButton from "./AppSavePostButton.vue"
@@ -290,7 +296,7 @@ export default {
   },
 
   computed: {
-    ...mapStores(useCommentsStore, useAuthenticationStore, usePostsStore)
+    ...mapStores(useCommentsStore, useAuthenticationStore, usePostsStore, useRouteStore)
   }
 }
 </script>
