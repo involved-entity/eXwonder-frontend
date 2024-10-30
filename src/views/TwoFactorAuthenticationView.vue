@@ -5,15 +5,14 @@
     </div>
   </div>
   <main class="relative">
-    <div class="hw-centered">
+    <div class="hw-centered flex flex-col">
+      <div class="header-3xl mb-3">2FA</div>
       <div class="card">
-        <div class="w-full h-full items-center justify-center">
-          <div class="header-3xl">2FA</div>
-          <div class="m-3">
-            <p class="form-label">Code:</p>
+        <div class="w-full h-full items-center justify-center mt-3">
+          <div class="mb-3 mx-3">
+            <p class="form-label">Code <code class="text-slate-600">(check your email)</code>:</p>
             <input
                 type="text"
-                placeholder="2FA code (check your email)"
                 class="form-input" v-model="code"
                 :class="{'border-red': errors.code?.length}"
                 @keyup.enter="submit"
@@ -32,8 +31,8 @@
         </div>
       </div>
     </div>
-    <div class="footer-link-16">
-      Already have an account? <router-link :to="{name: 'login'}" class="link">Log in</router-link>
+    <div class="footer-link-16 flex flex-col">
+      <div class="mx-auto">Already have an account? <router-link :to="{name: 'login'}" class="link">Log in</router-link></div>
     </div>
   </main>
 </template>

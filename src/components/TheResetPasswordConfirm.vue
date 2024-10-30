@@ -1,7 +1,7 @@
 <template>
-  <div class="card">
-    <div class="w-full h-full items-center justify-center">
-      <div class="header-3xl">Confirm</div>
+  <div class="header-3xl mb-3">Confirm</div>
+  <div class="card md:w-2/5 lg:w-1/3 xl:w-1/4">
+    <div class="w-full h-full items-center justify-center mt-3">
       <div class="m-3">
         <p class="form-label">Password:</p>
         <input

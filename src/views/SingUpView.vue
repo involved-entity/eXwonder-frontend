@@ -1,14 +1,13 @@
 <template>
   <main class="relative">
-    <div class="hw-centered">
-      <div class="card">
-        <div class="w-full h-full items-center justify-center">
-          <div class="header-3xl">Sing Up</div>
-          <div class="mx-3 mb-3 mt-1">
+    <div class="hw-centered flex flex-col">
+      <div class="header-3xl mb-3">Sing Up</div>
+      <div class="card text-md w-3/4 sm:w-2/5 lg:w-1/3">
+        <div class="w-full h-full items-center justify-center mt-3">
+          <div class="mx-3 mb-3">
             <p class="form-label">Username:</p>
             <input
                 type="text"
-                placeholder="Your username"
                 class="form-input"
                 :class="{'border-red': errors.username}"
                 v-model="username"
@@ -16,10 +15,9 @@
             >
             <p><small class="form-error-label" v-if="errors.username">{{errors.username[0]}}</small></p>
 
-            <p class="form-label">Email:</p>
+            <p class="form-label">Email <code class="text-slate-500">(optional)</code>:</p>
             <input
                 type="email"
-                placeholder="Your email (optional)"
                 class="form-input"
                 :class="{'border-red': errors.email}"
                 v-model="email"
@@ -31,7 +29,6 @@
             <p class="form-label">Password:</p>
             <input
                 type="password"
-                placeholder="Your password"
                 class="form-input"
                 v-model="password1"
                 ref="password1Input"
@@ -41,7 +38,6 @@
             <p class="form-label">Password repeat:</p>
             <input
                 type="password"
-                placeholder="Repeat your password"
                 class="form-input"
                 v-model="password2"
                 ref="password2Input"
@@ -60,8 +56,8 @@
         </div>
       </div>
     </div>
-    <div class="footer-link-9">
-      Already have an account? <router-link :to="{name: 'login'}" class="link">Log in</router-link>
+    <div class="footer-link-9 flex flex-col">
+      <div class="mx-auto">Already have an account? <router-link :to="{name: 'login'}" class="link">Log in</router-link></div>
     </div>
   </main>
 </template>

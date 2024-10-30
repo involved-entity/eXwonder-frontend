@@ -33,7 +33,7 @@
 
 body {
   @apply montserrat-semibold;
-  background-color: #111;
+  background-color: #090909;
   margin: 0;
   padding: 0;
 }
@@ -137,13 +137,13 @@ body {
 }
 
 .header-3xl {
-  @apply text-3xl text-center text-gray-300 font-bold mt-1;
+  @apply text-3xl text-center text-gray-300 font-semibold mt-1;
 }
 .header-2xl {
-  @apply text-2xl text-center text-gray-300 font-bold my-1;
+  @apply text-2xl text-center text-gray-300 font-semibold my-1;
 }
 .header-xl {
-  @apply text-xl text-center text-gray-300 font-bold my-1;
+  @apply text-xl text-center text-gray-300 font-semibold my-1;
 }
 .header-transition {
   @apply transition-all duration-300 hover:text-gray-400;
@@ -159,10 +159,10 @@ body {
 }
 
 .form-label {
-  @apply text-lg ms-1 text-gray-300;
+  @apply ms-1 text-slate-400;
 }
 .form-input {
-  @apply text-gray-400 bg-gray-custom w-full p-1 outline-none rounded mt-1;
+  @apply my-1 text-gray-400 bg-gray-custom w-full p-1 outline-none rounded;
 }
 .form-error-label {
   @apply p-1 text-red-600;
@@ -173,11 +173,11 @@ body {
 }
 
 .footer-link-16 {
-  @apply absolute bottom-16 left-1/2 text-gray-500;
+  @apply absolute bottom-32 lg:bottom-16 text-sm w-full left-1/2 text-gray-500;
   transform: translateX(-50%);
 }
 .footer-link-9 {
-  @apply absolute bottom-9 left-1/2 text-gray-500;
+  @apply absolute bottom-28 lg:bottom-16 text-sm w-full left-1/2 text-gray-500;
   transform: translateX(-50%);
 }
 

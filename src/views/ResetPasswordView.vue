@@ -1,11 +1,11 @@
 <template>
   <main class="relative">
-    <div class="hw-centered">
+    <div class="hw-centered flex flex-col">
       <the-reset-password v-if="!(this.uid?.length && this.token?.length)"/>
       <the-reset-password-confirm :token="this.token" :uid="this.uid" v-if="this.uid?.length && this.token?.length"/>
     </div>
-    <div class="footer-link-16">
-      Already have an account? <router-link :to="{name: 'login'}" class="link">Log in</router-link>
+    <div class="footer-link-16 flex flex-col">
+      <div class="mx-auto">Already have an account? <router-link :to="{name: 'login'}" class="link">Log in</router-link></div>
     </div>
   </main>
 </template>

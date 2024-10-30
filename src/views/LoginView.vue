@@ -5,15 +5,14 @@
     </div>
   </div>
   <main class="relative">
-    <div class="hw-centered">
+    <div class="hw-centered flex flex-col">
+      <div class="header-3xl mb-3">Login</div>
       <div class="card">
-        <div class="w-full h-full items-center justify-center">
-          <div class="header-3xl">Login</div>
-          <div class="mx-3 mb-3 mt-1">
+        <div class="w-full h-full items-center justify-center mt-3">
+          <div class="mx-3 mb-3">
             <p class="form-label">Username:</p>
             <input
                 type="text"
-                placeholder="Your username"
                 class="form-input" v-model="username"
                 :class="{'border-red': errors.non_field_errors}"
                 @keyup.down="$refs.passwordInput.focus()"
@@ -23,7 +22,6 @@
             <p class="form-label mt-1">Password:</p>
             <input
                 type="password"
-                placeholder="Your password"
                 class="form-input"
                 v-model="password"
                 :class="{'border-red': errors.non_field_errors}"
@@ -45,8 +43,8 @@
       </div>
     </div>
     <div class="footer-link-16 flex flex-col">
-      <span class="mx-auto">Don't have an account? <router-link :to="{name: 'sing-up'}" class="link">Sing up</router-link></span>
-      <span>Forgive your password? <router-link :to="{name: 'reset-password'}" class="link">Reset password</router-link></span>
+      <div class="mx-auto">Don't have an account? <router-link :to="{name: 'sing-up'}" class="link">Sing up</router-link></div>
+      <div class="mx-auto">Forgive your password? <router-link :to="{name: 'reset-password'}" class="link">Reset password</router-link></div>
     </div>
   </main>
 </template>

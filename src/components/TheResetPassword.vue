@@ -1,12 +1,11 @@
 <template>
-  <div class="card">
-    <div class="w-full h-full items-center justify-center">
-      <div class="header-3xl">Password reset</div>
+  <div class="header-3xl mb-3">Password reset</div>
+  <div class="card md:w-2/5 lg:w-1/3 xl:w-1/4">
+    <div class="w-full h-full items-center justify-center mt-3">
       <div class="m-3">
         <p class="form-label">Email:</p>
         <input
             type="email"
-            placeholder="Your email"
             class="form-input" v-model="email"
             :class="{'border-red': errors.email?.length}"
             @keyup.enter="submit"
