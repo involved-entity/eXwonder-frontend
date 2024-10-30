@@ -25,8 +25,8 @@
 </template>
 
 <script>
-import {mapStores} from "pinia";
-import {useAccountStore} from "../stores/accountStore.js";
+import {mapStores} from "pinia"
+import {useAccountStore} from "../stores/accountStore.js"
 
 export default {
   data() {

@@ -11,7 +11,6 @@
 </template>
 
 <script>
-import AppDescriptionComponent from "../components/AppDescription.vue"
 import TheResetPassword from "../components/TheResetPassword.vue"
 import TheResetPasswordConfirm from "../components/TheResetPasswordConfirm.vue"
 
@@ -30,6 +29,6 @@ export default {
     })
     this.uid = this.$route.query.uid
   },
-  components: {TheResetPasswordConfirm, AppDescriptionComponent, TheResetPassword}
+  components: {TheResetPasswordConfirm, TheResetPassword}
 }
 </script>

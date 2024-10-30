@@ -1,4 +1,9 @@
 <template>
+  <div class="relative">
+    <div class="fixed left-5 top-5">
+      <app-alert message="Enter 2FA code to login." v-if="this.$route.query.action === 'login'"/>
+    </div>
+  </div>
   <main class="relative">
     <div class="hw-centered">
       <div class="card">
@@ -36,9 +41,10 @@
 <script>
 import {mapStores} from "pinia"
 import {useAuthenticationStore} from "../stores/authenticationStore.js"
-import AppDescription from "../components/AppDescription.vue"
+import AppAlert from "../components/AppAlert.vue";
 
 export default {
+  components: {AppAlert},
   data() {
     return {
       loading: false,
@@ -53,7 +59,7 @@ export default {
 
         if (success) {
           this.errors = {}
-          this.$router.push({name: 'feed'})
+          this.$router.push({name: 'feed', query: {'action': 'login'}})
         } else {
           this.errors.code = data.detail
         }
@@ -63,7 +69,6 @@ export default {
   computed: {
     isValid() {return this.code.length === 5},
     ...mapStores(useAuthenticationStore)
-  },
-  components: {AppDescription}
+  }
 }
 </script>

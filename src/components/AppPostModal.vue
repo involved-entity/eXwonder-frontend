@@ -27,7 +27,7 @@
       <div class="rounded-2xl overflow-y-auto overflow-x-hidden flex flex-col mb-auto max-h-full w-[24rem]" style="background-color: #111">
         <div class="sticky top-0 left-0 pt-3 pb-1" style="background-color: #050505">
           <div class="grid grid-cols-2 mx-3">
-            <div class="col-span-1 text-2xl flex justify-start">Comments <div class="ms-1">({{post.comments_count}})</div></div>
+            <div class="col-span-1 text-2xl flex justify-start">Comments <div class="ms-1 varela-round">({{post.comments_count}})</div></div>
             <div class="flex col-span-1 ms-auto">
               <div class="mr-1" v-if="post.author.id === authenticationStore.id">
                 <button id="dropdownButton" class="cursor-pointer" type="button">
@@ -77,7 +77,7 @@
                   class="flex"
                   :class="{'h-full items-center': !post.signature.length}"
               ><router-link :to="'/' + post.author.username + '/'" class="hover:text-gray-400" active-class="">{{post.author.username}}</router-link>
-                <p class="text-gray-400 text-sm ms-2">{{post.time_added.time_added}} ago</p>
+                <p class="text-gray-400 text-sm ms-2 montserrat">{{post.time_added.time_added}} ago</p>
               </div>
               <div class="text-gray-500 text-sm" v-if="post.signature.length && post.signature.length <= 100">{{post.signature}}</div>
               <div
@@ -90,7 +90,7 @@
               </div>
             </div>
             <div class="col-span-1 justify-end">
-              <app-save-post-button :post="post"></app-save-post-button>
+              <app-save-post-button :post="post"/>
             </div>
           </div>
         </div>
@@ -107,7 +107,7 @@
               <div class="ms-3 col-span-6">
                 <div class="flex">
                   <router-link :to="'/' + comment.author.username + '/'" class="hover:text-gray-400">{{comment.author.username}}</router-link>
-                  <p class="text-gray-400 text-sm ms-2 my-auto">{{comment.time_added.time_added}} ago</p>
+                  <p class="text-gray-400 text-sm ms-2 my-auto montserrat">{{comment.time_added.time_added}} ago</p>
                   <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -124,7 +124,7 @@
                 <div class="text-gray-500 text-sm">{{comment.comment}}</div>
               </div>
               <div class="col-span-1 justify-end">
-                <app-comment-like-button :comment="comment"></app-comment-like-button>
+                <app-comment-like-button :comment="comment"/>
               </div>
             </div>
           </div>
@@ -139,14 +139,14 @@
         </div>
         <div class="sticky bottom-0 left-0 w-full py-3 grid grid-cols-12" style="background-color: #050505; height: 28%">
           <div class="col-span-2">
-            <app-like-button :post="post"></app-like-button>
+            <app-like-button :post="post"/>
           </div>
           <div class="col-span-8">
             <div class="h-full">
               <textarea
                   class="w-full outline-none p-1 border"
                   :class="{'border-red-600': errors.commentInput, 'border-transparent': !errors.commentInput}"
-                  placeholder="Your comment here"
+                  placeholder="Your comment here (ctrl+enter to send)"
                   style="background-color: #090909"
                   v-model="commentInput"
                   @keyup.ctrl.enter="createComment"
@@ -177,14 +177,13 @@
 
 <script>
 import {useCommentsStore} from '../stores/commentsStore.js'
-import {useAuthenticationStore} from "../stores/authenticationStore.js";
-import {usePostsStore} from "../stores/postsStore.js";
-import {mapStores} from "pinia";
-import axios from "axios";
-import AppLikeButton from "./AppLikeButton.vue";
-import AppSavePostButton from "./AppSavePostButton.vue";
-import AppCommentLikeButton from "./AppCommentLikeButton.vue";
-import {Dropdown} from "flowbite";
+import {useAuthenticationStore} from "../stores/authenticationStore.js"
+import {usePostsStore} from "../stores/postsStore.js"
+import {mapStores} from "pinia"
+import AppLikeButton from "./AppLikeButton.vue"
+import AppSavePostButton from "./AppSavePostButton.vue"
+import AppCommentLikeButton from "./AppCommentLikeButton.vue"
+import {Dropdown} from "flowbite"
 
 export default {
   components: {AppCommentLikeButton, AppSavePostButton, AppLikeButton},
@@ -207,16 +206,19 @@ export default {
   },
   methods: {
     close() {this.$emit('close')},
+
     prevImage() {
       if (this.activeImage > 0) {
         this.activeImage--
       }
     },
+
     nextImage() {
       if (this.activeImage + 1 < this.post.images.length) {
         this.activeImage++
       }
     },
+
     async createComment() {
       if (this.commentInput.length >= 10 && this.commentInput.length <= 2048) {
         const {success, data} = await this.commentsStore.addComment(this.post.id, this.commentInput)
@@ -230,12 +232,14 @@ export default {
         this.errors.commentInput = 'Comment too short or so long.'
       }
     },
+
     async updateComments() {
       this.commentsLoading = true
       const comments = await this.commentsStore.getPostComments(this.post.id)
       this.comments = comments.data.results
       this.commentsLoading = false
     },
+
     async postDelete() {
       if (this.authenticationStore.id === this.post.author.id) {
         const {success, data} = await this.postsStore.deletePost(this.post.id)
@@ -244,6 +248,7 @@ export default {
         }
       }
     },
+
     getCommentIndex(commentToFind) {
       let retIndex
       this.comments.forEach((comment, index) => {
@@ -253,6 +258,7 @@ export default {
       })
       return retIndex
     },
+
     async commentDelete(comment) {
       if (this.authenticationStore.id === comment.author.id) {
         const {success, data} = await this.commentsStore.deleteComment(comment.id)
@@ -263,13 +269,14 @@ export default {
       }
     }
   },
+
   async beforeMount() {
     await this.updateComments()
   },
-  mounted() {
-    const $targetEl = document.getElementById('dropdownMenu');
 
-    const $triggerEl = document.getElementById('dropdownButton');
+  mounted() {
+    const $targetEl = document.getElementById('dropdownMenu')
+    const $triggerEl = document.getElementById('dropdownButton')
 
     const options = {
       placement: 'bottom',
@@ -278,9 +285,10 @@ export default {
     };
 
     if ($targetEl) {
-      const dropdown = new Dropdown($targetEl, $triggerEl, options);
+      new Dropdown($targetEl, $triggerEl, options)
     }
   },
+
   computed: {
     ...mapStores(useCommentsStore, useAuthenticationStore, usePostsStore)
   }

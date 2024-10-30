@@ -4,12 +4,12 @@
       <div class="shadow">
         <div class="header-3xl !mt-0 space-x-5">
           <button
-              class="header-transition"
+              class="header-transition varela-round"
               :class="{'active-tab': activeTab === 0}"
               @click="changeActiveTab('recent')"
           >Recent</button>
           <button
-              class="header-transition"
+              class="header-transition varela-round"
               :class="{'active-tab': activeTab === 1}"
               @click="changeActiveTab('likes')"
           >Likes</button>

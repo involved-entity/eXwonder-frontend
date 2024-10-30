@@ -1,6 +1,6 @@
 <template>
   <nav>
-    <div class="h-screen items-center flex justify-center">
+    <div class="hw-centered">
       <div class="grid grid-cols-1 items-center ps-1">
         <router-link :to="{name: 'feed'}" :class="{'inactive': $route.path.name !== 'feed'}">
           <button class="flex hover:bg-gray-800 items-center ps-3 pe-3">
@@ -71,12 +71,10 @@
 </template>
 
 <script>
-import {mapStores} from "pinia";
-import {useAuthenticationStore} from "../stores/authenticationStore.js";
+import {mapStores} from "pinia"
+import {useAuthenticationStore} from "../stores/authenticationStore.js"
 
 export default {
-  computed: {
-    ...mapStores(useAuthenticationStore)
-  }
+  computed: {...mapStores(useAuthenticationStore)}
 }
 </script>

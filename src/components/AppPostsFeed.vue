@@ -11,7 +11,7 @@
           </router-link>
         </p>
         <div class="flex ms-auto">
-          <p class="text-gray-600 text-md my-auto">{{post.time_added.time_added}} ago</p>
+          <p class="text-gray-500 text-md my-auto montserrat">{{post.time_added.time_added}} ago</p>
           <div class="mx-1 text-gray-300" v-if="post.author.id === authenticationStore.id">
             <button :id="`dropdownButton${post.id}`" class="cursor-pointer" type="button">
               <svg
@@ -25,7 +25,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
               </svg>
             </button>
-            <div :id="`dropdownMenu${post.id}`" class="z-10 hidden bg-gray-custom divide-y divide-gray-100 rounded shadow w-36">
+            <div :id="`dropdownMenu${post.id}`" class="z-10 hidden bg-gray-custom divide-y divide-gray-100 rounded w-36">
               <ul class="py-1 text-sm text-gray-300" aria-labelledby="dropdownButton">
                 <li>
                   <button
@@ -102,7 +102,7 @@
                 <path fill-rule="evenodd" d="M5.337 21.718a6.707 6.707 0 0 1-.533-.074.75.75 0 0 1-.44-1.223 3.73 3.73 0 0 0 .814-1.686c.023-.115-.022-.317-.254-.543C3.274 16.587 2.25 14.41 2.25 12c0-5.03 4.428-9 9.75-9s9.75 3.97 9.75 9c0 5.03-4.428 9-9.75 9-.833 0-1.643-.097-2.417-.279a6.721 6.721 0 0 1-4.246.997Z" clip-rule="evenodd" />
               </svg>
               <span
-                  class="text-white ms-1"
+                  class="text-white ms-1 varela-round"
                   :class="{'text-xl': String(post.comments_count).length <= 2, 'text-md': String(post.comments_count).length > 2}"
               >{{post.comments_count}}</span>
             </div>
@@ -115,19 +115,19 @@
         </div>
       </div>
       <div class="text-gray-300" v-if="post.signature.length">
-        <span class="text-white font-extrabold">{{post.author.username}}</span> {{post.signature}}
+        <span class="text-white montserrat-bold">{{post.author.username}}</span> {{post.signature}}
       </div>
       <div>
         <button
-            class="text-white font-extrabold hover:text-gray-400"
+            class="text-white montserrat-bold hover:text-gray-400"
             @click="activeModalPost = post"
             v-if="post.comments_count > 0"
-        >View all {{post.comments_count}} comments</button>
+        >View all <span class="varela-round">{{post.comments_count}}</span> comments</button>
       </div>
       <div class="w-full flex">
         <div class="w-11/12">
           <textarea
-              placeholder="Your comment here"
+              placeholder="Your comment here (ctrl+enter to send)"
               class="text-gray-400 bg-gray-custom w-full p-1 outline-none rounded mt-1 border"
               :class="{'border-red-600': errors[post.id], 'border-transparent': !errors[post.id]}"
               :ref="'comment_input_' + String(post.id)"
@@ -151,20 +151,19 @@
         <hr class="border border-gray-600">
       </div>
     </div>
-    <app-post-modal :post="activeModalPost" v-if="activeModalPost.id" @close="activeModalPost = {}"></app-post-modal>
+    <app-post-modal :post="activeModalPost" v-if="activeModalPost.id" @close="activeModalPost = {}"/>
   </div>
 </template>
 
 <script>
-import AppLikeButton from "./AppLikeButton.vue";
-import AppPostModal from "./AppPostModal.vue";
-import AppSavePostButton from "./AppSavePostButton.vue";
-import {useCommentsStore} from "../stores/commentsStore.js";
-import {usePostsStore} from "../stores/postsStore.js";
-import {useAuthenticationStore} from "../stores/authenticationStore.js";
-import {mapStores} from "pinia";
-import axios from "axios";
-import {Dropdown} from "flowbite";
+import AppLikeButton from "./AppLikeButton.vue"
+import AppPostModal from "./AppPostModal.vue"
+import AppSavePostButton from "./AppSavePostButton.vue"
+import {useCommentsStore} from "../stores/commentsStore.js"
+import {usePostsStore} from "../stores/postsStore.js"
+import {useAuthenticationStore} from "../stores/authenticationStore.js"
+import {mapStores} from "pinia"
+import {Dropdown} from "flowbite"
 
 export default {
   components: {AppSavePostButton, AppLikeButton, AppPostModal},
@@ -198,6 +197,7 @@ export default {
           post.comments_count += 1
           post.is_commented = true
         }
+
       } else {
         this.errors[post.id] = 'Comment too short or so long.'
       }
@@ -222,9 +222,8 @@ export default {
   },
   mounted() {
     this.posts.forEach((post) => {
-      const $targetEl = document.querySelector(`#dropdownMenu${post.id}`);
-
-      const $triggerEl = document.querySelector(`#dropdownButton${post.id}`);
+      const $targetEl = document.querySelector(`#dropdownMenu${post.id}`)
+      const $triggerEl = document.querySelector(`#dropdownButton${post.id}`)
 
       const options = {
         placement: 'bottom',
@@ -233,12 +232,10 @@ export default {
       };
 
       if ($targetEl) {
-        const dropdown = new Dropdown($targetEl, $triggerEl, options);
+        new Dropdown($targetEl, $triggerEl, options)
       }
     })
   },
-  computed: {
-    ...mapStores(useCommentsStore, usePostsStore, useAuthenticationStore)
-  }
+  computed: {...mapStores(useCommentsStore, usePostsStore, useAuthenticationStore)}
 }
 </script>

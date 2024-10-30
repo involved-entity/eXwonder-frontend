@@ -1,4 +1,9 @@
 <template>
+  <div class="relative">
+    <div class="fixed left-5 top-5">
+      <app-alert message="Success log in." v-if="this.$route.query.action === 'login'"/>
+    </div>
+  </div>
   <div class="container-border">
     <div class="shadow">
       <div class="py-10" v-if="loading">
@@ -14,6 +19,7 @@
 import {usePostsStore} from "../stores/postsStore.js"
 import AppUsersScroll from "../components/AppUsersScroll.vue"
 import AppPostsFeed from "../components/AppPostsFeed.vue"
+import AppAlert from "../components/AppAlert.vue"
 import {mapStores} from "pinia"
 
 export default {
@@ -39,6 +45,6 @@ export default {
     this.loading = false
   },
   computed: {...mapStores(usePostsStore)},
-  components: {AppUsersScroll, AppPostsFeed}
+  components: {AppUsersScroll, AppPostsFeed, AppAlert}
 }
 </script>

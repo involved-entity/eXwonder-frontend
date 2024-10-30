@@ -1,4 +1,9 @@
 <template>
+  <div class="relative">
+    <div class="fixed left-5 top-5">
+      <app-alert message="Success sing up." v-if="this.$route.query.action === 'sing-up'"/>
+    </div>
+  </div>
   <main class="relative">
     <div class="hw-centered">
       <div class="card">
@@ -49,9 +54,10 @@
 <script>
 import {mapStores} from 'pinia'
 import {useAuthenticationStore} from "../stores/authenticationStore.js"
-import AppDescriptionComponent from "../components/AppDescription.vue"
+import AppAlert from "../components/AppAlert.vue";
 
 export default {
+  components: {AppAlert},
   data() {
     return {
       username: '',
@@ -69,13 +75,13 @@ export default {
         if (success && data.code === 'CODE_SENDED') {
           this.errors = {}
           this.authenticationStore.sessionKey = data.session_key
-          this.$router.push({name: '2fa'})
+          this.$router.push({name: '2fa', query: {'action': 'login'}})
         } else if (success) {
           this.errors = {}
           localStorage.setItem('token', data.token)
           this.authenticationStore.token = data.token
           this.authenticationStore.isAuth = true
-          this.$router.push({name: 'feed'})
+          this.$router.push({name: 'feed', query: {'action': 'login'}})
         } else {
           this.errors = data
         }
@@ -94,7 +100,6 @@ export default {
       return true
     },
     ...mapStores(useAuthenticationStore)
-  },
-  components: {AppDescriptionComponent}
+  }
 }
 </script>

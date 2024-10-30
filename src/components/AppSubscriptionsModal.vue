@@ -5,7 +5,7 @@
         <div class="sticky top-0 left-0 pt-3 pb-1" style="background-color: #050505; z-index: 1;">
           <div class="grid grid-cols-2 mx-3">
             <div class="col-span-1 text-2xl flex justify-start">{{followMode.charAt(0).toUpperCase() + followMode.slice(1)}}
-              <div class="ms-1">({{followsCount}})</div>
+              <div class="ms-1 varela-round">({{followsCount}})</div>
             </div>
             <div class="flex col-span-1 ms-auto">
               <div class="cursor-pointer" @click="close">
@@ -31,7 +31,7 @@
             <div class="loader mx-auto"></div>
           </div>
           <div class="mt-1" v-else-if="follows.length">
-            <div class="text-gray-300 text-center text-xl" v-if="searchQuery.length">Results ({{ follows.length }}):</div>
+            <div class="text-gray-300 text-center text-xl" v-if="searchQuery.length">Results (<span class="varela-round">{{ follows.length }}</span>):</div>
             <div class="mb-3" v-for="follow in follows" :key="follow.id">
               <div class="flex relative">
                 <div class="w-1/12 my-3">
@@ -57,19 +57,19 @@
                   <div class="flex text-xl text-gray-400 pb-1 mt-auto">
                     <div class="pr-4">
                       <div class="text-lg">
-                        <span class="text-gray-300 font-semibold text-xl">{{follow.posts_count}}</span>
+                        <span class="text-gray-300 font-semibold text-xl varela-round">{{follow.posts_count}}</span>
                         posts
                       </div>
                     </div>
                     <div class="pr-4">
                       <div class="text-lg">
-                        <span class="text-gray-300 font-semibold text-xl">{{follow.followers_count}}</span>
+                        <span class="text-gray-300 font-semibold text-xl varela-round">{{follow.followers_count}}</span>
                         followers
                       </div>
                     </div>
                     <div>
                       <div class="text-lg">
-                        <span class="text-gray-300 font-semibold text-xl">{{follow.followings_count}}</span>
+                        <span class="text-gray-300 font-semibold text-xl varela-round">{{follow.followings_count}}</span>
                         followings
                       </div>
                     </div>
@@ -100,10 +100,9 @@
 </template>
 
 <script>
-import {mapStores} from "pinia";
-import {useUsersStore} from "../stores/usersStore.js";
-import {useAuthenticationStore} from "../stores/authenticationStore.js";
-import axios from "axios";
+import {mapStores} from "pinia"
+import {useUsersStore} from "../stores/usersStore.js"
+import {useAuthenticationStore} from "../stores/authenticationStore.js"
 
 export default {
   emits: ['close', 'userLeave'],
@@ -133,6 +132,7 @@ export default {
   },
   methods: {
     close() {this.$emit('close')},
+
     async followUser(user) {
       if (!user.is_followed) {
         const {success, data} = await this.usersStore.follow(user[this.followMode.slice(0, -1)].id)
@@ -148,6 +148,7 @@ export default {
         }
       }
     },
+
     async searchFollowings() {
       this.followsLoading = true
       const response = await this.usersStore.getUserFollowings(this.requestedUserId, 1, this.searchQuery)
@@ -155,6 +156,7 @@ export default {
       this.followsLoading = false
     }
   },
+
   async beforeMount() {
     this.followsLoading = true
     let response
@@ -166,8 +168,7 @@ export default {
     this.follows = response.data.results
     this.followsLoading = false
   },
-  computed: {
-    ...mapStores(useUsersStore, useAuthenticationStore)
-  }
+
+  computed: {...mapStores(useUsersStore, useAuthenticationStore)}
 }
 </script>

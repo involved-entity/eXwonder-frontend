@@ -20,8 +20,12 @@
         v-for="user in users"
         style="flex: 0 0 auto; width: 10%;"
     >
-      <img :src="user.avatar" alt="user" class="rounded-full mb-1">
-      <p class="text-center">{{user.username}}</p>
+      <router-link :to="'/' + user.username + '/'">
+        <img :src="user.avatar" alt="user" class="rounded-full mb-1">
+      </router-link>
+      <router-link :to="'/' + user.username + '/'" class="header-transition">
+        <p class="text-center">{{user.username}}</p>
+      </router-link>
     </div>
     <button
         class="rounded-full bg-gray-500 size-7 sticky right-5 top-1/2"

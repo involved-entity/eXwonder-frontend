@@ -24,9 +24,8 @@
 </template>
 
 <script>
-import axios from "axios";
-import {mapStores} from "pinia";
-import {usePostsStore} from "../stores/postsStore.js";
+import {mapStores} from "pinia"
+import {usePostsStore} from "../stores/postsStore.js"
 
 export default {
   props: {
@@ -51,8 +50,6 @@ export default {
       }
     }
   },
-  computed: {
-    ...mapStores(usePostsStore)
-  }
+  computed: {...mapStores(usePostsStore)}
 }
 </script>

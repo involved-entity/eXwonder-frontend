@@ -68,7 +68,7 @@ export default {
     async submit() {
       const {success, data} = await this.accountStore.changePassword(this.oldPassword, this.newPassword1, this.newPassword2)
       if (success) {
-        this.$router.push({name: 'feed'})
+        this.$router.push({name: 'feed', query: {'action': 'passwond-change'}})
       } else {
         this.errors = data
       }

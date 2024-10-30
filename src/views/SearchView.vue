@@ -15,7 +15,7 @@
           <div class="loader mx-auto"></div>
         </div>
         <div class="pb-3" v-else-if="results.length !== 0 && query.length >= 3">
-          <div class="header-xl !mb-0">Results ({{ results.length }}):</div>
+          <div class="header-xl !mb-0">Results (<span class="varela-round">{{ results.length }}</span>):</div>
           <div class="flex relative mx-3 hover:bg-slate-700 ps-3 mt-3" v-for="result in results" :key="result.id">
             <div class="w-1/12 my-3">
               <router-link :to="'/' + result.username + '/'">
@@ -29,19 +29,19 @@
               <div class="flex text-xl text-gray-400 pb-1 mt-auto">
                 <div class="pr-4">
                   <div class="text-lg">
-                    <span class="text-gray-300 font-semibold text-xl">{{result.posts_count}}</span>
+                    <span class="text-gray-300 font-semibold text-xl varela-round">{{result.posts_count}}</span>
                     posts
                   </div>
                 </div>
                 <div class="pr-4">
                   <div class="text-lg">
-                    <span class="text-gray-300 font-semibold text-xl">{{result.followers_count}}</span>
+                    <span class="text-gray-300 font-semibold text-xl varela-round">{{result.followers_count}}</span>
                     followers
                   </div>
                 </div>
                 <div>
                   <div class="text-lg">
-                    <span class="text-gray-300 font-semibold text-xl">{{result.followings_count}}</span>
+                    <span class="text-gray-300 font-semibold text-xl varela-round">{{result.followings_count}}</span>
                     followings
                   </div>
                 </div>

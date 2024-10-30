@@ -1,4 +1,9 @@
 <template>
+  <div class="relative">
+    <div class="fixed left-5 top-5">
+      <app-alert :message="this.$route.query.action === 'new-post' ? 'Post created.' : 'Settings updated.'" v-if="this.$route.query.action === 'new-post' || this.$route.query.action === 'settings'"/>
+    </div>
+  </div>
   <main>
     <div class="container-border">
       <div class="shadow">
@@ -31,7 +36,7 @@
               <div class="flex text-xl text-gray-400 pb-1 mt-auto">
                 <div class="pr-4">
                   <div class="text-xl">
-                    <span class="text-gray-300 font-semibold">{{posts.length}}</span>
+                    <span class="text-gray-300 font-semibold varela-round">{{posts.length}}</span>
                     posts
                   </div>
                 </div>
@@ -41,7 +46,7 @@
                     @click="showModal('followers')"
                 >
                   <div class="text-xl">
-                    <span class="text-gray-300 font-semibold">{{followings.followersCount}}</span>
+                    <span class="text-gray-300 font-semibold varela-round">{{followings.followersCount}}</span>
                     followers
                   </div>
                 </div>
@@ -50,7 +55,7 @@
                     @click="showModal('followings')"
                 >
                   <div class="text-xl">
-                    <span class="text-gray-300 font-semibold">{{followings.followingsCount}}</span>
+                    <span class="text-gray-300 font-semibold varela-round">{{followings.followingsCount}}</span>
                     followings
                   </div>
                 </div>
@@ -93,6 +98,7 @@ import {useAuthenticationStore} from "../stores/authenticationStore.js"
 
 import AppPostsGrid from "../components/AppPostsGrid.vue"
 import AppSubscriptionsModal from "../components/AppSubscriptionsModal.vue"
+import AppAlert from "../components/AppAlert.vue";
 
 export default {
   data() {
@@ -170,6 +176,6 @@ export default {
     await this.updateUserInfo(to.params.username)
   },
   computed: {...mapStores(useUsersStore, usePostsStore, useAuthenticationStore)},
-  components: {AppPostsGrid, AppSubscriptionsModal}
+  components: {AppAlert, AppPostsGrid, AppSubscriptionsModal}
 }
 </script>

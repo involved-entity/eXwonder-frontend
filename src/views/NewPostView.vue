@@ -68,7 +68,7 @@ export default {
         const {success, data} = await this.postsStore.createPost(formData)
         if (success) {
           this.errors = {}
-          this.$router.push({name: 'user', params: {username: this.authenticationStore.username}})
+          this.$router.push({name: 'user', params: {username: this.authenticationStore.username}, query: {'action': 'new-post'}})
         } else {
           this.errors = data
         }

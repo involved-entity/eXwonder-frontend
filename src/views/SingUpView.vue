@@ -69,7 +69,6 @@
 <script>
 import {mapStores} from 'pinia'
 import {useAuthenticationStore} from '../stores/authenticationStore.js'
-import AppDescriptionComponent from "../components/AppDescription.vue"
 
 export default {
   data() {
@@ -90,7 +89,7 @@ export default {
 
         if (success) {
           this.errors = {}
-          this.$router.push({name: 'login'})
+          this.$router.push({name: 'login', query: {'action': 'sing-up'}})
         } else {
           this.errors = data
         }
@@ -109,7 +108,6 @@ export default {
           (this.password1 !== this.password2));
     },
     ...mapStores(useAuthenticationStore)
-  },
-  components: {AppDescriptionComponent}
+  }
 }
 </script>

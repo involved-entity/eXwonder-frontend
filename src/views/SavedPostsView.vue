@@ -2,7 +2,7 @@
   <main>
     <div class="container-border">
       <div class="shadow">
-        <div class="header-3xl header-transition">
+        <div class="header-3xl header-transition varela-round">
           Saved
         </div>
         <div class="ps-3 pr-3 pb-5 h-1">

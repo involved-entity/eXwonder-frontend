@@ -17,7 +17,7 @@
           >
           <p><small class="form-error-label" v-if="errors.email?.length">{{errors.email[0]}}</small></p>
 
-          <p class="form-label">Time zone:</p>
+          <p class="form-label mt-3">Time zone:</p>
           <input
               type="text"
               :placeholder="authenticationStore.timezone"
@@ -33,7 +33,7 @@
           </datalist>
           <p><small class="form-error-label" v-if="errors.timezone?.length">{{errors.timezone[0]}}</small></p>
 
-          <p class="form-label">Is 2FA enabled:</p>
+          <p class="form-label mt-3">Is 2FA enabled:</p>
           <input
               type="checkbox"
               v-model="is2faEnabled"
@@ -42,7 +42,7 @@
           >
           <p></p>
 
-          <p class="form-label">Avatar:</p>
+          <p class="form-label mt-3">Avatar:</p>
           <input
               class="px-1 w-3/4 text-lg text-gray-400 border border-gray-300 rounded-lg cursor-pointer
               bg-gray-50 focus:outline-none file:bg-slate-600 file:border-slate-600 file:text-gray-950"
@@ -98,7 +98,7 @@ export default {
           this.errors = errors
         } else {
           this.errors = {}
-          this.$router.push('/' + this.authenticationStore.username + "/")
+          this.$router.push({path: '/' + this.authenticationStore.username + "/", query: {'action': 'settings'}})
         }
 
         this.loading = false
