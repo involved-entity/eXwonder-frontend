@@ -31,13 +31,6 @@
   font-style: normal;
 }
 
-body {
-  @apply montserrat-semibold;
-  background-color: #090909;
-  margin: 0;
-  padding: 0;
-}
-
 .bg-gray-custom {
   background-color: #1b1919;
 }
@@ -47,6 +40,13 @@ body {
 }
 
 @media (max-width: 1023px) {
+  body {
+    @apply montserrat-semibold;
+    background-color: #222;
+    margin: 0;
+    padding: 0;
+  }
+
   .inactive-bn {
     @apply absolute inset-x-0 bottom-0 mx-auto w-2/3 border-b mt-1;
     border-bottom-color: darkgrey;
@@ -61,11 +61,20 @@ body {
   }
 
   .container-border {
-    @apply container pb-14;
+    @apply overflow-x-hidden mb-14;
     background-color: #222;
   }
+
+  .shadow {}
 }
 @media (min-width: 1024px) {
+  body {
+    @apply montserrat-semibold;
+    background-color: #090909;
+    margin: 0;
+    padding: 0;
+  }
+
   .inactive {
     border-left: 2px solid darkgrey;
   }
@@ -79,6 +88,10 @@ body {
     border-right: 15px solid #090909;
     border-bottom: 15px solid #090909;
     background-color: #222;
+  }
+
+  .shadow {
+    @apply shadow-xl shadow-cyan-500/50;
   }
 }
 
@@ -212,8 +225,4 @@ body {
 
 .link {
   @apply text-blue-600 hover:border-b hover:border-blue-600;
-}
-
-.shadow {
-  @apply shadow-xl shadow-cyan-500/50;
 }

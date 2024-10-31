@@ -1,8 +1,8 @@
 <template>
-  <div class="py-3 overflow-x-hidden flex flex-nowrap relative px-10" v-if="users.length" ref="users">
+  <div class="py-3 overflow-x-hidden flex flex-nowrap relative px-10" v-if="users.length">
     <button
-        class="rounded-full size-7 bg-gray-500 sticky left-5 top-1/2"
-        @click="scroll(-200)"
+        class="rounded-full size-7 bg-gray-500 sticky left-5 top-1/2 hidden lg:block"
+        @click="$emit('scroll',-200)"
         style="transform: translateY(-50%)"
         v-if="users.length > 6"
     >
@@ -16,20 +16,20 @@
       </svg>
     </button>
     <div
-        class="mr-8 text-gray-300 flex flex-col items-center"
+        class="mr-8 text-gray-300 flex flex-col items-center w-1/12 sm:w-1/6"
         v-for="user in users"
-        style="flex: 0 0 auto; width: 10%;"
+        style="flex: 0 0 auto;"
     >
       <router-link :to="'/' + user.username + '/'" @click="routeStore.changeActiveLink('user')">
-        <img :src="user.avatar" alt="user" class="rounded-full mb-1">
+        <img :src="user.avatar" alt="user" class="rounded-full mb-1 max-w-14">
       </router-link>
       <router-link :to="'/' + user.username + '/'" class="header-transition" @click="routeStore.changeActiveLink('user')">
-        <p class="text-center">{{user.username}}</p>
+        <p class="text-center text-xs lg:text-base">{{user.username}}</p>
       </router-link>
     </div>
     <button
-        class="rounded-full bg-gray-500 size-7 sticky right-5 top-1/2"
-        @click="scroll(200)"
+        class="rounded-full bg-gray-500 size-7 sticky right-5 top-1/2 hidden lg:block"
+        @click="$emit('scroll',200)"
         style="transform: translateY(-50%)"
         v-if="users.length > 6"
     >
@@ -50,15 +50,11 @@ import {mapStores} from "pinia"
 import {useRouteStore} from "../stores/routeStore.js"
 
 export default {
+  emits: ['scroll'],
   props: {
     users: {
       type: Array,
       required: true
-    }
-  },
-  methods: {
-    scroll(value) {
-      this.$refs.users.scrollBy({left: value, behavior: 'smooth'})
     }
   },
   computed: {...mapStores(useRouteStore)}

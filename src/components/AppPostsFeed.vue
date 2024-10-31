@@ -11,7 +11,7 @@
           </router-link>
         </p>
         <div class="flex ms-auto">
-          <p class="text-gray-500 text-md my-auto montserrat">{{post.time_added.time_added}} ago</p>
+          <p class="text-gray-500 text-sm lg:text-md my-auto montserrat">{{post.time_added.time_added}} ago</p>
           <div class="mx-1 text-gray-300" v-if="post.author.id === authenticationStore.id">
             <button :id="`dropdownButton${post.id}`" class="cursor-pointer" type="button">
               <svg
@@ -44,7 +44,13 @@
         </div>
       </div>
       <div class="relative">
-        <button class="size-7 absolute left-1 top-1/2 bg-gray-50 rounded-full"
+        <div
+            class="absolute left-1 top-1 bg-black rounded-xl text-xs text-white px-2 py-0.5 mx-auto"
+            v-if="post.images.length > 1"
+        >
+          {{post.activeImage+1}}/{{post.images.length}}
+        </div>
+        <button class="size-7 absolute left-1 top-1/2 bg-gray-50 rounded-full hidden lg:block"
                 :class="{'opacity-100 cursor-pointer': post.activeImage > 0, 'opacity-0': post.activeImage <= 0}"
                 style="transform: translateY(-50%)"
                 @click="changeImage(post,false)"
@@ -58,8 +64,11 @@
             <path fill-rule="evenodd" d="M7.72 12.53a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 1 1 1.06 1.06L9.31 12l6.97 6.97a.75.75 0 1 1-1.06 1.06l-7.5-7.5Z" clip-rule="evenodd" />
           </svg>
         </button>
-        <img :src="post.images[post.activeImage].image" alt="Post image" class="max-h-full rounded">
-        <button class="size-7 absolute right-1 top-1/2 bg-gray-50 rounded-full"
+        <app-swipe-component class="block lg:hidden" @swipe-left="changeImage(post, false)" @swipe-right="changeImage(post)">
+          <img :src="post.images[post.activeImage].image" alt="Post image" class="max-h-full rounded">
+        </app-swipe-component>
+        <img :src="post.images[post.activeImage].image" alt="Post image" class="max-h-full rounded hidden lg:block">
+        <button class="size-7 absolute right-1 top-1/2 bg-gray-50 rounded-full hidden lg:block"
                 :class="{'opacity-100 cursor-pointer': post.activeImage + 1 < post.images.length, 'opacity-0': post.activeImage + 1 >= post.images.length}"
                 style="transform: translateY(-50%)"
                 @click="changeImage(post)"
@@ -128,7 +137,7 @@
         <div class="w-11/12">
           <textarea
               placeholder="Your comment here (ctrl+enter to send)"
-              class="text-gray-400 bg-gray-custom w-full p-1 outline-none rounded mt-1 border"
+              class="text-gray-400 bg-gray-custom w-full text-sm p-1 outline-none rounded mt-1 border"
               :class="{'border-red-600': errors[post.id], 'border-transparent': !errors[post.id]}"
               :ref="'comment_input_' + String(post.id)"
               @keyup.ctrl.enter="createComment(post)"
@@ -159,6 +168,7 @@
 import AppLikeButton from "./AppLikeButton.vue"
 import AppPostModal from "./AppPostModal.vue"
 import AppSavePostButton from "./AppSavePostButton.vue"
+import AppSwipeComponent from "./AppSwipeComponent.vue"
 import {useCommentsStore} from "../stores/commentsStore.js"
 import {usePostsStore} from "../stores/postsStore.js"
 import {useRouteStore} from "../stores/routeStore.js"
@@ -167,7 +177,7 @@ import {mapStores} from "pinia"
 import {Dropdown} from "flowbite"
 
 export default {
-  components: {AppSavePostButton, AppLikeButton, AppPostModal},
+  components: {AppSavePostButton, AppLikeButton, AppPostModal, AppSwipeComponent},
   props: {
     posts: {
       type: Array,
@@ -182,9 +192,9 @@ export default {
   },
   methods: {
     changeImage(post, next = true) {
-      if (next) {
+      if (next && post.activeImage < post.images.length - 1) {
         post.activeImage++
-      } else {
+      } else if (!next && post.activeImage !== 0) {
         post.activeImage--
       }
     },
