@@ -4,10 +4,10 @@
       <div class="ps-3 pr-3 pb-5 h-1 pt-3">
         <hr class="border border-gray-600">
       </div>
-      <div class="flex ps-3 pr-3 pb-5">
-        <img :src="authenticationStore.avatar" alt="avatar" class="min-w-[10rem] size-40">
-        <div class="ms-5">
-          <p class="form-label">E-mail:</p>
+      <div class="lg:flex ps-3 pr-3 pb-5">
+        <img :src="authenticationStore.avatar" alt="avatar" class="min-w-[10rem] mx-auto lg:mx-0 size-40">
+        <div class="mx-auto">
+          <p class="form-label mt-1">E-mail:</p>
           <input
               type="email"
               :placeholder="authenticationStore.email"
@@ -64,7 +64,7 @@
                 class="mt-3 ms-3 btn-no-w btn-green btn-green-hover"
             >Change Password</button>
           </router-link>
-          <div class="loader my-5 ms-3" v-if="loading"></div>
+          <div class="loader my-5 mx-auto lg:ms-3" v-if="loading"></div>
         </div>
       </div>
     </div>
@@ -75,6 +75,7 @@
 import {mapStores} from "pinia"
 import {useAccountStore} from "../stores/accountStore.js"
 import {useAuthenticationStore} from "../stores/authenticationStore.js"
+import {useRouteStore} from "../stores/routeStore.js"
 
 export default {
   data() {
@@ -98,6 +99,7 @@ export default {
           this.errors = errors
         } else {
           this.errors = {}
+          this.routeStore.changeActiveLink('user')
           this.$router.push({path: '/' + this.authenticationStore.username + "/", query: {'action': 'settings'}})
         }
 
@@ -115,7 +117,7 @@ export default {
     isValid() {
       return this.email !== '' || this.timezone !== '' || this.is2faEnabled !== this.authenticationStore.is2faEnabled || this.avatar !== ''
     },
-    ...mapStores(useAccountStore, useAuthenticationStore)
+    ...mapStores(useAccountStore, useAuthenticationStore, useRouteStore)
   }
 }
 </script>
