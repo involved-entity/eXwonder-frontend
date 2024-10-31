@@ -47,6 +47,10 @@
     padding: 0;
   }
 
+  .subs-avatar-w {
+    width: 12%
+  }
+
   .inactive-bn {
     @apply absolute inset-x-0 bottom-0 mx-auto w-2/3 border-b mt-1;
     border-bottom-color: darkgrey;
@@ -73,6 +77,10 @@
     background-color: #090909;
     margin: 0;
     padding: 0;
+  }
+
+  .subs-avatar-w {
+    width: 16%
   }
 
   .inactive {

@@ -1,7 +1,7 @@
 <template>
   <div class="fixed inset-0 bg-opacity-90 bg-black flex justify-center items-center">
-    <div class="flex h-2/3 text-gray-300">
-      <div class="overflow-y-auto flex flex-col mb-auto max-h-full w-[28rem]" style="background-color: #111">
+    <div class="flex h-3/5 lg:h-2/3 text-gray-300">
+      <div class="overflow-y-auto flex flex-col mb-auto max-h-full w-[21rem] lg:w-[28rem]" style="background-color: #111">
         <div class="sticky top-0 left-0 pt-3 pb-1" style="background-color: #050505; z-index: 1;">
           <div class="grid grid-cols-2 mx-3">
             <div class="col-span-1 text-2xl flex justify-start">{{followMode.charAt(0).toUpperCase() + followMode.slice(1)}}
@@ -31,10 +31,10 @@
             <div class="loader mx-auto"></div>
           </div>
           <div class="mt-1" v-else-if="follows.length">
-            <div class="text-gray-300 text-center text-xl" v-if="searchQuery.length">Results (<span class="varela-round">{{ follows.length }}</span>):</div>
+            <div class="text-gray-300 text-center text-xl mb-1 lg:mb-0" v-if="searchQuery.length">Results (<span class="varela-round">{{ follows.length }}</span>):</div>
             <div class="mb-3" v-for="follow in follows" :key="follow.id">
               <div class="flex relative">
-                <div class="w-1/12 my-3">
+                <div class="subs-avatar-w my-3">
                   <router-link
                       :to="'/' + follow[followMode.slice(0, -1)].username + '/'"
                       @click="$emit('userLeave')"
@@ -46,44 +46,46 @@
                     >
                   </router-link>
                 </div>
-                <div class="ms-3 my-auto text-gray-300 text-xl">
-                  <router-link
-                      :to="'/' + follow[followMode.slice(0, -1)].username + '/'"
-                      class="hover:text-gray-400"
-                      @click="$emit('userLeave')"
-                  >
-                    {{follow[followMode.slice(0, -1)].username}}
-                  </router-link>
+                <div class="ms-3 my-auto text-gray-300 text-lg">
+                  <div class="flex">
+                    <router-link
+                        :to="'/' + follow[followMode.slice(0, -1)].username + '/'"
+                        class="hover:text-gray-400"
+                        @click="$emit('userLeave')"
+                    >
+                      {{follow[followMode.slice(0, -1)].username}}
+                    </router-link>
+                    <button
+                        class="text-white text-sm ms-3 lg:text-lg px-3 lg:px-5 rounded-xl"
+                        type="button"
+                        :class="{'bg-gray-600': !follow.is_followed, 'bg-blue-600': follow.is_followed}"
+                        @click="followUser(follow)"
+                        v-if="authenticationStore.id !== follow[followMode.slice(0, -1)].id"
+                    >
+                      {{follow.is_followed ? 'followed' : 'follow'}}
+                    </button>
+                  </div>
                   <div class="flex text-xl text-gray-400 pb-1 mt-auto">
                     <div class="pr-4">
-                      <div class="text-lg">
-                        <span class="text-gray-300 font-semibold text-xl varela-round">{{follow.posts_count}}</span>
+                      <div class="text-sm lg:text-lg">
+                        <span class="text-gray-300 font-semibold text-lg lg:text-xl varela-round">{{follow.posts_count}}</span>
                         posts
                       </div>
                     </div>
                     <div class="pr-4">
-                      <div class="text-lg">
-                        <span class="text-gray-300 font-semibold text-xl varela-round">{{follow.followers_count}}</span>
+                      <div class="text-sm lg:text-lg">
+                        <span class="text-gray-300 font-semibold text-lg lg:text-xl varela-round">{{follow.followers_count}}</span>
                         followers
                       </div>
                     </div>
                     <div>
-                      <div class="text-lg">
-                        <span class="text-gray-300 font-semibold text-xl varela-round">{{follow.followings_count}}</span>
+                      <div class="text-sm lg:text-lg">
+                        <span class="text-gray-300 font-semibold text-lg lg:text-xl varela-round">{{follow.followings_count}}</span>
                         followings
                       </div>
                     </div>
                   </div>
                 </div>
-                <button
-                    class="text-white text-lg px-5 rounded-xl absolute top-0 right-3"
-                    type="button"
-                    :class="{'bg-gray-600': !follow.is_followed, 'bg-blue-600': follow.is_followed}"
-                    @click="followUser(follow)"
-                    v-if="authenticationStore.id !== follow[followMode.slice(0, -1)].id"
-                >
-                  {{follow.is_followed ? 'followed' : 'follow'}}
-                </button>
               </div>
             </div>
           </div>
