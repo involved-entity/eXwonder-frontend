@@ -5,7 +5,7 @@
         <div class="header-3xl header-transition varela-round">
           Saved
         </div>
-        <div class="ps-3 pr-3 pb-5 h-1">
+        <div class="ps-3 pr-3 pb-5 h-1 hidden lg:block">
           <hr class="border border-gray-600">
         </div>
         <div class="pb-5" v-if="loading">
