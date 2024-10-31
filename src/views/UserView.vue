@@ -19,13 +19,13 @@
 
         <div v-else>
           <div class="flex justify-center">
-            <div class="w-1/6 ms-3 my-3">
+            <div class="w-1/6 ms-2 my-3">
               <img :src="requestedUser.avatar" alt="avatar" class="rounded-full max-w-full">
             </div>
-            <div class="ms-3 relative">
-              <p class="text-gray-300 text-xl mt-5">{{requestedUser.username}}</p>
+            <div class="ms-2 relative">
+              <p class="text-gray-300 text-lg lg:text-xl mt-5">{{requestedUser.username}}</p>
               <button
-                  class="text-white text-lg absolute top-0 right-0 mt-5 px-5 rounded-xl"
+                  class="btn-follow absolute top-0 right-0 mt-5 px-5"
                   type="button"
                   :class="{'bg-gray-600': !followings.followed, 'bg-blue-600': followings.followed}"
                   @click="followUser"
@@ -35,8 +35,8 @@
               </button>
               <div class="flex text-xl text-gray-400 pb-1 mt-auto">
                 <div class="pr-4">
-                  <div class="text-xl">
-                    <span class="text-gray-300 font-semibold varela-round">{{posts.length}}</span>
+                  <div class="text-base lg:text-xl">
+                    <span class="text-gray-300 text-xl font-semibold varela-round">{{posts.length}}</span>
                     posts
                   </div>
                 </div>
@@ -45,8 +45,8 @@
                     :class="{'cursor-pointer hover:text-gray-500': authenticationStore.username === requestedUser.username && followings.followersCount > 0}"
                     @click="showModal('followers')"
                 >
-                  <div class="text-xl">
-                    <span class="text-gray-300 font-semibold varela-round">{{followings.followersCount}}</span>
+                  <div class="text-base lg:text-xl">
+                    <span class="text-gray-300 text-xl font-semibold varela-round">{{followings.followersCount}}</span>
                     followers
                   </div>
                 </div>
@@ -54,8 +54,8 @@
                     :class="{'cursor-pointer hover:text-gray-500': followings.followingsCount > 0}"
                     @click="showModal('followings')"
                 >
-                  <div class="text-xl">
-                    <span class="text-gray-300 font-semibold varela-round">{{followings.followingsCount}}</span>
+                  <div class="text-base lg:text-xl">
+                    <span class="text-gray-300 text-xl font-semibold varela-round">{{followings.followingsCount}}</span>
                     followings
                   </div>
                 </div>
@@ -63,7 +63,7 @@
             </div>
           </div>
 
-          <div class="ps-3 pr-3 pb-5 h-1">
+          <div class="ps-3 pr-3 pb-5 h-1 hidden lg:block">
             <hr class="border border-gray-600">
           </div>
 
@@ -154,14 +154,14 @@ export default {
     async updateUserInfo(username = null) {
       this.loading = true
       this.requestedUser.username = username ? username : this.$route.params.username
-      const user = await this.usersStore.getUser(this.requestedUser.username)
+      const {success, data} = await this.usersStore.getUser(this.requestedUser.username)
 
-      if (!user) {this.errorFetchUser = 'User is not found. :('} else {
-        this.requestedUser.id = user.id
-        this.requestedUser.avatar = user.avatar
-        this.followings.followersCount = user.followers_count
-        this.followings.followingsCount = user.followings_count
-        this.followings.followed = user.is_followed
+      if (!data.username) {this.errorFetchUser = 'User is not found. :('} else {
+        this.requestedUser.id = data.id
+        this.requestedUser.avatar = data.avatar
+        this.followings.followersCount = data.followers_count
+        this.followings.followingsCount = data.followings_count
+        this.followings.followed = data.is_followed
         const posts = await this.postsStore.getUserPosts(this.requestedUser.username)
         this.posts = posts.data.results
       }

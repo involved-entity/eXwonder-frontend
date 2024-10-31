@@ -1,8 +1,9 @@
 <template>
-  <div class="grid grid-cols-3" v-if="posts.length">
-    <div v-for="post in posts" :key="post.id">
+  <div class="grid grid-cols-3 space-x-0.5 space-y-0.5 lg:space-x-0 lg:space-y-0" v-if="posts.length">
+    <div v-for="(post, index) in posts" :key="post.id">
       <div
-          class="ms-3 mr-3 mb-3 group relative cursor-pointer"
+          class="lg:ms-3 lg:mr-3 lg:mb-3 group relative cursor-pointer"
+          :class="{'ml-0.5 mt-0.5 lg:ml-0 lg:mt-0': index === 0}"
           @click="showModal(post)"
       >
         <img
@@ -13,7 +14,7 @@
 
         <div
             class="absolute top-1/2 left-1/2 flex opacity-0 group-hover:opacity-100 transition-all duration-300
-                         text-lg text-white font-semibold space-x-5"
+                   text-lg text-white font-semibold space-x-5"
             style="transform: translate(-50%, -50%)"
         >
           <div class="flex">

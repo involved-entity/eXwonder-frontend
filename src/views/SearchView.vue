@@ -16,47 +16,47 @@
         </div>
         <div class="pb-3" v-else-if="results.length !== 0 && query.length >= 3">
           <div class="header-xl !mb-0">Results (<span class="varela-round">{{ results.length }}</span>):</div>
-          <div class="flex relative mx-3 hover:bg-slate-700 ps-3 mt-3" v-for="result in results" :key="result.id">
+          <div class="flex relative mx-3 hover:bg-slate-700 mt-3" v-for="result in results" :key="result.id">
             <div class="w-1/12 my-3">
               <router-link :to="'/' + result.username + '/'">
                 <img :src="result.avatar" alt="avatar" class="rounded-full max-w-full">
               </router-link>
             </div>
-            <div class="ms-3 my-auto text-gray-300 text-xl">
-              <router-link :to="'/' + result.username + '/'" class="hover:text-gray-400">
-                {{result.username}}
-              </router-link>
+            <div class="ms-3 my-auto text-gray-300 text-xl w-full">
+              <div class="flex">
+                <router-link :to="'/' + result.username + '/'" class="hover:text-gray-400">
+                  {{result.username}}
+                </router-link>
+                <button
+                    class="btn-follow ms-3 px-5"
+                    type="button"
+                    :class="{'bg-gray-600': !result.is_followed, 'bg-blue-600': result.is_followed}"
+                    @click="followUser(result)"
+                    v-if="authenticationStore.id !== result.id"
+                >
+                  {{result.is_followed ? 'followed' : 'follow'}}
+                </button>
+              </div>
               <div class="flex text-xl text-gray-400 pb-1 mt-auto">
                 <div class="pr-4">
-                  <div class="text-lg">
+                  <div class="text-base lg:text-lg">
                     <span class="text-gray-300 font-semibold text-xl varela-round">{{result.posts_count}}</span>
                     posts
                   </div>
                 </div>
                 <div class="pr-4">
-                  <div class="text-lg">
+                  <div class="text-base lg:text-lg">
                     <span class="text-gray-300 font-semibold text-xl varela-round">{{result.followers_count}}</span>
                     followers
                   </div>
                 </div>
                 <div>
-                  <div class="text-lg">
+                  <div class="text-base lg:text-lg">
                     <span class="text-gray-300 font-semibold text-xl varela-round">{{result.followings_count}}</span>
                     followings
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="absolute top-0 right-3">
-              <button
-                  class="btn-follow mt-5 px-5"
-                  type="button"
-                  :class="{'bg-gray-600': !result.is_followed, 'bg-blue-600': result.is_followed}"
-                  @click="followUser(result)"
-                  v-if="authenticationStore.id !== result.id"
-              >
-                {{result.is_followed ? 'followed' : 'follow'}}
-              </button>
             </div>
           </div>
         </div>

@@ -5,8 +5,7 @@ import axiosCore from "axios"
 export const useUsersStore = defineStore('users', {
     actions: {
         async getUser(username) {
-            const {success, data} = await request('get', `/api/v1/account/user/?username=${username}&fields=all`)
-            return data
+            return await request('get', `/api/v1/account/user/?username=${username}&fields=all`)
         },
         async getUserFollowings(id, page = 1, search = null) {
             let url = `/api/v1/account/followings/user/${id}/?page=${page}`
