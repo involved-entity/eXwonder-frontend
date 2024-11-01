@@ -1,5 +1,5 @@
 <template>
-  <div class="py-3 overflow-x-hidden flex flex-nowrap relative px-10" v-if="users.length">
+  <div class="py-3 overflow-x-hidden flex flex-nowrap relative px-7 lg:px-10" v-if="users.length">
     <button
         class="rounded-full size-7 bg-gray-500 sticky left-5 top-1/2 hidden lg:block"
         @click="$emit('scroll',-200)"
@@ -16,12 +16,12 @@
       </svg>
     </button>
     <div
-        class="mr-8 text-gray-300 flex flex-col items-center w-1/12 sm:w-1/6"
+        class="mr-[5.5rem] sm:mr-[3.5rem] md:mr-12 text-gray-300 flex flex-col items-center w-1/12 sm:w-1/6"
         v-for="user in users"
         style="flex: 0 0 auto;"
     >
       <router-link :to="'/' + user.username + '/'" @click="routeStore.changeActiveLink('user')">
-        <img :src="user.avatar" alt="user" class="rounded-full mb-1 max-w-14">
+        <img :src="user.avatar" alt="user" class="rounded-full mb-1 max-w-[4.5rem]">
       </router-link>
       <router-link :to="'/' + user.username + '/'" class="header-transition" @click="routeStore.changeActiveLink('user')">
         <p class="text-center text-xs lg:text-base">{{user.username}}</p>

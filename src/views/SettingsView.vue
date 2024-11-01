@@ -100,6 +100,7 @@ export default {
     async logout() {
       this.loading = true
       await this.authenticationStore.logout()
+      this.routeStore.changeActiveLink('feed')
       this.$router.push({name: 'login'})
       this.loading = false
     },
