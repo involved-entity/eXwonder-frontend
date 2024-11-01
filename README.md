@@ -30,28 +30,28 @@ yarn run dev
 Доступно [здесь](https://github.com/waflawe/eXwonder-backend/blob/main/README.md).
 <!-- TOC --><a name="screenshots"></a>
 ## Скриншоты
-1. Создание аккаунта:
-   <img alt="image" height="336" src=".githubscreenshots/singup.png" width="700"/>
-2. Вход в аккаунт:
-   <img alt="image" height="336" src=".githubscreenshots/login.png" width="700"/>
-3. Новости:
-   <img alt="image" height="336" src=".githubscreenshots/feed.png" width="700"/>
-4. Исследование:
-   <img alt="image" height="336" src=".githubscreenshots/explore.png" width="700"/>
-5. Создание поста:
-   <img alt="image" height="336" src=".githubscreenshots/new-post.png" width="700"/>
-6. Аккаунт:
-   <img alt="image" height="336" src=".githubscreenshots/user.png" width="700"/>
-7. Настройки аккаунта:
-   <img alt="image" height="336" src=".githubscreenshots/settings.png" width="700"/>
-8. Просмотр поста:
-   <img alt="image" height="336" src=".githubscreenshots/post.png" width="700"/>
-9. Просмотр подписок пользователя:
-   <img alt="image" height="336" src=".githubscreenshots/followgins.png" width="700"/>
-10. Глобальный поиск пользователей:
-    <img alt="image" height="336" src=".githubscreenshots/search.png" width="700"/>
-11. Сохраненные посты:
-    <img alt="image" height="336" src=".githubscreenshots/saved.png" width="700"/>
+1. Создание аккаунта:<br>
+   <img alt="image" height="338" src=".githubscreenshots/singup.png" width="700"/>
+2. Вход в аккаунт:<br>
+   <img alt="image" height="338" src=".githubscreenshots/login.png" width="700"/>
+3. Новости:<br>
+   <img alt="image" height="338" src=".githubscreenshots/feed.png" width="700"/>
+4. Исследование:<br>
+   <img alt="image" height="338" src=".githubscreenshots/explore.png" width="700"/>
+5. Создание поста:<br>
+   <img alt="image" height="338" src=".githubscreenshots/new-post.png" width="700"/>
+6. Аккаунт:<br>
+   <img alt="image" height="338" src=".githubscreenshots/user.png" width="700"/>
+7. Настройки аккаунта:<br>
+   <img alt="image" height="338" src=".githubscreenshots/settings.png" width="700"/>
+8. Просмотр поста:<br>
+   <img alt="image" height="338" src=".githubscreenshots/post.png" width="700"/>
+9. Просмотр подписок пользователя:<br>
+   <img alt="image" height="338" src=".githubscreenshots/followings.png" width="700"/>
+10. Глобальный поиск пользователей:<br>
+    <img alt="image" height="338" src=".githubscreenshots/search.png" width="700"/>
+11. Сохраненные посты:<br>
+    <img alt="image" height="338" src=".githubscreenshots/saved.png" width="700"/>
 <!-- TOC --><a name="license"></a>
 ## Лицензия
 У этого проекта [MIT лицензия](https://github.com/waflawe/eXwonder-frontend/blob/main/LICENSE).

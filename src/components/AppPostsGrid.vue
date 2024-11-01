@@ -1,12 +1,12 @@
 <template>
-  <div class="mx-1" v-if="posts.length">
+  <div class="mx-1 pb-1" v-if="posts.length">
     <div class="grid grid-cols-3 space-x-0.5 space-y-0.5">
       <div v-for="(post, index) in posts" :key="post.id">
         <div
             class="group relative cursor-pointer"
             :class="{'ml-0.5 mt-0.5': index === 0}"
             @click="postClick(post)"
-        ><!-- lg:ms-3 lg:mr-3 lg:mb-3 lg:ml-0 lg:mt-0 -->
+        >
           <img
               :src="post.images[0].image_crop"
               alt="Post image"
