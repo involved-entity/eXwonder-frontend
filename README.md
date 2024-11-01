@@ -1,8 +1,16 @@
+- [eXwonder-frontend](#exwonder-frontend)
+   * [Установка](#installation)
+   * [Краткое описание функционала](#description)
+   * [Скриншоты](#screenshots)
+   * [Лицензия](#license)
+
+<!-- TOC --><a name="exwonder-frontend"></a>
 # eXwonder-frontend
 Frontend клиент для онлайн хостинга картинок __eXwonder__, являющегося по функционалу урезанной версией 
 Instagram. Код написан на JavaScript фреймворке [Vue 3](https://vuejs.org/), для стилизации использовался 
 [TailwindCSS](https://tailwindcss.com/) и [SCSS](https://sass-lang.com/). Проект в абсолютно большей части 
 адаптивен под разные размеры экрана.
+<!-- TOC --><a name="installation"></a>
 ## Установка
 Перед использованием клиента убедитесь, что у вас установлен и запущен __backend для eXwonder__ 
 ([репозиторий тут](https://github.com/waflawe/eXwonder-backend/)).
@@ -17,8 +25,10 @@ yarn run dev
 ```
 3. Открываем в интернет-обозревателе путь `http://localhost:3000/`
 4. Наслаждаемся
+<!-- TOC --><a name="description"></a>
 ## Краткое описание функционала
 Доступно [здесь](https://github.com/waflawe/eXwonder-backend/blob/main/README.md).
+<!-- TOC --><a name="screenshots"></a>
 ## Скриншоты
 1. Создание аккаунта:
    <img alt="image" height="336" src=".githubscreenshots/singup.png" width="700"/>
@@ -42,5 +52,7 @@ yarn run dev
     <img alt="image" height="336" src=".githubscreenshots/search.png" width="700"/>
 11. Сохраненные посты:
     <img alt="image" height="336" src=".githubscreenshots/saved.png" width="700"/>
+<!-- TOC --><a name="license"></a>
 ## Лицензия
 У этого проекта [MIT лицензия](https://github.com/waflawe/eXwonder-frontend/blob/main/LICENSE).
+
