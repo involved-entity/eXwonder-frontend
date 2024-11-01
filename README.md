@@ -6,7 +6,7 @@
 
 <!-- TOC --><a name="exwonder-frontend"></a>
 # eXwonder-frontend
-Frontend клиент для онлайн хостинга картинок __eXwonder__, являющегося по функционалу урезанной версией 
+Frontend клиент для онлайн хостинга картинок с элементами соц-сети __eXwonder__, являющегося по функционалу урезанной версией 
 Instagram. Код написан на JavaScript фреймворке [Vue 3](https://vuejs.org/), для стилизации использовался 
 [TailwindCSS](https://tailwindcss.com/) и [SCSS](https://sass-lang.com/). Проект в абсолютно большей части 
 адаптивен под разные размеры экрана.
