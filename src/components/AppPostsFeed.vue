@@ -1,5 +1,13 @@
 <template>
   <div class="max-w-sm px-3 mx-auto">
+    <div class="flex text-gray-300 my-3" v-if="closableMode">
+      <button type="button" class="cursor-pointer" @click="$emit('close')">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+        </svg>
+      </button>
+      <div class="ms-1">{{ posts[0].author.username }}'s post</div>
+    </div>
     <div class="pb-3" v-for="post in posts" :key="post.id">
       <div class="flex w-full mb-1">
         <router-link :to="'/' + post.author.username + '/'" @click="routeStore.changeActiveLink('user')">
@@ -129,7 +137,7 @@
       <div>
         <button
             class="text-white montserrat-bold hover:text-gray-400"
-            @click="activeModalPost = post"
+            @click="showComments(post)"
             v-if="post.comments_count > 0"
         >View all <span class="varela-round">{{post.comments_count}}</span> comments</button>
       </div>
@@ -161,6 +169,7 @@
       </div>
     </div>
     <app-post-modal :post="activeModalPost" v-if="activeModalPost.id" @close="activeModalPost = {}"/>
+    <app-comments-modal :post="activeModalCommmentsPost" v-if="activeModalCommmentsPost.id" @close="activeModalCommmentsPost = {}"/>
   </div>
 </template>
 
@@ -169,6 +178,7 @@ import AppLikeButton from "./AppLikeButton.vue"
 import AppPostModal from "./AppPostModal.vue"
 import AppSavePostButton from "./AppSavePostButton.vue"
 import AppSwipeComponent from "./AppSwipeComponent.vue"
+import AppCommentsModal from "./AppCommentsModal.vue"
 import {useCommentsStore} from "../stores/commentsStore.js"
 import {usePostsStore} from "../stores/postsStore.js"
 import {useRouteStore} from "../stores/routeStore.js"
@@ -177,20 +187,34 @@ import {mapStores} from "pinia"
 import {Dropdown} from "flowbite"
 
 export default {
-  components: {AppSavePostButton, AppLikeButton, AppPostModal, AppSwipeComponent},
+  components: {AppSavePostButton, AppLikeButton, AppPostModal, AppSwipeComponent, AppCommentsModal},
+  emits: ['close'],
   props: {
     posts: {
       type: Array,
       required: true
+    },
+    closableMode: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data() {
     return {
       activeModalPost: {},
+      activeModalCommmentsPost: {},
       errors: {}
     }
   },
   methods: {
+    showComments(post) {
+      if (window.innerWidth >= 1024) {
+        this.activeModalPost = post
+      } else {
+        this.activeModalCommmentsPost = post
+      }
+    },
     changeImage(post, next = true) {
       if (next && post.activeImage < post.images.length - 1) {
         post.activeImage++

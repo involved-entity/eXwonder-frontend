@@ -16,7 +16,7 @@
         </div>
         <div class="pb-3" v-else-if="results.length !== 0 && query.length >= 3">
           <div class="header-xl !mb-0">Results (<span class="varela-round">{{ results.length }}</span>):</div>
-          <div class="flex relative mx-3 hover:bg-slate-700 mt-3" v-for="result in results" :key="result.id">
+          <div class="flex relative mx-3 hover:bg-slate-700 mt-3 ps-1 lg:ps-3" v-for="result in results" :key="result.id">
             <div class="w-1/12 my-3">
               <router-link :to="'/' + result.username + '/'">
                 <img :src="result.avatar" alt="avatar" class="rounded-full max-w-full">

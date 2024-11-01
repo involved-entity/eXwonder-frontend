@@ -1,9 +1,4 @@
 <template>
-  <div class="relative">
-    <div class="fixed left-5 top-5">
-      <app-alert message="Enter 2FA code to login." v-if="this.$route.query.action === 'login'"/>
-    </div>
-  </div>
   <main class="relative">
     <div class="hw-centered flex flex-col">
       <div class="header-3xl mb-3">2FA</div>
@@ -35,6 +30,11 @@
       <div class="mx-auto">Already have an account? <router-link :to="{name: 'login'}" class="link">Log in</router-link></div>
     </div>
   </main>
+  <div class="relative">
+    <div class="fixed left-5 top-5">
+      <app-alert message="Enter 2FA code to login." v-if="this.$route.query.action === 'login'"/>
+    </div>
+  </div>
 </template>
 
 <script>

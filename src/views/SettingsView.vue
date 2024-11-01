@@ -1,7 +1,7 @@
 <template>
   <div class="container-border">
     <div class="shadow">
-      <div class="ps-3 pr-3 pb-5 h-1 pt-3">
+      <div class="ps-3 pr-3 pb-3 h-1 pt-3">
         <hr class="border border-gray-600">
       </div>
       <div class="lg:flex ps-3 pr-3 pb-5">
@@ -51,19 +51,27 @@
               style="background-color: #202020; border-color: #202020"
               @change="avatarChanged"
           >
-          <button
-              type="submit"
-              class="mt-3 btn-no-w btn-green"
-              :class="{'btn-green-hover': isValid}"
-              :disabled="!isValid"
-              @click="submit"
-          >Save & Close</button>
-          <router-link :to="{name: 'change-password'}">
+          <div class="w-full">
+            <div class="flex w-full">
+              <button
+                  type="submit"
+                  class="mt-3 btn-no-w btn-green mr-auto"
+                  :class="{'btn-green-hover': isValid}"
+                  :disabled="!isValid"
+                  @click="submit"
+              >Save & Close</button>
+              <router-link :to="{name: 'change-password'}">
+                <button
+                    type="button"
+                    class="mt-3 ml-auto btn lg:btn-no-w btn-green btn-green-hover"
+                >Change Password</button>
+              </router-link>
+            </div>
             <button
-                type="button"
-                class="mt-3 ms-3 btn-no-w btn-green btn-green-hover"
-            >Change Password</button>
-          </router-link>
+                class="!p-1 my-auto ms-auto btn btn-green btn-green-hover text-sm xl:text-md mt-1 block lg:hidden"
+                @click="logout"
+            >Logout</button>
+          </div>
           <div class="loader my-5 mx-auto lg:ms-3" v-if="loading"></div>
         </div>
       </div>
@@ -89,6 +97,13 @@ export default {
     }
   },
   methods: {
+    async logout() {
+      this.loading = true
+      await this.authenticationStore.logout()
+      this.$router.push({name: 'login'})
+      this.loading = false
+    },
+
     async submit() {
       if (this.isValid) {
         this.loading = true

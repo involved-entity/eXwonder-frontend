@@ -31,5 +31,8 @@ export const usePostsStore = defineStore("posts", {
         async deletePostLike(postId) {
             return await request('delete', `/api/v1/posts/post-likes/${postId}/`, null, null, axiosCore.HttpStatusCode.NoContent)
         },
+        async getPost(id) {
+            return await request('get', `/api/v1/posts/posts/${id}/`)
+        }
     }
 })

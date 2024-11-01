@@ -1,9 +1,4 @@
 <template>
-  <div class="relative">
-    <div class="fixed left-5 top-5">
-      <app-alert message="Success log in." v-if="this.$route.query.action === 'login'"/>
-    </div>
-  </div>
   <div class="container-border">
     <div class="shadow">
       <div class="py-10" v-if="loading">
@@ -14,6 +9,11 @@
       </app-swipe-component>
       <app-users-scroll class="mx-5 w-full" @scroll="scroll" ref="users" :users="updatedFollows" v-if="!loading && !showSwipeScroll"></app-users-scroll>
       <app-posts-feed :posts="updates" v-if="!loading"></app-posts-feed>
+    </div>
+  </div>
+  <div class="relative">
+    <div class="fixed left-5 top-5">
+      <app-alert message="Success log in." v-if="this.$route.query.action === 'login'"/>
     </div>
   </div>
 </template>

@@ -1,9 +1,4 @@
 <template>
-  <div class="relative">
-    <div class="fixed left-5 top-5">
-      <app-alert message="Success sing up." v-if="this.$route.query.action === 'sing-up'"/>
-    </div>
-  </div>
   <main class="relative">
     <div class="hw-centered flex flex-col">
       <div class="header-3xl mb-3">Login</div>
@@ -47,6 +42,11 @@
       <div class="mx-auto">Forgive your password? <router-link :to="{name: 'reset-password'}" class="link">Reset password</router-link></div>
     </div>
   </main>
+  <div class="relative">
+    <div class="fixed left-5 top-5">
+      <app-alert message="Success sing up." v-if="this.$route.query.action === 'sing-up'"/>
+    </div>
+  </div>
 </template>
 
 <script>

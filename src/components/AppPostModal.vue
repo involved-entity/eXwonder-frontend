@@ -24,7 +24,7 @@
           <path fill-rule="evenodd" d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z" clip-rule="evenodd" />
         </svg>
       </div>
-      <div class="rounded-2xl overflow-y-auto overflow-x-hidden flex flex-col mb-auto max-h-full w-[24rem]" style="background-color: #111">
+      <div class="rounded-2xl overflow-y-auto overflow-x-hidden flex flex-col mb-auto max-h-full lg:w-[21rem] xl:w-[24rem]" style="background-color: #111">
         <div class="sticky top-0 left-0 pt-3 pb-1" style="background-color: #050505">
           <div class="grid grid-cols-2 mx-3">
             <div class="col-span-1 text-2xl flex justify-start">Comments <div class="ms-1 varela-round">({{post.comments_count}})</div></div>

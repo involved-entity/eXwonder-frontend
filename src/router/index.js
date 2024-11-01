@@ -6,6 +6,7 @@ import FeedView from "../views/FeedView.vue"
 import TwoFactorAuthenticationView from "../views/TwoFactorAuthenticationView.vue"
 import NewPostView from "../views/NewPostView.vue"
 import UserView from "../views/UserView.vue"
+import UserPostView from '../views/UserPostView.vue'
 import SearchView from "../views/SearchView.vue"
 import ExploreView from "../views/ExploreView.vue"
 import SettingsView from "../views/SettingsView.vue"
@@ -26,6 +27,7 @@ const routes = [
     {path: '/settings/', name: 'settings', component: SettingsView, meta: {requireLogin: true}},
     {path: '/change-password/', name: 'change-password', component: ChangePasswordView, meta: {requireLogin: true}},
     {path: '/:username/', name: 'user', component: UserView, meta: {requireLogin: true}},
+    {path: '/:username/:id/', name: 'user-post', component: UserPostView, meta: {requireLogin: true}},
 ]
 
 const router = createRouter({

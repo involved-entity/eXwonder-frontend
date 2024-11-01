@@ -1,9 +1,4 @@
 <template>
-  <div class="relative">
-    <div class="fixed left-5 top-5">
-      <app-alert :message="this.$route.query.action === 'new-post' ? 'Post created.' : 'Settings updated.'" v-if="this.$route.query.action === 'new-post' || this.$route.query.action === 'settings'"/>
-    </div>
-  </div>
   <main>
     <div class="container-border">
       <div class="shadow">
@@ -88,6 +83,11 @@
       </div>
     </div>
   </main>
+  <div class="relative">
+    <div class="fixed left-5 top-5">
+      <app-alert :message="this.$route.query.action === 'new-post' ? 'Post created.' : 'Settings updated.'" v-if="this.$route.query.action === 'new-post' || this.$route.query.action === 'settings'"/>
+    </div>
+  </div>
 </template>
 
 <script>

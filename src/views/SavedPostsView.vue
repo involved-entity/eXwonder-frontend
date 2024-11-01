@@ -8,7 +8,7 @@
         <div class="ps-3 pr-3 pb-5 h-1 hidden lg:block">
           <hr class="border border-gray-600">
         </div>
-        <div class="pb-5" v-if="loading">
+        <div class="pb-5 pt-5" v-if="loading">
           <div class="loader mx-auto"></div>
         </div>
         <app-posts-grid :posts="saved" v-if="!loading"/>

@@ -9,13 +9,13 @@
       >1. Upload post images (up to 10):</label>
       <input
           class="block ms-3 mr-3 text-lg text-gray-400 border border-gray-300 rounded-lg cursor-pointer
-          bg-gray-50 focus:outline-none file:bg-slate-600 file:border-slate-600 file:text-gray-950"
+          focus:outline-none file:bg-slate-600 file:border-slate-600 file:text-gray-950"
           id="imagesInput"
           type="file"
           required
           multiple
           ref="images"
-          style="background-color: #202020; border-color: #202020"
+          style="background-color: #161616; border-color: #161616"
           @change="imagesChanged"
       >
 
@@ -23,7 +23,7 @@
       <textarea
           rows="7"
           class="p-2.5 ms-3 -mr-10 w-11/12 text-lg text-gray-400 rounded-lg border border-gray-900 outline-none"
-          style="background-color: #202020; border-color: #202020"
+          style="background-color: #161616; border-color: #161616"
           placeholder="Choose signature for your post (optional)"
           v-model="signature"
       />
@@ -45,6 +45,7 @@
 <script>
 import {mapStores} from 'pinia'
 import {usePostsStore} from "../stores/postsStore.js"
+import {useRouteStore} from "../stores/routeStore.js"
 import {useAuthenticationStore} from '../stores/authenticationStore.js'
 
 export default {
@@ -68,6 +69,7 @@ export default {
         const {success, data} = await this.postsStore.createPost(formData)
         if (success) {
           this.errors = {}
+          this.routeStore.changeActiveLink('user')
           this.$router.push({name: 'user', params: {username: this.authenticationStore.username}, query: {'action': 'new-post'}})
         } else {
           this.errors = data
@@ -83,7 +85,7 @@ export default {
     isValid() {
       return this.images.length > 0 && this.images.length <= 10
     },
-    ...mapStores(usePostsStore, useAuthenticationStore)
+    ...mapStores(usePostsStore, useAuthenticationStore, useRouteStore)
   }
 }
 </script>
