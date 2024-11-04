@@ -5,12 +5,12 @@
         <hr class="border border-gray-600">
       </div>
       <div class="lg:flex ps-3 pr-3 pb-5">
-        <img :src="authenticationStore.avatar" alt="avatar" class="min-w-[10rem] mx-auto lg:mx-0 size-40">
+        <img :src="authenticationStore.user.avatar" alt="avatar" class="min-w-[10rem] mx-auto lg:mx-0 size-40">
         <div class="mx-auto">
           <p class="form-label mt-1">E-mail:</p>
           <input
               type="email"
-              :placeholder="authenticationStore.email"
+              :placeholder="authenticationStore.user.email"
               class="form-input !w-3/4" v-model="email"
               :class="{'border-red': errors.email?.length}"
               @keyup.down="$refs.timezoneInput.focus()"
@@ -20,7 +20,7 @@
           <p class="form-label mt-3">Time zone:</p>
           <input
               type="text"
-              :placeholder="authenticationStore.timezone"
+              :placeholder="authenticationStore.user.timezone"
               v-model="timezone"
               class="form-input !w-3/4"
               :class="{'border-red': errors.timezone?.length}"
@@ -79,11 +79,11 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import {mapStores} from "pinia"
-import {useAccountStore} from "../stores/accountStore.js"
-import {useAuthenticationStore} from "../stores/authenticationStore.js"
-import {useRouteStore} from "../stores/routeStore.js"
+import {useAccountStore} from "../stores/accountStore.ts"
+import {useAuthenticationStore} from "../stores/authenticationStore.ts"
+import {useRouteStore} from "../stores/routeStore.ts"
 
 export default {
   data() {
@@ -109,14 +109,14 @@ export default {
       if (this.isValid) {
         this.loading = true
         const data = {email: this.email, timezone: this.timezone, is_2fa_enabled: this.is2faEnabled, avatar: this.avatar}
-        const errors = await this.accountStore.updateSettings(data)
+        const errors: object | undefined = await this.accountStore.updateSettings(data)
 
         if (errors) {
           this.errors = errors
         } else {
           this.errors = {}
           this.routeStore.changeActiveLink('user')
-          this.$router.push({path: '/' + this.authenticationStore.username + "/", query: {'action': 'settings'}})
+          this.$router.push({path: '/' + this.authenticationStore.user.username + "/", query: {'action': 'settings'}})
         }
 
         this.loading = false
@@ -127,11 +127,11 @@ export default {
     }
   },
   mounted() {
-    this.is2faEnabled = this.authenticationStore.is2faEnabled
+    this.is2faEnabled = this.authenticationStore.user.is2faEnabled
   },
   computed: {
     isValid() {
-      return this.email !== '' || this.timezone !== '' || this.is2faEnabled !== this.authenticationStore.is2faEnabled || this.avatar !== ''
+      return this.email !== '' || this.timezone !== '' || this.is2faEnabled !== this.authenticationStore.user.is2faEnabled || this.avatar !== ''
     },
     ...mapStores(useAccountStore, useAuthenticationStore, useRouteStore)
   }

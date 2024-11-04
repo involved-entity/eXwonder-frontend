@@ -20,7 +20,7 @@
         </p>
         <div class="flex ms-auto">
           <p class="text-gray-500 text-sm lg:text-md my-auto montserrat">{{post.time_added.time_added}} ago</p>
-          <div class="mx-1 text-gray-300" v-if="post.author.id === authenticationStore.id">
+          <div class="mx-1 text-gray-300" v-if="post.author.id === authenticationStore.user.id">
             <button :id="`dropdownButton${post.id}`" class="cursor-pointer" type="button">
               <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -173,16 +173,18 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import {PropType} from "vue";
+import {IPost} from "@/types/globals";
 import AppLikeButton from "./AppLikeButton.vue"
 import AppPostModal from "./AppPostModal.vue"
 import AppSavePostButton from "./AppSavePostButton.vue"
 import AppSwipeComponent from "./AppSwipeComponent.vue"
 import AppCommentsModal from "./AppCommentsModal.vue"
-import {useCommentsStore} from "../stores/commentsStore.js"
-import {usePostsStore} from "../stores/postsStore.js"
-import {useRouteStore} from "../stores/routeStore.js"
-import {useAuthenticationStore} from "../stores/authenticationStore.js"
+import {useCommentsStore} from "../stores/commentsStore.ts"
+import {usePostsStore} from "../stores/postsStore.ts"
+import {useRouteStore} from "../stores/routeStore.ts"
+import {useAuthenticationStore} from "../stores/authenticationStore.ts"
 import {mapStores} from "pinia"
 import {Dropdown} from "flowbite"
 
@@ -191,7 +193,7 @@ export default {
   emits: ['close'],
   props: {
     posts: {
-      type: Array,
+      type: Array as PropType<Array<IPost>>,
       required: true
     },
     closableMode: {
@@ -202,30 +204,30 @@ export default {
   },
   data() {
     return {
-      activeModalPost: {},
-      activeModalCommmentsPost: {},
+      activeModalPost: {} as IPost,
+      activeModalCommmentsPost: {} as IPost,
       errors: {}
     }
   },
   methods: {
-    showComments(post) {
+    showComments(post: IPost) {
       if (window.innerWidth >= 1024) {
         this.activeModalPost = post
       } else {
         this.activeModalCommmentsPost = post
       }
     },
-    changeImage(post, next = true) {
+    changeImage(post: IPost, next: boolean = true) {
       if (next && post.activeImage < post.images.length - 1) {
         post.activeImage++
       } else if (!next && post.activeImage !== 0) {
         post.activeImage--
       }
     },
-    async createComment(post) {
+    async createComment(post: IPost) {
       const commentInput = this.$refs['comment_input_' + String(post.id)][0]
       if (commentInput.value.length >= 10 && commentInput.value.length <= 2048) {
-        const {success, data} = await this.commentsStore.addComment(post.id, commentInput.value)
+        const {success} = await this.commentsStore.addComment(post.id, commentInput.value)
         if (success) {
           this.errors[post.id] = undefined
           commentInput.value = ''
@@ -237,18 +239,18 @@ export default {
         this.errors[post.id] = 'Comment too short or so long.'
       }
     },
-    getPostIndex(postToFind) {
-      let retIndex
-      this.posts.forEach((post, index) => {
+    getPostIndex(postToFind: IPost) {
+      let retIndex: number
+      this.posts.forEach((post: IPost, index: number) => {
         if (post.id === postToFind.id) {
           retIndex = index
         }
       })
       return retIndex
     },
-    async postDelete(post) {
-      if (this.authenticationStore.id === post.author.id) {
-        const {success, data} = await this.postsStore.deletePost(post.id)
+    async postDelete(post: IPost) {
+      if (this.authenticationStore.user.id === post.author.id) {
+        const {success} = await this.postsStore.deletePost(post.id)
         if (success) {
           this.posts.splice(this.getPostIndex(post), 1)
         }
@@ -256,7 +258,7 @@ export default {
     }
   },
   mounted() {
-    this.posts.forEach((post) => {
+    this.posts.forEach((post: IPost) => {
       const $targetEl = document.querySelector(`#dropdownMenu${post.id}`)
       const $triggerEl = document.querySelector(`#dropdownButton${post.id}`)
 

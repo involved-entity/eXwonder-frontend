@@ -18,12 +18,12 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import TheNavbar from "./components/TheNavbar.vue"
 import TheSidebar from "./components/TheSidebar.vue"
 import TheBottomNavbar from "./components/TheBottomNavbar.vue"
 import {mapStores} from 'pinia'
-import {useAuthenticationStore} from './stores/authenticationStore.js'
+import {useAuthenticationStore} from './stores/authenticationStore.ts'
 
 export default {
   components: {TheSidebar, TheNavbar, TheBottomNavbar},

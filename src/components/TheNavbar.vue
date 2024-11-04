@@ -47,7 +47,7 @@
           </button>
         </router-link>
 
-        <router-link :to="'/' + authenticationStore.username + '/'" :class="{'inactive': $route.path.name !== 'user'}">
+        <router-link :to="'/' + authenticationStore.user.username + '/'" :class="{'inactive': $route.path.name !== 'user'}">
           <button class="flex hover:bg-gray-800 items-center ps-3 pe-3">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-white">
               <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
@@ -70,9 +70,9 @@
   </nav>
 </template>
 
-<script>
+<script lang="ts">
 import {mapStores} from "pinia"
-import {useAuthenticationStore} from "../stores/authenticationStore.js"
+import {useAuthenticationStore} from "../stores/authenticationStore.ts"
 
 export default {
   computed: {...mapStores(useAuthenticationStore)}

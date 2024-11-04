@@ -10,7 +10,7 @@
   </main>
 </template>
 
-<script>
+<script lang="ts">
 import TheResetPassword from "../components/TheResetPassword.vue"
 import TheResetPasswordConfirm from "../components/TheResetPasswordConfirm.vue"
 

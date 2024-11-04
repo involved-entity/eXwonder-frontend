@@ -60,7 +60,7 @@
                         type="button"
                         :class="{'bg-gray-600': !follow.is_followed, 'bg-blue-600': follow.is_followed}"
                         @click="followUser(follow)"
-                        v-if="authenticationStore.id !== follow[followMode.slice(0, -1)].id"
+                        v-if="authenticationStore.user.id !== follow[followMode.slice(0, -1)].id"
                     >
                       {{follow.is_followed ? 'followed' : 'follow'}}
                     </button>
@@ -101,33 +101,36 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import {PropType} from "vue";
+import {IUserExtendedData} from "@/types/globals";
 import {mapStores} from "pinia"
-import {useUsersStore} from "../stores/usersStore.js"
-import {useAuthenticationStore} from "../stores/authenticationStore.js"
+import {useUsersStore} from "../stores/usersStore.ts"
+import {useAuthenticationStore} from "../stores/authenticationStore.ts"
+import {IResponse} from "@/types/helpers";
 
 export default {
   emits: ['close', 'userLeave'],
   props: {
     requestedUserId: {
-      type: Number,
+      type: Number as PropType<number>,
       required: true
     },
     followMode: {
-      type: String,
+      type: String as PropType<'followers' | 'followings'>,
       required: true,
       validator(value) {
         return ['followers', 'followings'].includes(value)
       }
     },
     followsCount: {
-      type: Number,
+      type: Number as PropType<number>,
       required: true
     }
   },
   data() {
     return {
-      follows: [],
+      follows: [] as Array<IUserExtendedData>,
       followsLoading: false,
       searchQuery: ''
     }
@@ -135,15 +138,15 @@ export default {
   methods: {
     close() {this.$emit('close')},
 
-    async followUser(user) {
+    async followUser(user: IUserExtendedData) {
       if (!user.is_followed) {
-        const {success, data} = await this.usersStore.follow(user[this.followMode.slice(0, -1)].id)
+        const {success} = await this.usersStore.follow(user[this.followMode.slice(0, -1)].id)
         if (success) {
           user.is_followed = true
           user.followers_count++
         }
       } else {
-        const {success, data} = await this.usersStore.disfollow(user[this.followMode.slice(0, -1)].id)
+        const {success} = await this.usersStore.disfollow(user[this.followMode.slice(0, -1)].id)
         if (success) {
           user.is_followed = false
           user.followers_count--
@@ -161,7 +164,7 @@ export default {
 
   async beforeMount() {
     this.followsLoading = true
-    let response
+    let response: IResponse
     if (this.followMode === 'followers') {
       response = await this.usersStore.getMyFollowers()
     } else if (this.followMode === 'followings') {

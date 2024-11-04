@@ -1,13 +1,14 @@
 import {defineStore} from "pinia"
+import {IRouteStoreState} from "../types/stores";
 
 export const useRouteStore = defineStore('route', {
-    state() {
+    state(): IRouteStoreState {
         return {
             activeLink: 'feed'
         }
     },
     actions: {
-        changeActiveLink(link) {
+        changeActiveLink(link: string) {
             this.activeLink = link
         }
     }

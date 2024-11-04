@@ -17,25 +17,27 @@
   </main>
 </template>
 
-<script>
+<script lang="ts">
 import AppPostsGrid from "../components/AppPostsGrid.vue"
-import {usePostsStore} from "../stores/postsStore.js"
+import {usePostsStore} from "../stores/postsStore.ts"
 import {mapStores} from "pinia"
+import {IPost} from "@/types/globals";
+import {IResponse} from "@/types/helpers";
 
 export default {
   data() {
     return {
       loading: false,
-      saved: []
+      saved: [] as Array<IPost>
     }
   },
   methods: {
     async getPostsSaved() {
       this.loading = true
-      const response = await this.postsStore.getSavedPosts()
+      const response: IResponse = await this.postsStore.getSavedPosts()
       this.saved = response.data.results
 
-      this.saved = this.saved.map(post => {
+      this.saved = this.saved.map((post: IPost) => {
         post.post.likes_count = post.likes_count
         post.post.comments_count = post.comments_count
         post.post.is_liked = post.is_liked

@@ -26,25 +26,27 @@
   </div>
 </template>
 
-<script>
-import {usePostsStore} from "../stores/postsStore.js"
+<script lang="ts">
+import {IPost} from "@/types/globals/index.js";
+import {usePostsStore} from "../stores/postsStore.ts"
 import AppUsersScroll from "../components/AppUsersScroll.vue"
 import AppSwipeComponent from "../components/AppSwipeComponent.vue"
 import AppPostsFeed from "../components/AppPostsFeed.vue"
 import AppAlert from "../components/AppAlert.vue"
 import {mapStores} from "pinia"
+import {IResponse} from "@/types/helpers";
 
 export default {
   data() {
     return {
-      updates: [],
-      updatedFollows: [],
+      updates: [] as Array<IPost>,
+      updatedFollows: [] as Array<string>,
       loading: false,
       showSwipeScroll: false
     }
   },
   methods: {
-    scroll(value) {
+    scroll(value: number) {
       this.$refs.users.scrollBy({left: value, behavior: 'smooth'})
     },
     checkScreenWidth() {
@@ -53,10 +55,10 @@ export default {
   },
   async beforeMount() {
     this.loading = true
-    const response = await this.postsStore.getPostsTop()
+    const response: IResponse = await this.postsStore.getPostsTop()
     this.updates = response.data.results
     const followsUsernames = []
-    this.updates.forEach(post => {
+    this.updates.forEach((post: IPost) => {
       if (!followsUsernames.includes(post.author.username)) {
         this.updatedFollows.push(post.author)
         followsUsernames.push(post.author.username)
@@ -68,9 +70,6 @@ export default {
   mounted() {
     this.checkScreenWidth()
     window.addEventListener('resize', this.checkScreenWidth)
-  },
-  beforeDestroy() {
-    window.removeEventListener('resize', this.checkScreenWidth)
   },
   computed: {...mapStores(usePostsStore)},
   components: {AppUsersScroll, AppPostsFeed, AppAlert, AppSwipeComponent}

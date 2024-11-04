@@ -35,9 +35,9 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import {mapStores} from "pinia"
-import {useAccountStore} from "../stores/accountStore.js"
+import {useAccountStore} from "../stores/accountStore.ts"
 
 export default {
   props: {

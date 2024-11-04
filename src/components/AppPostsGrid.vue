@@ -51,24 +51,26 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import {PropType} from "vue";
+import {IPost} from "@/types/globals/index.js";
 import AppPostModal from "./AppPostModal.vue"
 
 export default {
   props: {
     posts: {
-      type: Array,
+      type: Array as PropType<Array<IPost>>,
       required: true
     }
   },
   methods: {
-    showModal(post) {
+    showModal(post: IPost) {
       post.isModalVisible = true
     },
-    exitModal(post) {
+    exitModal(post: IPost) {
       post.isModalVisible = false
     },
-    postClick(post) {
+    postClick(post: IPost) {
       if (window.innerWidth >= 1024) {this.showModal(post)} else {
         this.$router.push({name: 'user-post', params: {username: post.author.username, id: post.id}})
       }

@@ -13,9 +13,9 @@
   </nav>
 </template>
 
-<script>
+<script lang="ts">
 import {mapStores} from 'pinia'
-import {useAuthenticationStore} from "../stores/authenticationStore.js"
+import {useAuthenticationStore} from "../stores/authenticationStore.ts"
 
 export default {
   data() {
@@ -39,8 +39,8 @@ export default {
   },
   computed: {
     ...mapStores(useAuthenticationStore),
-    username() {return this.authenticationStore.username},
-    avatar() {return this.authenticationStore.avatar},
+    username() {return this.authenticationStore.user.username},
+    avatar() {return this.authenticationStore.user.avatar},
   }
 }
 </script>

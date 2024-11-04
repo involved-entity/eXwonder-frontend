@@ -1,8 +1,12 @@
 import axios from 'axios'
 import BaseUrl from "../settings.js"
 
+interface IDefaultAxiosInstanceOptions {
+    baseURL: string
+}
+
 function fetchClient() {
-    const defaultOptions = {
+    const defaultOptions: IDefaultAxiosInstanceOptions = {
         baseURL: BaseUrl,
     }
 

@@ -49,9 +49,9 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import {mapStores} from 'pinia'
-import {useAuthenticationStore} from "../stores/authenticationStore.js"
+import {useAuthenticationStore} from "../stores/authenticationStore.ts"
 import AppAlert from "../components/AppAlert.vue";
 
 export default {

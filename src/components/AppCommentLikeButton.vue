@@ -31,9 +31,9 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import {mapStores} from "pinia"
-import {useCommentsStore} from "../stores/commentsStore.js"
+import {useCommentsStore} from "../stores/commentsStore.ts"
 
 export default {
   props: {
@@ -43,7 +43,7 @@ export default {
     }
   },
   methods: {
-    async likeComment(action = true) {
+    async likeComment(action: boolean = true): void {
       if (action && !this.comment.is_liked) {
         await this.commentsStore.addCommentLike(this.comment.id)
         this.comment.is_liked = true

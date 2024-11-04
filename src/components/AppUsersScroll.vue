@@ -45,15 +45,17 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import {PropType} from "vue";
+import {IUserDefaultData} from "@/types/globals/index.js";
 import {mapStores} from "pinia"
-import {useRouteStore} from "../stores/routeStore.js"
+import {useRouteStore} from "../stores/routeStore.ts"
 
 export default {
   emits: ['scroll'],
   props: {
     users: {
-      type: Array,
+      type: Array as PropType<IUserDefaultData>,
       required: true
     }
   },

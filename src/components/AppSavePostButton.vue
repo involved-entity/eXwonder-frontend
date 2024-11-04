@@ -23,20 +23,23 @@
   </svg>
 </template>
 
-<script>
+<script lang="ts">
+import {PropType} from "vue";
+import {IPost} from "@/types/globals";
 import {mapStores} from "pinia"
-import {usePostsStore} from "../stores/postsStore.js"
+import {usePostsStore} from "../stores/postsStore.ts"
+import {IResponse} from "@/types/helpers";
 
 export default {
   props: {
     post: {
-      type: Object,
+      type: Object as PropType<IPost>,
       required: true
     }
   },
   methods: {
-    async savePost(post, action = true) {
-      let response = undefined
+    async savePost(post: IPost, action: boolean = true) {
+      let response: IResponse
       switch (action) {
         case true:
           response = await this.postsStore.addPostToSaved(post.id)

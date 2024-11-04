@@ -62,9 +62,9 @@
   </main>
 </template>
 
-<script>
+<script lang="ts">
 import {mapStores} from 'pinia'
-import {useAuthenticationStore} from '../stores/authenticationStore.js'
+import {useAuthenticationStore} from '../stores/authenticationStore.ts'
 
 export default {
   data() {

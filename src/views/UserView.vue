@@ -24,7 +24,7 @@
                   type="button"
                   :class="{'bg-gray-600': !followings.followed, 'bg-blue-600': followings.followed}"
                   @click="followUser"
-                  v-if="authenticationStore.id !== requestedUser.id"
+                  v-if="authenticationStore.user.id !== requestedUser.id"
               >
                 {{followings.followed ? 'followed' : 'follow'}}
               </button>
@@ -37,7 +37,7 @@
                 </div>
                 <div
                     class="pr-4"
-                    :class="{'cursor-pointer hover:text-gray-500': authenticationStore.username === requestedUser.username && followings.followersCount > 0}"
+                    :class="{'cursor-pointer hover:text-gray-500': authenticationStore.user.username === requestedUser.username && followings.followersCount > 0}"
                     @click="showModal('followers')"
                 >
                   <div class="text-base lg:text-xl">
@@ -90,11 +90,12 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import {IPost, IUserDefaultData, IUserExtendedData} from "@/types/globals";
 import {mapStores} from 'pinia'
-import {useUsersStore} from "../stores/usersStore.js"
-import {usePostsStore} from "../stores/postsStore.js"
-import {useAuthenticationStore} from "../stores/authenticationStore.js"
+import {useUsersStore} from "../stores/usersStore.ts"
+import {usePostsStore} from "../stores/postsStore.ts"
+import {useAuthenticationStore} from "../stores/authenticationStore.ts"
 
 import AppPostsGrid from "../components/AppPostsGrid.vue"
 import AppSubscriptionsModal from "../components/AppSubscriptionsModal.vue"
@@ -107,16 +108,16 @@ export default {
         id: 0,
         username: '',
         avatar: null,
-      },
+      } as IUserDefaultData,
       followings: {
         followersCount: 0,
         followingsCount: 0,
-        followings: [],
+        followings: [] as Array<IUserExtendedData>,
         followed: false
       },
       showFollowersModal: false,
       showFollowingsModal: false,
-      posts: [],
+      posts: [] as Array<IPost>,
       loading: false,
       errorFetchUser: false,
     }
@@ -124,24 +125,24 @@ export default {
   methods: {
     async followUser() {
       if (!this.followings.followed) {
-        const {success, data} = await this.usersStore.follow(this.requestedUser.id)
+        const {success} = await this.usersStore.follow(this.requestedUser.id)
 
         if (success) {
           this.followings.followed = true
           this.followings.followersCount++
         }
       } else {
-        const {success, data} = await this.usersStore.disfollow(this.requestedUser.id)
+        const {success} = await this.usersStore.disfollow(this.requestedUser.id)
         if (success) {
           this.followings.followed = false
           this.followings.followersCount--
         }
       }
     },
-    showModal(modal) {
-      switch (modal) {
+    showModal(modalType: 'followers' | 'followings') {
+      switch (modalType) {
         case 'followers':
-          if (this.authenticationStore.username === this.requestedUser.username && this.followings.followersCount > 0) {
+          if (this.authenticationStore.user.username === this.requestedUser.username && this.followings.followersCount > 0) {
             this.showFollowersModal = true
           }
           break
@@ -151,10 +152,10 @@ export default {
           }
       }
     },
-    async updateUserInfo(username = null) {
+    async updateUserInfo(username: string = null) {
       this.loading = true
       this.requestedUser.username = username ? username : this.$route.params.username
-      const {success, data} = await this.usersStore.getUser(this.requestedUser.username)
+      const {data} = await this.usersStore.getUser(this.requestedUser.username)
 
       if (!data.username) {this.errorFetchUser = 'User is not found. :('} else {
         this.requestedUser.id = data.id

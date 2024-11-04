@@ -26,34 +26,37 @@
   </main>
 </template>
 
-<script>
-import {usePostsStore} from "../stores/postsStore.js"
+<script lang="ts">
+import {PropType} from "vue";
+import {IPost, Tops} from "../types/globals";
+import {usePostsStore} from "../stores/postsStore.ts"
 import {mapStores} from "pinia"
 import AppPostsGrid from "../components/AppPostsGrid.vue"
+import {IResponse} from "../types/helpers";
 
 export default {
   data() {
     return {
       activeTab: 0,
-      topPosts: [],
+      topPosts: [] as PropType<Array<IPost>>,
       loading: false
     }
   },
   methods: {
-    async getTopPosts(top = 'recent') {
+    async getTopPosts(top: Tops = Tops.RECENT) {
       this.loading = true
-      const response = await this.postsStore.getPostsTop(top)
+      const response: IResponse = await this.postsStore.getPostsTop(top)
       this.topPosts = response.data.results
       this.loading = false
     },
-    async changeActiveTab(top = 'recent') {
-      if ((top === 'recent' && this.activeTab === 1) || (top === 'likes' && this.activeTab === 0)) {
+    async changeActiveTab(top: Tops = Tops.RECENT) {
+      if ((top === Tops.RECENT && this.activeTab === 1) || (top === Tops.LIKES && this.activeTab === 0)) {
         await this.getTopPosts(top)
         switch (top) {
-          case 'recent':
+          case Tops.RECENT:
             this.activeTab = 0
             break
-          case 'likes':
+          case Tops.LIKES:
             this.activeTab = 1
             break
         }

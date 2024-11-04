@@ -17,15 +17,16 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import {mapStores} from "pinia"
-import {usePostsStore} from "../stores/postsStore.js"
+import {usePostsStore} from "../stores/postsStore.ts"
 import AppPostsFeed from "../components/AppPostsFeed.vue"
+import {IPost} from "@/types/globals";
 
 export default {
   data() {
     return {
-      post: null,
+      post: null as IPost | null,
       error: false,
       loading: false
     }

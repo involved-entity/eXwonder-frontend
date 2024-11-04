@@ -42,16 +42,16 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import {mapStores} from 'pinia'
-import {usePostsStore} from "../stores/postsStore.js"
-import {useRouteStore} from "../stores/routeStore.js"
-import {useAuthenticationStore} from '../stores/authenticationStore.js'
+import {usePostsStore} from "../stores/postsStore.ts"
+import {useRouteStore} from "../stores/routeStore.ts"
+import {useAuthenticationStore} from '../stores/authenticationStore.ts'
 
 export default {
   data() {
     return {
-      images: [],
+      images: [] as Array<File>,
       signature: '',
       loading: false,
       errors: {}
@@ -70,7 +70,7 @@ export default {
         if (success) {
           this.errors = {}
           this.routeStore.changeActiveLink('user')
-          this.$router.push({name: 'user', params: {username: this.authenticationStore.username}, query: {'action': 'new-post'}})
+          this.$router.push({name: 'user', params: {username: this.authenticationStore.user.username}, query: {'action': 'new-post'}})
         } else {
           this.errors = data
         }

@@ -32,7 +32,7 @@
                     type="button"
                     :class="{'bg-gray-600': !result.is_followed, 'bg-blue-600': result.is_followed}"
                     @click="followUser(result)"
-                    v-if="authenticationStore.id !== result.id"
+                    v-if="authenticationStore.user.id !== result.id"
                 >
                   {{result.is_followed ? 'followed' : 'follow'}}
                 </button>
@@ -77,29 +77,30 @@
   </main>
 </template>
 
-<script>
-import {useUsersStore} from "../stores/usersStore.js"
-import {useAuthenticationStore} from "../stores/authenticationStore.js"
+<script lang="ts">
+import {IUserExtendedData} from "@/types/globals";
+import {useUsersStore} from "../stores/usersStore.ts"
+import {useAuthenticationStore} from "../stores/authenticationStore.ts"
 import {mapStores} from 'pinia'
 
 export default {
   data() {
     return {
       query: '',
-      results: [],
+      results: [] as Array<IUserExtendedData>,
       loading: false
     }
   },
   methods: {
-    async followUser(user) {
+    async followUser(user: IUserExtendedData) {
       if (!user.is_followed) {
-        const {success, data} = await this.usersStore.follow(user.id)
+        const {success} = await this.usersStore.follow(user.id)
         if (success) {
           user.is_followed = true
           user.followers_count++
         }
       } else {
-        const {success, data} = await this.usersStore.disfollow(user.id)
+        const {success} = await this.usersStore.disfollow(user.id)
         if (success) {
           user.is_followed = false
           user.followers_count--

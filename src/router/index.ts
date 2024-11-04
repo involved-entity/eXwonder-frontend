@@ -1,5 +1,5 @@
 import { createWebHistory, createRouter } from 'vue-router'
-import {useAuthenticationStore} from '../stores/authenticationStore.js'
+import {useAuthenticationStore} from '../stores/authenticationStore'
 import LoginView from "../views/LoginView.vue"
 import SingUpView from "../views/SingUpView.vue"
 import FeedView from "../views/FeedView.vue"
@@ -13,8 +13,18 @@ import SettingsView from "../views/SettingsView.vue"
 import SavedPostsView from "../views/SavedPostsView.vue"
 import ResetPasswordView from "../views/ResetPasswordView.vue"
 import ChangePasswordView from "../views/ChangePasswordView.vue"
+import { RouteRecordRaw } from 'vue-router'
 
-const routes = [
+interface IRouteMeta {
+    requireLogin?: boolean
+    requireNoLogin?: boolean
+}
+
+type IRoute = RouteRecordRaw & {
+    meta: IRouteMeta;
+};
+
+const routes: Array<IRoute> = [
     {path: '/feed/', name: 'feed', component: FeedView, meta: {requireLogin: true}},
     {path: '/login/', name: 'login', component: LoginView, meta: {requireNoLogin: true}},
     {path: '/sing-up/', name: 'sing-up', component: SingUpView, meta: {requireNoLogin: true}},

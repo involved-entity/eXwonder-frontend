@@ -33,14 +33,16 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import {PropType} from "vue";
+import {IPost} from "@/types/globals/index.js";
 import {mapStores} from "pinia"
-import {usePostsStore} from "../stores/postsStore.js"
+import {usePostsStore} from "../stores/postsStore.ts"
 
 export default {
   props: {
     post: {
-      type: Object,
+      type: Object as PropType<IPost>,
       required: true
     },
     centered: {
@@ -55,7 +57,7 @@ export default {
     }
   },
   methods: {
-    async likePost(action) {
+    async likePost(action: boolean): void {
       if (action && !this.post.is_liked) {
         await this.postsStore.addPostLike(this.post.id)
         this.post.is_liked = true
