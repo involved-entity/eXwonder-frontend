@@ -13,16 +13,7 @@ import SettingsView from "../views/SettingsView.vue"
 import SavedPostsView from "../views/SavedPostsView.vue"
 import ResetPasswordView from "../views/ResetPasswordView.vue"
 import ChangePasswordView from "../views/ChangePasswordView.vue"
-import { RouteRecordRaw } from 'vue-router'
-
-interface IRouteMeta {
-    requireLogin?: boolean
-    requireNoLogin?: boolean
-}
-
-type IRoute = RouteRecordRaw & {
-    meta: IRouteMeta;
-};
+import {IRoute} from "../types/router";
 
 const routes: Array<IRoute> = [
     {path: '/feed/', name: 'feed', component: FeedView, meta: {requireLogin: true}},

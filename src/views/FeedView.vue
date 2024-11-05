@@ -4,7 +4,7 @@
       <div class="py-10" v-if="loading">
         <div class="loader mx-auto"></div>
       </div>
-      <div v-else-if="this.updates.length">
+      <div v-else-if="updates.length">
         <app-swipe-component class="" @swipe-left="scroll(-200)" @swipe-right="scroll(200)" v-if="showSwipeScroll">
           <app-users-scroll class="mx-5 w-full" :users="updatedFollows" ref="users" @scroll="scroll" v-if="!loading"></app-users-scroll>
         </app-swipe-component>
@@ -21,13 +21,13 @@
   </div>
   <div class="relative">
     <div class="fixed left-5 top-5">
-      <app-alert message="Success log in." v-if="this.$route.query.action === 'login'"/>
+      <app-alert message="Success log in." v-if="$route.query.action === 'login'"/>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import {IPost} from "@/types/globals/index.js";
+import {IPost, IUserDefaultData} from "@/types/globals/index.js";
 import {usePostsStore} from "../stores/postsStore.ts"
 import AppUsersScroll from "../components/AppUsersScroll.vue"
 import AppSwipeComponent from "../components/AppSwipeComponent.vue"
@@ -40,14 +40,15 @@ export default {
   data() {
     return {
       updates: [] as Array<IPost>,
-      updatedFollows: [] as Array<string>,
+      updatedFollows: [] as Array<IUserDefaultData>,
       loading: false,
       showSwipeScroll: false
     }
   },
   methods: {
     scroll(value: number) {
-      this.$refs.users.scrollBy({left: value, behavior: 'smooth'})
+      const users: Element = this.$refs.users
+      users.scrollBy({left: value, behavior: 'smooth'})
     },
     checkScreenWidth() {
       this.showSwipeScroll = window.innerWidth > 1024
@@ -57,7 +58,7 @@ export default {
     this.loading = true
     const response: IResponse = await this.postsStore.getPostsTop()
     this.updates = response.data.results
-    const followsUsernames = []
+    const followsUsernames: Array<string> = []
     this.updates.forEach((post: IPost) => {
       if (!followsUsernames.includes(post.author.username)) {
         this.updatedFollows.push(post.author)

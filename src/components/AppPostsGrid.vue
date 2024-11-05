@@ -53,7 +53,7 @@
 
 <script lang="ts">
 import {PropType} from "vue";
-import {IPost} from "@/types/globals/index.js";
+import {IPost} from "../types/globals";
 import AppPostModal from "./AppPostModal.vue"
 
 export default {

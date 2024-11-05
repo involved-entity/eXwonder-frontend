@@ -11,10 +11,25 @@ interface IUserExtendedData extends IUserDefaultData {
     followings_count: number
 }
 
+interface IUserFollowData {
+    id: number,
+    posts_count: number,
+    is_followed: boolean,
+    followers_count: number,
+    followings_count: number,
+    follower?: IUserDefaultData,
+    following?: IUserDefaultData
+}
+
+interface IDateTime {
+    time_added: string,
+    timezone: string
+}
+
 interface IDefaultInstance {
     id: number,
     author: IUserDefaultData,
-    time_added: string,
+    time_added: IDateTime,
     is_liked: boolean,
     likes_count: number
 }
@@ -24,12 +39,20 @@ interface IComment extends IDefaultInstance {
     comment: string
 }
 
+interface IImage {
+    id: number,
+    image: string,
+    image_crop: string
+}
+
 interface IPost extends IDefaultInstance {
     signature: string,
-    images: Array<string>,
+    images: Array<IImage>,
     comments_count: number,
     is_commented: boolean,
-    is_saved: boolean
+    is_saved: boolean,
+    activeImage?: number,
+    isModalVisible?: boolean
 }
 
 enum Tops {
@@ -43,5 +66,6 @@ export {
     IUserExtendedData,
     IComment,
     IPost,
-    Tops
+    Tops,
+    IUserFollowData
 }

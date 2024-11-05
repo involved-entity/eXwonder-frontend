@@ -7,10 +7,8 @@
         <input
             type="email"
             class="form-input" v-model="email"
-            :class="{'border-red': errors.email?.length}"
             @keyup.enter="submit"
         >
-        <p><small class="form-error-label" v-if="errors.email?.length">{{errors.email}}</small></p>
 
         <button
             type="submit"
@@ -31,8 +29,7 @@ export default {
   data() {
     return {
       email: '',
-      loading: false,
-      errors: {}
+      loading: false
     }
   },
   methods: {

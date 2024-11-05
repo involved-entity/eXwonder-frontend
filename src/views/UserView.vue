@@ -5,7 +5,7 @@
         <div class="py-10" v-if="loading">
           <div class="loader mx-auto"></div>
         </div>
-        <div class="text-gray-300" v-else-if="errorFetchUser">
+        <div class="text-gray-300" v-else-if="errorFetchUser.length">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-60 m-auto">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
           </svg>
@@ -85,7 +85,7 @@
   </main>
   <div class="relative">
     <div class="fixed left-5 top-5">
-      <app-alert :message="this.$route.query.action === 'new-post' ? 'Post created.' : 'Settings updated.'" v-if="this.$route.query.action === 'new-post' || this.$route.query.action === 'settings'"/>
+      <app-alert :message="$route.query.action === 'new-post' ? 'Post created.' : 'Settings updated.'" v-if="$route.query.action === 'new-post' || $route.query.action === 'settings'"/>
     </div>
   </div>
 </template>
@@ -107,7 +107,7 @@ export default {
       requestedUser: {
         id: 0,
         username: '',
-        avatar: null,
+        avatar: '',
       } as IUserDefaultData,
       followings: {
         followersCount: 0,
@@ -119,7 +119,7 @@ export default {
       showFollowingsModal: false,
       posts: [] as Array<IPost>,
       loading: false,
-      errorFetchUser: false,
+      errorFetchUser: '',
     }
   },
   methods: {
@@ -152,7 +152,7 @@ export default {
           }
       }
     },
-    async updateUserInfo(username: string = null) {
+    async updateUserInfo(username?: string) {
       this.loading = true
       this.requestedUser.username = username ? username : this.$route.params.username
       const {data} = await this.usersStore.getUser(this.requestedUser.username)
@@ -174,7 +174,7 @@ export default {
     await this.updateUserInfo()
   },
   async beforeRouteUpdate(to) {
-    await this.updateUserInfo(to.params.username)
+    await this.updateUserInfo((to.params.username as string))
   },
   computed: {...mapStores(useUsersStore, usePostsStore, useAuthenticationStore)},
   components: {AppAlert, AppPostsGrid, AppSubscriptionsModal}

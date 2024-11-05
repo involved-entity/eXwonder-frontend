@@ -7,8 +7,7 @@
       <the-sidebar/>
     </div>
     <div :class="{
-      'w-full lg:w-6/12': authenticationStore.isAuth, 'w-full': !authenticationStore.isAuth,
-      'm-auto': authenticationStore.isAuth
+      'w-full m-auto lg:w-6/12 pb-14 lg:pb-0': authenticationStore.isAuth, 'w-full': !authenticationStore.isAuth,
     }">
       <router-view/>
     </div>

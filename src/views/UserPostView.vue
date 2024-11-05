@@ -26,7 +26,7 @@ import {IPost} from "@/types/globals";
 export default {
   data() {
     return {
-      post: null as IPost | null,
+      post: undefined as IPost | undefined,
       error: false,
       loading: false
     }
@@ -38,10 +38,10 @@ export default {
   },
   async mounted() {
     this.loading = true
-    const {success, data} = await this.postsStore.getPost(this.$route.params.id)
+    const {success, data} = await this.postsStore.getPost(+this.$route.params.id)
     if (success) {
       this.post = data
-      this.post.activeImage = 0
+      this.post!.activeImage = 0
     } else {
       this.error = true
     }

@@ -8,6 +8,7 @@
             type="password"
             placeholder="Your new password"
             class="form-input" v-model="password1"
+            :class="{'border-red': error.length}"
             @keyup.down="$refs.repeat.focus()"
         >
         <p><small class="form-error-label" v-if="error.length">{{error}}</small></p>
@@ -18,6 +19,7 @@
             placeholder="Your new password"
             class="form-input" v-model="password2"
             ref="repeat"
+            :class="{'border-red': error.length}"
             @keyup.enter="submit"
         >
         <p><small class="form-error-label" v-if="error.length">{{error}}</small></p>
@@ -60,17 +62,19 @@ export default {
   },
   methods: {
     async submit() {
-      this.loading = true
-      const {success, data} = await this.accountStore.resetPasswordConfirm(this.uid, this.token, this.password1, this.password2)
-      if (!success) {
-        if (data.new_password2?.length) {
-          this.error = 'Password is too common.'
+      if (this.isValid) {
+        this.loading = true
+        const {success, data} = await this.accountStore.resetPasswordConfirm(this.uid, this.token, this.password1, this.password2)
+        if (!success) {
+          if (data.new_password2?.length) {
+            this.error = 'Password is too common.'
+          }
+          this.error = 'Token is invalid. Please retry to reset password.'
+        } else {
+          this.$router.push({name: 'login'})
         }
-        this.error = 'Token is invalid. Please retry to reset password.'
-      } else {
-        this.$router.push({name: 'login'})
+        this.loading = false
       }
-      this.loading = false
     }
   },
   computed: {

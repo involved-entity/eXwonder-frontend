@@ -4,13 +4,14 @@
       <div class="w-full flex h-full items-center justify-center">
         <div class="w-3/4 lg:w-2/3">
           <div class="header-2xl">Change your account password</div>
-          <div class="mx-3 mb-3 mt-1">
+          <div class="mx-3 mb-3 mt-1" @keyup.enter="submit">
             <p class="form-label">Old password:</p>
             <input
                 type="password"
                 placeholder="Your old password"
                 class="form-input"
                 v-model="oldPassword"
+                @keyup.down="$refs.password1.focus()"
                 :class="{'border-red': errors.old_password?.length}"
             >
             <p><small class="form-error-label" v-if="errors.old_password?.length">{{errors.old_password[0]}}</small></p>
@@ -21,6 +22,8 @@
                 placeholder="Your new password"
                 class="form-input"
                 v-model="newPassword1"
+                @keyup.down="$refs.password2.focus()"
+                ref="password1"
                 :class="{'form-input': errors.new_password1?.length}"
             >
             <p><small class="form-error-label" v-if="errors.new_password1?.length">{{errors.new_password1[0]}}</small></p>
@@ -31,6 +34,7 @@
                 placeholder="Your new password repeat"
                 class="form-input"
                 v-model="newPassword2"
+                ref="password2"
                 :class="{'border-red': errors.new_password2?.length}"
             >
             <p><small class="form-error-label" v-if="errors.new_password2?.length">{{errors.new_password2[0]}}</small></p>
@@ -61,16 +65,20 @@ export default {
       oldPassword: '',
       newPassword1: '',
       newPassword2: '',
-      errors: {}
+      errors: {old_password: [], new_password1: [], new_password2: []}
     }
   },
   methods: {
     async submit() {
-      const {success, data} = await this.accountStore.changePassword(this.oldPassword, this.newPassword1, this.newPassword2)
-      if (success) {
-        this.$router.push({name: 'feed', query: {'action': 'passwond-change'}})
-      } else {
-        this.errors = data
+      if (this.isValid) {
+        this.loading = true
+        const {success, data} = await this.accountStore.changePassword(this.oldPassword, this.newPassword1, this.newPassword2)
+        if (success) {
+          this.$router.push({name: 'feed', query: {'action': 'passwond-change'}})
+        } else {
+          this.errors = data
+        }
+        this.loadig = false
       }
     }
   },

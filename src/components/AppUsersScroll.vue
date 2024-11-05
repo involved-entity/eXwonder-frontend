@@ -55,7 +55,7 @@ export default {
   emits: ['scroll'],
   props: {
     users: {
-      type: Array as PropType<IUserDefaultData>,
+      type: Array as PropType<Array<IUserDefaultData>>,
       required: true
     }
   },

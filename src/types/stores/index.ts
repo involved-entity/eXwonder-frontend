@@ -28,8 +28,8 @@ interface IUserSettingsUpdates {
 }
 
 interface IPostCreate {
-    images: Array<File>,
-    signature?: string
+    signature?: string,
+    (key: string): File | string
 }
 
 interface IRouteStoreState {

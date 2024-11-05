@@ -6,12 +6,12 @@
       </div>
       <div class="lg:flex ps-3 pr-3 pb-5">
         <img :src="authenticationStore.user.avatar" alt="avatar" class="min-w-[10rem] mx-auto lg:mx-0 size-40">
-        <div class="mx-auto">
+        <div class="mx-auto max-w-3/4">
           <p class="form-label mt-1">E-mail:</p>
           <input
               type="email"
               :placeholder="authenticationStore.user.email"
-              class="form-input !w-3/4" v-model="email"
+              class="form-input" v-model="email"
               :class="{'border-red': errors.email?.length}"
               @keyup.down="$refs.timezoneInput.focus()"
           >
@@ -22,7 +22,7 @@
               type="text"
               :placeholder="authenticationStore.user.timezone"
               v-model="timezone"
-              class="form-input !w-3/4"
+              class="form-input"
               :class="{'border-red': errors.timezone?.length}"
               @keyup.enter="$refs.is2faEnabled.focus()"
               ref="timezoneInput"
@@ -44,7 +44,7 @@
 
           <p class="form-label mt-3">Avatar:</p>
           <input
-              class="px-1 w-3/4 text-lg text-gray-400 border border-gray-300 rounded-lg cursor-pointer
+              class="px-1 text-lg text-gray-400 border border-gray-300 rounded-lg cursor-pointer
               bg-gray-50 focus:outline-none file:bg-slate-600 file:border-slate-600 file:text-gray-950"
               type="file"
               ref="images"
@@ -91,9 +91,9 @@ export default {
       loading: false,
       email: '',
       timezone: '',
-      is2faEnabled: null,
-      avatar: '',
-      errors: {}
+      is2faEnabled: undefined as boolean | undefined,
+      avatar: undefined as File | undefined,
+      errors: {email: [], timezone: []}
     }
   },
   methods: {
@@ -109,14 +109,15 @@ export default {
       if (this.isValid) {
         this.loading = true
         const data = {email: this.email, timezone: this.timezone, is_2fa_enabled: this.is2faEnabled, avatar: this.avatar}
-        const errors: object | undefined = await this.accountStore.updateSettings(data)
+        const errors: Record<string, Array<string>> | undefined = await this.accountStore.updateSettings(data)
 
-        if (errors) {
-          this.errors = errors
-        } else {
-          this.errors = {}
+        if (!errors) {
+          this.errors = {email: [], timezone: []}
           this.routeStore.changeActiveLink('user')
           this.$router.push({path: '/' + this.authenticationStore.user.username + "/", query: {'action': 'settings'}})
+        } else {
+          this.errors.email = errors.email
+          this.errors.timezone = errors.timezone
         }
 
         this.loading = false
@@ -131,7 +132,7 @@ export default {
   },
   computed: {
     isValid() {
-      return this.email !== '' || this.timezone !== '' || this.is2faEnabled !== this.authenticationStore.user.is2faEnabled || this.avatar !== ''
+      return this.email !== '' || this.timezone !== '' || this.is2faEnabled !== this.authenticationStore.user.is2faEnabled || this.avatar
     },
     ...mapStores(useAccountStore, useAuthenticationStore, useRouteStore)
   }

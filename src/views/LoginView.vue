@@ -9,21 +9,21 @@
             <input
                 type="text"
                 class="form-input" v-model="username"
-                :class="{'border-red': errors.non_field_errors}"
+                :class="{'border-red': errors.non_field_errors.length}"
                 @keyup.down="$refs.passwordInput.focus()"
             >
-            <p><small class="form-error-label" v-if="errors.non_field_errors">{{errors.non_field_errors[0]}}</small></p>
+            <p><small class="form-error-label" v-if="errors.non_field_errors.length">{{errors.non_field_errors[0]}}</small></p>
 
             <p class="form-label mt-1">Password:</p>
             <input
                 type="password"
                 class="form-input"
                 v-model="password"
-                :class="{'border-red': errors.non_field_errors}"
+                :class="{'border-red': errors.non_field_errors.length}"
                 @keyup.enter="submit"
                 ref="passwordInput"
             >
-            <p><small class="form-error-label" v-if="errors.non_field_errors">{{errors.non_field_errors[0]}}</small></p>
+            <p><small class="form-error-label" v-if="errors.non_field_errors.length">{{errors.non_field_errors[0]}}</small></p>
 
             <button
                 type="submit"
@@ -44,7 +44,7 @@
   </main>
   <div class="relative">
     <div class="fixed left-5 top-5">
-      <app-alert message="Success sing up." v-if="this.$route.query.action === 'sing-up'"/>
+      <app-alert message="Success sing up." v-if="$route.query.action === 'sing-up'"/>
     </div>
   </div>
 </template>
@@ -61,7 +61,7 @@ export default {
       username: '',
       password: '',
       loading: false,
-      errors: {}
+      errors: {non_field_errors: []}
     }
   },
   methods: {
@@ -71,11 +71,11 @@ export default {
         const {success, data} = await this.authenticationStore.login(this.username, this.password)
 
         if (success && data.code === 'CODE_SENDED') {
-          this.errors = {}
+          this.errors = {non_field_errors: []}
           this.authenticationStore.sessionKey = data.session_key
           this.$router.push({name: '2fa', query: {'action': 'login'}})
         } else if (success) {
-          this.errors = {}
+          this.errors = {non_field_errors: []}
           localStorage.setItem('token', data.token)
           this.authenticationStore.token = data.token
           this.authenticationStore.isAuth = true

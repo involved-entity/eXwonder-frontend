@@ -61,11 +61,12 @@ export default {
     async submit() {
       if (this.isValid) {
         this.loading = true
-        const formData = new FormData()
+        const formData: Record<string, string | File> = {}
+        const images: HTMLInputElement | unknown = this.$refs.images
         for (let index = 0; index < this.images.length; index++) {
-          formData.append("image" + index, this.$refs.images.files[index])
+          formData["image" + index] = images!.files![index]
         }
-        formData.append('signature', this.signature)
+        formData.signature = this.signature
         const {success, data} = await this.postsStore.createPost(formData)
         if (success) {
           this.errors = {}

@@ -36,11 +36,11 @@
               <div class="flex relative">
                 <div class="subs-avatar-w my-3">
                   <router-link
-                      :to="'/' + follow[followMode.slice(0, -1)].username + '/'"
+                      :to="'/' + follow[followField].username + '/'"
                       @click="$emit('userLeave')"
                   >
                     <img
-                        :src="follow[followMode.slice(0, -1)].avatar"
+                        :src="follow[followField].avatar"
                         alt="avatar"
                         class="rounded-full max-w-full"
                     >
@@ -49,18 +49,18 @@
                 <div class="ms-3 my-auto text-gray-300 text-lg">
                   <div class="flex">
                     <router-link
-                        :to="'/' + follow[followMode.slice(0, -1)].username + '/'"
+                        :to="'/' + follow[followField].username + '/'"
                         class="hover:text-gray-400"
                         @click="$emit('userLeave')"
                     >
-                      {{follow[followMode.slice(0, -1)].username}}
+                      {{follow[followField].username}}
                     </router-link>
                     <button
                         class="text-white text-sm ms-3 lg:text-lg px-3 lg:px-5 rounded-xl"
                         type="button"
                         :class="{'bg-gray-600': !follow.is_followed, 'bg-blue-600': follow.is_followed}"
                         @click="followUser(follow)"
-                        v-if="authenticationStore.user.id !== follow[followMode.slice(0, -1)].id"
+                        v-if="authenticationStore.user.id !== follow[followField].id"
                     >
                       {{follow.is_followed ? 'followed' : 'follow'}}
                     </button>
@@ -103,7 +103,7 @@
 
 <script lang="ts">
 import {PropType} from "vue";
-import {IUserExtendedData} from "@/types/globals";
+import {IUserFollowData} from "@/types/globals";
 import {mapStores} from "pinia"
 import {useUsersStore} from "../stores/usersStore.ts"
 import {useAuthenticationStore} from "../stores/authenticationStore.ts"
@@ -119,7 +119,7 @@ export default {
     followMode: {
       type: String as PropType<'followers' | 'followings'>,
       required: true,
-      validator(value) {
+      validator(value: string) {
         return ['followers', 'followings'].includes(value)
       }
     },
@@ -130,23 +130,31 @@ export default {
   },
   data() {
     return {
-      follows: [] as Array<IUserExtendedData>,
+      follows: [] as Array<IUserFollowData>,
       followsLoading: false,
-      searchQuery: ''
+      searchQuery: '',
+      followField: '' as string
     }
   },
   methods: {
     close() {this.$emit('close')},
 
-    async followUser(user: IUserExtendedData) {
+    async followUser(user: IUserFollowData) {
+      let userId: number = 0
+      if (this.followMode === 'followers') {
+        userId = user.follower!.id
+      } else {
+        userId = user.following!.id
+      }
+
       if (!user.is_followed) {
-        const {success} = await this.usersStore.follow(user[this.followMode.slice(0, -1)].id)
+        const {success} = await this.usersStore.follow(userId)
         if (success) {
           user.is_followed = true
           user.followers_count++
         }
       } else {
-        const {success} = await this.usersStore.disfollow(user[this.followMode.slice(0, -1)].id)
+        const {success} = await this.usersStore.disfollow(userId)
         if (success) {
           user.is_followed = false
           user.followers_count--
@@ -164,13 +172,14 @@ export default {
 
   async beforeMount() {
     this.followsLoading = true
-    let response: IResponse
+    let response: IResponse | undefined = undefined
     if (this.followMode === 'followers') {
       response = await this.usersStore.getMyFollowers()
     } else if (this.followMode === 'followings') {
       response = await this.usersStore.getUserFollowings(this.requestedUserId)
     }
-    this.follows = response.data.results
+    this.follows = response!.data.results
+    this.followField = this.followMode === 'followers' ? "follower" : 'following'
     this.followsLoading = false
   },
 

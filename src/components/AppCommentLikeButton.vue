@@ -43,7 +43,7 @@ export default {
     }
   },
   methods: {
-    async likeComment(action: boolean = true): void {
+    async likeComment(action: boolean = true): Promise<void> {
       if (action && !this.comment.is_liked) {
         await this.commentsStore.addCommentLike(this.comment.id)
         this.comment.is_liked = true

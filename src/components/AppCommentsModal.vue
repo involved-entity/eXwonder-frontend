@@ -4,7 +4,7 @@
       <div class="rounded-t-xl overflow-y-auto overflow-x-hidden flex flex-col max-h-full w-full" style="background-color: #111">
         <div class="sticky top-0 left-0 pt-3 pb-1" style="background-color: #050505">
           <div class="grid grid-cols-2 mx-3">
-            <div class="col-span-1 text-2xl flex justify-start">Comments <div class="ms-1 varela-round">({{post.comments_count}})</div></div>
+            <div class="col-span-1 text-2xl flex justify-start">Comments <div class="ms-1 varela-round">({{post!.comments_count}})</div></div>
             <div class="col-span-1 ms-auto cursor-pointer" @click="close">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-8">
                 <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 0 1 1.06 0L12 10.94l5.47-5.47a.75.75 0 1 1 1.06 1.06L13.06 12l5.47 5.47a.75.75 0 1 1-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 0 1-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
@@ -89,7 +89,7 @@ export default {
     },
 
     getCommentIndex(commentToFind: IComment): number {
-      let retIndex: number
+      let retIndex: number = 0
       this.comments.forEach((comment, index) => {
         if (comment.id === commentToFind.id) {
           retIndex = index
@@ -103,14 +103,14 @@ export default {
         const {success} = await this.commentsStore.deleteComment(comment.id)
         if (success) {
           this.comments.splice(this.getCommentIndex(comment), 1)
-          this.post.comments_count--
+          this.post!.comments_count--
         }
       }
     },
 
     async updateComments() {
       this.commentsLoading = true
-      const comments = await this.commentsStore.getPostComments(this.post.id)
+      const comments = await this.commentsStore.getPostComments(this.post!.id)
       this.comments = comments.data.results
       this.commentsLoading = false
     }

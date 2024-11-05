@@ -42,7 +42,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
                   </svg>
                 </button>
-                <div id="dropdownMenu" class="z-10 hidden bg-gray-custom divide-y divide-gray-100 rounded shadow w-36">
+                <div id="dropdownMenu" class="z-10 hidden bg-gray-custom divide-y divide-gray-100 rounded w-36">
                   <ul class="py-1 text-sm text-gray-300" aria-labelledby="dropdownButton">
                     <li>
                       <button
@@ -209,7 +209,7 @@ export default {
       signatureExpanded: false,
       comments: [] as Array<IComment>,
       commentInput: '',
-      errors: []
+      errors: {commentInput: undefined as string | undefined}
     }
   },
   methods: {
@@ -258,7 +258,7 @@ export default {
     },
 
     getCommentIndex(commentToFind: IComment) {
-      let retIndex: number
+      let retIndex: number = 0
       this.comments.forEach((comment, index) => {
         if (comment.id === commentToFind.id) {
           retIndex = index
@@ -287,7 +287,7 @@ export default {
     const $triggerEl = document.getElementById('dropdownButton')
 
     const options = {
-      placement: 'bottom',
+      placement: "bottom",
       offsetSkidding: 0,
       offsetDistance: 10,
     };

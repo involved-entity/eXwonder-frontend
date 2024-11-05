@@ -9,10 +9,10 @@
             <input
                 type="text"
                 class="form-input" v-model="code"
-                :class="{'border-red': errors.code?.length}"
+                :class="{'border-red': errors.code.length}"
                 @keyup.enter="submit"
             >
-            <p><small class="form-error-label" v-if="errors.code?.length">{{errors.code}}</small></p>
+            <p><small class="form-error-label" v-if="errors.code.length">{{errors.code}}</small></p>
 
             <button
                 type="submit"
@@ -32,7 +32,7 @@
   </main>
   <div class="relative">
     <div class="fixed left-5 top-5">
-      <app-alert message="Enter 2FA code to login." v-if="this.$route.query.action === 'login'"/>
+      <app-alert message="Enter 2FA code to login." v-if="$route.query.action === 'login'"/>
     </div>
   </div>
 </template>
@@ -48,7 +48,7 @@ export default {
     return {
       loading: false,
       code: '',
-      errors: {}
+      errors: {code: ''}
     }
   },
   methods: {
@@ -57,7 +57,7 @@ export default {
         const {success, data} = await this.authenticationStore.twoFactorAuthentication(this.code)
 
         if (success) {
-          this.errors = {}
+          this.errors = {code: ''}
           this.$router.push({name: 'feed', query: {'action': 'login'}})
         } else {
           this.errors.code = data.detail

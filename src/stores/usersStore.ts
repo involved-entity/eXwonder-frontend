@@ -2,7 +2,7 @@ import {defineStore} from "pinia"
 import {Methods, request} from "../helpers"
 import axios from "axios"
 
-import {IUserDefaultData} from "../types/globals";
+import {IUserExtendedData} from "../types/globals";
 import {IResponse} from "../types/helpers";
 
 export const useUsersStore = defineStore('users', {
@@ -21,7 +21,7 @@ export const useUsersStore = defineStore('users', {
         async disfollow(userId: number): Promise<IResponse> {
             return await request(Methods.POST, '/api/v1/account/followings/disfollow/', {following: userId}, undefined, axios.HttpStatusCode.NoContent)
         },
-        async searchUsers(usernameQuery: string): Promise<Array<IUserDefaultData>> {
+        async searchUsers(usernameQuery: string): Promise<Array<IUserExtendedData>> {
             const {data} = await request(Methods.GET, `/api/v1/account/account/?search=${usernameQuery}`)
             return data.results
         },

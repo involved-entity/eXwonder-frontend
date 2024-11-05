@@ -9,22 +9,22 @@
             <input
                 type="text"
                 class="form-input"
-                :class="{'border-red': errors.username}"
+                :class="{'border-red': errors.username.length}"
                 v-model="username"
                 @keyup.down="$refs.emailInput.focus()"
             >
-            <p><small class="form-error-label" v-if="errors.username">{{errors.username[0]}}</small></p>
+            <p><small class="form-error-label" v-if="errors.username.length">{{errors.username[0]}}</small></p>
 
             <p class="form-label">Email <code class="text-slate-500">(optional)</code>:</p>
             <input
                 type="email"
                 class="form-input"
-                :class="{'border-red': errors.email}"
+                :class="{'border-red': errors.email.length}"
                 v-model="email"
                 ref="emailInput"
                 @keyup.down="$refs.password1Input.focus()"
             >
-            <p><small class="form-error-label" v-if="errors.email">{{errors.email[0]}}</small></p>
+            <p><small class="form-error-label" v-if="errors.email.length">{{errors.email[0]}}</small></p>
 
             <p class="form-label">Password:</p>
             <input
@@ -74,7 +74,7 @@ export default {
       password1: '',
       password2: '',
       loading: false,
-      errors: {}
+      errors: {username: [], email: []}
     }
   },
   methods: {
@@ -84,7 +84,7 @@ export default {
         const {success, data} = await this.authenticationStore.singUp(this.username, this.password1, this.email.length ? this.email : null)
 
         if (success) {
-          this.errors = {}
+          this.errors = {username: [], email: []}
           this.$router.push({name: 'login', query: {'action': 'sing-up'}})
         } else {
           this.errors = data

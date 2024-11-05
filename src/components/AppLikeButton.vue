@@ -57,7 +57,7 @@ export default {
     }
   },
   methods: {
-    async likePost(action: boolean): void {
+    async likePost(action: boolean): Promise<void> {
       if (action && !this.post.is_liked) {
         await this.postsStore.addPostLike(this.post.id)
         this.post.is_liked = true

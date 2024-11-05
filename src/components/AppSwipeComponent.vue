@@ -9,7 +9,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   emits: ["swipe-right", "swipe-left"],
   data() {
@@ -19,10 +19,10 @@ export default {
     };
   },
   methods: {
-    touchStart(event) {
+    touchStart(event: TouchEvent) {
       this.startX = event.touches[0].clientX;
     },
-    touchMove(event) {
+    touchMove(event: TouchEvent) {
       this.endX = event.touches[0].clientX;
     },
     touchEnd() {

@@ -7,7 +7,7 @@ import {IResponse} from "../types/helpers";
 
 export const useAccountStore = defineStore('account', {
     actions: {
-        async updateSettings(updates: IUserSettingsUpdates): Promise<AxiosResponse['data']> | Promise<void> {
+        async updateSettings(updates: IUserSettingsUpdates): Promise<undefined | AxiosResponse<Record<string, Array<string>>>['data']> {
             const authenticationStore = useAuthenticationStore()
 
             const {success, data} = await request(Methods.PATCH, '/api/v1/account/account/update-me/', updates, {
@@ -19,6 +19,7 @@ export const useAccountStore = defineStore('account', {
             }
 
             await authenticationStore.getMe(true)
+            return undefined
         },
         async resetPassword(email: string): Promise<IResponse> {
             return await request(Methods.POST, '/api/v1/account/password-reset/', {email})

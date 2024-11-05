@@ -1,5 +1,5 @@
 import axios from 'axios'
-import BaseUrl from "../settings.js"
+import BaseUrl from "../settings.ts"
 
 interface IDefaultAxiosInstanceOptions {
     baseURL: string

@@ -6,12 +6,12 @@
           <button
               class="header-transition varela-round"
               :class="{'active-tab': activeTab === 0}"
-              @click="changeActiveTab('recent')"
+              @click="changeActiveTab(tops.RECENT)"
           >Recent</button>
           <button
               class="header-transition varela-round"
               :class="{'active-tab': activeTab === 1}"
-              @click="changeActiveTab('likes')"
+              @click="changeActiveTab(tops.LIKES)"
           >Likes</button>
         </div>
         <div class="ps-3 pr-3 pb-3 h-1 hidden lg:block">
@@ -37,6 +37,7 @@ import {IResponse} from "../types/helpers";
 export default {
   data() {
     return {
+      tops: Tops,
       activeTab: 0,
       topPosts: [] as PropType<Array<IPost>>,
       loading: false

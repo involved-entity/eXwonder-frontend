@@ -27,7 +27,7 @@ export const useAuthenticationStore = defineStore("authentication", {
                 username, password
             }, undefined, axios.HttpStatusCode.Ok, axios.HttpStatusCode.Accepted)
         },
-        async twoFactorAuthentication(code: number): Promise<IResponse> {
+        async twoFactorAuthentication(code: string): Promise<IResponse> {
             const {success, data} = await request(Methods.POST, '/api/v1/account/account/two-factor-authentication/', {
                 auth_code: code,
                 session_key: this.sessionKey
@@ -39,7 +39,7 @@ export const useAuthenticationStore = defineStore("authentication", {
             }
             return {success, data}
         },
-        async singUp(username: string, password: string, email: string): Promise<IResponse> {
+        async singUp(username: string, password: string, email: string | null): Promise<IResponse> {
             return await request(Methods.POST, '/api/v1/account/account/', {
                 username, password, email
             }, undefined, axios.HttpStatusCode.Created)

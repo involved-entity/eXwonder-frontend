@@ -56,10 +56,10 @@
             class="absolute left-1 top-1 bg-black rounded-xl text-xs text-white px-2 py-0.5 mx-auto"
             v-if="post.images.length > 1"
         >
-          {{post.activeImage+1}}/{{post.images.length}}
+          {{post.activeImage!+1}}/{{post.images.length}}
         </div>
         <button class="size-7 absolute left-1 top-1/2 bg-gray-50 rounded-full hidden lg:block"
-                :class="{'opacity-100 cursor-pointer': post.activeImage > 0, 'opacity-0': post.activeImage <= 0}"
+                :class="{'opacity-100 cursor-pointer': post.activeImage! > 0, 'opacity-0': post.activeImage! <= 0}"
                 style="transform: translateY(-50%)"
                 @click="changeImage(post,false)"
         >
@@ -73,11 +73,11 @@
           </svg>
         </button>
         <app-swipe-component class="block lg:hidden" @swipe-left="changeImage(post, false)" @swipe-right="changeImage(post)">
-          <img :src="post.images[post.activeImage].image" alt="Post image" class="max-h-full rounded">
+          <img :src="post.images[post.activeImage!].image" alt="Post image" class="max-h-full rounded">
         </app-swipe-component>
-        <img :src="post.images[post.activeImage].image" alt="Post image" class="max-h-full rounded hidden lg:block">
+        <img :src="post.images[post.activeImage!].image" alt="Post image" class="max-h-full rounded hidden lg:block">
         <button class="size-7 absolute right-1 top-1/2 bg-gray-50 rounded-full hidden lg:block"
-                :class="{'opacity-100 cursor-pointer': post.activeImage + 1 < post.images.length, 'opacity-0': post.activeImage + 1 >= post.images.length}"
+                :class="{'opacity-100 cursor-pointer': post.activeImage! + 1 < post.images.length, 'opacity-0': post.activeImage! + 1 >= post.images.length}"
                 style="transform: translateY(-50%)"
                 @click="changeImage(post)"
         >
@@ -168,14 +168,14 @@
         <hr class="border border-gray-600">
       </div>
     </div>
-    <app-post-modal :post="activeModalPost" v-if="activeModalPost.id" @close="activeModalPost = {}"/>
-    <app-comments-modal :post="activeModalCommmentsPost" v-if="activeModalCommmentsPost.id" @close="activeModalCommmentsPost = {}"/>
+    <app-post-modal :post="activeModalPost" v-if="activeModalPost?.id!" @close="activeModalPost = undefined"/>
+    <app-comments-modal :post="activeModalCommmentsPost" v-if="activeModalCommmentsPost?.id!" @close="activeModalCommmentsPost = undefined"/>
   </div>
 </template>
 
 <script lang="ts">
 import {PropType} from "vue";
-import {IPost} from "@/types/globals";
+import {IPost} from "../types/globals";
 import AppLikeButton from "./AppLikeButton.vue"
 import AppPostModal from "./AppPostModal.vue"
 import AppSavePostButton from "./AppSavePostButton.vue"
@@ -204,9 +204,9 @@ export default {
   },
   data() {
     return {
-      activeModalPost: {} as IPost,
-      activeModalCommmentsPost: {} as IPost,
-      errors: {}
+      activeModalPost: {} as IPost | undefined,
+      activeModalCommmentsPost: {} as IPost | undefined,
+      errors: {} as Record<number, string | undefined>
     }
   },
   methods: {
@@ -218,19 +218,19 @@ export default {
       }
     },
     changeImage(post: IPost, next: boolean = true) {
-      if (next && post.activeImage < post.images.length - 1) {
-        post.activeImage++
+      if (next && post.activeImage! < post.images.length - 1) {
+        post.activeImage!++
       } else if (!next && post.activeImage !== 0) {
-        post.activeImage--
+        post.activeImage!--
       }
     },
     async createComment(post: IPost) {
-      const commentInput = this.$refs['comment_input_' + String(post.id)][0]
-      if (commentInput.value.length >= 10 && commentInput.value.length <= 2048) {
-        const {success} = await this.commentsStore.addComment(post.id, commentInput.value)
+      const commentInput = this.$refs[`comment_input_${post.id}`] as HTMLInputElement[]
+      if (commentInput[0].value.length >= 10 && commentInput[0].value.length <= 2048) {
+        const {success} = await this.commentsStore.addComment(post.id, commentInput[0].value)
         if (success) {
-          this.errors[post.id] = undefined
-          commentInput.value = ''
+          this.errors[`${post.id}`] = undefined
+          commentInput[0].value = ''
           post.comments_count += 1
           post.is_commented = true
         }
@@ -240,7 +240,7 @@ export default {
       }
     },
     getPostIndex(postToFind: IPost) {
-      let retIndex: number
+      let retIndex: number = 0
       this.posts.forEach((post: IPost, index: number) => {
         if (post.id === postToFind.id) {
           retIndex = index
@@ -259,8 +259,8 @@ export default {
   },
   mounted() {
     this.posts.forEach((post: IPost) => {
-      const $targetEl = document.querySelector(`#dropdownMenu${post.id}`)
-      const $triggerEl = document.querySelector(`#dropdownButton${post.id}`)
+      const $targetEl = document.getElementById(`#dropdownMenu${post.id}`)
+      const $triggerEl = document.getElementById(`#dropdownButton${post.id}`)
 
       const options = {
         placement: 'bottom',
