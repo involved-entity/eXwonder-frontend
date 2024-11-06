@@ -5,8 +5,8 @@ import {IResponse} from "../types/helpers";
 
 export const useCommentsStore = defineStore("comments", {
     actions: {
-        async getPostComments(postId: number): Promise<IResponse> {
-            return await request(Methods.GET, `/api/v1/posts/comments/?post_id=${postId}`)
+        async getPostComments(postId: number, page: number = 1): Promise<IResponse> {
+            return await request(Methods.GET, `/api/v1/posts/comments/?post_id=${postId}&page=${page}`)
         },
         async addComment(postId: number, comment: string): Promise<IResponse> {
             return await request(Methods.POST, '/api/v1/posts/comments/', {post_id: postId, comment}, undefined, axios.HttpStatusCode.Created)

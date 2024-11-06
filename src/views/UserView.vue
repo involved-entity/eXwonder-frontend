@@ -31,7 +31,7 @@
               <div class="flex text-xl text-gray-400 pb-1 mt-auto">
                 <div class="pr-4">
                   <div class="text-base lg:text-xl">
-                    <span class="text-gray-300 text-xl font-semibold varela-round">{{posts.length}}</span>
+                    <span class="text-gray-300 text-xl font-semibold varela-round">{{postsCount}}</span>
                     posts
                   </div>
                 </div>
@@ -62,7 +62,7 @@
             <hr class="border border-gray-600">
           </div>
 
-          <app-posts-grid :posts="posts" v-if="posts" />
+          <app-posts-grid :posts="posts" @updatePostsScroll="getPostsNextPage" v-if="posts" />
           <app-subscriptions-modal
               :follows-count="followings.followersCount"
               follow-mode="followers"
@@ -79,6 +79,9 @@
               @userLeave="showFollowingsModal = false; showFollowersModal = false"
               v-if="showFollowingsModal"
           />
+          <div class="pt-5 pb-10" v-if="loadingNextPage">
+            <div class="loader mx-auto"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -92,6 +95,7 @@
 
 <script lang="ts">
 import {IPost, IUserDefaultData, IUserExtendedData} from "@/types/globals";
+import {Methods, request} from "../helpers";
 import {mapStores} from 'pinia'
 import {useUsersStore} from "../stores/usersStore.ts"
 import {usePostsStore} from "../stores/postsStore.ts"
@@ -118,8 +122,11 @@ export default {
       showFollowersModal: false,
       showFollowingsModal: false,
       posts: [] as Array<IPost>,
+      postsCount: 0,
       loading: false,
       errorFetchUser: '',
+      loadingNextPage: false,
+      currentPage: undefined as number | undefined
     }
   },
   methods: {
@@ -154,20 +161,31 @@ export default {
     },
     async updateUserInfo(username?: string) {
       this.loading = true
-      this.requestedUser.username = username ? username : this.$route.params.username
-      const {data} = await this.usersStore.getUser(this.requestedUser.username)
+      const {data} = await this.usersStore.getUser((username ? username : this.$route.params.username as string))
 
       if (!data.username) {this.errorFetchUser = 'User is not found. :('} else {
         this.requestedUser.id = data.id
+        this.requestedUser.username = data.username
         this.requestedUser.avatar = data.avatar
         this.followings.followersCount = data.followers_count
         this.followings.followingsCount = data.followings_count
         this.followings.followed = data.is_followed
         const posts = await this.postsStore.getUserPosts(this.requestedUser.username)
         this.posts = posts.data.results
+        this.postsCount = posts.data.count
+        this.currentPage = posts.data.next ? 2 : undefined
       }
 
       this.loading = false
+    },
+    async getPostsNextPage() {
+      if (this.currentPage) {
+        this.loadingNextPage = true
+        const {data} = await this.postsStore.getUserPosts(this.requestedUser.username, this.currentPage)
+        this.posts.push(...data.results)
+        this.currentPage = data.next ? this.currentPage + 1 : undefined
+        this.loadingNextPage = false
+      }
     }
   },
   async beforeMount() {

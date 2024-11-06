@@ -4,7 +4,7 @@
       <div v-for="(post, index) in posts" :key="post.id">
         <div
             class="group relative cursor-pointer"
-            :class="{'ml-0.5 mt-0.5': index === 0}"
+            :class="{'ml-0.5 mt-0.5': index === 0, 'scrollEnd': index === posts.length - 1}"
             @click="postClick(post)"
         >
           <img
@@ -34,11 +34,10 @@
           </div>
         </div>
       </div>
-      <div class="hidden lg:block" v-for="post in posts" :key="post.id">
+      <div class="hidden lg:block" v-if="posts.filter(el => el.isModalVisible).length">
         <app-post-modal
-            :post="post"
-            v-if="post.isModalVisible"
-            @close="exitModal(post)"
+            :post="posts.filter(el => el.isModalVisible)[0]"
+            @close="exitModal(posts.filter(el => el.isModalVisible)[0])"
         />
       </div>
     </div>
@@ -54,13 +53,20 @@
 <script lang="ts">
 import {PropType} from "vue";
 import {IPost} from "../types/globals";
+import {isElementInViewport} from '../helpers'
 import AppPostModal from "./AppPostModal.vue"
 
 export default {
+  emits: ['updatePostsScroll'],
   props: {
     posts: {
       type: Array as PropType<Array<IPost>>,
       required: true
+    }
+  },
+  data() {
+    return {
+      isPostsMayBeUpdated: false
     }
   },
   methods: {
@@ -74,6 +80,26 @@ export default {
       if (window.innerWidth >= 1024) {this.showModal(post)} else {
         this.$router.push({name: 'user-post', params: {username: post.author.username, id: post.id}})
       }
+    },
+    checkScroll() {
+      if (this.isPostsMayBeUpdated) {
+        const element = document.querySelector('.scrollEnd') as HTMLElement
+        if (isElementInViewport(element)) {
+          this.$emit('updatePostsScroll')
+        }
+      }
+    }
+  },
+  mounted() {
+    this.isPostsMayBeUpdated = this.posts.length % 50 === 0
+    window.addEventListener('scroll', this.checkScroll);
+  },
+  watch: {
+    posts: {
+      handler(new__) {
+        this.isPostsMayBeUpdated = new__.length % 50 === 0
+      },
+      deep: true
     }
   },
   components: {AppPostModal}
