@@ -30,11 +30,11 @@
                 <button
                     class="btn-follow ms-3 px-5"
                     type="button"
-                    :class="{'bg-gray-600': !result.is_followed, 'bg-blue-600': result.is_followed}"
+                    :class="{'bg-gray-600': result.is_followed, 'bg-blue-500': !result.is_followed}"
                     @click="followUser(result)"
                     v-if="authenticationStore.user.id !== result.id"
                 >
-                  {{result.is_followed ? 'followed' : 'follow'}}
+                  {{result.is_followed ? 'Followed' : 'Follow'}}
                 </button>
               </div>
               <div class="flex text-xl text-gray-400 pb-1 mt-auto">

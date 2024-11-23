@@ -56,9 +56,9 @@
                       {{follow[followField].username}}
                     </router-link>
                     <button
-                        class="text-white text-sm ms-3 lg:text-lg px-3 lg:px-5 rounded-xl"
+                        class="ms-3 btn-follow"
                         type="button"
-                        :class="{'bg-gray-600': !follow.is_followed, 'bg-blue-600': follow.is_followed}"
+                        :class="{'bg-gray-600': follow.is_followed, 'bg-blue-500': !follow.is_followed}"
                         @click="followUser(follow)"
                         v-if="authenticationStore.user.id !== follow[followField].id"
                     >

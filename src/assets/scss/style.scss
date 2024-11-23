@@ -99,7 +99,7 @@
   }
 
   .shadow {
-    @apply shadow-xl shadow-cyan-500/50;
+    @apply shadow-xl shadow-cyan-500/50 dark:shadow-gray-900/50;
   }
 }
 
@@ -179,7 +179,7 @@
 }
 
 .btn-follow {
-  @apply text-white text-lg rounded-xl;
+  @apply px-2 py-1 text-white font-semibold text-sm rounded block text-center;
 }
 
 .btn-svg {

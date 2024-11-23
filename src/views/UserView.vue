@@ -15,18 +15,18 @@
         <div v-else>
           <div class="flex justify-center">
             <div class="w-1/6 ms-2 my-3">
-              <img :src="requestedUser.avatar" alt="avatar" class="rounded-full max-w-full">
+              <img :src="requestedUser.avatar" alt="avatar" class="border-2 border-gray-600 p-1 rounded-full max-w-full">
             </div>
             <div class="ms-2 relative">
               <p class="text-gray-300 text-lg lg:text-xl mt-5">{{requestedUser.username}}</p>
               <button
-                  class="btn-follow absolute top-0 right-0 mt-5 px-5"
+                  class="btn-follow absolute top-0 right-0 mt-5"
                   type="button"
-                  :class="{'bg-gray-600': !followings.followed, 'bg-blue-600': followings.followed}"
+                  :class="{'bg-gray-600': followings.followed, 'bg-blue-500': !followings.followed}"
                   @click="followUser"
                   v-if="authenticationStore.user.id !== requestedUser.id"
               >
-                {{followings.followed ? 'followed' : 'follow'}}
+                {{followings.followed ? 'Followed' : 'Follow'}}
               </button>
               <div class="flex text-xl text-gray-400 pb-1 mt-auto">
                 <div class="pr-4">
