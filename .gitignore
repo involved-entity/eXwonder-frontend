@@ -24,3 +24,5 @@ dist-ssr
 *.sw?
 
 journal.py
+.dockerignore
+Dockerfile

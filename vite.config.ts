@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
-const localIp = '0.0.0.0'
+const localIp = 'localhost'
 
 export default defineConfig({
   plugins: [vue()],
