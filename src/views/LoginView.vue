@@ -36,10 +36,10 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="footer-link-16 flex flex-col">
-      <div class="mx-auto">Don't have an account? <router-link :to="{name: 'sing-up'}" class="link">Sing up</router-link></div>
-      <div class="mx-auto">Forgive your password? <router-link :to="{name: 'reset-password'}" class="link">Reset password</router-link></div>
+      <div class="footer-links flex flex-col">
+        <div class="mx-auto">Don't have an account? <router-link :to="{name: 'sing-up'}" class="link">Sing up</router-link></div>
+        <div class="mx-auto">Forgive your password? <router-link :to="{name: 'reset-password'}" class="link">Reset password</router-link></div>
+      </div>
     </div>
   </main>
   <div class="relative">

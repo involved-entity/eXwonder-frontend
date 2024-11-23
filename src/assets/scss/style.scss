@@ -222,13 +222,8 @@
   @apply border border-red-600;
 }
 
-.footer-link-16 {
-  @apply absolute bottom-32 lg:bottom-16 text-sm w-full left-1/2 text-gray-500;
-  transform: translateX(-50%);
-}
-.footer-link-9 {
-  @apply absolute bottom-28 lg:bottom-16 text-sm w-full left-1/2 text-gray-500;
-  transform: translateX(-50%);
+.footer-links {
+  @apply mt-10 text-sm w-full left-1/2 text-gray-500;
 }
 
 .link {

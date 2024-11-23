@@ -25,9 +25,9 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="footer-link-16 flex flex-col">
-      <div class="mx-auto">Already have an account? <router-link :to="{name: 'login'}" class="link">Log in</router-link></div>
+      <div class="footer-links flex flex-col">
+        <div class="mx-auto">Already have an account? <router-link :to="{name: 'login'}" class="link">Log in</router-link></div>
+      </div>
     </div>
   </main>
   <div class="relative">

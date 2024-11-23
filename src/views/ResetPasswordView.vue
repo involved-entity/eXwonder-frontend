@@ -3,9 +3,9 @@
     <div class="hw-centered flex flex-col">
       <the-reset-password v-if="!(uid?.length && token?.length)"/>
       <the-reset-password-confirm :token="String(token)" :uid="String(uid)" v-if="uid?.length && token?.length"/>
-    </div>
-    <div class="footer-link-16 flex flex-col">
-      <div class="mx-auto">Already have an account? <router-link :to="{name: 'login'}" class="link">Log in</router-link></div>
+      <div class="footer-links flex flex-col">
+        <div class="mx-auto">Already have an account? <router-link :to="{name: 'login'}" class="link">Log in</router-link></div>
+      </div>
     </div>
   </main>
 </template>
