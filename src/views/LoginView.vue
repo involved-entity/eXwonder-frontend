@@ -1,5 +1,5 @@
 <template>
-  <main class="relative">
+  <main class="relative" @keyup.enter="submit">
     <div class="hw-centered flex flex-col">
       <div class="header-3xl mb-3">Login</div>
       <div class="card">
@@ -20,7 +20,6 @@
                 class="form-input"
                 v-model="password"
                 :class="{'border-red': errors.non_field_errors.length}"
-                @keyup.enter="submit"
                 ref="passwordInput"
             >
             <p><small class="form-error-label" v-if="errors.non_field_errors.length">{{errors.non_field_errors[0]}}</small></p>

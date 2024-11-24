@@ -1,5 +1,5 @@
 <template>
-  <div class="container-border">
+  <div class="container-border" @keyup.enter="submit">
     <div class="shadow">
       <div class="ps-3 pr-3 pb-3 h-1 pt-3">
         <hr class="border border-gray-600">
@@ -24,7 +24,7 @@
               v-model="timezone"
               class="form-input"
               :class="{'border-red': errors.timezone?.length}"
-              @keyup.enter="$refs.is2faEnabled.focus()"
+              @keyup.down="$refs.is2faEnabled.focus()"
               ref="timezoneInput"
               list="timezones"
           >

@@ -1,5 +1,5 @@
 <template>
-  <main class="relative">
+  <main class="relative" @keyup.enter="submit">
     <div class="hw-centered flex flex-col">
       <div class="header-3xl mb-3">Sing Up</div>
       <div class="card text-md w-3/4 sm:w-2/5 lg:w-1/3">
@@ -41,7 +41,6 @@
                 class="form-input"
                 v-model="password2"
                 ref="password2Input"
-                @keyup.enter="submit"
             >
 
             <button

@@ -1,5 +1,5 @@
 <template>
-  <div class="header-3xl mb-3">Password reset</div>
+  <div class="header-3xl mb-3" @keyup.enter="submit">Password reset</div>
   <div class="card md:w-2/5 lg:w-1/3 xl:w-1/4">
     <div class="w-full h-full items-center justify-center mt-3">
       <div class="m-3">
@@ -7,7 +7,6 @@
         <input
             type="email"
             class="form-input" v-model="email"
-            @keyup.enter="submit"
         >
 
         <button

@@ -1,10 +1,10 @@
 <template>
-  <div class="container-border">
+  <div class="container-border" @keyup.enter="submit">
     <div class="shadow justify-center">
       <div class="w-full flex h-full items-center justify-center">
         <div class="w-3/4 lg:w-2/3">
           <div class="header-2xl">Change your account password</div>
-          <div class="mx-3 mb-3 mt-1" @keyup.enter="submit">
+          <div class="mx-3 mb-3 mt-1">
             <p class="form-label">Old password:</p>
             <input
                 type="password"

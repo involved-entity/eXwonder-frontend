@@ -1,5 +1,5 @@
 <template>
-  <div class="container-border">
+  <div class="container-border" @keyup.enter="submit">
     <div class="justify-center shadow">
       <p class="text-gray-300 text-4xl text-center lg:ms-3 lg:text-start mt-3">New post uploading</p>
       <hr class="ms-3 mr-3 mt-4 mb-4 border-gray-600">
