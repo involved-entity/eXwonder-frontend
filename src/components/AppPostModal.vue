@@ -9,10 +9,11 @@
             class="size-10 ms-auto my-auto"
             :class="{'opacity-100 cursor-pointer': activeImage > 0, 'opacity-0': activeImage <= 0}"
             @click="prevImage"
+            ref="prevImageBtn"
         >
           <path fill-rule="evenodd" d="M7.72 12.53a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 1 1 1.06 1.06L9.31 12l6.97 6.97a.75.75 0 1 1-1.06 1.06l-7.5-7.5Z" clip-rule="evenodd" />
         </svg>
-        <img :src="post.images[activeImage].image" alt="Post image" class="max-h-full">
+        <img :src="post.images[activeImage].image" alt="Post image" class="max-h-full" ref="image">
         <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -20,11 +21,12 @@
             class="size-10 me-auto my-auto"
             :class="{'opacity-100 cursor-pointer': activeImage + 1 < post.images.length, 'opacity-0': activeImage + 1 >= post.images.length}"
             @click="nextImage"
+            ref="nextImageBtn"
         >
           <path fill-rule="evenodd" d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z" clip-rule="evenodd" />
         </svg>
       </div>
-      <div class="rounded-2xl overflow-y-auto overflow-x-hidden flex flex-col mb-auto max-h-full lg:w-[21rem] xl:w-[24rem]" style="background-color: #111">
+      <div class="rounded-2xl overflow-y-auto overflow-x-hidden flex flex-col mb-auto max-h-full lg:w-[21rem] xl:w-[24rem]" style="background-color: #111" ref="commentsBlock">
         <div class="sticky top-0 left-0 pt-3 pb-1" style="background-color: #050505">
           <div class="grid grid-cols-2 mx-3">
             <div class="col-span-1 text-2xl flex justify-start">Comments <div class="ms-1 varela-round">({{post.comments_count}})</div></div>
@@ -275,14 +277,27 @@ export default {
           this.post.comments_count--
         }
       }
+    },
+
+    handleClick(event: Event) {
+      const prevImageBtn = this.$refs.prevImageBtn as HTMLElement
+      const nextImageBtn = this.$refs.nextImageBtn as HTMLElement
+      const image = this.$refs.image as HTMLElement
+      const commentsBlock = this.$refs.commentsBlock as HTMLElement
+      if (!prevImageBtn.contains(event.target)
+          && !nextImageBtn.contains(event.target)
+          && !image.contains(event.target)
+          && !commentsBlock.contains(event.target)) {
+        this.close()
+      }
     }
   },
 
-  async beforeMount() {
+  async mounted() {
     await this.updateComments()
-  },
 
-  mounted() {
+    document.body.addEventListener('click', this.handleClick)
+
     const $targetEl = document.getElementById('dropdownMenu')
     const $triggerEl = document.getElementById('dropdownButton')
 
@@ -295,6 +310,10 @@ export default {
     if ($targetEl) {
       new Dropdown($targetEl, $triggerEl, options)
     }
+  },
+
+  unmounted() {
+    document.body.removeEventListener('click', this.handleClick)
   },
 
   computed: {
