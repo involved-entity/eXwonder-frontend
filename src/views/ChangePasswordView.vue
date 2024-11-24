@@ -12,6 +12,7 @@
                 class="form-input"
                 v-model="oldPassword"
                 @keyup.down="$refs.password1.focus()"
+                ref="oldPasswordInput"
                 :class="{'border-red': errors.old_password?.length}"
             >
             <p><small class="form-error-label" v-if="errors.old_password?.length">{{errors.old_password[0]}}</small></p>
@@ -22,6 +23,7 @@
                 placeholder="Your new password"
                 class="form-input"
                 v-model="newPassword1"
+                @keyup.up="$refs.oldPasswordInput.focus()"
                 @keyup.down="$refs.password2.focus()"
                 ref="password1"
                 :class="{'form-input': errors.new_password1?.length}"
@@ -35,6 +37,7 @@
                 class="form-input"
                 v-model="newPassword2"
                 ref="password2"
+                @keyup.up="$refs.password1.focus()"
                 :class="{'border-red': errors.new_password2?.length}"
             >
             <p><small class="form-error-label" v-if="errors.new_password2?.length">{{errors.new_password2[0]}}</small></p>
@@ -78,7 +81,7 @@ export default {
         } else {
           this.errors = data
         }
-        this.loadig = false
+        this.loading = false
       }
     }
   },

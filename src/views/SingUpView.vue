@@ -11,6 +11,7 @@
                 class="form-input"
                 :class="{'border-red': errors.username.length}"
                 v-model="username"
+                ref="usernameInput"
                 @keyup.down="$refs.emailInput.focus()"
             >
             <p><small class="form-error-label" v-if="errors.username.length">{{errors.username[0]}}</small></p>
@@ -22,6 +23,7 @@
                 :class="{'border-red': errors.email.length}"
                 v-model="email"
                 ref="emailInput"
+                @keyup.up="$refs.usernameInput.focus()"
                 @keyup.down="$refs.password1Input.focus()"
             >
             <p><small class="form-error-label" v-if="errors.email.length">{{errors.email[0]}}</small></p>
@@ -32,6 +34,7 @@
                 class="form-input"
                 v-model="password1"
                 ref="password1Input"
+                @keyup.up="$refs.emailInput.focus()"
                 @keyup.down="$refs.password2Input.focus()"
             >
 
@@ -41,6 +44,7 @@
                 class="form-input"
                 v-model="password2"
                 ref="password2Input"
+                @keyup.up="$refs.password1Input.focus()"
             >
 
             <button

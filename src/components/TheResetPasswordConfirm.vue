@@ -9,6 +9,7 @@
             placeholder="Your new password"
             class="form-input" v-model="password1"
             :class="{'border-red': error.length}"
+            ref="password1"
             @keyup.down="$refs.repeat.focus()"
         >
         <p><small class="form-error-label" v-if="error.length">{{error}}</small></p>
@@ -19,6 +20,7 @@
             placeholder="Your new password"
             class="form-input" v-model="password2"
             ref="repeat"
+            @keyup.up="$refs.password1.focus()"
             :class="{'border-red': error.length}"
         >
         <p><small class="form-error-label" v-if="error.length">{{error}}</small></p>

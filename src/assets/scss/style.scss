@@ -212,7 +212,7 @@
   @apply ms-1 text-slate-400;
 }
 .form-input {
-  @apply my-1 text-gray-400 bg-gray-custom w-full p-1 outline-none rounded;
+  @apply my-1 text-gray-400 bg-gray-custom w-full px-5 py-1 outline-none rounded;
 }
 .form-error-label {
   @apply p-1 text-red-600;

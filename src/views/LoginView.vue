@@ -11,6 +11,7 @@
                 class="form-input" v-model="username"
                 :class="{'border-red': errors.non_field_errors.length}"
                 @keyup.down="$refs.passwordInput.focus()"
+                ref="usernameInput"
             >
             <p><small class="form-error-label" v-if="errors.non_field_errors.length">{{errors.non_field_errors[0]}}</small></p>
 
@@ -20,6 +21,7 @@
                 class="form-input"
                 v-model="password"
                 :class="{'border-red': errors.non_field_errors.length}"
+                @keyup.up="$refs.usernameInput.focus()"
                 ref="passwordInput"
             >
             <p><small class="form-error-label" v-if="errors.non_field_errors.length">{{errors.non_field_errors[0]}}</small></p>

@@ -13,6 +13,7 @@
               :placeholder="authenticationStore.user.email"
               class="form-input" v-model="email"
               :class="{'border-red': errors.email?.length}"
+              ref="emailInput"
               @keyup.down="$refs.timezoneInput.focus()"
           >
           <p><small class="form-error-label" v-if="errors.email?.length">{{errors.email[0]}}</small></p>
@@ -24,6 +25,7 @@
               v-model="timezone"
               class="form-input"
               :class="{'border-red': errors.timezone?.length}"
+              @keyup.up="$refs.emailInput.focus()"
               @keyup.down="$refs.is2faEnabled.focus()"
               ref="timezoneInput"
               list="timezones"
