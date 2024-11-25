@@ -1,8 +1,8 @@
 <template>
-  <div class="fixed inset-0 bg-opacity-90 bg-black flex justify-center items-center">
-    <div class="h-5/6 text-gray-300">
-      <div class="rounded-t-xl overflow-y-auto overflow-x-hidden flex flex-col max-h-full w-full" style="background-color: #111">
-        <div class="sticky top-0 left-0 pt-3 pb-1" style="background-color: #050505">
+  <div class="fixed inset-0 bg-opacity-90 bg-black flex justify-center items-center z-50">
+    <div class="h-5/6 text-gray-700 dark:text-gray-300">
+      <div class="rounded-t-xl overflow-y-auto overflow-x-hidden flex flex-col max-h-full w-full bg-gray-200 dark:bg-[#111]">
+        <div class="sticky top-0 left-0 pt-3 pb-1 bg-gray-300 dark:bg-[#070707]">
           <div class="grid grid-cols-2 mx-3">
             <div class="col-span-1 text-2xl flex justify-start">Comments <div class="ms-1 varela-round">({{post!.comments_count}})</div></div>
             <div class="col-span-1 ms-auto cursor-pointer" @click="close">
@@ -24,10 +24,10 @@
               </router-link>
               <div class="ms-3 col-span-6">
                 <div class="flex">
-                  <router-link :to="'/' + comment.author.username + '/'" class="hover:text-gray-400" @click="routeStore.changeActiveLink('user')">
+                  <router-link :to="'/' + comment.author.username + '/'" class="hover:text-gray-600 dark:hover:text-gray-400" @click="routeStore.changeActiveLink('user')">
                     {{comment.author.username}}
                   </router-link>
-                  <p class="text-gray-400 text-sm ms-2 my-auto montserrat">{{comment.time_added.time_added}} ago</p>
+                  <p class="text-gray-600 dark:text-gray-400 text-sm ms-2 my-auto montserrat">{{comment.time_added.time_added}} ago</p>
                   <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
