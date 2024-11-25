@@ -58,7 +58,7 @@
                     <button
                         class="ms-3 btn-follow"
                         type="button"
-                        :class="{'bg-gray-600': follow.is_followed, 'bg-blue-500': !follow.is_followed}"
+                        :class="{'bg-gray-500 dark:bg-gray-600': follow.is_followed, 'bg-blue-500': !follow.is_followed}"
                         @click="followUser(follow)"
                         v-if="authenticationStore.user.id !== follow[followField].id"
                     >

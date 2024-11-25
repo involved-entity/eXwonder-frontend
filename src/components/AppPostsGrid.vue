@@ -7,11 +7,14 @@
             :class="{'ml-0.5 mt-0.5': index === 0, 'scrollEnd': index === posts.length - 1}"
             @click="postClick(post)"
         >
-          <img
-              :src="post.images[0].image_crop"
-              alt="Post image"
-              class="block w-full h-full mx-auto group-hover:opacity-40"
-          >
+          <div class="relative overflow-hidden">
+            <img
+                :src="post.images[0].image_crop"
+                alt="Post image"
+                class="block w-full h-full object-cover object-center mx-auto dark:group-hover:opacity-40"
+            >
+            <div class="absolute h-full inset-0 group-hover:bg-black group-hover:bg-opacity-40 dark:group-hover:bg-opacity-0"></div>
+          </div>
 
           <div
               class="absolute top-1/2 left-1/2 flex opacity-0 group-hover:opacity-100 transition-all duration-300
@@ -42,7 +45,7 @@
       </div>
     </div>
   </div>
-  <div class="text-gray-500 pb-10 w-full" v-else>
+  <div class="text-gray-700 dark:text-gray-500 pb-10 w-full" v-else>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-36 mx-auto">
       <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12ZM12 8.25a.75.75 0 0 1 .75.75v3.75a.75.75 0 0 1-1.5 0V9a.75.75 0 0 1 .75-.75Zm0 8.25a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" clip-rule="evenodd" />
     </svg>

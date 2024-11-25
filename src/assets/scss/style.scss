@@ -31,22 +31,29 @@
   font-style: normal;
 }
 
-.bg-gray-custom {
-  background-color: #1b1919;
+.nav-btn {
+  @apply flex hover:bg-gray-200 dark:hover:bg-gray-800 items-center ps-3 pe-3;
+}
+.nav-btn-svg {
+  @apply size-6 text-gray-700 dark:text-white;
+}
+.nav-btn-text {
+  @apply text-gray-700 dark:text-gray-300 text-2xl ms-3;
 }
 
-.gray-custom {
-  color: #1b1919
+.bg-gray-custom {
+  @apply bg-gray-200 dark:bg-[#1b1919]
+}
+
+body {
+  @apply montserrat-semibold bg-gray-100 dark:bg-[#151515] m-0 p-0;
+}
+
+.shadow-theme-toggler {
+  @apply shadow-xl shadow-slate-500/30 dark:shadow-slate-900/50;
 }
 
 @media (max-width: 1023px) {
-  body {
-    @apply montserrat-semibold;
-    background-color: #151515;
-    margin: 0;
-    padding: 0;
-  }
-
   .subs-avatar-w {
     width: 12%
   }
@@ -65,20 +72,12 @@
   }
 
   .container-border {
-    @apply overflow-x-hidden;
-    background-color: #222;
+    @apply overflow-x-hidden bg-gray-100 dark:bg-[#222];
   }
 
   .shadow {}
 }
 @media (min-width: 1024px) {
-  body {
-    @apply montserrat-semibold;
-    background-color: #151515;
-    margin: 0;
-    padding: 0;
-  }
-
   .subs-avatar-w {
     width: 16%
   }
@@ -91,20 +90,16 @@
   }
 
   .container-border {
-    @apply container;
-    border-left: 15px solid #151515;
-    border-right: 15px solid #151515;
-    border-bottom: 15px solid #151515;
-    background-color: #222;
+    @apply container bg-gray-100 dark:bg-[#222] border-x-[15px] border-b-[15px] border-gray-100 dark:border-[#151515];
   }
 
   .shadow {
-    @apply shadow-xl shadow-cyan-500/50;
+    @apply shadow-xl shadow-slate-500/30 dark:shadow-cyan-500/50;
   }
 }
 
 .active-tab {
-  @apply border-b border-gray-300 hover:border-gray-400 mb-1;
+  @apply border-b border-slate-900 dark:border-gray-300 hover:border-slate-950 dark:hover:border-gray-400 mb-1;
 }
 
 .loader {
@@ -171,13 +166,6 @@
   @apply hover:bg-emerald-800 hover:border hover:border-emerald-800;
 }
 
-.btn-violet {
-  @apply text-gray-300 bg-violet-900 disabled:bg-purple-950 disabled:text-gray-500;
-}
-.btn-violet-hover {
-  @apply hover:bg-violet-950 hover:border hover:border-violet-950;
-}
-
 .btn-follow {
   @apply px-2 py-1 text-white font-semibold text-sm rounded block text-center;
 }
@@ -187,16 +175,16 @@
 }
 
 .header-3xl {
-  @apply text-3xl text-center text-gray-300 font-semibold;
+  @apply text-3xl text-center text-gray-700 dark:text-gray-300 font-semibold;
 }
 .header-2xl {
-  @apply text-2xl text-center text-gray-300 font-semibold mb-1;
+  @apply text-2xl text-center text-gray-700 dark:text-gray-300 font-semibold mb-1;
 }
 .header-xl {
-  @apply text-xl text-center text-gray-300 font-semibold mb-1;
+  @apply text-xl text-center text-gray-700 dark:text-gray-300 font-semibold mb-1;
 }
 .header-transition {
-  @apply transition-all duration-300 hover:text-gray-400;
+  @apply transition-all duration-300 hover:text-slate-950 dark:hover:text-gray-400;
 }
 
 .hw-centered {
@@ -204,15 +192,14 @@
 }
 
 .card {
-  @apply border border-gray-300 rounded-2xl;
-  background-color: #222;
+  @apply border border-gray-300 rounded-2xl bg-gray-100 dark:bg-[#222];
 }
 
 .form-label {
-  @apply ms-1 text-slate-400;
+  @apply ms-1 text-gray-700 dark:text-slate-400;
 }
 .form-input {
-  @apply my-1 text-gray-400 bg-gray-custom w-full px-5 py-1 outline-none rounded;
+  @apply my-1 text-gray-700 dark:text-gray-400 bg-gray-custom w-full px-5 py-1 outline-none rounded;
 }
 .form-error-label {
   @apply p-1 text-red-600;

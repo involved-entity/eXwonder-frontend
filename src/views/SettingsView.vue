@@ -46,11 +46,10 @@
 
           <p class="form-label mt-3">Avatar:</p>
           <input
-              class="px-1 text-lg text-gray-400 border border-gray-300 rounded-lg cursor-pointer
-              bg-gray-50 focus:outline-none file:bg-slate-600 file:border-slate-600 file:text-gray-950"
+              class="px-1 text-lg text-gray-700 dark:text-gray-400 border border-gray-300 rounded-lg cursor-pointer
+              focus:outline-none file:bg-slate-600 file:border-slate-600 file:text-gray-950 dark:bg-[#161616] dark:border-[#161616]"
               type="file"
               ref="images"
-              style="background-color: #202020; border-color: #202020"
               @change="avatarChanged"
           >
           <div class="w-full">

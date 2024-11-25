@@ -2,13 +2,13 @@
   <nav class="w-5/6 mt-10 ms-1 xl:ms-3">
     <div class="my-3 flex">
       <img :src="avatar" alt="avatar" class="rounded-full size-8 my-auto">
-      <p class="text-gray-300 my-auto ms-1 xl:ms-3 text-sm xl:text-md">{{username}}</p>
+      <p class="text-gray-700 dark:text-gray-300 my-auto ms-1 xl:ms-3 text-sm xl:text-md">{{username}}</p>
       <button
           class="!p-1 my-auto ms-auto btn-no-w btn-green btn-green-hover text-sm xl:text-md"
           @click="logout"
       >Logout</button>
     </div>
-    <p class="text-gray-600 montserrat-bold">&#169; 2024 EXWONDER</p>
+    <p class="text-gray-700 dark:text-gray-600 montserrat-bold">&#169; 2024 EXWONDER</p>
     <div class="loader mt-5 mx-auto" v-if="loading"></div>
   </nav>
 </template>

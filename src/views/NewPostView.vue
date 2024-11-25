@@ -1,29 +1,28 @@
 <template>
   <div class="container-border" @keyup.enter="submit">
-    <div class="justify-center shadow">
-      <p class="text-gray-300 text-4xl text-center lg:ms-3 lg:text-start">New post uploading</p>
-      <hr class="ms-3 mr-3 mt-4 mb-4 border-gray-600">
+    <div class="justify-center shadow pt-1">
+      <p class="text-gray-700 dark:text-gray-300 text-4xl text-center lg:ms-3 lg:text-start">New post uploading</p>
+      <hr class="ms-3 mr-3 mt-3 mb-4 border-gray-600">
       <label
           class="form-label !ms-3 block mb-2"
           for="imagesInput"
       >1. Upload post images (up to 10):</label>
       <input
-          class="block ms-3 mr-3 text-lg text-gray-400 border border-gray-300 rounded-lg cursor-pointer
-          focus:outline-none file:bg-slate-600 file:border-slate-600 file:text-gray-950"
+          class="block ms-3 mr-3 text-lg text-gray-700 dark:text-gray-400 border border-gray-300 rounded-lg cursor-pointer
+          focus:outline-none file:bg-slate-600 file:border-slate-600 file:text-gray-950 dark:bg-[#161616] dark:border-[#161616]"
           id="imagesInput"
           type="file"
           required
           multiple
           ref="images"
-          style="background-color: #161616; border-color: #161616"
           @change="imagesChanged"
       >
 
       <label class="form-label block mb-2 !ms-3 mt-4">2. Signature post:</label>
       <textarea
           rows="7"
-          class="p-2.5 ms-3 -mr-10 w-11/12 text-lg text-gray-400 rounded-lg border border-gray-900 outline-none"
-          style="background-color: #161616; border-color: #161616"
+          class="p-2.5 ms-3 -mr-10 w-11/12 text-lg text-gray-400 rounded-lg border border-gray-700 outline-none
+                dark:bg-[#161616] dark:border-[#161616] bg-gray-200"
           placeholder="Choose signature for your post (optional)"
           v-model="signature"
       />

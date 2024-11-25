@@ -1,5 +1,5 @@
 <template>
-  <nav class="shadow-xl shadow-slate-900/50 w-full fixed top-0 left-0 h-[44px] flex justify-center items-center dark:bg-[#222] bg-white">
+  <nav class="shadow-theme-toggler w-full fixed top-0 left-0 h-[44px] flex justify-center items-center bg-gray-100 dark:bg-[#222]">
     <button class="text-black dark:text-white" type="button" @click="toggleTheme">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-7" v-if="theme === 'light'">
         <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
@@ -15,7 +15,7 @@
 export default {
   data() {
     return {
-      theme: 'light'
+      theme: 'dark'
     }
   },
   methods: {
@@ -27,9 +27,10 @@ export default {
   },
   beforeMount() {
     const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-      document.documentElement.classList.add('dark');
-      this.theme = 'dark'
+    if (savedTheme === 'light') {
+      this.theme = 'light'
+    } else {
+      document.documentElement.classList.add('dark')
     }
   },
 }
