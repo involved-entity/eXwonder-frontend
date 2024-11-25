@@ -42,7 +42,7 @@
 @media (max-width: 1023px) {
   body {
     @apply montserrat-semibold;
-    background-color: #222;
+    background-color: #151515;
     margin: 0;
     padding: 0;
   }
@@ -74,7 +74,7 @@
 @media (min-width: 1024px) {
   body {
     @apply montserrat-semibold;
-    background-color: #090909;
+    background-color: #151515;
     margin: 0;
     padding: 0;
   }
@@ -92,14 +92,14 @@
 
   .container-border {
     @apply container;
-    border-left: 15px solid #090909;
-    border-right: 15px solid #090909;
-    border-bottom: 15px solid #090909;
+    border-left: 15px solid #151515;
+    border-right: 15px solid #151515;
+    border-bottom: 15px solid #151515;
     background-color: #222;
   }
 
   .shadow {
-    @apply shadow-xl shadow-cyan-500/50 dark:shadow-gray-900/50;
+    @apply shadow-xl shadow-cyan-500/50;
   }
 }
 
@@ -187,13 +187,13 @@
 }
 
 .header-3xl {
-  @apply text-3xl text-center text-gray-300 font-semibold mt-1;
+  @apply text-3xl text-center text-gray-300 font-semibold;
 }
 .header-2xl {
-  @apply text-2xl text-center text-gray-300 font-semibold my-1;
+  @apply text-2xl text-center text-gray-300 font-semibold mb-1;
 }
 .header-xl {
-  @apply text-xl text-center text-gray-300 font-semibold my-1;
+  @apply text-xl text-center text-gray-300 font-semibold mb-1;
 }
 .header-transition {
   @apply transition-all duration-300 hover:text-gray-400;

@@ -2,7 +2,7 @@
   <main>
     <div class="container-border">
       <div class="shadow">
-        <div class="header-3xl !mt-3">Search</div>
+        <div class="header-3xl">Search</div>
         <div class="mx-3 pb-3 mt-3">
           <input
               type="text"
