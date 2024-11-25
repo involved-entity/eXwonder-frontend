@@ -1,6 +1,6 @@
 <template>
   <div class="max-w-sm px-3 mx-auto">
-    <div class="flex text-gray-300 my-3" v-if="closableMode">
+    <div class="flex text-gray-700 dark:text-gray-300 my-3" v-if="closableMode">
       <button type="button" class="cursor-pointer" @click="$emit('close')">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
           <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
@@ -13,14 +13,14 @@
         <router-link :to="'/' + post.author.username + '/'" @click="routeStore.changeActiveLink('user')">
           <img :src="post.author.avatar" alt="avatar" class="size-8 rounded-full">
         </router-link>
-        <p class="text-gray-300 text-md my-auto ms-1" @click="routeStore.changeActiveLink('user')">
+        <p class="text-gray-700 dark:text-gray-300 text-md my-auto ms-1" @click="routeStore.changeActiveLink('user')">
           <router-link :to="'/' + post.author.username + '/'" class="hover:text-gray-400">
             {{post.author.username}}
           </router-link>
         </p>
         <div class="flex ms-auto">
-          <p class="text-gray-500 text-sm lg:text-md my-auto montserrat">{{post.time_added.time_added}} ago</p>
-          <div class="mx-1 text-gray-300" v-if="post.author.id === authenticationStore.user.id">
+          <p class="text-gray-600 dark:text-gray-500 text-sm lg:text-md my-auto montserrat">{{post.time_added.time_added}} ago</p>
+          <div class="mx-1 text-gray-700 dark:text-gray-300" v-if="post.author.id === authenticationStore.user.id">
             <button :id="`dropdownButton${post.id}`" class="cursor-pointer" type="button">
               <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -94,10 +94,10 @@
       <div class="mt-1">
         <div class="grid grid-cols-12">
           <div class="col-span-10 flex">
-            <div class="text-gray-300">
+            <div class="text-gray-700 dark:text-gray-300">
               <app-like-button :post="post" :centered="false" :flex-likes-count="true"></app-like-button>
             </div>
-            <div class="flex text-gray-300 ms-1">
+            <div class="flex text-gray-700 dark:text-gray-300 ms-1">
               <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -125,18 +125,18 @@
             </div>
           </div>
           <div class="col-span-2">
-            <div class="flex text-gray-300 justify-end">
+            <div class="flex text-gray-700 dark:text-gray-300 justify-end">
               <app-save-post-button :post="post"></app-save-post-button>
             </div>
           </div>
         </div>
       </div>
-      <div class="text-gray-300" v-if="post.signature.length">
-        <span class="text-white montserrat-bold">{{post.author.username}}</span> {{post.signature}}
+      <div class="text-gray-600 dark:text-gray-300" v-if="post.signature.length">
+        <span class="text-gray-700 dark:text-white montserrat-bold">{{post.author.username}}</span> {{post.signature}}
       </div>
       <div>
         <button
-            class="text-white montserrat-bold hover:text-gray-400"
+            class="text-gray-700 dark:text-white montserrat-bold hover:text-gray-600 dark:hover:text-gray-400"
             @click="showComments(post)"
             v-if="post.comments_count > 0"
         >View all <span class="varela-round">{{post.comments_count}}</span> comments</button>
@@ -144,8 +144,7 @@
       <div class="w-full flex">
         <div class="w-11/12">
           <textarea
-              placeholder="Your comment here (ctrl+enter to send)"
-              class="text-gray-400 bg-gray-custom w-full text-sm p-1 outline-none rounded mt-1 border"
+              class="text-gray-600 dark:text-gray-400 bg-gray-custom w-full text-sm p-1 outline-none rounded mt-1 border"
               :class="{'border-red-600': errors[post.id], 'border-transparent': !errors[post.id]}"
               :ref="'comment_input_' + String(post.id)"
               @keyup.ctrl.enter="createComment(post)"
@@ -158,7 +157,7 @@
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill="currentColor"
-            class="size-6 cursor-pointer my-auto text-gray-300 w-1/12"
+            class="size-6 cursor-pointer my-auto text-gray-700 dark:text-gray-300 w-1/12"
             @click="createComment(post)"
         >
           <path d="M3.478 2.404a.75.75 0 0 0-.926.941l2.432 7.905H13.5a.75.75 0 0 1 0 1.5H4.984l-2.432 7.905a.75.75 0 0 0 .926.94 60.519 60.519 0 0 0 18.445-8.986.75.75 0 0 0 0-1.218A60.517 60.517 0 0 0 3.478 2.404Z" />
