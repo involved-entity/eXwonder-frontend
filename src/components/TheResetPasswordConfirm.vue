@@ -6,7 +6,6 @@
         <p class="form-label">Password:</p>
         <input
             type="password"
-            placeholder="Your new password"
             class="form-input" v-model="password1"
             :class="{'border-red': error.length}"
             ref="password1"
@@ -17,7 +16,6 @@
         <p class="form-label">Password repeat:</p>
         <input
             type="password"
-            placeholder="Your new password"
             class="form-input" v-model="password2"
             ref="repeat"
             @keyup.up="$refs.password1.focus()"
