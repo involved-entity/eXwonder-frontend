@@ -1,8 +1,8 @@
 <template>
-  <div class="fixed inset-0 bg-opacity-90 bg-black flex justify-center items-center">
-    <div class="flex h-3/5 lg:h-2/3 text-gray-300">
-      <div class="overflow-y-auto flex flex-col mb-auto max-h-full w-[21rem] lg:w-[28rem]" style="background-color: #111">
-        <div class="sticky top-0 left-0 pt-3 pb-1" style="background-color: #050505; z-index: 1;">
+  <div class="fixed inset-0 bg-opacity-90 bg-black flex justify-center items-center z-50">
+    <div class="flex h-3/5 lg:h-2/3 text-gray-700 dark:text-gray-300">
+      <div class="overflow-y-auto flex flex-col mb-auto max-h-full w-[21rem] lg:w-[28rem] rounded-xl bg-gray-200 dark:bg-[#111]">
+        <div class="sticky top-0 left-0 pt-3 pb-1 z-[1] bg-gray-300 dark:bg-[#070707]">
           <div class="grid grid-cols-2 mx-3">
             <div class="col-span-1 text-2xl flex justify-start">{{followMode.charAt(0).toUpperCase() + followMode.slice(1)}}
               <div class="ms-1 varela-round">({{followsCount}})</div>
@@ -17,9 +17,7 @@
           </div>
           <div class="mx-3 my-1">
             <input
-                class="w-full p-1 outline-none rounded"
-                placeholder="Search query"
-                style="background-color: #090909"
+                class="w-full bg-gray-200 px-5 py-1 outline-none dark:bg-[#090909]"
                 v-model="searchQuery"
                 @input="searchFollowings"
                 v-if="followMode === 'followings'"
@@ -31,7 +29,7 @@
             <div class="loader mx-auto"></div>
           </div>
           <div class="mt-1" v-else-if="follows.length">
-            <div class="text-gray-300 text-center text-xl mb-1 lg:mb-0" v-if="searchQuery.length">Results (<span class="varela-round">{{ follows.length }}</span>):</div>
+            <div class="text-gray-700 dark:text-gray-300 text-center text-xl mb-1 lg:mb-0" v-if="searchQuery.length">Results (<span class="varela-round">{{ follows.length }}</span>):</div>
             <div class="mb-3" v-for="follow in follows" :key="follow.id">
               <div class="flex relative">
                 <div class="subs-avatar-w my-3">
@@ -46,11 +44,11 @@
                     >
                   </router-link>
                 </div>
-                <div class="ms-3 my-auto text-gray-300 text-lg">
+                <div class="ms-3 my-auto text-gray-700 dark:text-gray-300 text-lg">
                   <div class="flex">
                     <router-link
                         :to="'/' + follow[followField].username + '/'"
-                        class="hover:text-gray-400"
+                        class="hover:text-gray-600 dark:hover:text-gray-400"
                         @click="$emit('userLeave')"
                     >
                       {{follow[followField].username}}
@@ -62,25 +60,25 @@
                         @click="followUser(follow)"
                         v-if="authenticationStore.user.id !== follow[followField].id"
                     >
-                      {{follow.is_followed ? 'followed' : 'follow'}}
+                      {{follow.is_followed ? 'Followed' : 'Follow'}}
                     </button>
                   </div>
-                  <div class="flex text-xl text-gray-400 pb-1 mt-auto">
+                  <div class="flex text-xl text-gray-600 dark:text-gray-400 pb-1 mt-auto">
                     <div class="pr-4">
                       <div class="text-sm lg:text-lg">
-                        <span class="text-gray-300 font-semibold text-lg lg:text-xl varela-round">{{follow.posts_count}}</span>
+                        <span class="text-gray-700 dark:text-gray-300 font-semibold text-lg lg:text-xl varela-round">{{follow.posts_count}}</span>
                         posts
                       </div>
                     </div>
                     <div class="pr-4">
                       <div class="text-sm lg:text-lg">
-                        <span class="text-gray-300 font-semibold text-lg lg:text-xl varela-round">{{follow.followers_count}}</span>
+                        <span class="text-gray-700 dark:text-gray-300 font-semibold text-lg lg:text-xl varela-round">{{follow.followers_count}}</span>
                         followers
                       </div>
                     </div>
                     <div>
                       <div class="text-sm lg:text-lg">
-                        <span class="text-gray-300 font-semibold text-lg lg:text-xl varela-round">{{follow.followings_count}}</span>
+                        <span class="text-gray-700 dark:text-gray-300 font-semibold text-lg lg:text-xl varela-round">{{follow.followings_count}}</span>
                         followings
                       </div>
                     </div>
