@@ -17,8 +17,7 @@
           </div>
 
           <div
-              class="absolute top-1/2 left-1/2 flex opacity-0 group-hover:opacity-100 transition-all duration-300
-                   text-lg text-white font-semibold space-x-5"
+              class="absolute top-1/2 left-1/2 flex opacity-0 group-hover:opacity-100 text-lg text-white font-semibold space-x-5"
               style="transform: translate(-50%, -50%)"
           >
             <div class="flex">

@@ -30,7 +30,7 @@
     </div>
   </main>
   <div class="relative">
-    <div class="fixed left-5 top-5">
+    <div class="fixed left-5 top-5 z-50">
       <app-alert message="Enter 2FA code to login." v-if="$route.query.action === 'login'"/>
     </div>
   </div>

@@ -87,7 +87,7 @@
     </div>
   </main>
   <div class="relative">
-    <div class="fixed left-5 top-5">
+    <div class="fixed left-5 top-5 z-50">
       <app-alert :message="$route.query.action === 'new-post' ? 'Post created.' : 'Settings updated.'" v-if="$route.query.action === 'new-post' || $route.query.action === 'settings'"/>
     </div>
   </div>
@@ -95,7 +95,6 @@
 
 <script lang="ts">
 import {IPost, IUserDefaultData, IUserExtendedData} from "@/types/globals";
-import {Methods, request} from "../helpers";
 import {mapStores} from 'pinia'
 import {useUsersStore} from "../stores/usersStore.ts"
 import {usePostsStore} from "../stores/postsStore.ts"

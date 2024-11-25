@@ -6,12 +6,12 @@
     <div class="w-3/12 fixed top-0 right-0 hidden lg:block mt-[44px]" v-if="authenticationStore.isAuth">
       <the-sidebar/>
     </div>
+    <the-theme-toggler></the-theme-toggler>
     <div :class="{
       'w-full m-auto lg:w-6/12 pb-14 lg:pb-0 mt-[45px]': authenticationStore.isAuth, 'w-full': !authenticationStore.isAuth,
     }">
       <router-view/>
     </div>
-    <the-theme-toggler></the-theme-toggler>
     <div class="w-full fixed bottom-0 left-0 block lg:hidden" v-if="authenticationStore.isAuth">
       <the-bottom-navbar/>
     </div>
