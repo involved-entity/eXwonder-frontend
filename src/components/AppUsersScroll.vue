@@ -16,7 +16,7 @@
       </svg>
     </button>
     <div
-        class="mr-[5.5rem] sm:mr-[3.5rem] md:mr-12 text-gray-300 flex flex-col items-center w-1/12 sm:w-1/6"
+        class="mr-[5.5rem] sm:mr-[3.5rem] md:mr-12 text-gray-700 dark:text-gray-300 flex flex-col items-center w-1/12 sm:w-1/6"
         v-for="user in users"
         style="flex: 0 0 auto;"
     >
