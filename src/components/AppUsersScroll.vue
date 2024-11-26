@@ -1,10 +1,11 @@
 <template>
-  <div class="py-3 overflow-x-hidden flex flex-nowrap relative px-7 lg:px-10" v-if="users.length">
+  <hr class="px-3 w-full border-[1px] border-transparent" ref="usersFull">
+  <div class="w-full px-7 py-3 flex flex-nowrap relative">
     <button
-        class="rounded-full size-7 bg-gray-500 sticky left-5 top-1/2 hidden lg:block"
+        class="rounded-full size-7 bg-gray-300 absolute left-7 top-1/2 hidden lg:block"
         @click="$emit('scroll',-200)"
         style="transform: translateY(-50%)"
-        v-if="users.length > 6"
+        v-if="usersW >= usersFull"
     >
       <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -15,23 +16,27 @@
         <path fill-rule="evenodd" d="M7.72 12.53a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 1 1 1.06 1.06L9.31 12l6.97 6.97a.75.75 0 1 1-1.06 1.06l-7.5-7.5Z" clip-rule="evenodd" />
       </svg>
     </button>
-    <div
-        class="mr-[5.5rem] sm:mr-[3.5rem] md:mr-12 text-gray-700 dark:text-gray-300 flex flex-col items-center w-1/12 sm:w-1/6"
-        v-for="user in users"
-        style="flex: 0 0 auto;"
-    >
-      <router-link :to="'/' + user.username + '/'" @click="routeStore.changeActiveLink('user')">
-        <img :src="user.avatar" alt="user" class="rounded-full mb-1 max-w-[4.5rem]">
-      </router-link>
-      <router-link :to="'/' + user.username + '/'" class="header-transition" @click="routeStore.changeActiveLink('user')">
-        <p class="text-center text-xs lg:text-base">{{user.username}}</p>
-      </router-link>
+    <div class="flex flex-nowrap w-full overflow-x-hidden" v-if="users.length" ref="usersScroll">
+      <div class="w-full space-x-[5.5rem] sm:space-x-[3.5rem] md:space-x-[3rem] flex flex-nowrap" id="usersBlock" ref="usersBlock">
+        <div
+            class="text-gray-700 dark:text-gray-300 flex flex-col items-center w-1/12 sm:w-1/6"
+            v-for="user in users"
+            style="flex: 0 0 auto;"
+        >
+          <router-link :to="'/' + user.username + '/'" @click="routeStore.changeActiveLink('user')">
+            <img :src="user.avatar" alt="user" class="rounded-full mb-1 max-w-[4.5rem]">
+          </router-link>
+          <router-link :to="'/' + user.username + '/'" class="header-transition" @click="routeStore.changeActiveLink('user')">
+            <p class="text-center text-xs lg:text-base">{{user.username}}</p>
+          </router-link>
+        </div>
+      </div>
     </div>
     <button
-        class="rounded-full bg-gray-500 size-7 sticky right-5 top-1/2 hidden lg:block"
+        class="rounded-full bg-gray-300 size-7 absolute right-7 top-1/2 hidden lg:block"
         @click="$emit('scroll',200)"
         style="transform: translateY(-50%)"
-        v-if="users.length > 6"
+        v-if="usersW >= usersFull"
     >
       <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -59,6 +64,29 @@ export default {
       required: true
     }
   },
-  computed: {...mapStores(useRouteStore)}
+  data() {
+    return {
+      usersW: 0 as number,
+      usersFull: 0 as number,
+    }
+  },
+  methods: {
+    scroll(value: number) {
+      const users: Element = this.$refs.usersScroll
+
+      if (users) {
+        users.scrollBy({left: value, behavior: 'smooth'});
+      } else {
+        console.warn('Users not exists');
+      }
+    }
+  },
+  mounted() {
+    this.usersW = (this.$refs.usersBlock as HTMLElement).offsetWidth
+    this.usersFull = (this.$refs.usersFull as HTMLElement).offsetWidth
+  },
+  computed: {
+    ...mapStores(useRouteStore)
+  }
 }
 </script>

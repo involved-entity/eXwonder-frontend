@@ -5,10 +5,10 @@
         <div class="loader mx-auto"></div>
       </div>
       <div v-else-if="updates.length">
-        <app-swipe-component class="" @swipe-left="scroll(-200)" @swipe-right="scroll(200)" v-if="showSwipeScroll">
-          <app-users-scroll class="mx-5 w-full" :users="updatedFollows" ref="users" @scroll="scroll" v-if="!loading"></app-users-scroll>
+        <app-swipe-component @swipe-left="scroll(-200)" @swipe-right="scroll(200)" v-if="!loading && showSwipeScroll">
+          <app-users-scroll :users="updatedFollows" ref="users" @scroll="scroll" v-if="!loading"></app-users-scroll>
         </app-swipe-component>
-        <app-users-scroll class="mx-5 w-full" @scroll="scroll" ref="users" :users="updatedFollows" v-if="!loading && !showSwipeScroll"></app-users-scroll>
+        <app-users-scroll @scroll="scroll" ref="users" :users="updatedFollows" v-if="!loading && !showSwipeScroll"></app-users-scroll>
         <app-posts-feed :posts="updates" v-if="!loading"></app-posts-feed>
       </div>
       <div class="text-gray-600 dark:text-gray-500 py-10" v-else>
@@ -47,11 +47,10 @@ export default {
   },
   methods: {
     scroll(value: number) {
-      const users: Element = this.$refs.users
-      users.scrollBy({left: value, behavior: 'smooth'})
+      this.$refs.users.scroll(value)
     },
     checkScreenWidth() {
-      this.showSwipeScroll = window.innerWidth > 1024
+      this.showSwipeScroll = window.innerWidth < 1024
     },
   },
   async beforeMount() {
