@@ -7,16 +7,27 @@
           class="form-label !ms-3 block mb-2"
           for="imagesInput"
       >1. Upload post images (up to 10):</label>
-      <input
-          class="block ms-3 mr-3 text-lg text-gray-700 dark:text-gray-400 border border-gray-300 rounded-lg cursor-pointer
-          focus:outline-none file:bg-slate-600 file:border-slate-600 file:text-gray-950 dark:bg-[#161616] dark:border-[#161616]"
-          id="imagesInput"
-          type="file"
-          required
-          multiple
-          ref="images"
-          @change="imagesChanged"
-      >
+      <div class="flex space-x-3">
+        <div class="ms-3 relative">
+          <input
+              type="file"
+              ref="images"
+              @change="imagesChanged"
+              id="imagesInput"
+              required
+              multiple
+              class="absolute inset-0 opacity-0 cursor-pointer"
+          >
+          <button
+              class="btn-no-w btn-green btn-green-hover"
+          >
+            Select File
+          </button>
+        </div>
+        <div class="text-sm text-gray-700 dark:text-gray-300 h-full m-auto" v-if="images.length">
+          {{images.length}} files selected
+        </div>
+      </div>
 
       <label class="form-label block mb-2 !ms-3 mt-4">2. Signature post:</label>
       <textarea

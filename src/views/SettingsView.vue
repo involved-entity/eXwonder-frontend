@@ -4,9 +4,9 @@
       <div class="ps-3 pr-3 pb-3 h-1 pt-3">
         <hr class="border border-gray-600">
       </div>
-      <div class="lg:flex ps-3 pr-3 pb-5">
-        <img :src="authenticationStore.user.avatar" alt="avatar" class="min-w-[10rem] mx-auto lg:mx-0 size-40">
-        <div class="mx-auto max-w-3/4">
+      <div class="lg:flex ps-3 pr-3 pb-5 lg:space-x-7">
+        <img :src="authenticationStore.user.avatar" alt="avatar" class="size-[12rem] mx-auto lg:mx-0">
+        <div class="mx-auto w-full">
           <p class="form-label mt-1">E-mail:</p>
           <input
               type="email"
@@ -45,26 +45,32 @@
           <p></p>
 
           <p class="form-label mt-3">Avatar:</p>
-          <input
-              class="px-1 text-lg text-gray-700 dark:text-gray-400 border border-gray-300 rounded-lg cursor-pointer
-              focus:outline-none file:bg-slate-600 file:border-slate-600 file:text-gray-950 dark:bg-[#161616] dark:border-[#161616]"
-              type="file"
-              ref="images"
-              @change="avatarChanged"
-          >
+          <div class="relative">
+            <input
+                type="file"
+                ref="images"
+                @change="avatarChanged"
+                class="absolute inset-0 opacity-0 cursor-pointer"
+            >
+            <button
+                class="btn-no-w btn-green btn-green-hover"
+            >
+              Select File
+            </button>
+          </div>
           <div class="w-full">
-            <div class="flex w-full">
+            <div class="grid grid-cols-2 w-full gap-x-3">
               <button
                   type="submit"
-                  class="mt-3 btn-no-w btn-green mr-auto"
+                  class="mt-3 btn col-span-1 btn-green"
                   :class="{'btn-green-hover': isValid}"
                   :disabled="!isValid"
                   @click="submit"
               >Save & Close</button>
-              <router-link :to="{name: 'change-password'}">
+              <router-link :to="{name: 'change-password'}" class="col-span-1">
                 <button
                     type="button"
-                    class="mt-3 ml-auto btn lg:btn-no-w btn-green btn-green-hover"
+                    class="mt-3 btn btn-green btn-green-hover"
                 >Change Password</button>
               </router-link>
             </div>
@@ -124,8 +130,8 @@ export default {
         this.loading = false
       }
     },
-    avatarChanged(event) {
-      this.avatar = event.target.files[0]
+    avatarChanged(event: Event) {
+      this.avatar = event.target!.files[0]
     }
   },
   mounted() {
