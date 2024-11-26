@@ -46,6 +46,7 @@
   <div class="relative">
     <div class="fixed left-5 top-5 z-50">
       <app-alert message="Success sing up." v-if="$route.query.action === 'sing-up'"/>
+      <app-alert message="Login with new password now." v-if="$route.query.action === 'password-reset-success'"/>
     </div>
   </div>
 </template>

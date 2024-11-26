@@ -23,6 +23,7 @@
 
 <script lang="ts">
 export default {
+  emits: ['exited'],
   props: {
     message: String
   },
@@ -32,7 +33,7 @@ export default {
     }
   },
   mounted() {
-    setTimeout(() => {this.visible = false}, 5000)
+    setTimeout(() => {this.visible = false; this.$emit('exited')}, 5000)
   }
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="header-3xl mb-3" @keyup.enter="submit">Confirm</div>
+  <div class="header-3xl mb-3">Confirm</div>
   <div class="card md:w-2/5 lg:w-1/3 xl:w-1/4">
     <div class="w-full h-full items-center justify-center mt-3">
       <div class="m-3">
@@ -19,6 +19,7 @@
             class="form-input" v-model="password2"
             ref="repeat"
             @keyup.up="$refs.password1.focus()"
+            @keyup.enter="submit"
             :class="{'border-red': error.length}"
         >
         <p><small class="form-error-label" v-if="error.length">{{error}}</small></p>
@@ -70,7 +71,7 @@ export default {
           }
           this.error = 'Token is invalid. Please retry to reset password.'
         } else {
-          this.$router.push({name: 'login'})
+          this.$router.push({name: 'login', query: {'action': 'password-reset-success'}})
         }
         this.loading = false
       }

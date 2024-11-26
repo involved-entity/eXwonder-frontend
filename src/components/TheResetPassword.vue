@@ -7,11 +7,14 @@
         <input
             type="email"
             class="form-input" v-model="email"
+            @keyup.enter="submit"
         >
 
         <button
             type="submit"
-            class="mt-2 btn btn-green btn-green-hover"
+            class="mt-2 btn btn-green"
+            :class="{'btn-green-hover': isValid}"
+            :disabled="!isValid"
             @click="submit"
         >Reset</button>
         <div class="loader my-5 mx-auto" v-if="loading"></div>
@@ -25,6 +28,7 @@ import {mapStores} from "pinia"
 import {useAccountStore} from "../stores/accountStore.ts"
 
 export default {
+  emits: ['submitted'],
   data() {
     return {
       email: '',
@@ -33,11 +37,19 @@ export default {
   },
   methods: {
     async submit() {
-      this.loading = true
-      await this.accountStore.resetPassword(this.email)
-      this.loading = false
+      if (this.isValid) {
+        this.loading = true
+        await this.accountStore.resetPassword(this.email)
+        this.$emit('submitted')
+        this.loading = false
+      }
     }
   },
-  computed: {...mapStores(useAccountStore)}
+  computed: {
+    isValid() {
+      return this.email.length > 0
+    },
+    ...mapStores(useAccountStore)
+  }
 }
 </script>
