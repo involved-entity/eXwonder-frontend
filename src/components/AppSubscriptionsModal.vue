@@ -1,7 +1,7 @@
 <template>
   <div class="fixed inset-0 bg-opacity-90 bg-black flex justify-center items-center z-50">
     <div class="flex h-3/5 lg:h-2/3 text-gray-700 dark:text-gray-300">
-      <div class="overflow-y-auto flex flex-col mb-auto max-h-full w-[21rem] lg:w-[28rem] rounded-xl bg-gray-200 dark:bg-[#111]">
+      <div class="overflow-y-auto flex flex-col mb-auto max-h-full w-[21rem] lg:w-[28rem] rounded-xl bg-gray-200 dark:bg-[#111]" ref="modal">
         <div class="sticky top-0 left-0 pt-3 pb-1 z-[1] bg-gray-300 dark:bg-[#070707]">
           <div class="grid grid-cols-2 mx-3">
             <div class="col-span-1 text-2xl flex justify-start">{{followMode.charAt(0).toUpperCase() + followMode.slice(1)}}
@@ -165,11 +165,19 @@ export default {
       const response = await this.usersStore.getUserFollowings(this.requestedUserId, 1, this.searchQuery)
       this.follows = response.data.results
       this.followsLoading = false
+    },
+
+    handleClick(event: Event) {
+      const modal = this.$refs.modal
+      if (!modal.contains(event.target)) {
+        this.close()
+      }
     }
   },
 
-  async beforeMount() {
+  async mounted() {
     this.followsLoading = true
+
     let response: IResponse | undefined = undefined
     if (this.followMode === 'followers') {
       response = await this.usersStore.getMyFollowers()
@@ -178,7 +186,12 @@ export default {
     }
     this.follows = response!.data.results
     this.followField = this.followMode === 'followers' ? "follower" : 'following'
+    document.body.addEventListener('click', this.handleClick)
     this.followsLoading = false
+  },
+
+  unmounted() {
+    document.body.removeEventListener('click', this.handleClick)
   },
 
   computed: {...mapStores(useUsersStore, useAuthenticationStore)}

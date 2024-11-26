@@ -1,7 +1,7 @@
 <template>
   <div class="fixed inset-0 bg-opacity-90 bg-black flex justify-center items-center z-50">
-    <div class="h-5/6 text-gray-700 dark:text-gray-300">
-      <div class="rounded-t-xl overflow-y-auto overflow-x-hidden flex flex-col max-h-full w-full bg-gray-200 dark:bg-[#111]">
+    <div class="h-4/5 text-gray-700 dark:text-gray-300">
+      <div class="rounded-t-xl overflow-y-auto overflow-x-hidden flex flex-col max-h-full w-11/12 mx-auto bg-gray-200 dark:bg-[#111]" ref="modal">
         <div class="sticky top-0 left-0 pt-3 pb-1 bg-gray-300 dark:bg-[#070707]">
           <div class="grid grid-cols-2 mx-3">
             <div class="col-span-1 text-2xl flex justify-start">Comments <div class="ms-1 varela-round">({{post!.comments_count}})</div></div>
@@ -113,10 +113,22 @@ export default {
       const comments = await this.commentsStore.getPostComments(this.post!.id)
       this.comments = comments.data.results
       this.commentsLoading = false
+    },
+
+    handleClick(event: Event) {
+      const modal = this.$refs.modal
+      if (!modal.contains(event.target)) {
+        this.close()
+      }
     }
   },
-  async beforeMount() {
+  async mounted() {
     await this.updateComments()
+
+    document.body.addEventListener('click', this.handleClick)
+  },
+  unmounted() {
+    document.body.removeEventListener('click', this.handleClick)
   },
   computed: {...mapStores(useAuthenticationStore, useRouteStore, useCommentsStore)}
 }
