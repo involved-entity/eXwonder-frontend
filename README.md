@@ -19,12 +19,16 @@ Instagram. Код написан на JavaScript фреймворке [Vue 3](ht
 git clone https://github.com/waflawe/eXwonder-frontend.git
 cd eXwonder-frontend/
 ```
-2. Запускаем проект с помощью `npm` или `yarn`:
+2. Ставим зависимости через `npm` или `yarn`:
+```cmd
+yarn install
+```
+3. Запускаем проект с помощью `npm` или `yarn`:
 ```cmd
 yarn run dev
 ```
-3. Открываем в интернет-обозревателе путь `http://localhost:3000/`
-4. Наслаждаемся
+4. Открываем в интернет-обозревателе путь `http://localhost:80/`
+5. Наслаждаемся
 <!-- TOC --><a name="description"></a>
 ## Краткое описание функционала
 Доступно [здесь](https://github.com/waflawe/eXwonder-backend/blob/main/README.md).
