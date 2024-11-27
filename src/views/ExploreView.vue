@@ -71,7 +71,7 @@ export default {
       }
     },
   },
-  async beforeMount() {
+  async mounted() {
     await this.getTopPosts();
   },
   computed: { ...mapStores(usePostsStore) },

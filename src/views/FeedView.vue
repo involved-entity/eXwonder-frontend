@@ -79,7 +79,7 @@ export default {
       this.showSwipeScroll = window.innerWidth < 1024;
     },
   },
-  async beforeMount() {
+  async mounted() {
     this.loading = true;
     const response: IResponse = await this.postsStore.getPostsTop();
     this.updates = response.data.results;
