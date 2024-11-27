@@ -136,8 +136,7 @@
           <div class="m-2 w-full grid grid-cols-8">
             <router-link
               :to="'/' + post.author.username + '/'"
-              class="col-span-1"
-              active-class=""
+              class="col-span-1 remove-active"
             >
               <img
                 :src="post.author.avatar"
@@ -152,8 +151,7 @@
               >
                 <router-link
                   :to="'/' + post.author.username + '/'"
-                  class="hover:text-gray-600 dark:hover:text-gray-400"
-                  active-class=""
+                  class="hover:text-gray-600 dark:hover:text-gray-400 remove-active"
                 >
                   {{ post.author.username }}
                 </router-link>
@@ -200,7 +198,7 @@
             >
               <router-link
                 :to="'/' + comment.author.username + '/'"
-                class="col-span-1"
+                class="col-span-1 remove-active"
               >
                 <img
                   :src="comment.author.avatar"
@@ -212,7 +210,7 @@
                 <div class="flex">
                   <router-link
                     :to="'/' + comment.author.username + '/'"
-                    class="hover:text-gray-600 dark:hover:text-gray-400"
+                    class="hover:text-gray-600 dark:hover:text-gray-400 remove-active"
                   >
                     {{ comment.author.username }}
                   </router-link>
@@ -382,6 +380,13 @@ export default {
       }
     },
 
+    clearActiveClasses() {
+      const removeActive = document.querySelectorAll<HTMLElement>('.remove-active')
+      removeActive.forEach(el => {
+        el.classList.remove('active')
+      })
+    },
+
     async updateComments() {
       this.commentsLoading = true;
       const comments = await this.commentsStore.getPostComments(this.post.id);
@@ -424,10 +429,10 @@ export default {
       const image = this.$refs.image as HTMLElement;
       const commentsBlock = this.$refs.commentsBlock as HTMLElement;
       if (
-        !prevImageBtn.contains(event.target) &&
-        !nextImageBtn.contains(event.target) &&
-        !image.contains(event.target) &&
-        !commentsBlock.contains(event.target)
+        (!prevImageBtn || !prevImageBtn.contains(event.target)) &&
+        (!nextImageBtn || !nextImageBtn.contains(event.target)) &&
+        (!image || !image.contains(event.target)) &&
+        (!commentsBlock || !commentsBlock.contains(event.target))
       ) {
         this.close();
       }
@@ -435,6 +440,8 @@ export default {
   },
 
   async mounted() {
+    this.clearActiveClasses()
+
     await this.updateComments();
 
     document.body.addEventListener("click", this.handleClick);
@@ -455,6 +462,10 @@ export default {
 
   unmounted() {
     document.body.removeEventListener("click", this.handleClick);
+  },
+
+  updated() {
+    this.clearActiveClasses()
   },
 
   computed: {
