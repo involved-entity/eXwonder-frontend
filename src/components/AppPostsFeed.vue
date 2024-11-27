@@ -387,15 +387,19 @@ export default {
       if (this.authenticationStore.user.id === post.author.id) {
         const { success } = await this.postsStore.deletePost(post.id);
         if (success) {
-          this.posts.splice(this.getPostIndex(post), 1);
+          if (this.closableMode) {
+            this.$router.push({path: ('/' + this.authenticationStore.user.username + "/"), query: {'action': "post-deleted"}})
+          } else {
+            this.posts.splice(this.getPostIndex(post), 1);
+          }
         }
       }
     },
   },
   mounted() {
     this.posts.forEach((post: IPost) => {
-      const $targetEl = document.getElementById(`#dropdownMenu${post.id}`);
-      const $triggerEl = document.getElementById(`#dropdownButton${post.id}`);
+      const $targetEl = document.getElementById(`dropdownMenu${post.id}`);
+      const $triggerEl = document.getElementById(`dropdownButton${post.id}`);
 
       const options = {
         placement: "bottom",
