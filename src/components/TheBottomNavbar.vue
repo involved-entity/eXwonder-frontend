@@ -1,9 +1,6 @@
 <template>
   <nav class="h-14 grid grid-cols-7" style="background-color: #090909">
-    <router-link
-      :to="{ name: 'feed' }"
-      class="m-auto"
-    >
+    <router-link :to="{ name: 'feed' }" class="m-auto">
       <button class="items-center ps-3 pe-3 relative">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -28,10 +25,7 @@
       </button>
     </router-link>
 
-    <router-link
-      :to="{ name: 'search-user' }"
-      class="m-auto"
-    >
+    <router-link :to="{ name: 'search-user' }" class="m-auto">
       <button class="items-center ps-3 pe-3 relative">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -56,10 +50,7 @@
       </button>
     </router-link>
 
-    <router-link
-      :to="{ name: 'explore' }"
-      class="m-auto"
-    >
+    <router-link :to="{ name: 'explore' }" class="m-auto">
       <button class="items-center ps-3 pe-3 relative">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -84,10 +75,7 @@
       </button>
     </router-link>
 
-    <router-link
-      :to="{ name: 'saved-posts' }"
-      class="m-auto"
-    >
+    <router-link :to="{ name: 'saved-posts' }" class="m-auto">
       <button class="items-center ps-3 pe-3 relative">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -112,10 +100,7 @@
       </button>
     </router-link>
 
-    <router-link
-      :to="{ name: 'new-post' }"
-      class="m-auto"
-    >
+    <router-link :to="{ name: 'new-post' }" class="m-auto">
       <button class="items-center ps-3 pe-3 relative">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -168,10 +153,7 @@
       </button>
     </router-link>
 
-    <router-link
-      :to="{ name: 'settings' }"
-      class="m-auto"
-    >
+    <router-link :to="{ name: 'settings' }" class="m-auto">
       <button class="items-center ps-3 pe-3 relative">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -209,7 +191,7 @@ import { useAuthenticationStore } from "../stores/authenticationStore.ts";
 
 export default {
   beforeRouteUpdate() {
-    console.log(this.$route.path.name)
+    console.log(this.$route.path.name);
   },
   computed: { ...mapStores(useAuthenticationStore) },
 };

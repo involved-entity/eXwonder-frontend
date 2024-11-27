@@ -36,9 +36,7 @@
           style="flex: 0 0 auto"
           :key="user.username"
         >
-          <router-link
-            :to="'/' + user.username + '/'"
-          >
+          <router-link :to="'/' + user.username + '/'">
             <img
               :src="user.avatar"
               alt="user"
@@ -109,6 +107,6 @@ export default {
   mounted() {
     this.usersW = (this.$refs.usersBlock as HTMLElement).offsetWidth;
     this.usersFull = (this.$refs.usersFull as HTMLElement).offsetWidth;
-  }
+  },
 };
 </script>

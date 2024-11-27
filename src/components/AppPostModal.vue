@@ -381,10 +381,11 @@ export default {
     },
 
     clearActiveClasses() {
-      const removeActive = document.querySelectorAll<HTMLElement>('.remove-active')
+      const removeActive =
+        document.querySelectorAll<HTMLElement>(".remove-active");
       removeActive.forEach(el => {
-        el.classList.remove('active')
-      })
+        el.classList.remove("active");
+      });
     },
 
     async updateComments() {
@@ -440,7 +441,7 @@ export default {
   },
 
   async mounted() {
-    this.clearActiveClasses()
+    this.clearActiveClasses();
 
     await this.updateComments();
 
@@ -465,15 +466,11 @@ export default {
   },
 
   updated() {
-    this.clearActiveClasses()
+    this.clearActiveClasses();
   },
 
   computed: {
-    ...mapStores(
-      useCommentsStore,
-      useAuthenticationStore,
-      usePostsStore
-    ),
+    ...mapStores(useCommentsStore, useAuthenticationStore, usePostsStore),
   },
 };
 </script>

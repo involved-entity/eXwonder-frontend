@@ -145,7 +145,9 @@
         :message="
           $route.query.action === 'new-post'
             ? 'Post created.'
-            : ($route.query.action === 'post-deleted' ? 'Post deleted.' : 'Settings updated.')
+            : $route.query.action === 'post-deleted'
+              ? 'Post deleted.'
+              : 'Settings updated.'
         "
         v-if="
           $route.query.action === 'new-post' ||
