@@ -36,7 +36,7 @@
       <label class="form-label block mb-2 !ms-3 mt-4">2. Signature post:</label>
       <textarea
         rows="7"
-        class="p-2.5 ms-3 -mr-10 w-11/12 text-lg text-gray-400 rounded-lg border border-gray-700 outline-none dark:bg-[#161616] dark:border-[#161616] bg-gray-200"
+        class="p-2.5 ms-3 -mr-10 w-11/12 text-lg text-gray-700 dark:text-gray-400 rounded-lg border border-gray-700 outline-none dark:bg-[#161616] dark:border-[#161616] bg-gray-200"
         placeholder="Choose signature for your post (optional)"
         v-model="signature"
       />
@@ -50,7 +50,7 @@
       >
         Submit
       </button>
-      <div class="pb-5" v-if="loading">
+      <div class="pb-10 pt-1" v-if="loading">
         <div class="loader mx-auto"></div>
       </div>
     </div>
