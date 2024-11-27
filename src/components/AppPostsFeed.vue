@@ -21,18 +21,14 @@
     </div>
     <div class="pb-3" v-for="post in posts" :key="post.id">
       <div class="flex w-full mb-1">
-        <router-link
-          :to="'/' + post.author.username + '/'"
-        >
+        <router-link :to="'/' + post.author.username + '/'">
           <img
             :src="post.author.avatar"
             alt="avatar"
             class="size-8 rounded-full"
           />
         </router-link>
-        <p
-          class="text-gray-700 dark:text-gray-300 text-md my-auto ms-1"
-        >
+        <p class="text-gray-700 dark:text-gray-300 text-md my-auto ms-1">
           <router-link
             :to="'/' + post.author.username + '/'"
             class="hover:text-gray-400"
@@ -72,7 +68,7 @@
             </button>
             <div
               :id="`dropdownMenu${post.id}`"
-              class="z-10 hidden bg-gray-custom divide-y divide-gray-100 rounded w-36"
+              class="z-10 hidden shadow-xl shadow-slate-500/30 dark:shadow-none bg-gray-300 dark:bg-[#1b1919] divide-y divide-gray-100 border-red rounded w-36"
             >
               <ul
                 class="py-1 text-sm text-gray-300"
@@ -385,7 +381,10 @@ export default {
         const { success } = await this.postsStore.deletePost(post.id);
         if (success) {
           if (this.closableMode) {
-            this.$router.push({path: ('/' + this.authenticationStore.user.username + "/"), query: {'action': "post-deleted"}})
+            this.$router.push({
+              path: "/" + this.authenticationStore.user.username + "/",
+              query: { action: "post-deleted" },
+            });
           } else {
             this.posts.splice(this.getPostIndex(post), 1);
           }
@@ -410,11 +409,7 @@ export default {
     });
   },
   computed: {
-    ...mapStores(
-      useCommentsStore,
-      usePostsStore,
-      useAuthenticationStore
-    ),
+    ...mapStores(useCommentsStore, usePostsStore, useAuthenticationStore),
   },
 };
 </script>
