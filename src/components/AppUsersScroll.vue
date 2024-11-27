@@ -1,6 +1,6 @@
 <template>
   <hr class="px-3 w-full border-[1px] border-transparent" ref="usersFull" />
-  <div class="w-full px-7 py-3 flex flex-nowrap relative">
+  <div class="w-full ml-5 lg:ml-0 lg:px-7 py-3 flex flex-nowrap relative">
     <button
       class="rounded-full size-7 bg-gray-300 absolute left-7 top-1/2 hidden lg:block"
       @click="$emit('scroll', -200)"
@@ -31,7 +31,7 @@
         ref="usersBlock"
       >
         <div
-          class="text-gray-700 dark:text-gray-300 flex flex-col items-center w-1/12 sm:w-1/6"
+          class="text-gray-700 dark:text-gray-300 flex flex-col items-center w-1/6"
           v-for="user in users"
           style="flex: 0 0 auto"
           :key="user.username"
