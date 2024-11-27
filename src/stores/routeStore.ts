@@ -1,15 +1,15 @@
-import {defineStore} from "pinia"
-import {IRouteStoreState} from "../types/stores";
+import { defineStore } from "pinia";
+import { IRouteStoreState } from "../types/stores";
 
-export const useRouteStore = defineStore('route', {
-    state(): IRouteStoreState {
-        return {
-            activeLink: 'feed'
-        }
+export const useRouteStore = defineStore("route", {
+  state(): IRouteStoreState {
+    return {
+      activeLink: "feed",
+    };
+  },
+  actions: {
+    changeActiveLink(link: string) {
+      this.activeLink = link;
     },
-    actions: {
-        changeActiveLink(link: string) {
-            this.activeLink = link
-        }
-    }
-})
+  },
+});

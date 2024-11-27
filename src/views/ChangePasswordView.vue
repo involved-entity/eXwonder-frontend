@@ -7,48 +7,68 @@
           <div class="mx-3 mb-3 mt-1">
             <p class="form-label">Old password:</p>
             <input
-                type="password"
-                placeholder="Your old password"
-                class="form-input"
-                v-model="oldPassword"
-                @keyup.down="$refs.password1.focus()"
-                ref="oldPasswordInput"
-                :class="{'border-red': errors.old_password?.length}"
-            >
-            <p><small class="form-error-label" v-if="errors.old_password?.length">{{errors.old_password[0]}}</small></p>
+              type="password"
+              placeholder="Your old password"
+              class="form-input"
+              v-model="oldPassword"
+              @keyup.down="$refs.password1.focus()"
+              ref="oldPasswordInput"
+              :class="{ 'border-red': errors.old_password?.length }"
+            />
+            <p>
+              <small
+                class="form-error-label"
+                v-if="errors.old_password?.length"
+                >{{ errors.old_password[0] }}</small
+              >
+            </p>
 
             <p class="form-label mt-1">New password:</p>
             <input
-                type="password"
-                placeholder="Your new password"
-                class="form-input"
-                v-model="newPassword1"
-                @keyup.up="$refs.oldPasswordInput.focus()"
-                @keyup.down="$refs.password2.focus()"
-                ref="password1"
-                :class="{'form-input': errors.new_password1?.length}"
-            >
-            <p><small class="form-error-label" v-if="errors.new_password1?.length">{{errors.new_password1[0]}}</small></p>
+              type="password"
+              placeholder="Your new password"
+              class="form-input"
+              v-model="newPassword1"
+              @keyup.up="$refs.oldPasswordInput.focus()"
+              @keyup.down="$refs.password2.focus()"
+              ref="password1"
+              :class="{ 'form-input': errors.new_password1?.length }"
+            />
+            <p>
+              <small
+                class="form-error-label"
+                v-if="errors.new_password1?.length"
+                >{{ errors.new_password1[0] }}</small
+              >
+            </p>
 
             <p class="form-label mt-1">New password repeat:</p>
             <input
-                type="password"
-                placeholder="Your new password repeat"
-                class="form-input"
-                v-model="newPassword2"
-                ref="password2"
-                @keyup.up="$refs.password1.focus()"
-                :class="{'border-red': errors.new_password2?.length}"
-            >
-            <p><small class="form-error-label" v-if="errors.new_password2?.length">{{errors.new_password2[0]}}</small></p>
+              type="password"
+              placeholder="Your new password repeat"
+              class="form-input"
+              v-model="newPassword2"
+              ref="password2"
+              @keyup.up="$refs.password1.focus()"
+              :class="{ 'border-red': errors.new_password2?.length }"
+            />
+            <p>
+              <small
+                class="form-error-label"
+                v-if="errors.new_password2?.length"
+                >{{ errors.new_password2[0] }}</small
+              >
+            </p>
 
             <button
-                type="submit"
-                class="mt-3 btn btn-green"
-                :class="{'btn-green-hover': isValid}"
-                :disabled="!isValid"
-                @click="submit"
-            >Change Password</button>
+              type="submit"
+              class="mt-3 btn btn-green"
+              :class="{ 'btn-green-hover': isValid }"
+              :disabled="!isValid"
+              @click="submit"
+            >
+              Change Password
+            </button>
             <div class="loader my-5 mx-auto" v-if="loading"></div>
           </div>
         </div>
@@ -58,41 +78,50 @@
 </template>
 
 <script lang="ts">
-import {mapStores} from "pinia"
-import {useAccountStore} from "../stores/accountStore.ts"
+import { mapStores } from "pinia";
+import { useAccountStore } from "../stores/accountStore.ts";
 
 export default {
   data() {
     return {
       loading: false,
-      oldPassword: '',
-      newPassword1: '',
-      newPassword2: '',
-      errors: {old_password: [], new_password1: [], new_password2: []}
-    }
+      oldPassword: "",
+      newPassword1: "",
+      newPassword2: "",
+      errors: { old_password: [], new_password1: [], new_password2: [] },
+    };
   },
   methods: {
     async submit() {
       if (this.isValid) {
-        this.loading = true
-        const {success, data} = await this.accountStore.changePassword(this.oldPassword, this.newPassword1, this.newPassword2)
+        this.loading = true;
+        const { success, data } = await this.accountStore.changePassword(
+          this.oldPassword,
+          this.newPassword1,
+          this.newPassword2
+        );
         if (success) {
-          this.$router.push({name: 'feed', query: {'action': 'passwond-change'}})
+          this.$router.push({
+            name: "feed",
+            query: { action: "passwond-change" },
+          });
         } else {
-          this.errors = data
+          this.errors = data;
         }
-        this.loading = false
+        this.loading = false;
       }
-    }
+    },
   },
   computed: {
     isValid() {
-      const oldPassword = this.oldPassword.length >= 8
-      const newPassword1 = this.newPassword1.length >= 8
-      const newPassword2 = this.newPassword2.length >= 8 && this.newPassword1 === this.newPassword2
-      return oldPassword && newPassword1 && newPassword2
+      const oldPassword = this.oldPassword.length >= 8;
+      const newPassword1 = this.newPassword1.length >= 8;
+      const newPassword2 =
+        this.newPassword2.length >= 8 &&
+        this.newPassword1 === this.newPassword2;
+      return oldPassword && newPassword1 && newPassword2;
     },
-    ...mapStores(useAccountStore)
-  }
-}
+    ...mapStores(useAccountStore),
+  },
+};
 </script>

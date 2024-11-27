@@ -1,8 +1,8 @@
-import {AxiosResponse} from "axios";
+import { AxiosResponse } from "axios";
 
 interface IResponse {
-    success: boolean
-    data: AxiosResponse['data']
+  success: boolean;
+  data: AxiosResponse["data"];
 }
 
-export {IResponse}
+export { IResponse };

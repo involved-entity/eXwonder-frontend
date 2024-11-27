@@ -1,50 +1,53 @@
-import axios, {AxiosRequestConfig} from 'axios'
-import client from '../client/index.js'
-import {IResponse} from "@/types/helpers";
+import axios, { AxiosRequestConfig } from "axios";
+import client from "../client/index.js";
+import { IResponse } from "@/types/helpers";
 
 enum Methods {
-    GET = 'get',
-    POST = 'post',
-    PATCH = 'patch',
-    DELETE = 'delete'
+  GET = "get",
+  POST = "post",
+  PATCH = "patch",
+  DELETE = "delete",
 }
 
 async function request(
-    method: Methods,
-    url: string,
-    data?: object,
-    config?: AxiosRequestConfig,
-    ...expectedStatuses: Array<number>
+  method: Methods,
+  url: string,
+  data?: object,
+  config?: AxiosRequestConfig,
+  ...expectedStatuses: Array<number>
 ): Promise<IResponse> {
-    if (expectedStatuses.length === 0) {
-        expectedStatuses = [axios.HttpStatusCode.Ok]
-    }
+  if (expectedStatuses.length === 0) {
+    expectedStatuses = [axios.HttpStatusCode.Ok];
+  }
 
-    const args: [string, object?, AxiosRequestConfig?] = data ? [url, data, config] : [url, config]
-    const response = await client[method](...args).catch(error => error)
+  const args: [string, object?, AxiosRequestConfig?] = data
+    ? [url, data, config]
+    : [url, config];
+  const response = await client[method](...args).catch(error => error);
 
-    if (expectedStatuses.includes(response.status)) {
-        return {
-            success: true,
-            data: response.data
-        }
-    } else {
-        return {
-            success: false,
-            data: response.response.data
-        }
-    }
+  if (expectedStatuses.includes(response.status)) {
+    return {
+      success: true,
+      data: response.data,
+    };
+  } else {
+    return {
+      success: false,
+      data: response.response.data,
+    };
+  }
 }
 
 function isElementInViewport(el?: HTMLElement): boolean {
-    if (!el) return false
-    const rect = el.getBoundingClientRect()
-    return (
-        rect.top >= 0 &&
-        rect.left >= 0 &&
-        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-    )
+  if (!el) return false;
+  const rect = el.getBoundingClientRect();
+  return (
+    rect.top >= 0 &&
+    rect.left >= 0 &&
+    rect.bottom <=
+      (window.innerHeight || document.documentElement.clientHeight) &&
+    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+  );
 }
 
-export {request, Methods, isElementInViewport}
+export { request, Methods, isElementInViewport };

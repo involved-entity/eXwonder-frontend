@@ -1,12 +1,12 @@
-import {RouteRecordRaw} from "vue-router";
+import { RouteRecordRaw } from "vue-router";
 
 interface IRouteMeta {
-    requireLogin?: boolean
-    requireNoLogin?: boolean
+  requireLogin?: boolean;
+  requireNoLogin?: boolean;
 }
 
 type IRoute = RouteRecordRaw & {
-    meta: IRouteMeta;
-}
+  meta: IRouteMeta;
+};
 
-export {IRoute}
+export { IRoute };

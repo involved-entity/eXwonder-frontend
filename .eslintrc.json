@@ -13,13 +13,11 @@
       "jsx": true
     }
   },
-  "plugins": [
-    "vue",
-    "@typescript-eslint"
-  ],
+  "plugins": ["vue", "@typescript-eslint"],
   "extends": [
     "eslint:recommended",
     "plugin:vue/recommended",
-    "plugin:@typescript-eslint/recommended"
-  ],
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
+  ]
 }

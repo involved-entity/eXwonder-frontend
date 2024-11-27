@@ -5,32 +5,44 @@
       <div class="m-3">
         <p class="form-label">Password:</p>
         <input
-            type="password"
-            class="form-input" v-model="password1"
-            :class="{'border-red': error.length}"
-            ref="password1"
-            @keyup.down="$refs.repeat.focus()"
-        >
-        <p><small class="form-error-label" v-if="error.length">{{error}}</small></p>
+          type="password"
+          class="form-input"
+          v-model="password1"
+          :class="{ 'border-red': error.length }"
+          ref="password1"
+          @keyup.down="$refs.repeat.focus()"
+        />
+        <p>
+          <small class="form-error-label" v-if="error.length">{{
+            error
+          }}</small>
+        </p>
 
         <p class="form-label">Password repeat:</p>
         <input
-            type="password"
-            class="form-input" v-model="password2"
-            ref="repeat"
-            @keyup.up="$refs.password1.focus()"
-            @keyup.enter="submit"
-            :class="{'border-red': error.length}"
-        >
-        <p><small class="form-error-label" v-if="error.length">{{error}}</small></p>
+          type="password"
+          class="form-input"
+          v-model="password2"
+          ref="repeat"
+          @keyup.up="$refs.password1.focus()"
+          @keyup.enter="submit"
+          :class="{ 'border-red': error.length }"
+        />
+        <p>
+          <small class="form-error-label" v-if="error.length">{{
+            error
+          }}</small>
+        </p>
 
         <button
-            type="submit"
-            class="mt-2 btn btn-green"
-            :class="{'btn-green-hover': isValid}"
-            :disabled="!isValid"
-            @click="submit"
-        >Confirm</button>
+          type="submit"
+          class="mt-2 btn btn-green"
+          :class="{ 'btn-green-hover': isValid }"
+          :disabled="!isValid"
+          @click="submit"
+        >
+          Confirm
+        </button>
         <div class="loader my-5 mx-auto" v-if="loading"></div>
       </div>
     </div>
@@ -38,50 +50,62 @@
 </template>
 
 <script lang="ts">
-import {mapStores} from "pinia"
-import {useAccountStore} from "../stores/accountStore.ts"
+import { mapStores } from "pinia";
+import { useAccountStore } from "../stores/accountStore.ts";
 
 export default {
   props: {
     uid: {
       type: String,
-      required: true
+      required: true,
     },
     token: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
       loading: false,
-      password1: '',
-      password2: '',
-      error: ''
-    }
+      password1: "",
+      password2: "",
+      error: "",
+    };
   },
   methods: {
     async submit() {
       if (this.isValid) {
-        this.loading = true
-        const {success, data} = await this.accountStore.resetPasswordConfirm(this.uid, this.token, this.password1, this.password2)
+        this.loading = true;
+        const { success, data } = await this.accountStore.resetPasswordConfirm(
+          this.uid,
+          this.token,
+          this.password1,
+          this.password2
+        );
         if (!success) {
           if (data.new_password2?.length) {
-            this.error = 'Password is too common.'
+            this.error = "Password is too common.";
           }
-          this.error = 'Token is invalid. Please retry to reset password.'
+          this.error = "Token is invalid. Please retry to reset password.";
         } else {
-          this.$router.push({name: 'login', query: {'action': 'password-reset-success'}})
+          this.$router.push({
+            name: "login",
+            query: { action: "password-reset-success" },
+          });
         }
-        this.loading = false
+        this.loading = false;
       }
-    }
+    },
   },
   computed: {
     isValid() {
-      return this.password1.length >= 8 && this.password2.length >= 8 && this.password1 === this.password2
+      return (
+        this.password1.length >= 8 &&
+        this.password2.length >= 8 &&
+        this.password1 === this.password2
+      );
     },
-    ...mapStores(useAccountStore)
-  }
-}
+    ...mapStores(useAccountStore),
+  },
+};
 </script>

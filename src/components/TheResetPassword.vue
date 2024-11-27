@@ -5,18 +5,21 @@
       <div class="m-3">
         <p class="form-label">Email:</p>
         <input
-            type="email"
-            class="form-input" v-model="email"
-            @keyup.enter="submit"
-        >
+          type="email"
+          class="form-input"
+          v-model="email"
+          @keyup.enter="submit"
+        />
 
         <button
-            type="submit"
-            class="mt-2 btn btn-green"
-            :class="{'btn-green-hover': isValid}"
-            :disabled="!isValid"
-            @click="submit"
-        >Reset</button>
+          type="submit"
+          class="mt-2 btn btn-green"
+          :class="{ 'btn-green-hover': isValid }"
+          :disabled="!isValid"
+          @click="submit"
+        >
+          Reset
+        </button>
         <div class="loader my-5 mx-auto" v-if="loading"></div>
       </div>
     </div>
@@ -24,32 +27,32 @@
 </template>
 
 <script lang="ts">
-import {mapStores} from "pinia"
-import {useAccountStore} from "../stores/accountStore.ts"
+import { mapStores } from "pinia";
+import { useAccountStore } from "../stores/accountStore.ts";
 
 export default {
-  emits: ['submitted'],
+  emits: ["submitted"],
   data() {
     return {
-      email: '',
-      loading: false
-    }
+      email: "",
+      loading: false,
+    };
   },
   methods: {
     async submit() {
       if (this.isValid) {
-        this.loading = true
-        await this.accountStore.resetPassword(this.email)
-        this.$emit('submitted')
-        this.loading = false
+        this.loading = true;
+        await this.accountStore.resetPassword(this.email);
+        this.$emit("submitted");
+        this.loading = false;
       }
-    }
+    },
   },
   computed: {
     isValid() {
-      return this.email.length > 0
+      return this.email.length > 0;
     },
-    ...mapStores(useAccountStore)
-  }
-}
+    ...mapStores(useAccountStore),
+  },
+};
 </script>

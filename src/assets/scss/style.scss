@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Varela+Round&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -42,7 +42,7 @@
 }
 
 .bg-gray-custom {
-  @apply bg-gray-200 dark:bg-[#1b1919]
+  @apply bg-gray-200 dark:bg-[#1b1919];
 }
 
 body {
@@ -55,31 +55,32 @@ body {
 
 @media (max-width: 1023px) {
   .subs-avatar-w {
-    width: 12%
+    width: 12%;
   }
 
   .inactive-bn {
     @apply absolute inset-x-0 bottom-0 mx-auto w-2/3 border-b mt-1;
     border-bottom-color: darkgrey;
     border-bottom-width: 2px;
-    top: 100%
+    top: 100%;
   }
   .active-bn {
     @apply absolute inset-x-0 bottom-0 mx-auto w-2/3 border-b mt-1;
     border-bottom-color: darkcyan;
     border-bottom-width: 2px;
-    top: 100%
+    top: 100%;
   }
 
   .container-border {
     @apply overflow-x-hidden bg-gray-100 dark:bg-[#222];
   }
 
-  .shadow {}
+  .shadow {
+  }
 }
 @media (min-width: 1024px) {
   .subs-avatar-w {
-    width: 16%
+    width: 16%;
   }
 
   .inactive {
@@ -116,25 +117,45 @@ body {
   margin: -6px 0 0 -6px;
   width: 12px;
   aspect-ratio: 1;
-  background: #3FB8AF;
+  background: #3fb8af;
   animation:
-          l2-1 2s  infinite,
-          l2-2 1s infinite ;
+    l2-1 2s infinite,
+    l2-2 1s infinite;
 }
 .loader:after {
-  background:#FF3D7F;
-  animation-delay: -1s,0s;
+  background: #ff3d7f;
+  animation-delay: -1s, 0s;
 }
 @keyframes l2-1 {
-  0%   {top:0   ;left:0}
-  25%  {top:100%;left:0}
-  50%  {top:100%;left:100%}
-  75%  {top:0   ;left:100%}
-  100% {top:0   ;left:0}
+  0% {
+    top: 0;
+    left: 0;
+  }
+  25% {
+    top: 100%;
+    left: 0;
+  }
+  50% {
+    top: 100%;
+    left: 100%;
+  }
+  75% {
+    top: 0;
+    left: 100%;
+  }
+  100% {
+    top: 0;
+    left: 0;
+  }
 }
 @keyframes l2-2 {
-  40%,50% {transform: rotate(0.25turn) scale(0.5)}
-  100%    {transform: rotate(0.5turn) scale(1)}
+  40%,
+  50% {
+    transform: rotate(0.25turn) scale(0.5);
+  }
+  100% {
+    transform: rotate(0.5turn) scale(1);
+  }
 }
 
 .line {

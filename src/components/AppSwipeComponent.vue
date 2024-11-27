@@ -1,9 +1,9 @@
 <template>
   <div
-      @touchstart="touchStart"
-      @touchmove="touchMove"
-      @touchend="touchEnd"
-      class="swipe-container"
+    @touchstart="touchStart"
+    @touchmove="touchMove"
+    @touchend="touchEnd"
+    class="swipe-container"
   >
     <slot></slot>
   </div>
@@ -15,7 +15,7 @@ export default {
   data() {
     return {
       startX: 0,
-      endX: 0
+      endX: 0,
     };
   },
   methods: {
@@ -29,14 +29,14 @@ export default {
       const diffX = this.endX - this.startX;
       if (Math.abs(diffX) > 30) {
         if (diffX > 0) {
-          this.$emit('swipe-left');
+          this.$emit("swipe-left");
         } else {
-          this.$emit('swipe-right');
+          this.$emit("swipe-right");
         }
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style>
