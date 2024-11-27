@@ -45,7 +45,6 @@
               <router-link
                 :to="'/' + comment.author.username + '/'"
                 class="col-span-1"
-                @click="routeStore.changeActiveLink('user')"
               >
                 <img
                   :src="comment.author.avatar"
@@ -58,7 +57,6 @@
                   <router-link
                     :to="'/' + comment.author.username + '/'"
                     class="hover:text-gray-600 dark:hover:text-gray-400"
-                    @click="routeStore.changeActiveLink('user')"
                   >
                     {{ comment.author.username }}
                   </router-link>
@@ -121,7 +119,6 @@ import { IComment, IPost } from "../types/globals/index.js";
 import { mapStores } from "pinia";
 import { useAuthenticationStore } from "../stores/authenticationStore.ts";
 import { useCommentsStore } from "../stores/commentsStore.ts";
-import { useRouteStore } from "../stores/routeStore.ts";
 
 export default {
   components: { AppCommentLikeButton },
@@ -183,7 +180,7 @@ export default {
     document.body.removeEventListener("click", this.handleClick);
   },
   computed: {
-    ...mapStores(useAuthenticationStore, useRouteStore, useCommentsStore),
+    ...mapStores(useAuthenticationStore, useCommentsStore),
   },
 };
 </script>

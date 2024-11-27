@@ -38,7 +38,6 @@
         >
           <router-link
             :to="'/' + user.username + '/'"
-            @click="routeStore.changeActiveLink('user')"
           >
             <img
               :src="user.avatar"
@@ -49,7 +48,6 @@
           <router-link
             :to="'/' + user.username + '/'"
             class="header-transition"
-            @click="routeStore.changeActiveLink('user')"
           >
             <p class="text-center text-xs lg:text-base">{{ user.username }}</p>
           </router-link>
@@ -82,7 +80,6 @@
 import { PropType } from "vue";
 import { IUserDefaultData } from "@/types/globals/index.js";
 import { mapStores } from "pinia";
-import { useRouteStore } from "../stores/routeStore.ts";
 
 export default {
   emits: ["scroll"],
@@ -112,9 +109,6 @@ export default {
   mounted() {
     this.usersW = (this.$refs.usersBlock as HTMLElement).offsetWidth;
     this.usersFull = (this.$refs.usersFull as HTMLElement).offsetWidth;
-  },
-  computed: {
-    ...mapStores(useRouteStore),
-  },
+  }
 };
 </script>

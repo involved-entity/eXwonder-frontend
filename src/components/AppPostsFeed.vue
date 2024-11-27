@@ -23,7 +23,6 @@
       <div class="flex w-full mb-1">
         <router-link
           :to="'/' + post.author.username + '/'"
-          @click="routeStore.changeActiveLink('user')"
         >
           <img
             :src="post.author.avatar"
@@ -33,7 +32,6 @@
         </router-link>
         <p
           class="text-gray-700 dark:text-gray-300 text-md my-auto ms-1"
-          @click="routeStore.changeActiveLink('user')"
         >
           <router-link
             :to="'/' + post.author.username + '/'"
@@ -305,7 +303,6 @@ import AppSwipeComponent from "./AppSwipeComponent.vue";
 import AppCommentsModal from "./AppCommentsModal.vue";
 import { useCommentsStore } from "../stores/commentsStore.ts";
 import { usePostsStore } from "../stores/postsStore.ts";
-import { useRouteStore } from "../stores/routeStore.ts";
 import { useAuthenticationStore } from "../stores/authenticationStore.ts";
 import { mapStores } from "pinia";
 import { Dropdown } from "flowbite";
@@ -416,8 +413,7 @@ export default {
     ...mapStores(
       useCommentsStore,
       usePostsStore,
-      useAuthenticationStore,
-      useRouteStore
+      useAuthenticationStore
     ),
   },
 };

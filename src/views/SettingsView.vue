@@ -109,7 +109,6 @@
 import { mapStores } from "pinia";
 import { useAccountStore } from "../stores/accountStore.ts";
 import { useAuthenticationStore } from "../stores/authenticationStore.ts";
-import { useRouteStore } from "../stores/routeStore.ts";
 
 export default {
   data() {
@@ -126,7 +125,6 @@ export default {
     async logout() {
       this.loading = true;
       await this.authenticationStore.logout();
-      this.routeStore.changeActiveLink("feed");
       this.$router.push({ name: "login" });
       this.loading = false;
     },
@@ -145,7 +143,6 @@ export default {
 
         if (!errors) {
           this.errors = { email: [], timezone: [] };
-          this.routeStore.changeActiveLink("user");
           this.$router.push({
             path: "/" + this.authenticationStore.user.username + "/",
             query: { action: "settings" },
@@ -174,7 +171,7 @@ export default {
         this.avatar
       );
     },
-    ...mapStores(useAccountStore, useAuthenticationStore, useRouteStore),
+    ...mapStores(useAccountStore, useAuthenticationStore),
   },
 };
 </script>

@@ -60,7 +60,6 @@
 <script lang="ts">
 import { mapStores } from "pinia";
 import { usePostsStore } from "../stores/postsStore.ts";
-import { useRouteStore } from "../stores/routeStore.ts";
 import { useAuthenticationStore } from "../stores/authenticationStore.ts";
 
 export default {
@@ -85,7 +84,6 @@ export default {
         const { success, data } = await this.postsStore.createPost(formData);
         if (success) {
           this.errors = {};
-          this.routeStore.changeActiveLink("user");
           this.$router.push({
             name: "user",
             params: { username: this.authenticationStore.user.username },
@@ -105,7 +103,7 @@ export default {
     isValid() {
       return this.images.length > 0 && this.images.length <= 10;
     },
-    ...mapStores(usePostsStore, useAuthenticationStore, useRouteStore),
+    ...mapStores(usePostsStore, useAuthenticationStore),
   },
 };
 </script>

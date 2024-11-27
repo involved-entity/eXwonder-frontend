@@ -138,7 +138,6 @@
               :to="'/' + post.author.username + '/'"
               class="col-span-1"
               active-class=""
-              @click="routeStore.changeActiveLink('user')"
             >
               <img
                 :src="post.author.avatar"
@@ -155,7 +154,6 @@
                   :to="'/' + post.author.username + '/'"
                   class="hover:text-gray-600 dark:hover:text-gray-400"
                   active-class=""
-                  @click="routeStore.changeActiveLink('user')"
                 >
                   {{ post.author.username }}
                 </router-link>
@@ -203,7 +201,6 @@
               <router-link
                 :to="'/' + comment.author.username + '/'"
                 class="col-span-1"
-                @click="routeStore.changeActiveLink('user')"
               >
                 <img
                   :src="comment.author.avatar"
@@ -216,7 +213,6 @@
                   <router-link
                     :to="'/' + comment.author.username + '/'"
                     class="hover:text-gray-600 dark:hover:text-gray-400"
-                    @click="routeStore.changeActiveLink('user')"
                   >
                     {{ comment.author.username }}
                   </router-link>
@@ -326,7 +322,6 @@ import { PropType } from "vue";
 import { useCommentsStore } from "../stores/commentsStore.ts";
 import { useAuthenticationStore } from "../stores/authenticationStore.ts";
 import { usePostsStore } from "../stores/postsStore.ts";
-import { useRouteStore } from "../stores/routeStore.ts";
 import { mapStores } from "pinia";
 import AppLikeButton from "./AppLikeButton.vue";
 import AppSavePostButton from "./AppSavePostButton.vue";
@@ -466,8 +461,7 @@ export default {
     ...mapStores(
       useCommentsStore,
       useAuthenticationStore,
-      usePostsStore,
-      useRouteStore
+      usePostsStore
     ),
   },
 };

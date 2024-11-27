@@ -32,15 +32,10 @@ interface IPostCreate {
   (key: string): File | string;
 }
 
-interface IRouteStoreState {
-  activeLink: string;
-}
-
 export {
   IAuthenticationStoreUser,
   IAuthenticationStoreState,
   IUserPublicData,
   IUserSettingsUpdates,
   IPostCreate,
-  IRouteStoreState,
 };

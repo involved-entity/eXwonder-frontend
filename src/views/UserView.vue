@@ -266,7 +266,7 @@ export default {
       }
     },
   },
-  async beforeMount() {
+  async mounted() {
     await this.updateUserInfo();
   },
   async beforeRouteUpdate(to) {

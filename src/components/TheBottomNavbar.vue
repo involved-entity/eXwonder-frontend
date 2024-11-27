@@ -3,7 +3,6 @@
     <router-link
       :to="{ name: 'feed' }"
       class="m-auto"
-      @click="routeStore.changeActiveLink('feed')"
     >
       <button class="items-center ps-3 pe-3 relative">
         <svg
@@ -22,8 +21,8 @@
         </svg>
         <span
           :class="{
-            'active-bn': routeStore.activeLink === 'feed',
-            'inactive-bn': routeStore.activeLink !== 'feed',
+            'active-bn': $route.name === 'feed',
+            'inactive-bn': $route.name !== 'feed',
           }"
         ></span>
       </button>
@@ -32,7 +31,6 @@
     <router-link
       :to="{ name: 'search-user' }"
       class="m-auto"
-      @click="routeStore.changeActiveLink('search-user')"
     >
       <button class="items-center ps-3 pe-3 relative">
         <svg
@@ -51,8 +49,8 @@
         </svg>
         <span
           :class="{
-            'active-bn': routeStore.activeLink === 'search-user',
-            'inactive-bn': routeStore.activeLink !== 'search-user',
+            'active-bn': $route.name === 'search-user',
+            'inactive-bn': $route.name !== 'search-user',
           }"
         ></span>
       </button>
@@ -61,7 +59,6 @@
     <router-link
       :to="{ name: 'explore' }"
       class="m-auto"
-      @click="routeStore.changeActiveLink('explore')"
     >
       <button class="items-center ps-3 pe-3 relative">
         <svg
@@ -80,8 +77,8 @@
         </svg>
         <span
           :class="{
-            'active-bn': routeStore.activeLink === 'explore',
-            'inactive-bn': routeStore.activeLink !== 'explore',
+            'active-bn': $route.path.indexOf('/explore') !== -1,
+            'inactive-bn': $route.path.indexOf('/explore') === -1,
           }"
         ></span>
       </button>
@@ -90,7 +87,6 @@
     <router-link
       :to="{ name: 'saved-posts' }"
       class="m-auto"
-      @click="routeStore.changeActiveLink('saved-posts')"
     >
       <button class="items-center ps-3 pe-3 relative">
         <svg
@@ -109,8 +105,8 @@
         </svg>
         <span
           :class="{
-            'active-bn': routeStore.activeLink === 'saved-posts',
-            'inactive-bn': routeStore.activeLink !== 'saved-posts',
+            'active-bn': $route.name === 'saved-posts',
+            'inactive-bn': $route.name !== 'saved-posts',
           }"
         ></span>
       </button>
@@ -119,7 +115,6 @@
     <router-link
       :to="{ name: 'new-post' }"
       class="m-auto"
-      @click="routeStore.changeActiveLink('new-post')"
     >
       <button class="items-center ps-3 pe-3 relative">
         <svg
@@ -138,8 +133,8 @@
         </svg>
         <span
           :class="{
-            'active-bn': routeStore.activeLink === 'new-post',
-            'inactive-bn': routeStore.activeLink !== 'new-post',
+            'active-bn': $route.name === 'new-post',
+            'inactive-bn': $route.name !== 'new-post',
           }"
         ></span>
       </button>
@@ -148,7 +143,6 @@
     <router-link
       :to="'/' + authenticationStore.user.username + '/'"
       class="m-auto"
-      @click="routeStore.changeActiveLink('user')"
     >
       <button class="items-center ps-3 pe-3 relative">
         <svg
@@ -167,8 +161,8 @@
         </svg>
         <span
           :class="{
-            'active-bn': routeStore.activeLink === 'user',
-            'inactive-bn': routeStore.activeLink !== 'user',
+            'active-bn': $route.name === 'user',
+            'inactive-bn': $route.name !== 'user',
           }"
         ></span>
       </button>
@@ -177,7 +171,6 @@
     <router-link
       :to="{ name: 'settings' }"
       class="m-auto"
-      @click="routeStore.changeActiveLink('settings')"
     >
       <button class="items-center ps-3 pe-3 relative">
         <svg
@@ -201,8 +194,8 @@
         </svg>
         <span
           :class="{
-            'active-bn': routeStore.activeLink === 'settings',
-            'inactive-bn': routeStore.activeLink !== 'settings',
+            'active-bn': $route.name === 'settings',
+            'inactive-bn': $route.name !== 'settings',
           }"
         ></span>
       </button>
@@ -213,9 +206,11 @@
 <script lang="ts">
 import { mapStores } from "pinia";
 import { useAuthenticationStore } from "../stores/authenticationStore.ts";
-import { useRouteStore } from "../stores/routeStore.ts";
 
 export default {
-  computed: { ...mapStores(useAuthenticationStore, useRouteStore) },
+  beforeRouteUpdate() {
+    console.log(this.$route.path.name)
+  },
+  computed: { ...mapStores(useAuthenticationStore) },
 };
 </script>
