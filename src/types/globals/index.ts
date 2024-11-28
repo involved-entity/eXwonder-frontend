@@ -5,8 +5,8 @@ interface IUserDefaultData extends IUserPublicData {
 }
 
 interface IUserProfileData extends IUserDefaultData {
-  name: string,
-  desc: string
+  name: string;
+  desc: string;
 }
 
 interface IUserExtendedData extends IUserDefaultData {

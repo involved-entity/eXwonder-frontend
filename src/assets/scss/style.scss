@@ -58,6 +58,14 @@ body {
     width: 12%;
   }
 
+  .inactive- {
+    border-left: 2px solid darkgray;
+  }
+
+  .active- {
+    border-left: 2px solid darkcyan;
+  }
+
   .inactive-bn {
     @apply absolute inset-x-0 bottom-0 mx-auto w-2/3 border-b mt-1;
     border-bottom-color: darkgrey;

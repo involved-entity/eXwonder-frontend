@@ -81,6 +81,8 @@ export default {
   },
   async mounted() {
     this.loading = true;
+    this.checkScreenWidth();
+    window.addEventListener("resize", this.checkScreenWidth);
     const response: IResponse = await this.postsStore.getPostsTop();
     this.updates = response.data.results;
     const followsUsernames: Array<string> = [];
@@ -92,10 +94,6 @@ export default {
       post.activeImage = 0;
     });
     this.loading = false;
-  },
-  mounted() {
-    this.checkScreenWidth();
-    window.addEventListener("resize", this.checkScreenWidth);
   },
   computed: { ...mapStores(usePostsStore) },
   components: { AppUsersScroll, AppPostsFeed, AppAlert, AppSwipeComponent },

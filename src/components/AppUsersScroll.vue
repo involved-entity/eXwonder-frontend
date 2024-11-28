@@ -77,7 +77,6 @@
 <script lang="ts">
 import { PropType } from "vue";
 import { IUserDefaultData } from "@/types/globals/index.js";
-import { mapStores } from "pinia";
 
 export default {
   emits: ["scroll"],

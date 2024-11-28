@@ -316,6 +316,7 @@
 </template>
 
 <script lang="ts">
+import { clearActiveClasses } from "../helpers";
 import { PropType } from "vue";
 import { useCommentsStore } from "../stores/commentsStore.ts";
 import { useAuthenticationStore } from "../stores/authenticationStore.ts";
@@ -380,14 +381,6 @@ export default {
       }
     },
 
-    clearActiveClasses() {
-      const removeActive =
-        document.querySelectorAll<HTMLElement>(".remove-active");
-      removeActive.forEach(el => {
-        el.classList.remove("active");
-      });
-    },
-
     async updateComments() {
       this.commentsLoading = true;
       const comments = await this.commentsStore.getPostComments(this.post.id);
@@ -441,7 +434,7 @@ export default {
   },
 
   async mounted() {
-    this.clearActiveClasses();
+    clearActiveClasses();
 
     await this.updateComments();
 
@@ -466,7 +459,7 @@ export default {
   },
 
   updated() {
-    this.clearActiveClasses();
+    clearActiveClasses();
   },
 
   computed: {

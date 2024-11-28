@@ -13,18 +13,18 @@
         <div class="mx-auto w-full">
           <p class="form-label">Name:</p>
           <input
-              type="text"
-              :placeholder="authenticationStore.user.name"
-              class="form-input"
-              v-model="name"
-              :class="{ 'border-red': errors.name?.length }"
-              ref="nameInput"
-              @keyup.down="$refs.emailInput.focus()"
+            type="text"
+            :placeholder="authenticationStore.user.name"
+            class="form-input"
+            v-model="name"
+            :class="{ 'border-red': errors.name?.length }"
+            ref="nameInput"
+            @keyup.down="$refs.emailInput.focus()"
           />
           <p>
             <small class="form-error-label" v-if="errors.name?.length">{{
-                errors.name[0]
-              }}</small>
+              errors.name[0]
+            }}</small>
           </p>
 
           <p class="form-label mt-3">E-mail:</p>
@@ -57,7 +57,7 @@
             list="timezones"
           />
           <datalist id="timezones">
-            <option v-for="timezone in authenticationStore.availibleTimezones">
+            <option v-for="timezone in authenticationStore.availibleTimezones" :key="timezone">
               {{ timezone }}
             </option>
           </datalist>
@@ -68,36 +68,36 @@
           </p>
         </div>
       </div>
-      <div class="ps-3 pr-3 lg:pr-6 lg:ps-6 pb-5 pt-3">
+      <div class="ps-3 pr-3 lg:pr-6 lg:ps-6 pb-5 pt-1.5">
         <p class="form-label mt-3">Description:</p>
         <textarea
-            rows="5"
-            class="p-2.5 -mr-10 w-11/12 text-lg text-gray-700 dark:text-gray-400 rounded-lg border border-gray-700 outline-none dark:bg-[#161616] dark:border-[#161616] bg-gray-200"
-            :placeholder="authenticationStore.user.desc"
-            v-model="desc"
+          rows="4"
+          class="p-2.5 -mr-10 w-10/12 text-lg text-gray-700 dark:text-gray-400 rounded-lg border border-gray-700 outline-none dark:bg-[#161616] dark:border-[#161616] bg-gray-200"
+          :placeholder="authenticationStore.user.desc"
+          v-model="desc"
         />
         <p>
           <small class="form-error-label" v-if="errors.desc?.length">{{
-              errors.desc[0]
-            }}</small>
+            errors.desc[0]
+          }}</small>
         </p>
 
         <p class="form-label mt-3">Is 2FA enabled:</p>
         <input
-            type="checkbox"
-            v-model="is2faEnabled"
-            class="w-4 h-4 text-blue-600 rounded bg-gray-custom"
-            ref="is2faEnabled"
+          type="checkbox"
+          v-model="is2faEnabled"
+          class="w-4 h-4 text-blue-600 rounded bg-gray-custom"
+          ref="is2faEnabled"
         />
         <p></p>
 
         <p class="form-label mt-3">Avatar:</p>
         <div class="relative">
           <input
-              type="file"
-              ref="images"
-              @change="avatarChanged"
-              class="absolute inset-0 opacity-0 cursor-pointer"
+            type="file"
+            ref="images"
+            @change="avatarChanged"
+            class="absolute inset-0 opacity-0 cursor-pointer"
           />
           <button class="btn-no-w btn-green btn-green-hover">
             Select File
@@ -106,26 +106,23 @@
         <div class="w-full">
           <div class="grid grid-cols-2 w-full gap-x-3">
             <button
-                type="submit"
-                class="mt-3 btn col-span-1 btn-green"
-                :class="{ 'btn-green-hover': isValid }"
-                :disabled="!isValid"
-                @click="submit"
+              type="submit"
+              class="mt-3 btn col-span-1 btn-green"
+              :class="{ 'btn-green-hover': isValid }"
+              :disabled="!isValid"
+              @click="submit"
             >
               Save & Close
             </button>
             <router-link :to="{ name: 'change-password' }" class="col-span-1">
-              <button
-                  type="button"
-                  class="mt-3 btn btn-green btn-green-hover"
-              >
+              <button type="button" class="mt-3 btn btn-green btn-green-hover">
                 Change Password
               </button>
             </router-link>
           </div>
           <button
-              class="!p-1 my-auto ms-auto btn btn-green btn-green-hover text-sm xl:text-md mt-1 block lg:hidden"
-              @click="logout"
+            class="!p-1 my-auto ms-auto btn btn-green btn-green-hover text-sm xl:text-md mt-1 block lg:hidden"
+            @click="logout"
           >
             Logout
           </button>
@@ -183,10 +180,10 @@ export default {
             query: { action: "settings" },
           });
         } else {
-          this.errors.name = errors.name
+          this.errors.name = errors.name;
           this.errors.email = errors.email;
           this.errors.timezone = errors.timezone;
-          this.errors.desc = errors.description
+          this.errors.desc = errors.description;
         }
 
         this.loading = false;

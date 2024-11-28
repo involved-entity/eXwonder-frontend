@@ -98,12 +98,18 @@
                   </div>
                 </div>
               </div>
-              <p class="text-lg text-gray-700 dark:text-gray-300 font-semibold pr-5">{{requestedUser.name}}</p>
-              <p class="text-sm text-gray-600 dark:text-gray-400 pr-5">{{requestedUser.desc}}</p>
+              <p
+                class="text-lg text-gray-700 dark:text-gray-300 font-semibold pr-5"
+              >
+                {{ requestedUser.name }}
+              </p>
+              <p class="text-sm text-gray-600 dark:text-gray-400 pr-5">
+                {{ requestedUser.desc }}
+              </p>
             </div>
           </div>
 
-          <div class="ps-3 pr-3 pb-5 h-1 hidden lg:block">
+          <div class="ps-3 pr-3 pb-1.5 h-1">
             <hr class="border border-gray-600" />
           </div>
 

@@ -50,4 +50,11 @@ function isElementInViewport(el?: HTMLElement): boolean {
   );
 }
 
-export { request, Methods, isElementInViewport };
+function clearActiveClasses() {
+  const removeActive = document.querySelectorAll<HTMLElement>(".remove-active");
+  removeActive.forEach(el => {
+    el.classList.remove("active");
+  });
+}
+
+export { request, Methods, isElementInViewport, clearActiveClasses };

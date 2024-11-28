@@ -1,9 +1,9 @@
 interface IAuthenticationStoreUser {
   id: number;
-  name: string,
+  name: string;
   username: string;
   email?: string;
-  desc: string,
+  desc: string;
   avatar?: string;
   timezone?: string;
   is2faEnabled?: boolean;
@@ -23,10 +23,10 @@ interface IUserPublicData {
 }
 
 interface IUserSettingsUpdates {
-  name?: string
+  name?: string;
   email?: string;
   avatar?: File;
-  desc?: string
+  desc?: string;
   is2faEnabled?: boolean;
   timezone?: string;
 }

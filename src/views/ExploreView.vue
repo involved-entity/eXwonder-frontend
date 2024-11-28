@@ -18,7 +18,7 @@
             Likes
           </button>
         </div>
-        <div class="ps-3 pr-3 pb-3 h-1 hidden lg:block">
+        <div class="ps-3 pr-3 pb-1.5 h-1">
           <hr class="border border-gray-600" />
         </div>
         <div class="py-10" v-if="loading">
