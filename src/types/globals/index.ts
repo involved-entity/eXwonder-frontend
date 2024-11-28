@@ -4,6 +4,11 @@ interface IUserDefaultData extends IUserPublicData {
   id: number;
 }
 
+interface IUserProfileData extends IUserDefaultData {
+  name: string,
+  desc: string
+}
+
 interface IUserExtendedData extends IUserDefaultData {
   posts_count: number;
   is_followed: boolean;
@@ -63,6 +68,7 @@ enum Tops {
 
 export {
   IUserDefaultData,
+  IUserProfileData,
   IUserExtendedData,
   IComment,
   IPost,

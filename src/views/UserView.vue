@@ -27,8 +27,8 @@
         </div>
 
         <div v-else>
-          <div class="flex justify-center">
-            <div class="w-1/6 ms-2 my-3">
+          <div class="flex justify-center mb-1.5">
+            <div class="w-1/5 lg:w-1/6 ms-2 my-3">
               <img
                 :src="requestedUser.avatar"
                 alt="avatar"
@@ -98,6 +98,8 @@
                   </div>
                 </div>
               </div>
+              <p class="text-lg text-gray-700 dark:text-gray-300 font-semibold pr-5">{{requestedUser.name}}</p>
+              <p class="text-sm text-gray-600 dark:text-gray-400 pr-5">{{requestedUser.desc}}</p>
             </div>
           </div>
 
@@ -160,7 +162,7 @@
 </template>
 
 <script lang="ts">
-import { IPost, IUserDefaultData, IUserExtendedData } from "@/types/globals";
+import { IPost, IUserProfileData, IUserExtendedData } from "@/types/globals";
 import { mapStores } from "pinia";
 import { useUsersStore } from "../stores/usersStore.ts";
 import { usePostsStore } from "../stores/postsStore.ts";
@@ -176,8 +178,10 @@ export default {
       requestedUser: {
         id: 0,
         username: "",
+        name: "",
+        desc: "",
         avatar: "",
-      } as IUserDefaultData,
+      } as IUserProfileData,
       followings: {
         followersCount: 0,
         followingsCount: 0,
@@ -241,6 +245,8 @@ export default {
       } else {
         this.requestedUser.id = data.id;
         this.requestedUser.username = data.username;
+        this.requestedUser.name = data.name;
+        this.requestedUser.desc = data.description;
         this.requestedUser.avatar = data.avatar;
         this.followings.followersCount = data.followers_count;
         this.followings.followingsCount = data.followings_count;

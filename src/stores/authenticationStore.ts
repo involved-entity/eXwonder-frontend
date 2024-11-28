@@ -9,8 +9,10 @@ export const useAuthenticationStore = defineStore("authentication", {
     return {
       user: {
         id: 0,
+        name: "",
         email: "",
         timezone: "",
+        desc: "",
         is2faEnabled: undefined,
         username: "",
         avatar: undefined,
@@ -90,8 +92,10 @@ export const useAuthenticationStore = defineStore("authentication", {
           "/api/v1/account/account/me/"
         );
         this.user.id = data.user.id;
+        this.user.name = data.user.name
         this.user.email = data.user.email;
         this.user.timezone = data.user.timezone;
+        this.user.desc = data.user.description
         this.user.is2faEnabled = data.user.is_2fa_enabled;
         this.user.username = data.user.username;
         this.user.avatar = data.user.avatar;
