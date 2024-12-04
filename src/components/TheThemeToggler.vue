@@ -43,7 +43,7 @@
         </svg>
       </button>
     </div>
-    <div class="ml-auto block lg:hidden">
+    <div class="ml-auto block lg:hidden" v-if="authenticationStore.isAuth">
       <TheMobileSidebar />
     </div>
   </nav>
@@ -51,6 +51,8 @@
 
 <script lang="ts">
 import TheMobileSidebar from "../components/TheMobileSidebar.vue";
+import {useAuthenticationStore} from "../stores/authenticationStore.ts";
+import {mapStores} from "pinia";
 
 export default {
   components: { TheMobileSidebar },
@@ -74,5 +76,6 @@ export default {
       document.documentElement.classList.add("dark");
     }
   },
+  computed: {...mapStores(useAuthenticationStore)}
 };
 </script>
