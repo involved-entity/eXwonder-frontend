@@ -135,6 +135,7 @@
 
 <script lang="ts">
 import { mapStores } from "pinia";
+import {checkIsEmailValid} from "../helpers";
 import { useAccountStore } from "../stores/accountStore.ts";
 import { useAuthenticationStore } from "../stores/authenticationStore.ts";
 
@@ -198,6 +199,7 @@ export default {
   },
   computed: {
     isValid() {
+      if (!checkIsEmailValid(this.email)) return false
       return (
         this.name !== "" ||
         this.email !== "" ||

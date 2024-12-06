@@ -82,6 +82,7 @@
 
 <script lang="ts">
 import { mapStores } from "pinia";
+import {checkIsEmailValid} from "../helpers";
 import { useAuthenticationStore } from "../stores/authenticationStore.ts";
 
 export default {
@@ -118,7 +119,7 @@ export default {
   },
   computed: {
     isValid() {
-      if (this.username.length < 5 && this.username.length > 16) {
+      if (this.username.length < 5 || this.username.length > 16 || !checkIsEmailValid(this.email)) {
         return false;
       }
       return !(
