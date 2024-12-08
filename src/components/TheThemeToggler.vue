@@ -51,8 +51,8 @@
 
 <script lang="ts">
 import TheMobileSidebar from "../components/TheMobileSidebar.vue";
-import {useAuthenticationStore} from "../stores/authenticationStore.ts";
-import {mapStores} from "pinia";
+import { useAuthenticationStore } from "../stores/authenticationStore.ts";
+import { mapStores } from "pinia";
 
 export default {
   components: { TheMobileSidebar },
@@ -76,6 +76,6 @@ export default {
       document.documentElement.classList.add("dark");
     }
   },
-  computed: {...mapStores(useAuthenticationStore)}
+  computed: { ...mapStores(useAuthenticationStore) },
 };
 </script>

@@ -4,7 +4,7 @@
       <div class="header-3xl mb-3">Sing Up</div>
       <div class="card text-md w-3/4 sm:w-2/5 lg:w-1/3">
         <div class="w-full h-full items-center justify-center mt-3">
-          <div class="mx-3 mb-3">
+          <form class="mx-3 mb-3" autocomplete="on" @submit.prevent="submit">
             <p class="form-label">Username:</p>
             <input
               type="text"
@@ -13,6 +13,7 @@
               v-model="username"
               ref="usernameInput"
               @keyup.down="$refs.emailInput.focus()"
+              autocomplete="username"
             />
             <p>
               <small class="form-error-label" v-if="errors.username.length">{{
@@ -31,6 +32,7 @@
               ref="emailInput"
               @keyup.up="$refs.usernameInput.focus()"
               @keyup.down="$refs.password1Input.focus()"
+              autocomplete="email"
             />
             <p>
               <small class="form-error-label" v-if="errors.email.length">{{
@@ -46,6 +48,7 @@
               ref="password1Input"
               @keyup.up="$refs.emailInput.focus()"
               @keyup.down="$refs.password2Input.focus()"
+              autocomplete="new-password"
             />
 
             <p class="form-label">Password repeat:</p>
@@ -55,17 +58,19 @@
               v-model="password2"
               ref="password2Input"
               @keyup.up="$refs.password1Input.focus()"
+              autocomplete="new-password"
             />
 
             <button
               type="submit"
               class="mt-2 btn btn-green"
               :class="{ 'btn-gree-hover': isValid }"
-              @click="submit"
               :disabled="!isValid"
             >
               Sing Up
             </button>
+          </form>
+          <div class="mx-3">
             <div class="loader my-5 mx-auto" v-if="loading"></div>
           </div>
         </div>
@@ -82,7 +87,7 @@
 
 <script lang="ts">
 import { mapStores } from "pinia";
-import {checkIsEmailValid} from "../helpers";
+import { checkIsEmailValid } from "../helpers";
 import { useAuthenticationStore } from "../stores/authenticationStore.ts";
 
 export default {
@@ -119,7 +124,11 @@ export default {
   },
   computed: {
     isValid() {
-      if (this.username.length < 5 || this.username.length > 16 || !checkIsEmailValid(this.email)) {
+      if (
+        this.username.length < 5 ||
+        this.username.length > 16 ||
+        !checkIsEmailValid(this.email)
+      ) {
         return false;
       }
       return !(

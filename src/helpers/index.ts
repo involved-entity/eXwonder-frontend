@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios";
 import client from "../client/index.js";
 import { IResponse } from "@/types/helpers";
-import {z} from 'zod';
+import { z } from "zod";
 
 enum Methods {
   GET = "get",
@@ -59,9 +59,15 @@ function clearActiveClasses() {
 }
 
 function checkIsEmailValid(email: string): boolean {
-  if (email.length === 0) return true
-  const emailChecker = z.string().email()
-  return emailChecker.safeParse(email).success
+  if (email.length === 0) return true;
+  const emailChecker = z.string().email();
+  return emailChecker.safeParse(email).success;
 }
 
-export { request, Methods, isElementInViewport, clearActiveClasses, checkIsEmailValid };
+export {
+  request,
+  Methods,
+  isElementInViewport,
+  clearActiveClasses,
+  checkIsEmailValid,
+};

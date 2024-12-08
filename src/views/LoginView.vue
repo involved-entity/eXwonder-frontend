@@ -4,7 +4,7 @@
       <div class="header-3xl mb-3">Login</div>
       <div class="card">
         <div class="w-full h-full items-center justify-center mt-3">
-          <div class="mx-3 mb-3">
+          <form class="mx-3 mb-3" autocomplete="on" @submit.prevent="submit">
             <p class="form-label">Username:</p>
             <input
               type="text"
@@ -13,6 +13,7 @@
               :class="{ 'border-red': errors.non_field_errors.length }"
               @keyup.down="$refs.passwordInput.focus()"
               ref="usernameInput"
+              autocomplete="username"
             />
             <p>
               <small
@@ -30,6 +31,7 @@
               :class="{ 'border-red': errors.non_field_errors.length }"
               @keyup.up="$refs.usernameInput.focus()"
               ref="passwordInput"
+              autocomplete="current-password"
             />
             <p>
               <small
@@ -44,10 +46,11 @@
               class="mt-2 btn btn-green"
               :class="{ 'btn-green-hover': isValid }"
               :disabled="!isValid"
-              @click="submit"
             >
               Login
             </button>
+          </form>
+          <div class="mx-3">
             <div class="loader my-5 mx-auto" v-if="loading"></div>
           </div>
         </div>

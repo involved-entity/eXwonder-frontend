@@ -233,6 +233,10 @@ body {
 .form-error-label {
   @apply p-1 text-red-600;
 }
+.form-textarea {
+  @apply p-2.5 ms-3 -mr-10 w-10/12 text-lg text-gray-700;
+  @apply dark:text-gray-400 rounded-lg border border-gray-700 outline-none dark:bg-[#161616] dark:border-[#161616] bg-gray-200;
+}
 
 .border-red {
   @apply border border-red-600;

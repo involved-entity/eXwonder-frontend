@@ -1,17 +1,16 @@
 import { defineStore } from "pinia";
 import { Methods, request } from "../helpers";
 import axios from "axios";
-import { IPostCreate } from "../types/stores";
 import { IResponse } from "../types/helpers";
 import { Tops } from "../types/globals";
 
 export const usePostsStore = defineStore("posts", {
   actions: {
-    async createPost(formData: IPostCreate): Promise<IResponse> {
+    async createPost(post: FormData): Promise<IResponse> {
       return await request(
         Methods.POST,
         "/api/v1/posts/posts/",
-        formData,
+        post,
         { headers: { "Content-Type": "multipart/form-data" } },
         axios.HttpStatusCode.Created
       );

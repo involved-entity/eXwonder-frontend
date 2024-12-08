@@ -31,15 +31,9 @@ interface IUserSettingsUpdates {
   timezone?: string;
 }
 
-interface IPostCreate {
-  signature?: string;
-  (key: string): File | string;
-}
-
 export {
   IAuthenticationStoreUser,
   IAuthenticationStoreState,
   IUserPublicData,
   IUserSettingsUpdates,
-  IPostCreate,
 };

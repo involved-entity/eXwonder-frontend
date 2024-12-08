@@ -57,7 +57,10 @@
             list="timezones"
           />
           <datalist id="timezones">
-            <option v-for="timezone in authenticationStore.availibleTimezones" :key="timezone">
+            <option
+              v-for="timezone in authenticationStore.availibleTimezones"
+              :key="timezone"
+            >
               {{ timezone }}
             </option>
           </datalist>
@@ -135,7 +138,7 @@
 
 <script lang="ts">
 import { mapStores } from "pinia";
-import {checkIsEmailValid} from "../helpers";
+import { checkIsEmailValid } from "../helpers";
 import { useAccountStore } from "../stores/accountStore.ts";
 import { useAuthenticationStore } from "../stores/authenticationStore.ts";
 
@@ -199,7 +202,7 @@ export default {
   },
   computed: {
     isValid() {
-      if (!checkIsEmailValid(this.email)) return false
+      if (!checkIsEmailValid(this.email)) return false;
       return (
         this.name !== "" ||
         this.email !== "" ||
