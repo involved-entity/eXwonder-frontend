@@ -1,5 +1,5 @@
 <template>
-  <div class="container-border" @keyup.enter="submit">
+  <div class="container-border">
     <div class="shadow">
       <div class="ps-3 pr-3 pb-3 h-1 pt-3">
         <hr class="border border-gray-600" />
@@ -74,8 +74,8 @@
       <div class="ps-3 pr-3 lg:pr-6 lg:ps-6 pb-5 pt-1.5">
         <p class="form-label mt-3">Description:</p>
         <textarea
-          rows="4"
-          class="p-2.5 -mr-10 w-10/12 text-lg text-gray-700 dark:text-gray-400 rounded-lg border border-gray-700 outline-none dark:bg-[#161616] dark:border-[#161616] bg-gray-200"
+          rows="3"
+          class="form-textarea !ms-0"
           :placeholder="authenticationStore.user.desc"
           v-model="desc"
         />
@@ -95,17 +95,26 @@
         <p></p>
 
         <p class="form-label mt-3">Avatar:</p>
-        <div class="relative">
-          <input
-            type="file"
-            ref="images"
-            @change="avatarChanged"
-            class="absolute inset-0 opacity-0 cursor-pointer"
-          />
-          <button class="btn-no-w btn-green btn-green-hover">
-            Select File
-          </button>
+        <div class="flex space-x-3">
+          <div class="relative">
+            <input
+                type="file"
+                ref="images"
+                @change="avatarChanged"
+                class="absolute inset-0 opacity-0 cursor-pointer"
+            />
+            <button class="btn-no-w btn-green btn-green-hover">
+              Select File
+            </button>
+          </div>
+          <div
+              class="text-sm text-gray-700 dark:text-gray-300 h-full m-auto"
+              v-if="avatar"
+          >
+            1 file selected
+          </div>
         </div>
+
         <div class="w-full">
           <div class="grid grid-cols-2 w-full gap-x-3">
             <button
