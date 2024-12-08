@@ -27,16 +27,16 @@ git clone https://github.com/waflawe/eXwonder-frontend.git
 cd eXwonder-frontend/
 ```
 
-2. Ставим зависимости через `npm` или `yarn`:
+2. Ставим зависимости через `npm`, `yarn` или `bun`:
 
 ```cmd
-yarn install
+bun install
 ```
 
-3. Запускаем проект с помощью `npm` или `yarn`:
+3. Запускаем проект с помощью `npm`, `yarn` или `bun`:
 
 ```cmd
-yarn run dev
+bun dev
 ```
 
 4. Открываем в интернет-обозревателе путь `http://localhost:80/`
