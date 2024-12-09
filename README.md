@@ -8,17 +8,16 @@
 
 # eXwonder-frontend
 
-Frontend клиент для онлайн хостинга картинок с элементами соц-сети **eXwonder**, являющегося по функционалу урезанной версией
-Instagram. Код написан на JavaScript фреймворке [Vue 3](https://vuejs.org/), для стилизации использовался
-[TailwindCSS](https://tailwindcss.com/) и [SCSS](https://sass-lang.com/). Проект в абсолютно большей части
-адаптивен под разные размеры экрана.
+Frontend клиент для онлайн хостинга картинок с элементами соц-сети `eXwonder`, являющегося по функционалу урезанной версией
+`Instagram`. Код написан на __[Vue.js 3](https://vuejs.org/)__, для стилизации использовались
+__[TailwindCSS](https://tailwindcss.com/)__ и __[SCSS](https://sass-lang.com/)__. Верстка проекта в абсолютно большей части
+адаптивна под разные размеры экрана.
 
 <!-- TOC --><a name="installation"></a>
 
 ## Установка
 
-Перед использованием клиента убедитесь, что у вас установлен и запущен **backend для eXwonder**
-([репозиторий тут](https://github.com/waflawe/eXwonder-backend/)).
+Перед использованием клиента убедитесь, что у вас установлен и запущен __[eXwonder-backend](https://github.com/waflawe/eXwonder-backend/)__.
 
 1. Клонируем репозиторий:
 
