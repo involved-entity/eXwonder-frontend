@@ -140,7 +140,7 @@
             "
             v-if="showFollowingsModal"
           />
-          <div class="pt-5 pb-10" v-if="loadingNextPage">
+          <div class="py-10" v-if="loadingNextPage">
             <div class="loader mx-auto"></div>
           </div>
         </div>

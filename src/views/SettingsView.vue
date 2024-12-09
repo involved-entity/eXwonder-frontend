@@ -98,18 +98,18 @@
         <div class="flex space-x-3">
           <div class="relative">
             <input
-                type="file"
-                ref="images"
-                @change="avatarChanged"
-                class="absolute inset-0 opacity-0 cursor-pointer"
+              type="file"
+              ref="images"
+              @change="avatarChanged"
+              class="absolute inset-0 opacity-0 cursor-pointer"
             />
             <button class="btn-no-w btn-green btn-green-hover">
               Select File
             </button>
           </div>
           <div
-              class="text-sm text-gray-700 dark:text-gray-300 h-full m-auto"
-              v-if="avatar"
+            class="text-sm text-gray-700 dark:text-gray-300 h-full m-auto"
+            v-if="avatar"
           >
             1 file selected
           </div>

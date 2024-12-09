@@ -106,6 +106,7 @@ export default {
   data() {
     return {
       isPostsMayBeUpdated: false,
+      isLoading: false,
     };
   },
   methods: {
@@ -126,9 +127,10 @@ export default {
       }
     },
     checkScroll() {
-      if (this.isPostsMayBeUpdated) {
+      if (this.isPostsMayBeUpdated && !this.isLoading) {
         const element = document.querySelector(".scrollEnd") as HTMLElement;
         if (isElementInViewport(element)) {
+          this.isLoading = true;
           this.$emit("updatePostsScroll");
         }
       }
@@ -138,10 +140,14 @@ export default {
     this.isPostsMayBeUpdated = this.posts.length % 50 === 0;
     window.addEventListener("scroll", this.checkScroll);
   },
+  unmounted() {
+    window.removeEventListener("scroll", this.checkScroll);
+  },
   watch: {
     posts: {
       handler(new__) {
         this.isPostsMayBeUpdated = new__.length % 50 === 0;
+        this.isLoading = false;
       },
       deep: true,
     },

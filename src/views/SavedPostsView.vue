@@ -2,11 +2,16 @@
   <main>
     <div class="container-border">
       <div class="shadow">
-        <div class="header-3xl header-transition varela-round">Saved</div>
-        <div class="ps-3 pr-3 pb-1.5 h-1">
-          <hr class="border border-gray-600" />
+        <div class="!mt-0 flex flex-col w-full">
+          <div
+            class="header-xl !mb-0 sm:w-fit mx-auto sm:px-4 py-2 rounded-sm flex md:flex-no-wrap sm:flex-wrap cursor-pointer varela-round"
+          >
+            <div class="px-3 rounded-b-md border-b-2 border-[#008c8c]">
+              Saved
+            </div>
+          </div>
         </div>
-        <div class="pb-5 pt-5" v-if="loading">
+        <div class="py-10" v-if="loading">
           <div class="loader mx-auto"></div>
         </div>
         <app-posts-grid :posts="saved" v-if="!loading" />

@@ -64,6 +64,7 @@ enum Tops {
   RECENT = "recent",
   UPDATES = "updates",
   LIKES = "likes",
+  RECOMMENDED = "recommended",
 }
 
 export {
