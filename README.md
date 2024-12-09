@@ -71,7 +71,7 @@ bun dev
 10. Глобальный поиск пользователей:<br>
     <img alt="image" height="338" src=".githubscreenshots/search.png" width="700"/>
 11. Сохраненные посты:<br>
-<img alt="image" height="338" src=".githubscreenshots/saved.png" width="700"/>
+    <img alt="image" height="338" src=".githubscreenshots/saved.png" width="700"/>
 <!-- TOC --><a name="license"></a>
 
 ## Лицензия
