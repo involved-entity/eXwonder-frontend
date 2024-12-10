@@ -221,25 +221,21 @@ body {
 }
 
 .card {
-  @apply border border-gray-300 dark:border-slate-900 rounded-2xl bg-gray-100 dark:bg-[#222];
+  @apply border border-gray-300 dark:border-transparent rounded-2xl bg-gray-100 dark:bg-[#222];
 }
 
 .form-label {
   @apply ms-1 text-gray-700 dark:text-slate-400;
 }
 .form-input {
-  @apply my-1 text-gray-700 dark:text-gray-400 bg-gray-custom w-full px-5 py-1 outline-none rounded;
+  @apply my-1 text-gray-700 dark:text-gray-400 bg-gray-custom w-full px-5 py-1 transition-all duration-100 border border-gray-300 dark:border-transparent rounded;
 }
 .form-error-label {
   @apply p-1 text-red-600;
 }
 .form-textarea {
-  @apply p-2.5 ms-3 -mr-10 w-10/12 text-lg text-gray-700;
-  @apply dark:text-gray-400 rounded-lg border border-gray-700 outline-none dark:bg-[#161616] dark:border-[#161616] bg-gray-200;
-}
-
-.border-red {
-  @apply border border-red-600;
+  @apply p-2.5 ms-3 -mr-10 w-10/12 text-lg text-gray-700 transition-all duration-100;
+  @apply dark:text-gray-400 rounded-lg border border-gray-300 dark:border-transparent outline-none dark:bg-[#161616] bg-gray-200;
 }
 
 .footer-links {

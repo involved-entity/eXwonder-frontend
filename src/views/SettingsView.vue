@@ -17,7 +17,7 @@
             :placeholder="authenticationStore.user.name"
             class="form-input"
             v-model="name"
-            :class="{ 'border-red': errors.name?.length }"
+            :class="{ '!border-red-600': errors.name?.length }"
             ref="nameInput"
             @keyup.down="$refs.emailInput.focus()"
           />
@@ -33,7 +33,7 @@
             :placeholder="authenticationStore.user.email"
             class="form-input"
             v-model="email"
-            :class="{ 'border-red': errors.email?.length }"
+            :class="{ '!border-red-600': errors.email?.length }"
             ref="emailInput"
             @keyup.up="$refs.nameInput.focus()"
             @keyup.down="$refs.timezoneInput.focus()"
@@ -50,7 +50,7 @@
             :placeholder="authenticationStore.user.timezone"
             v-model="timezone"
             class="form-input"
-            :class="{ 'border-red': errors.timezone?.length }"
+            :class="{ '!border-red-600': errors.timezone?.length }"
             @keyup.up="$refs.emailInput.focus()"
             @keyup.down="$refs.is2faEnabled.focus()"
             ref="timezoneInput"
@@ -72,7 +72,7 @@
         </div>
       </div>
       <div class="ps-3 pr-3 lg:pr-6 lg:ps-6 pb-5 pt-1.5">
-        <p class="form-label mt-3">Description:</p>
+        <p class="form-label">Description:</p>
         <textarea
           rows="3"
           class="form-textarea !ms-0"
@@ -84,14 +84,16 @@
             errors.desc[0]
           }}</small>
         </p>
-
-        <p class="form-label mt-3">Is 2FA enabled:</p>
-        <input
-          type="checkbox"
-          v-model="is2faEnabled"
-          class="w-4 h-4 text-blue-600 rounded bg-gray-custom"
-          ref="is2faEnabled"
-        />
+		
+		<div class="flex mt-3 space-x-1.5">
+			<div class="form-label">Is 2FA enabled:</div>
+			<input
+				type="checkbox"
+				v-model="is2faEnabled"
+				class="w-4 h-4 text-blue-600 rounded bg-gray-custom my-auto"
+				ref="is2faEnabled"
+			/>
+		</div>
         <p></p>
 
         <p class="form-label mt-3">Avatar:</p>

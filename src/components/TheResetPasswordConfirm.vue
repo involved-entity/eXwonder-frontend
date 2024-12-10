@@ -8,7 +8,7 @@
           type="password"
           class="form-input"
           v-model="password1"
-          :class="{ 'border-red': error.length }"
+          :class="{ '!border-red-600 focus:border-none': error.length }"
           ref="password1"
           @keyup.down="$refs.repeat.focus()"
         />
@@ -26,7 +26,7 @@
           ref="repeat"
           @keyup.up="$refs.password1.focus()"
           @keyup.enter="submit"
-          :class="{ 'border-red': error.length }"
+          :class="{ '!border-red-600 focus:border-none': error.length }"
         />
         <p>
           <small class="form-error-label" v-if="error.length">{{

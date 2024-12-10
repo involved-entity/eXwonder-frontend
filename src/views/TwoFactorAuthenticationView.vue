@@ -12,7 +12,7 @@
               type="text"
               class="form-input"
               v-model="code"
-              :class="{ 'border-red': errors.code.length }"
+              :class="{ '!border-red-600 focus:border-none': errors.code.length }"
             />
             <p>
               <small class="form-error-label" v-if="errors.code.length">{{
