@@ -221,7 +221,7 @@ body {
 }
 
 .card {
-  @apply border border-gray-300 rounded-2xl bg-gray-100 dark:bg-[#222];
+  @apply border border-gray-300 dark:border-slate-900 rounded-2xl bg-gray-100 dark:bg-[#222];
 }
 
 .form-label {
