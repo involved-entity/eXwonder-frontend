@@ -50,27 +50,27 @@ bun dev
 ## Скриншоты
 
 1. Создание аккаунта:<br>
-   <img alt="image" height="338" src=".githubscreenshots/singup.png" width="700"/>
+   <img alt="image" height="356" src=".githubscreenshots/singup.png" width="700"/>
 2. Вход в аккаунт:<br>
-   <img alt="image" height="338" src=".githubscreenshots/login.png" width="700"/>
+   <img alt="image" height="356" src=".githubscreenshots/login.png" width="700"/>
 3. Новости:<br>
-   <img alt="image" height="338" src=".githubscreenshots/feed.png" width="700"/>
+   <img alt="image" height="356" src=".githubscreenshots/feed.png" width="700"/>
 4. Исследование:<br>
-   <img alt="image" height="338" src=".githubscreenshots/explore.png" width="700"/>
+   <img alt="image" height="356" src=".githubscreenshots/explore.png" width="700"/>
 5. Создание поста:<br>
-   <img alt="image" height="338" src=".githubscreenshots/new-post.png" width="700"/>
+   <img alt="image" height="356" src=".githubscreenshots/new-post.png" width="700"/>
 6. Аккаунт:<br>
-   <img alt="image" height="338" src=".githubscreenshots/user.png" width="700"/>
-7. Настройки аккаунта:<br>
-   <img alt="image" height="338" src=".githubscreenshots/settings.png" width="700"/>
+   <img alt="image" height="356" src=".githubscreenshots/user.png" width="700"/>
+7. Настройки аккаунта и уведомления:<br>
+   <img alt="image" height="356" src=".githubscreenshots/settings.png" width="700"/>
 8. Просмотр поста:<br>
-   <img alt="image" height="338" src=".githubscreenshots/post.png" width="700"/>
+   <img alt="image" height="356" src=".githubscreenshots/post.png" width="700"/>
 9. Просмотр подписок пользователя:<br>
-   <img alt="image" height="338" src=".githubscreenshots/followings.png" width="700"/>
+   <img alt="image" height="356" src=".githubscreenshots/followings.png" width="700"/>
 10. Глобальный поиск пользователей:<br>
-    <img alt="image" height="338" src=".githubscreenshots/search.png" width="700"/>
+    <img alt="image" height="356" src=".githubscreenshots/search.png" width="700"/>
 11. Сохраненные посты:<br>
-    <img alt="image" height="338" src=".githubscreenshots/saved.png" width="700"/>
+    <img alt="image" height="356" src=".githubscreenshots/saved.png" width="700"/>
 <!-- TOC --><a name="license"></a>
 
 ## Лицензия
