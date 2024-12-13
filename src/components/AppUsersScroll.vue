@@ -31,7 +31,7 @@
         ref="usersBlock"
       >
         <div
-          class="text-gray-700 dark:text-gray-300 flex flex-col items-center w-1/6"
+          class="text-gray-700 dark:text-gray-300 flex flex-col items-center w-[18%]"
           v-for="user in users"
           style="flex: 0 0 auto"
           :key="user.username"

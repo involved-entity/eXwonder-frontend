@@ -1,5 +1,5 @@
 import axios from "axios";
-import BaseUrl from "../settings.ts";
+import { ApiUrl } from "../settings.ts";
 
 interface IDefaultAxiosInstanceOptions {
   baseURL: string;
@@ -7,7 +7,7 @@ interface IDefaultAxiosInstanceOptions {
 
 function fetchClient() {
   const defaultOptions: IDefaultAxiosInstanceOptions = {
-    baseURL: BaseUrl,
+    baseURL: ApiUrl,
   };
 
   const instance = axios.create(defaultOptions);

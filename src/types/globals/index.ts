@@ -60,6 +60,13 @@ interface IPost extends IDefaultInstance {
   isModalVisible?: boolean;
 }
 
+interface INotification {
+  id: number;
+  receiver: IUserDefaultData;
+  is_read: boolean;
+  time_added: IDateTime;
+}
+
 enum Tops {
   RECENT = "recent",
   UPDATES = "updates",
@@ -75,4 +82,5 @@ export {
   IPost,
   Tops,
   IUserFollowData,
+  INotification,
 };

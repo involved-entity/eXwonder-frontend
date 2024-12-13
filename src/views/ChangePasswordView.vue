@@ -13,7 +13,10 @@
               v-model="oldPassword"
               @keyup.down="$refs.password1.focus()"
               ref="oldPasswordInput"
-              :class="{ '!border-red-600 focus:border-none': errors.old_password?.length }"
+              :class="{
+                '!border-red-600 focus:border-none':
+                  errors.old_password?.length,
+              }"
             />
             <p>
               <small
@@ -32,7 +35,10 @@
               @keyup.up="$refs.oldPasswordInput.focus()"
               @keyup.down="$refs.password2.focus()"
               ref="password1"
-              :class="{ '!border-red-600 focus:border-none': errors.new_password1?.length }"
+              :class="{
+                '!border-red-600 focus:border-none':
+                  errors.new_password1?.length,
+              }"
             />
             <p>
               <small
@@ -50,7 +56,10 @@
               v-model="newPassword2"
               ref="password2"
               @keyup.up="$refs.password1.focus()"
-              :class="{ '!border-red-600 focus:border-none': errors.new_password2?.length }"
+              :class="{
+                '!border-red-600 focus:border-none':
+                  errors.new_password2?.length,
+              }"
             />
             <p>
               <small

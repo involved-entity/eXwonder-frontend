@@ -43,8 +43,18 @@
         </svg>
       </button>
     </div>
-    <div class="ml-auto block lg:hidden" v-if="authenticationStore.isAuth">
-      <TheMobileSidebar />
+    <div
+      class="space-x-3 flex w-full lg:mr-5 lg:justify-center"
+      v-if="authenticationStore.isAuth"
+    >
+      <div class="ml-auto lg:ml-0 my-auto lg:w-6/12">
+        <div class="lg:flex lg:justify-end">
+          <TheNotifications />
+        </div>
+      </div>
+      <div class="ml-auto block lg:hidden">
+        <TheMobileSidebar />
+      </div>
     </div>
   </nav>
 </template>
@@ -53,9 +63,10 @@
 import TheMobileSidebar from "../components/TheMobileSidebar.vue";
 import { useAuthenticationStore } from "../stores/authenticationStore.ts";
 import { mapStores } from "pinia";
+import TheNotifications from "../components/TheNotifications.vue";
 
 export default {
-  components: { TheMobileSidebar },
+  components: { TheNotifications, TheMobileSidebar },
   data() {
     return {
       theme: "dark",

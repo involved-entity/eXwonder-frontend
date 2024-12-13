@@ -9,7 +9,9 @@
             <input
               type="text"
               class="form-input"
-              :class="{ '!border-red-600 focus:border-none': errors.username.length }"
+              :class="{
+                '!border-red-600 focus:border-none': errors.username.length,
+              }"
               v-model="username"
               ref="usernameInput"
               @keyup.down="$refs.emailInput.focus()"
@@ -27,7 +29,9 @@
             <input
               type="email"
               class="form-input"
-              :class="{ '!border-red-600 focus:border-none': errors.email.length }"
+              :class="{
+                '!border-red-600 focus:border-none': errors.email.length,
+              }"
               v-model="email"
               ref="emailInput"
               @keyup.up="$refs.usernameInput.focus()"

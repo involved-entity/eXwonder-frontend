@@ -1,14 +1,15 @@
 import { defineStore } from "pinia";
 import axios from "axios";
-import { Methods, request } from "../helpers";
+import { Methods, initSocketConnection, request } from "../helpers";
 import { IAuthenticationStoreState, IUserPublicData } from "../types/stores";
 import { IResponse } from "../types/helpers";
+import { useAccountStore } from "../stores/accountStore.ts";
 
 export const useAuthenticationStore = defineStore("authentication", {
   state(): IAuthenticationStoreState {
     return {
       user: {
-        id: 0,
+        id: Number(localStorage.getItem("user_id") ?? 0),
         name: "",
         email: "",
         timezone: "",
@@ -18,6 +19,7 @@ export const useAuthenticationStore = defineStore("authentication", {
         avatar: undefined,
       },
       sessionKey: undefined,
+      socket: undefined,
       isAuth: !!localStorage.getItem("token"),
       token: localStorage.getItem("token") ?? "",
       availibleTimezones: [],
@@ -48,8 +50,11 @@ export const useAuthenticationStore = defineStore("authentication", {
       );
       if (success) {
         localStorage.setItem("token", data.token);
+        localStorage.setItem("user_id", data.user_id);
         this.token = data.token;
+        this.user.id = data.user_id;
         this.isAuth = true;
+        initSocketConnection();
       }
       return { success, data };
     },
@@ -80,13 +85,18 @@ export const useAuthenticationStore = defineStore("authentication", {
       );
       this.token = "";
       localStorage.removeItem("token");
+      localStorage.removeItem("user_id");
       this.isAuth = false;
+      this.socket!.close(1000);
+      this.socket = undefined;
+      const accountStore = useAccountStore();
+      accountStore.notifications = [];
       this.user.id = 0;
       this.user.username = "";
       this.user.avatar = undefined;
     },
     async getMe(permanent: boolean = false): Promise<IUserPublicData> {
-      if (!this.user.id || permanent) {
+      if (!this.user.username || permanent) {
         const { data } = await request(
           Methods.GET,
           "/api/v1/account/account/me/"

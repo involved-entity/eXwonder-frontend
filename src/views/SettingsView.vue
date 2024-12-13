@@ -84,16 +84,16 @@
             errors.desc[0]
           }}</small>
         </p>
-		
-		<div class="flex mt-3 space-x-1.5">
-			<div class="form-label">Is 2FA enabled:</div>
-			<input
-				type="checkbox"
-				v-model="is2faEnabled"
-				class="w-4 h-4 text-blue-600 rounded bg-gray-custom my-auto"
-				ref="is2faEnabled"
-			/>
-		</div>
+
+        <div class="flex mt-3 space-x-1.5">
+          <div class="form-label">Is 2FA enabled:</div>
+          <input
+            type="checkbox"
+            v-model="is2faEnabled"
+            class="w-4 h-4 text-blue-600 rounded bg-gray-custom my-auto"
+            ref="is2faEnabled"
+          />
+        </div>
         <p></p>
 
         <p class="form-label mt-3">Avatar:</p>

@@ -1,7 +1,10 @@
 import axios, { AxiosRequestConfig } from "axios";
 import client from "../client/index.js";
-import { IResponse } from "@/types/helpers";
+import { IResponse } from "../types/helpers";
+import { useAuthenticationStore } from "../stores/authenticationStore.ts";
+import { useAccountStore } from "../stores/accountStore.ts";
 import { z } from "zod";
+import { NotificationsUrl } from "../settings.ts";
 
 enum Methods {
   GET = "get",
@@ -64,10 +67,50 @@ function checkIsEmailValid(email: string): boolean {
   return emailChecker.safeParse(email).success;
 }
 
+function onSocketOpen() {
+  const authStore = useAuthenticationStore();
+  let data = JSON.stringify({
+    type: "authenticate",
+    token: authStore.token,
+    user_id: authStore.user.id,
+  });
+  authStore.socket!.send(data);
+  data = JSON.stringify({
+    type: "get_unreaded_notifications",
+  });
+  authStore.socket!.send(data);
+}
+
+function onSocketMessage(event: object) {
+  const accountStore = useAccountStore();
+  const data = JSON.parse(event.data);
+  if (data.type === "notify") {
+    accountStore.notifications.unshift(data.payload);
+  } else if (data.type === "get_unreaded_notifications") {
+    accountStore.notifications.push(...data.payload);
+  }
+}
+
+function initSocketConnection() {
+  const authStore = useAuthenticationStore();
+  if (authStore.isAuth) {
+    authStore.socket = new WebSocket(NotificationsUrl);
+    authStore.socket.onopen = onSocketOpen;
+    authStore.socket.onmessage = onSocketMessage;
+    authStore.socket.onclose = function (event) {
+      console.log("Соединение закрыто:", event);
+      if (event.code) {
+        console.error("Код закрытия:", event.code);
+      }
+    };
+  }
+}
+
 export {
   request,
   Methods,
   isElementInViewport,
   clearActiveClasses,
   checkIsEmailValid,
+  initSocketConnection,
 };

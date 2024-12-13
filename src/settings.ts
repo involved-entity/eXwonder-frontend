@@ -1,3 +1,4 @@
-const BaseUrl = "http://localhost:8000";
+const ApiUrl = "http://localhost:8000";
+const NotificationsUrl = "ws://localhost:8001/";
 
-export default BaseUrl;
+export { ApiUrl, NotificationsUrl };

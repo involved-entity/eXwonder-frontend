@@ -10,7 +10,10 @@
               type="text"
               class="form-input"
               v-model="username"
-              :class="{ '!border-red-600 focus:border-none': errors.non_field_errors.length }"
+              :class="{
+                '!border-red-600 focus:border-none':
+                  errors.non_field_errors.length,
+              }"
               @keyup.down="$refs.passwordInput.focus()"
               ref="usernameInput"
               autocomplete="username"
@@ -28,7 +31,10 @@
               type="password"
               class="form-input"
               v-model="password"
-              :class="{ '!border-red-600 focus:border-none': errors.non_field_errors.length }"
+              :class="{
+                '!border-red-600 focus:border-none':
+                  errors.non_field_errors.length,
+              }"
               @keyup.up="$refs.usernameInput.focus()"
               ref="passwordInput"
               autocomplete="current-password"
@@ -89,6 +95,7 @@
 import { mapStores } from "pinia";
 import { useAuthenticationStore } from "../stores/authenticationStore.ts";
 import AppAlert from "../components/AppAlert.vue";
+import { initSocketConnection } from "../helpers";
 
 export default {
   components: { AppAlert },
@@ -116,8 +123,13 @@ export default {
         } else if (success) {
           this.errors = { non_field_errors: [] };
           localStorage.setItem("token", data.token);
+          localStorage.setItem("user_id", data.user_id);
           this.authenticationStore.token = data.token;
+          this.authenticationStore.user.id = data.user_id;
           this.authenticationStore.isAuth = true;
+
+          initSocketConnection();
+
           this.$router.push({ name: "feed", query: { action: "login" } });
         } else {
           this.errors = data;
