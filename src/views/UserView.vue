@@ -109,7 +109,7 @@
             </div>
           </div>
 
-          <div class="ps-3 pr-3 pb-1.5 h-1">
+          <div class="px-1 pb-1.5 h-1">
             <hr class="border border-gray-600" />
           </div>
 

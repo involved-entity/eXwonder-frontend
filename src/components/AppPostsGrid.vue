@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-1 pb-1" v-if="posts.length">
+  <div class="ps-0.5 pr-1 pb-1" v-if="posts.length">
     <div class="grid grid-cols-3 space-x-0.5 space-y-0.5">
       <div v-for="(post, index) in posts" :key="post.id">
         <div
