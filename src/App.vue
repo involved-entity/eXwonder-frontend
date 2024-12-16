@@ -31,7 +31,7 @@
   </div>
   <div class="flex relative" v-if="fullWidth">
     <the-theme-toggler></the-theme-toggler>
-    <div class="w-full mt-[45px]">
+    <div class="w-full mt-[45px] h-full">
       <router-view />
     </div>
   </div>

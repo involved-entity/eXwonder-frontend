@@ -15,6 +15,13 @@ import ResetPasswordView from "../views/ResetPasswordView.vue";
 import ChangePasswordView from "../views/ChangePasswordView.vue";
 import MessengerView from "../views/MessengerView.vue";
 import { IRoute } from "../types/router";
+import { type IStaticMethods } from "preline/preline";
+
+declare global {
+  interface Window {
+    HSStaticMethods: IStaticMethods;
+  }
+}
 
 const routes: Array<IRoute> = [
   {
@@ -128,6 +135,14 @@ router.beforeEach((to, from, next) => {
   }
 
   return next();
+});
+
+router.afterEach((to, from, failure) => {
+  if (!failure) {
+    setTimeout(() => {
+      window.HSStaticMethods.autoInit();
+    }, 100)
+  }
 });
 
 export default router;
