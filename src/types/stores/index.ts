@@ -1,3 +1,5 @@
+import {IUserDefaultData, IDateTime} from "../globals";
+
 interface IAuthenticationStoreUser {
   id: number;
   name: string;
@@ -32,9 +34,29 @@ interface IUserSettingsUpdates {
   timezone?: string;
 }
 
+interface IMessage {
+  id: number,
+  chat: number,
+  sender: IUserDefaultData,
+  receiver: IUserDefaultData,
+  body: string,
+  attachment: string,
+  time_added: IDateTime,
+  time_updated: IDateTime,
+  is_read: boolean
+}
+
+interface IChat {
+  id: number,
+  user: IUserDefaultData,
+  last_message: IMessage
+}
+
 export {
   IAuthenticationStoreUser,
   IAuthenticationStoreState,
   IUserPublicData,
   IUserSettingsUpdates,
+  IMessage,
+  IChat
 };

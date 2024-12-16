@@ -32,11 +32,12 @@
       </button>
     </div>
     <div
-      class="space-x-3 flex w-full lg:mr-5 lg:justify-center"
+      class="space-x-1 flex w-full lg:mr-5 lg:justify-center"
       v-if="authenticationStore.isAuth"
     >
       <div class="ml-auto lg:ml-0 my-auto lg:w-6/12">
-        <div class="lg:flex lg:justify-end">
+        <div class="flex justify-end space-x-1">
+          <TheMessengerButton/>
           <TheNotifications />
         </div>
       </div>
@@ -52,9 +53,10 @@ import TheMobileSidebar from "../layouts/TheMobileSidebar.vue";
 import { useAuthenticationStore } from "../stores/authenticationStore.ts";
 import { mapStores } from "pinia";
 import TheNotifications from "../components/TheNotifications.vue";
+import TheMessengerButton from "../components/TheMessengerButton.vue";
 
 export default {
-  components: { TheNotifications, TheMobileSidebar },
+  components: {TheMessengerButton, TheNotifications, TheMobileSidebar },
   data() {
     return {
       theme: "dark",
