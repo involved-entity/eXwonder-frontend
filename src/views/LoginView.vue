@@ -96,6 +96,7 @@ import { mapStores } from "pinia";
 import { useAuthenticationStore } from "../stores/authenticationStore.ts";
 import AppAlert from "../components/AppAlert.vue";
 import { initSocketConnection } from "../helpers";
+import {useMessengerStore} from "../stores/messengerStore.ts";
 
 export default {
   components: { AppAlert },
@@ -129,6 +130,8 @@ export default {
           this.authenticationStore.isAuth = true;
 
           initSocketConnection();
+          const messengerStore = useMessengerStore()
+          messengerStore.initMessenger()
 
           this.$router.push({ name: "feed", query: { action: "login" } });
         } else {

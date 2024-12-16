@@ -1,5 +1,5 @@
 <template>
-  <div class="flex relative">
+  <div class="flex relative" v-if="!fullWidth">
     <div
       class="w-3/12 fixed top-0 left-0 hidden lg:block"
       v-if="authenticationStore.isAuth"
@@ -29,6 +29,12 @@
       <the-bottom-navbar />
     </div>
   </div>
+  <div class="flex relative" v-if="fullWidth">
+    <the-theme-toggler></the-theme-toggler>
+    <div class="w-full mt-[45px]">
+      <router-view />
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -41,6 +47,11 @@ import { useAuthenticationStore } from "./stores/authenticationStore.ts";
 
 export default {
   components: { TheSidebar, TheNavbar, TheBottomNavbar, TheThemeToggler },
-  computed: { ...mapStores(useAuthenticationStore) },
+  computed: {
+    ...mapStores(useAuthenticationStore),
+    fullWidth() {
+      return this.$route.meta.fullWidth
+    }
+  },
 };
 </script>

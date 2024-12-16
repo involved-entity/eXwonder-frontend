@@ -13,6 +13,7 @@ import SettingsView from "../views/SettingsView.vue";
 import SavedPostsView from "../views/SavedPostsView.vue";
 import ResetPasswordView from "../views/ResetPasswordView.vue";
 import ChangePasswordView from "../views/ChangePasswordView.vue";
+import MessengerView from "../views/MessengerView.vue";
 import { IRoute } from "../types/router";
 
 const routes: Array<IRoute> = [
@@ -94,6 +95,15 @@ const routes: Array<IRoute> = [
     component: UserPostView,
     meta: { requireLogin: true },
   },
+  {
+    path: "/messenger/",
+    name: "messenger",
+    component: MessengerView,
+    meta: {
+      requireLogin: true,
+      fullWidth: true
+    }
+  }
 ];
 
 const router = createRouter({

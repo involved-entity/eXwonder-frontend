@@ -4,6 +4,7 @@ import { Methods, initSocketConnection, request } from "../helpers";
 import { IAuthenticationStoreState, IUserPublicData } from "../types/stores";
 import { IResponse } from "../types/helpers";
 import { useAccountStore } from "../stores/accountStore.ts";
+import {useMessengerStore} from "../stores/messengerStore.ts";
 
 export const useAuthenticationStore = defineStore("authentication", {
   state(): IAuthenticationStoreState {
@@ -55,6 +56,8 @@ export const useAuthenticationStore = defineStore("authentication", {
         this.user.id = data.user_id;
         this.isAuth = true;
         initSocketConnection();
+        const messengerStore = useMessengerStore()
+        messengerStore.initMessenger()
       }
       return { success, data };
     },
@@ -89,6 +92,11 @@ export const useAuthenticationStore = defineStore("authentication", {
       this.isAuth = false;
       this.socket!.close(1000);
       this.socket = undefined;
+      const messengerStore = useMessengerStore()
+      messengerStore.socket!.close(1000)
+      messengerStore.socket = undefined
+      messengerStore.chats = []
+      messengerStore.messages = []
       const accountStore = useAccountStore();
       accountStore.notifications = [];
       this.user.id = 0;
