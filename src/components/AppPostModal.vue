@@ -392,7 +392,7 @@ export default {
       if (this.authenticationStore.user.id === this.post.author.id) {
         const { success } = await this.postsStore.deletePost(this.post.id);
         if (success) {
-          this.$router.push({ name: "feed" });
+          this.$router.go(0)
         }
       }
     },
