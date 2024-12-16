@@ -48,7 +48,7 @@
 </template>
 
 <script lang="ts">
-import TheMobileSidebar from "../components/TheMobileSidebar.vue";
+import TheMobileSidebar from "../layouts/TheMobileSidebar.vue";
 import { useAuthenticationStore } from "../stores/authenticationStore.ts";
 import { mapStores } from "pinia";
 import TheNotifications from "../components/TheNotifications.vue";

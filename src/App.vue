@@ -32,10 +32,10 @@
 </template>
 
 <script lang="ts">
-import TheNavbar from "./components/TheNavbar.vue";
-import TheSidebar from "./components/TheSidebar.vue";
-import TheBottomNavbar from "./components/TheBottomNavbar.vue";
-import TheThemeToggler from "./components/TheThemeToggler.vue";
+import TheNavbar from "./layouts/TheNavbar.vue";
+import TheSidebar from "./layouts/TheSidebar.vue";
+import TheBottomNavbar from "./layouts/TheBottomNavbar.vue";
+import TheThemeToggler from "./layouts/TheThemeToggler.vue";
 import { mapStores } from "pinia";
 import { useAuthenticationStore } from "./stores/authenticationStore.ts";
 
