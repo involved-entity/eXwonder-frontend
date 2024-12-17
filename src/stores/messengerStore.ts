@@ -29,7 +29,6 @@ export const useMessengerStore = defineStore("messenger", {
             const data = JSON.parse(event.data);
             if (data.type === "connect_to_chats") {
                 this.chats = data.payload
-                console.log(this.chats)
             }
         },
         initMessenger() {
