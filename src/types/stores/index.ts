@@ -34,13 +34,18 @@ interface IUserSettingsUpdates {
   timezone?: string;
 }
 
+interface IMessageFile {
+  link: string,
+  name: string
+}
+
 interface IMessage {
   id: number,
   chat: number,
   sender: IUserDefaultData,
   receiver: IUserDefaultData,
   body: string,
-  attachment: string,
+  attachment: null | IMessageFile,
   time_added: IDateTime,
   time_updated: IDateTime,
   is_read: boolean

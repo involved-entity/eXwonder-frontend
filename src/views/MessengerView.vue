@@ -1,6 +1,6 @@
 <template>
-  <div class="w-full" style="height: calc(100vh - 45px)">
-    <div class="w-[30%] border-r border-neutral-600 h-full overflow-y-hidden transition-all duration-150 hover:overflow-y-auto overflow-x-hidden relative">
+  <div class="w-full flex" style="height: calc(100vh - 45px)">
+    <div class="w-[28%] border-r border-neutral-600 h-full overflow-y-hidden transition-all duration-150 hover:overflow-y-auto overflow-x-hidden relative">
       <div class="h-1/6 px-3 py-5 sticky top-0 left-0 bg-gray-100 dark:bg-[#151515] shadow-lg shadow-gray-900/50 z-10">
         <div class="relative">
           <input
@@ -34,34 +34,36 @@
             class="text-white hover:bg-transparent/20 w-full px-3 flex relative py-3"
             v-for="chat in messengerStore.chats"
             :key="chat.id"
+            @click="openChat(chat)"
             v-if="!searchLoading && !search.length"
         >
-          <AppMessengerChat :chat="chat"/>
+          <AppMessengerChat :chat="chat" v-if="chat.last_message.time_added"/>
+          <AppMessengerEmptyChat :user="chat.user" v-if="!(chat.last_message.time_added)"/>
         </div>
         <div
             class="text-white hover:bg-transparent/20 w-full px-3 flex relative py-3"
             v-for="chat in searchResults"
             :key="chat.id"
+            @click="openChat(chat)"
             v-if="!searchLoading && search.length && searchResults.length && searchMode === searchModeEnum.CHATS"
         >
-          <AppMessengerChat :chat="chat"/>
+          <AppMessengerChat :chat="chat" v-if="chat.last_message.time_added"/>
+          <AppMessengerEmptyChat :user="chat.user" v-if="!(chat.last_message.time_added)"/>
         </div>
         <div
             class="text-white hover:bg-transparent/20 w-full px-3 flex relative py-3"
             v-for="user in searchResults"
             :key="user.id"
+            @click="openChat(user, true)"
             v-if="!searchLoading && search.length && searchResults.length && searchMode === searchModeEnum.USERS"
         >
-          <img :src="user.avatar" class="rounded-full size-[72px]" :alt="user.username">
-          <div class="ms-2.5 my-auto space-y-2 w-full">
-            <div class="flex w-full">
-              <div class="text-white font-semibold text-lg">{{user.username}}</div>
-            </div>
-          </div>
+          <AppMessengerEmptyChat :user="user"/>
         </div>
       </div>
     </div>
-    <div class="w-[70%]"></div>
+    <div class="w-[72%] h-full overflow-y-auto overflow-x-hidden">
+      <TheMessengerActiveChat v-if="messengerStore.activeChat" />
+    </div>
   </div>
 </template>
 
@@ -72,6 +74,8 @@ import {mapStores} from "pinia";
 import {IChat} from "../types/stores";
 import AppMessengerChat from "../components/AppMessengerChat.vue";
 import {IUserExtendedData} from "../types/globals";
+import TheMessengerActiveChat from "../components/TheMessengerActiveChat.vue";
+import AppMessengerEmptyChat from "../components/AppMessengerEmptyChat.vue";
 
 enum SearchMode {
   CHATS = "chats",
@@ -79,7 +83,7 @@ enum SearchMode {
 }
 
 export default {
-  components: {AppMessengerChat},
+  components: {AppMessengerEmptyChat, TheMessengerActiveChat, AppMessengerChat},
   data() {
     return {
       search: '' as string,
@@ -87,6 +91,18 @@ export default {
       searchModeEnum: SearchMode,
       searchResults: [] as Array<IChat> | Array<IUserExtendedData>,
       searchLoading: false as boolean
+    }
+  },
+  methods: {
+    openChat(chatOrUser: IChat | IUserExtendedData, start: boolean = false) {
+      if (start) {
+        this.messengerStore.startChat(chatOrUser)
+        this.search = ''
+        this.searchResults = []
+        this.searchMode = undefined
+      } else {
+        this.messengerStore.changeActiveChat(chatOrUser)
+      }
     }
   },
   watch: {

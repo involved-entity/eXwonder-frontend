@@ -8,13 +8,14 @@
     </svg>
     <div
         class="absolute top-0 right-1 bg-red-600 rounded-full size-3 text-white"
-        v-if="unreadedMessages.length"
+        v-if="hasUnreadedMessages"
     ></div>
   </div>
 </template>
 
 <script lang="ts">
 import {useMessengerStore} from "../stores/messengerStore.ts";
+import {useAuthenticationStore} from "../stores/authenticationStore.ts";
 import {mapStores} from "pinia";
 
 export default {
@@ -27,9 +28,9 @@ export default {
     this.messengerStore.initMessenger()
   },
   computed: {
-    ...mapStores(useMessengerStore),
-    unreadedMessages() {
-      return this.messengerStore.chats.filter(chat => !chat.last_message.is_read)
+    ...mapStores(useMessengerStore, useAuthenticationStore),
+    hasUnreadedMessages() {
+      return this.messengerStore.chats.some(chat => (chat.last_message.sender.id !== this.authenticationStore.user.id) && !chat.last_message.is_read)
     }
   }
 }
