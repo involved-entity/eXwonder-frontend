@@ -100,16 +100,32 @@ export const useMessengerStore = defineStore("messenger", {
       }
       return checkIsUserLastMessageReceiver;
     },
+    markMessageDelete(message: IMessage): boolean {
+      const authStore = useAuthenticationStore();
+      const checkPermsToDeleteMessage = authStore.user.id === message.sender.id
+      if (checkPermsToDeleteMessage) {
+        const data = JSON.stringify({
+          type: "delete_message",
+          id: message.id
+        })
+        this.socket!.send(data)
+      }
+      return checkPermsToDeleteMessage
+    },
+    sortChatsByLastMessageTimeAdded(sourceArray?: Array<IChat>) {
+      const array = sourceArray ?? this.chats
+      this.chats = array.sort((a: IChat, b: IChat) => {
+        const dateA = a.last_message.time_added ? parseDate(a.last_message.time_added.time_added) : -Infinity;
+        const dateB = b.last_message.time_added ? parseDate(b.last_message.time_added.time_added) : -Infinity;
+        return dateB - dateA
+      });
+    },
     onSocketMessage(event: object) {
       const data = JSON.parse(event.data);
       const type = data.type;
       switch (type) {
         case "connect_to_chats":
-          this.chats = data.payload.sort((a: IChat, b: IChat) => {
-            const dateA = a.last_message.time_added ? parseDate(a.last_message.time_added.time_added) : -Infinity;
-            const dateB = b.last_message.time_added ? parseDate(b.last_message.time_added.time_added) : -Infinity;
-            return dateB - dateA
-          });
+          this.sortChatsByLastMessageTimeAdded(data.payload)
           break;
         case "chat_started":
           this.chats.push(data.payload);
@@ -163,6 +179,16 @@ export const useMessengerStore = defineStore("messenger", {
           };
           this.messages = this.messages.map(updateChatMessagesAsRead);
           break;
+        case "send_delete_message":
+          const messageIndex: number = this.messages.findIndex(message => message.id === data.message);
+          if (messageIndex !== -1) {
+            const changeMessageChatLastMessage = (chat: IChat) => {
+              return chat.id === this.messages[messageIndex].chat ? {...chat, last_message: data.last_message} : chat
+            }
+            this.chats = this.chats.map(changeMessageChatLastMessage)
+            this.messages.splice(messageIndex, 1);
+            this.sortChatsByLastMessageTimeAdded()
+          }
       }
     },
     initMessenger() {
