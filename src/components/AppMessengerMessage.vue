@@ -14,7 +14,11 @@
     <TheMessengerMessageBody :message="message" />
   </div>
   <div class="flex justify-end sm:mr-3 gap-x-2 sm:gap-x-3" v-else>
-    <TheMessengerMessageBody :message="message" :isSender="true" @deleteMessage="messengerStore.markMessageDelete" />
+    <TheMessengerMessageBody
+      :message="message"
+      :isSender="true"
+      @deleteMessage="messengerStore.markMessageDelete"
+    />
     <img
       class="inline-block size-9 rounded-full cursor-pointer"
       @click="
@@ -33,7 +37,7 @@
 import TheMessengerMessageBody from "./TheMessengerMessageBody.vue";
 import { mapStores } from "pinia";
 import { useAuthenticationStore } from "../stores/authenticationStore.ts";
-import {useMessengerStore} from "../stores/messengerStore.ts";
+import { useMessengerStore } from "../stores/messengerStore.ts";
 
 export default {
   components: { TheMessengerMessageBody },

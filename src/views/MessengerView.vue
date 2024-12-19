@@ -115,6 +115,7 @@ import AppMessengerChat from "../components/AppMessengerChat.vue";
 import { IUserExtendedData } from "../types/globals";
 import TheMessengerActiveChat from "../components/TheMessengerActiveChat.vue";
 import AppMessengerEmptyChat from "../components/AppMessengerEmptyChat.vue";
+import { useAuthenticationStore } from "../stores/authenticationStore.ts";
 
 enum SearchMode {
   CHATS = "chats",
@@ -163,7 +164,11 @@ export default {
         this.searchResults = res;
         this.searchMode = SearchMode.CHATS;
       } else if (this.search.length >= 3) {
+        const authStore = useAuthenticationStore();
         this.searchResults = await this.usersStore.searchUsers(this.search);
+        this.searchResults = this.searchResults.filter(
+          res => res.id !== authStore.user.id
+        );
         this.searchMode = SearchMode.USERS;
       } else {
         this.searchResults = [];

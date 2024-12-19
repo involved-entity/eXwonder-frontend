@@ -102,22 +102,34 @@ export const useMessengerStore = defineStore("messenger", {
     },
     markMessageDelete(message: IMessage): boolean {
       const authStore = useAuthenticationStore();
-      const checkPermsToDeleteMessage = authStore.user.id === message.sender.id
+      const checkPermsToDeleteMessage = authStore.user.id === message.sender.id;
       if (checkPermsToDeleteMessage) {
         const data = JSON.stringify({
           type: "delete_message",
-          id: message.id
-        })
-        this.socket!.send(data)
+          id: message.id,
+        });
+        this.socket!.send(data);
       }
-      return checkPermsToDeleteMessage
+      return checkPermsToDeleteMessage;
+    },
+    markChatDelete(chat: IChat): boolean {
+      const data = JSON.stringify({
+        type: "delete_chat",
+        id: chat.id,
+      });
+      this.socket!.send(data);
+      return true;
     },
     sortChatsByLastMessageTimeAdded(sourceArray?: Array<IChat>) {
-      const array = sourceArray ?? this.chats
+      const array = sourceArray ?? this.chats;
       this.chats = array.sort((a: IChat, b: IChat) => {
-        const dateA = a.last_message.time_added ? parseDate(a.last_message.time_added.time_added) : -Infinity;
-        const dateB = b.last_message.time_added ? parseDate(b.last_message.time_added.time_added) : -Infinity;
-        return dateB - dateA
+        const dateA = a.last_message.time_added
+          ? parseDate(a.last_message.time_added.time_added)
+          : -Infinity;
+        const dateB = b.last_message.time_added
+          ? parseDate(b.last_message.time_added.time_added)
+          : -Infinity;
+        return dateB - dateA;
       });
     },
     onSocketMessage(event: object) {
@@ -125,9 +137,12 @@ export const useMessengerStore = defineStore("messenger", {
       const type = data.type;
       switch (type) {
         case "connect_to_chats":
-          this.sortChatsByLastMessageTimeAdded(data.payload)
+          this.sortChatsByLastMessageTimeAdded(data.payload);
           break;
         case "chat_started":
+          this.chats.push(data.payload);
+          break;
+        case "connect_to_chat":
           this.chats.push(data.payload);
           break;
         case "get_chat_history":
@@ -151,7 +166,9 @@ export const useMessengerStore = defineStore("messenger", {
               : chat;
           };
           this.chats = this.chats.map(updateChatLastMessage);
-          const index = this.chats.findIndex(chat => chat.id === data.payload.chat)
+          const index = this.chats.findIndex(
+            chat => chat.id === data.payload.chat
+          );
           const [chat] = this.chats.splice(index, 1);
           this.chats.unshift(chat);
 
@@ -180,15 +197,29 @@ export const useMessengerStore = defineStore("messenger", {
           this.messages = this.messages.map(updateChatMessagesAsRead);
           break;
         case "send_delete_message":
-          const messageIndex: number = this.messages.findIndex(message => message.id === data.message);
+          const messageIndex: number = this.messages.findIndex(
+            message => message.id === data.message
+          );
           if (messageIndex !== -1) {
             const changeMessageChatLastMessage = (chat: IChat) => {
-              return chat.id === this.messages[messageIndex].chat ? {...chat, last_message: data.last_message} : chat
-            }
-            this.chats = this.chats.map(changeMessageChatLastMessage)
+              return chat.id === this.messages[messageIndex].chat
+                ? { ...chat, last_message: data.last_message }
+                : chat;
+            };
+            this.chats = this.chats.map(changeMessageChatLastMessage);
             this.messages.splice(messageIndex, 1);
-            this.sortChatsByLastMessageTimeAdded()
+            this.sortChatsByLastMessageTimeAdded();
           }
+          break;
+        case "send_delete_chat":
+          const checkActiveChat =
+            this.activeChat && this.activeChat.id === data.chat;
+          if (checkActiveChat) this.activeChat = undefined;
+          this.messages = this.messages.filter(
+            message => message.chat !== data.chat
+          );
+          this.chats = this.chats.filter(chat => chat.id !== data.chat);
+          break;
       }
     },
     initMessenger() {

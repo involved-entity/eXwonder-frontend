@@ -154,5 +154,5 @@ export {
   initSocketConnection,
   arrayBufferToBase64,
   messengerFormatDate,
-  parseDate
+  parseDate,
 };

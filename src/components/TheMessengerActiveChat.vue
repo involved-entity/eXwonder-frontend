@@ -1,6 +1,8 @@
 <template>
   <div class="flex flex-col relative" style="height: calc(100vh - 45px)">
-    <header class="h-14 py-3 bg-gray-200 dark:bg-neutral-800">
+    <header
+      class="h-14 flex justify-between py-3 bg-gray-200 dark:bg-neutral-800"
+    >
       <div
         class="font-semibold text-xl ms-5 text-white my-auto cursor-pointer"
         @click="
@@ -11,6 +13,12 @@
         "
       >
         {{ messengerStore.activeChat!.user.username }}
+      </div>
+      <div class="mr-5 my-auto cursor-pointer text-white">
+        <AppDeleteDropdown
+          caption="Delete chat"
+          @delete="messengerStore.markChatDelete(messengerStore.activeChat!)"
+        />
       </div>
     </header>
     <div class="flex-1 overflow-y-auto" ref="scrollContainer">
@@ -94,10 +102,11 @@
 import { mapStores } from "pinia";
 import { useMessengerStore } from "../stores/messengerStore.ts";
 import AppMessengerMessage from "./AppMessengerMessage.vue";
-import {parseDate} from "../helpers";
+import { parseDate } from "../helpers";
+import AppDeleteDropdown from "./AppDeleteDropdown.vue";
 
 export default {
-  components: { AppMessengerMessage },
+  components: { AppDeleteDropdown, AppMessengerMessage },
   data() {
     return {
       message: "" as string,
