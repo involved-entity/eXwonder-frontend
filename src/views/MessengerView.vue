@@ -145,7 +145,7 @@ export default {
         this.searchMode = undefined;
       } else {
         if (this.messengerStore.activeChat !== chatOrUser) {
-          this.messengerStore.changeActiveChat(chatOrUser as IUserExtendedData);
+          this.messengerStore.changeActiveChat(chatOrUser as IChat);
         }
       }
     },
