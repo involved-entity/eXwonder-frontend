@@ -3,7 +3,7 @@ import { MessengerUrl } from "../settings.ts";
 import { IMessage, IChat } from "../types/stores";
 import { useAuthenticationStore } from "../stores/authenticationStore.ts";
 import { IUserExtendedData } from "../types/globals";
-import { arrayBufferToBase64 } from "../helpers";
+import { arrayBufferToBase64, parseDate } from "../helpers";
 
 export const useMessengerStore = defineStore("messenger", {
   state() {
@@ -105,7 +105,11 @@ export const useMessengerStore = defineStore("messenger", {
       const type = data.type;
       switch (type) {
         case "connect_to_chats":
-          this.chats = data.payload;
+          this.chats = data.payload.sort((a: IChat, b: IChat) => {
+            const dateA = a.last_message.time_added ? parseDate(a.last_message.time_added.time_added) : -Infinity;
+            const dateB = b.last_message.time_added ? parseDate(b.last_message.time_added.time_added) : -Infinity;
+            return dateB - dateA
+          });
           break;
         case "chat_started":
           this.chats.push(data.payload);
@@ -131,6 +135,9 @@ export const useMessengerStore = defineStore("messenger", {
               : chat;
           };
           this.chats = this.chats.map(updateChatLastMessage);
+          const index = this.chats.findIndex(chat => chat.id === data.payload.chat)
+          const [chat] = this.chats.splice(index, 1);
+          this.chats.unshift(chat);
 
           const checkChatIsActive =
             this.activeChat && data.payload.chat === this.activeChat!.id;

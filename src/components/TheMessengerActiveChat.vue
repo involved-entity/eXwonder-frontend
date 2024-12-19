@@ -94,6 +94,7 @@
 import { mapStores } from "pinia";
 import { useMessengerStore } from "../stores/messengerStore.ts";
 import AppMessengerMessage from "./AppMessengerMessage.vue";
+import {parseDate} from "../helpers";
 
 export default {
   components: { AppMessengerMessage },
@@ -118,20 +119,13 @@ export default {
           this.messengerStore.activeChat!.id,
           this.messengerStore.activeChat!.user.id,
           this.message,
-          this.attachment
+          this.attachment as File
         );
         this.message = "";
         this.attachment = undefined;
       }
     },
     isDatesInDifferentDays(dateStr1: string, dateStr2: string): boolean {
-      const parseDate = (dateStr: string): Date => {
-        const [time, date] = dateStr.split(" ");
-        const [hours, minutes] = time.split(":").map(Number);
-        const [day, month, year] = date.split(".").map(Number);
-        return new Date(year, month - 1, day, hours, minutes);
-      };
-
       const date1 = parseDate(dateStr1);
       const date2 = parseDate(dateStr2);
 

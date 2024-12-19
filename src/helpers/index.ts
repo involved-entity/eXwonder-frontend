@@ -116,11 +116,17 @@ function arrayBufferToBase64(buffer: unknown) {
   return window.btoa(binary);
 }
 
+function parseDate(dateStr: string): Date {
+  const [time, date] = dateStr.split(" ");
+  const [hours, minutes] = time.split(":").map(Number);
+  const [day, month, year] = date.split(".").map(Number);
+  return new Date(year, month - 1, day, hours, minutes);
+}
+
 function messengerFormatDate(input: string): string {
   const [time, date] = input.split(" ");
   const [hours, minutes] = time.split(":").map(Number);
   const [day, month, year] = date.split(".").map(Number);
-
   const inputDate = new Date(year, month - 1, day, hours, minutes);
   const now = new Date();
 
@@ -148,4 +154,5 @@ export {
   initSocketConnection,
   arrayBufferToBase64,
   messengerFormatDate,
+  parseDate
 };
