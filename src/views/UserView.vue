@@ -149,10 +149,7 @@
   </main>
   <div class="relative">
     <div class="fixed left-5 top-5 z-50">
-      <app-alert
-        :message="getAlertMessage"
-        v-if="showAlert"
-      />
+      <app-alert :message="getAlertMessage" v-if="showAlert" />
     </div>
   </div>
 </template>
@@ -279,17 +276,19 @@ export default {
   computed: {
     ...mapStores(useUsersStore, usePostsStore, useAuthenticationStore),
     getAlertMessage() {
-      return this.$route.query.action === 'new-post'
-          ? 'Post created.'
-          : this.$route.query.action === 'post-deleted'
-              ? 'Post deleted.'
-              : 'Settings updated.'
+      return this.$route.query.action === "new-post"
+        ? "Post created."
+        : this.$route.query.action === "post-deleted"
+          ? "Post deleted."
+          : "Settings updated.";
     },
     showAlert() {
-      return this.$route.query.action === 'new-post' ||
-          this.$route.query.action === 'settings' ||
-          this.$route.query.action === 'post-deleted'
-    }
+      return (
+        this.$route.query.action === "new-post" ||
+        this.$route.query.action === "settings" ||
+        this.$route.query.action === "post-deleted"
+      );
+    },
   },
   components: { AppAlert, AppPostsGrid, AppSubscriptionsModal },
 };

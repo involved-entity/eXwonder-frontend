@@ -50,8 +50,8 @@ export default {
   computed: {
     ...mapStores(useAuthenticationStore),
     fullWidth() {
-      return this.$route.meta.fullWidth
-    }
+      return this.$route.meta.fullWidth;
+    },
   },
 };
 </script>

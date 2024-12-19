@@ -1,4 +1,4 @@
-import {IUserDefaultData, IDateTime} from "../globals";
+import { IUserDefaultData, IDateTime } from "../globals";
 
 interface IAuthenticationStoreUser {
   id: number;
@@ -35,26 +35,27 @@ interface IUserSettingsUpdates {
 }
 
 interface IMessageFile {
-  link: string,
-  name: string
+  link: string;
+  name: string;
 }
 
 interface IMessage {
-  id: number,
-  chat: number,
-  sender: IUserDefaultData,
-  receiver: IUserDefaultData,
-  body: string,
-  attachment: null | IMessageFile,
-  time_added: IDateTime,
-  time_updated: IDateTime,
-  is_read: boolean
+  id: number;
+  chat: number;
+  sender: IUserDefaultData;
+  receiver: IUserDefaultData;
+  body: string;
+  attachment: null | IMessageFile;
+  time_added: IDateTime;
+  time_updated: IDateTime;
+  is_read: boolean;
 }
 
 interface IChat {
-  id: number,
-  user: IUserDefaultData,
-  last_message: IMessage
+  id: number;
+  user: IUserDefaultData;
+  last_message: IMessage;
+  is_read: boolean;
 }
 
 export {
@@ -63,5 +64,5 @@ export {
   IUserPublicData,
   IUserSettingsUpdates,
   IMessage,
-  IChat
+  IChat,
 };

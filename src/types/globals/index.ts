@@ -83,5 +83,5 @@ export {
   Tops,
   IUserFollowData,
   INotification,
-  IDateTime
+  IDateTime,
 };

@@ -108,9 +108,9 @@ const routes: Array<IRoute> = [
     component: MessengerView,
     meta: {
       requireLogin: true,
-      fullWidth: true
-    }
-  }
+      fullWidth: true,
+    },
+  },
 ];
 
 const router = createRouter({
@@ -141,7 +141,7 @@ router.afterEach((to, from, failure) => {
   if (!failure) {
     setTimeout(() => {
       window.HSStaticMethods.autoInit();
-    }, 100)
+    }, 100);
   }
 });
 

@@ -106,14 +106,37 @@ function initSocketConnection() {
   }
 }
 
-function arrayBufferToBase64(buffer) {
-  let binary = '';
+function arrayBufferToBase64(buffer: unknown) {
+  let binary = "";
   const bytes = new Uint8Array(buffer);
   const len = bytes.byteLength;
   for (let i = 0; i < len; i++) {
     binary += String.fromCharCode(bytes[i]);
   }
   return window.btoa(binary);
+}
+
+function messengerFormatDate(input: string): string {
+  const [time, date] = input.split(" ");
+  const [hours, minutes] = time.split(":").map(Number);
+  const [day, month, year] = date.split(".").map(Number);
+
+  const inputDate = new Date(year, month - 1, day, hours, minutes);
+  const now = new Date();
+
+  const timeDiff = now.getTime() - inputDate.getTime();
+
+  const twelveHours = 12 * 60 * 60 * 1000;
+  const sevenDays = 7 * 24 * 60 * 60 * 1000;
+
+  if (timeDiff < twelveHours) {
+    return `${hours}:${String(minutes).padStart(2, "0")}`;
+  } else if (timeDiff < sevenDays) {
+    const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    return weekdays[inputDate.getDay()];
+  } else {
+    return `${String(day).padStart(2, "0")}.${String(month).padStart(2, "0")}.${year}`;
+  }
 }
 
 export {
@@ -123,5 +146,6 @@ export {
   clearActiveClasses,
   checkIsEmailValid,
   initSocketConnection,
-  arrayBufferToBase64
+  arrayBufferToBase64,
+  messengerFormatDate,
 };
