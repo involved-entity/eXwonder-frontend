@@ -51,9 +51,7 @@ export default {
     ...mapStores(useMessengerStore, useAuthenticationStore),
     hasUnreadedMessages() {
       return this.messengerStore.chats.some(
-        chat =>
-          chat.last_message.sender.id !== this.authenticationStore.user.id &&
-          !chat.last_message.is_read
+        chat => chat.last_message.sender.id !== this.authenticationStore.user.id && !chat.is_read
       );
     },
   },
