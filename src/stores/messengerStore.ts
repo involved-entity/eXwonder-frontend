@@ -227,7 +227,7 @@ export const useMessengerStore = defineStore("messenger", {
           if (messageIndex !== -1) {
             const changeMessageChatLastMessage = (chat: IChat) => {
               return chat.id === this.messages[messageIndex].chat
-                ? { ...chat, last_message: data.last_message }
+                ? data.chat
                 : chat;
             };
             this.chats = this.chats.map(changeMessageChatLastMessage);
