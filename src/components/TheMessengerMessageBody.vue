@@ -45,7 +45,7 @@
     </div>
     <div>
       <div
-        class="min-w-[7.5rem] max-w-sm bg-white border border-gray-200 rounded-2xl text-sm p-4 space-y-3 dark:bg-neutral-900 text-white dark:border-neutral-700"
+        class="min-w-[7.5rem] max-w-sm bg-white border border-gray-200 rounded-2xl text-sm px-4 py-3 space-y-3 dark:bg-neutral-900 text-white dark:border-neutral-700"
       >
         {{ message.body }}
         <div class="mt-1" v-if="message.attachment">
@@ -98,9 +98,9 @@
           {{ message.is_read ? "Readed" : "Sent" }}
         </span>
         <div class="flex space-x-1" v-if="!isSender">
-          <div>{{ messageTimeAdded }}</div>
-          <div v-if="message.is_edit && showMessageMenu">|</div>
           <div v-if="message.is_edit && showMessageMenu">Edited at {{ messageTimeUpdated }}</div>
+          <div v-if="message.is_edit && showMessageMenu">|</div>
+          <div>{{ messageTimeAdded }}</div>
         </div>
       </div>
     </div>

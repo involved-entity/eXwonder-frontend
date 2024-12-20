@@ -43,15 +43,15 @@
     <footer class="h-28 bg-gray-200 dark:bg-neutral-800">
       <label for="chat" class="sr-only">Your message</label>
       <div class="flex items-center space-x-1 py-2 px-3">
-        <div class="relative">
+        <div class="relative cursor-pointer hover:text-gray-900 hover:bg-gray-100 rounded-lg dark:hover:text-white dark:hover:bg-[#151515]">
           <input
             type="file"
             @change="attachmentChanged"
-            class="absolute inset-0 opacity-0 cursor-pointer"
+            class="absolute inset-0 opacity-0"
           />
           <button
             type="button"
-            class="inline-flex justify-center p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-[#151515]"
+            class="inline-flex justify-center p-2 text-gray-500 dark:text-gray-400"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -183,7 +183,7 @@ export default {
     this.updateChat();
   },
   watch: {
-    async "messengerStore.activeChat"(newChat, oldChat) {
+    "messengerStore.activeChat"(newChat, oldChat) {
       if (oldChat && newChat && newChat !== oldChat) {
         this.updateChat();
       }
