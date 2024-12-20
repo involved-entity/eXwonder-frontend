@@ -29,8 +29,8 @@
 
 <script lang="ts">
 import { mapStores } from "pinia";
-import { useAuthenticationStore } from "../stores/authenticationStore.ts";
-import { messengerFormatDate } from "../helpers";
+import { useAuthenticationStore } from "../../stores/authenticationStore.ts";
+import { messengerFormatDate } from "../../helpers";
 
 export default {
   props: {

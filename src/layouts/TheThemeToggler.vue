@@ -95,7 +95,7 @@ import TheMobileSidebar from "../layouts/TheMobileSidebar.vue";
 import { useAuthenticationStore } from "../stores/authenticationStore.ts";
 import { mapStores } from "pinia";
 import TheNotifications from "../components/TheNotifications.vue";
-import TheMessengerButton from "../components/TheMessengerButton.vue";
+import TheMessengerButton from "../components/messenger/TheMessengerButton.vue";
 
 export default {
   components: { TheMessengerButton, TheNotifications, TheMobileSidebar },

@@ -34,8 +34,8 @@
 </template>
 
 <script lang="ts">
-import { useMessengerStore } from "../stores/messengerStore.ts";
-import { useAuthenticationStore } from "../stores/authenticationStore.ts";
+import { useMessengerStore } from "../../stores/messengerStore.ts";
+import { useAuthenticationStore } from "../../stores/authenticationStore.ts";
 import { mapStores } from "pinia";
 
 export default {

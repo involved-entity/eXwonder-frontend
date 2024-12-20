@@ -111,10 +111,10 @@ import { useMessengerStore } from "../stores/messengerStore.ts";
 import { useUsersStore } from "../stores/usersStore.ts";
 import { mapStores } from "pinia";
 import { IChat } from "../types/stores";
-import AppMessengerChat from "../components/AppMessengerChat.vue";
+import AppMessengerChat from "../components/messenger/AppMessengerChat.vue";
 import { IUserExtendedData } from "../types/globals";
-import TheMessengerActiveChat from "../components/TheMessengerActiveChat.vue";
-import AppMessengerEmptyChat from "../components/AppMessengerEmptyChat.vue";
+import TheMessengerActiveChat from "../components/messenger/TheMessengerActiveChat.vue";
+import AppMessengerEmptyChat from "../components/messenger/AppMessengerEmptyChat.vue";
 import { useAuthenticationStore } from "../stores/authenticationStore.ts";
 
 enum SearchMode {

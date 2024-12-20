@@ -100,11 +100,11 @@
 
 <script lang="ts">
 import { mapStores } from "pinia";
-import { useMessengerStore } from "../stores/messengerStore.ts";
+import { useMessengerStore } from "../../stores/messengerStore.ts";
 import AppMessengerMessage from "./AppMessengerMessage.vue";
-import { parseDate } from "../helpers";
-import AppDeleteDropdown from "./AppDeleteDropdown.vue";
-import { IMessage } from "../types/stores";
+import { parseDate } from "../../helpers";
+import AppDeleteDropdown from "../AppDeleteDropdown.vue";
+import { IMessage } from "../../types/stores";
 
 export default {
   components: { AppDeleteDropdown, AppMessengerMessage },
