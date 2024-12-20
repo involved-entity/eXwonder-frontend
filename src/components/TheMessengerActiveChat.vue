@@ -36,7 +36,7 @@
               {{ getDateByTimeAdded(message.time_added.time_added) }}
             </div>
           </div>
-          <AppMessengerMessage :message="message" />
+          <AppMessengerMessage :message="message" @editMessage="editMessage" />
         </div>
       </div>
     </div>
@@ -104,6 +104,7 @@ import { useMessengerStore } from "../stores/messengerStore.ts";
 import AppMessengerMessage from "./AppMessengerMessage.vue";
 import { parseDate } from "../helpers";
 import AppDeleteDropdown from "./AppDeleteDropdown.vue";
+import { IMessage } from "../types/stores";
 
 export default {
   components: { AppDeleteDropdown, AppMessengerMessage },
@@ -112,6 +113,7 @@ export default {
       message: "" as string,
       attachment: undefined as File | undefined,
       activeDay: "00:00 01.01.1917" as string,
+      messageEdit: undefined as number | unedefined,
     };
   },
   methods: {
@@ -122,14 +124,27 @@ export default {
     attachmentChanged(event: Event) {
       this.attachment = event.target!.files[0];
     },
+    editMessage(message: IMessage) {
+      this.messageEdit = message.id;
+      this.message = message.body;
+    },
     sendMessage() {
       if (this.isValid) {
-        this.messengerStore.sendMessage(
-          this.messengerStore.activeChat!.id,
-          this.messengerStore.activeChat!.user.id,
-          this.message,
-          this.attachment as File
-        );
+        if (this.messageEdit) {
+          this.messengerStore.editMessage(
+            this.messageEdit,
+            this.message,
+            this.attachment as File
+          );
+          this.messageEdit = undefined;
+        } else {
+          this.messengerStore.sendMessage(
+            this.messengerStore.activeChat!.id,
+            this.messengerStore.activeChat!.user.id,
+            this.message,
+            this.attachment as File
+          );
+        }
         this.message = "";
         this.attachment = undefined;
       }

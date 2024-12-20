@@ -48,6 +48,7 @@ interface IMessage {
   attachment: null | IMessageFile;
   time_added: IDateTime;
   time_updated: IDateTime;
+  is_edit: boolean;
   is_read: boolean;
 }
 

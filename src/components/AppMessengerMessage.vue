@@ -18,6 +18,7 @@
       :message="message"
       :isSender="true"
       @deleteMessage="messengerStore.markMessageDelete"
+      @editMessage="emitEditMessage"
     />
     <img
       class="inline-block size-9 rounded-full cursor-pointer"
@@ -38,13 +39,20 @@ import TheMessengerMessageBody from "./TheMessengerMessageBody.vue";
 import { mapStores } from "pinia";
 import { useAuthenticationStore } from "../stores/authenticationStore.ts";
 import { useMessengerStore } from "../stores/messengerStore.ts";
+import { IMessage } from "../types/stores";
 
 export default {
+  emits: ["editMessage"],
   components: { TheMessengerMessageBody },
   props: {
     message: {
       type: Object,
       required: true,
+    },
+  },
+  methods: {
+    emitEditMessage(message: IMessage) {
+      this.$emit("editMessage", message);
     },
   },
   computed: {

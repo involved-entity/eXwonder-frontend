@@ -132,6 +132,30 @@ export const useMessengerStore = defineStore("messenger", {
         return dateB - dateA;
       });
     },
+    editMessage(messageId: number, body: string, attachment: File) {
+      if (attachment) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          const arrayBuffer = e.target.result;
+          const data = JSON.stringify({
+            type: "edit_message",
+            message: messageId,
+            body,
+            attachment: arrayBufferToBase64(arrayBuffer),
+            attachment_name: attachment.name,
+          });
+          this.socket!.send(data);
+        };
+        reader.readAsArrayBuffer(attachment);
+      } else {
+        const data = JSON.stringify({
+          type: "edit_message",
+          message: messageId,
+          body,
+        });
+        this.socket!.send(data);
+      }
+    },
     onSocketMessage(event: object) {
       const data = JSON.parse(event.data);
       const type = data.type;
@@ -219,6 +243,11 @@ export const useMessengerStore = defineStore("messenger", {
             message => message.chat !== data.chat
           );
           this.chats = this.chats.filter(chat => chat.id !== data.chat);
+          break;
+        case "send_edit_message":
+          this.messages = this.messages.map(message =>
+            message.id === data.message.id ? data.message : message
+          );
           break;
       }
     },
