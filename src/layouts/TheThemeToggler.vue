@@ -62,6 +62,18 @@
       </button>
     </div>
     <div
+      class="absolute right-5 top-1/2 transform -translate-y-1/2 h-full flex space-x-3 items-center cursor-pointer"
+      :class="{ hidden: this.$route.name !== 'messenger' }"
+    >
+      <img :src="authenticationStore.user.avatar" alt="avatar" class="rounded-full size-7" />
+      <button
+        class="!p-1 btn-no-w btn-green btn-green-hover text-sm xl:text-md"
+        @click="logout"
+      >
+        Logout
+      </button>
+    </div>
+    <div
       class="space-x-1 flex w-full lg:mr-5 lg:justify-center"
       v-if="authenticationStore.isAuth"
     >
@@ -98,6 +110,10 @@ export default {
       localStorage.setItem("theme", currentTheme ? "dark" : "light");
       this.theme = currentTheme ? "dark" : "light";
     },
+    async logout() {
+      await this.authenticationStore.logout();
+      this.$router.push({ name: "login" });
+    }
   },
   beforeMount() {
     const savedTheme = localStorage.getItem("theme");
