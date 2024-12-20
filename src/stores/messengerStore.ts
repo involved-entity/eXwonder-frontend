@@ -248,6 +248,7 @@ export const useMessengerStore = defineStore("messenger", {
           this.messages = this.messages.map(message =>
             message.id === data.message.id ? data.message : message
           );
+          this.chats = this.chats.map(chat => chat.last_message.id === data.message.id ? {...chat, last_message: data.message} : chat)
           break;
       }
     },
