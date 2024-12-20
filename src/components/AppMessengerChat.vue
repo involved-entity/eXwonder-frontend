@@ -12,9 +12,12 @@
       </div>
     </div>
     <div class="flex w-full">
-      <div class="text-gray-500 text-sm">
-        {{ chat!.last_message.body.slice(0, 36)
-        }}{{ chat!.last_message.body.length > 35 ? "..." : "" }}
+      <div class="flex space-x-1 items-center">
+        <div class="text-gray-50 text-sm" v-if="isSender">You:</div>
+        <div class="text-gray-500 text-sm">
+          {{ chat!.last_message.body.slice(0, 36)
+          }}{{ chat!.last_message.body.length > 35 ? "..." : "" }}
+        </div>
       </div>
       <div
         class="bg-gray-500 rounded-full ms-auto size-4"
@@ -44,6 +47,9 @@ export default {
           this.authenticationStore.user.id && !this.chat!.is_read
       );
     },
+    isSender() {
+      return this.chat!.last_message.sender.id === this.authenticationStore.user.id
+    }
   },
 };
 </script>
