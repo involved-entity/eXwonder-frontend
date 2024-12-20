@@ -79,7 +79,7 @@
         </div>
       </div>
       <div
-        class="flex justify-between mt-1.5 items-center text-xs text-gray-500 dark:text-neutral-500"
+        class="flex justify-between space-x-3 mt-1.5 items-center text-xs text-gray-500 dark:text-neutral-500"
       >
         <div class="flex space-x-1" v-if="isSender">
           <div>{{ messageTimeAdded }}</div>
