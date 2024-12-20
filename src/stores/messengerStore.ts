@@ -43,7 +43,7 @@ export const useMessengerStore = defineStore("messenger", {
     },
     getChatHistory(chatId?: number): boolean {
       const checkIsChatHistoryEmtpy = !this.chatsWithHistory.some(
-        id => id === chatId
+        id => id === (chatId ?? this.activeChat!.id)
       );
       if (checkIsChatHistoryEmtpy) {
         const data = JSON.stringify({
@@ -51,6 +51,7 @@ export const useMessengerStore = defineStore("messenger", {
           chat: chatId ?? this.activeChat!.id,
         });
         this.socket!.send(data);
+        this.chatsWithHistory.push(chatId ?? this.activeChat!.id);
       }
       return checkIsChatHistoryEmtpy;
     },
@@ -171,7 +172,6 @@ export const useMessengerStore = defineStore("messenger", {
           break;
         case "get_chat_history":
           this.messages = [...data.payload, ...this.messages];
-          this.chatsWithHistory.push(data.chat);
           break;
         case "on_message":
           const checkMessageUnique = !this.messages.some(

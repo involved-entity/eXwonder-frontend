@@ -23,7 +23,7 @@
     </header>
     <div class="flex-1 overflow-y-auto" ref="scrollContainer">
       <div class="relative ms-5 mr-3 mt-3">
-        <div class="mb-1" v-for="message in getMessages()" :key="message.id">
+        <div class="mb-1" v-for="message in getMessages" :key="message.id">
           <div
             class="mt-1.5 mb-2.5 w-[10.25rem] mx-auto"
             v-if="
@@ -178,34 +178,16 @@ export default {
 
       return [date[0], monthNames[+date[1] - 1], date[2]].join(" ");
     },
-    getMessages() {
-      return this.messengerStore.messages
-        .filter(message => message.chat === this.messengerStore.activeChat!.id)
-        .toReversed();
-    },
-    // scrollToBottom() {
-    //   const container = this.$refs.scrollContainer;
-    //   console.log("HERE", container)
-    //   if (container) {
-    //     console.log("YES")
-    //     container.scrollTop = container.scrollHeight;
-    //   }
-    // },
   },
   mounted() {
     this.updateChat();
   },
   watch: {
-    "messengerStore.activeChat"(newChat, oldChat) {
+    async "messengerStore.activeChat"(newChat, oldChat) {
       if (oldChat && newChat && newChat !== oldChat) {
         this.updateChat();
       }
     },
-    // 'messengerStore.messages'() {
-    //   this.$nextTick(() => {
-    //     this.scrollToBottom();
-    //   });
-    // }
   },
   computed: {
     ...mapStores(useMessengerStore),
@@ -214,6 +196,11 @@ export default {
         (this.message.length > 0 && this.message.length <= 4096) ||
         this.attachment
       );
+    },
+    getMessages() {
+      return this.messengerStore.messages
+        .filter(message => message.chat === this.messengerStore.activeChat!.id)
+        .toReversed();
     },
   },
 };
