@@ -11,7 +11,21 @@ export default {
   ],
   darkMode: "class",
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        gold: {
+          100: '#f9e5b0',
+          200: '#f4d27b',
+          300: '#f0c24e',
+          400: '#e6b32b',
+          500: '#d9a500', // Основной золотой цвет
+          600: '#b88a00',
+          700: '#8f6b00',
+          800: '#6b4d00',
+          900: '#4a3a00',
+        },
+      },
+    },
   },
   plugins: [flowbite, preline],
 };

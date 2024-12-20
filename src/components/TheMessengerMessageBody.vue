@@ -55,27 +55,19 @@
             :alt="message.attachment.name + ' sended image'"
             v-if="isImageFile(message.attachment.name)"
           />
-          <div class="relative" v-else>
-            <a
-              :href="message.attachment.link"
-              class="inline-flex justify-center text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-[#151515]"
+          <a class="relative flex items-center" :href="message.attachment.link" v-else>
+            <div
+              class="inline-flex justify-center p-2 mr-1.5 my-1.5 text-neutral-900 rounded-full cursor-pointer bg-gold-300"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-6 h-6"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="m18.375 12.739-7.693 7.693a4.5 4.5 0 0 1-6.364-6.364l10.94-10.94A3 3 0 1 1 19.5 7.372L8.552 18.32m.009-.01-.01.01m5.699-9.941-7.81 7.81a1.5 1.5 0 0 0 2.112 2.13"
-                />
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+                <path d="M19.5 21a3 3 0 0 0 3-3v-4.5a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3V18a3 3 0 0 0 3 3h15ZM1.5 10.146V6a3 3 0 0 1 3-3h5.379a2.25 2.25 0 0 1 1.59.659l2.122 2.121c.14.141.331.22.53.22H19.5a3 3 0 0 1 3 3v1.146A4.483 4.483 0 0 0 19.5 9h-15a4.483 4.483 0 0 0-3 1.146Z" />
               </svg>
-            </a>
-          </div>
+            </div>
+            <div class="flex flex-col space-y-1">
+              <div class="text-gray-50">{{fileName}}</div>
+              <div class="text-gray-500">Just click to open</div>
+            </div>
+          </a>
         </div>
       </div>
       <div
@@ -154,6 +146,26 @@ export default {
     },
   },
   computed: {
+    fileName() {
+      const file = this.message.attachment.name
+      const maxLength = 25
+      const lastDotIndex = file.lastIndexOf('.');
+      const namePart = lastDotIndex !== -1 ? file.slice(0, lastDotIndex) : file;
+      const extensionPart = lastDotIndex !== -1 ? file.slice(lastDotIndex) : '';
+
+      if (file.length <= maxLength) {
+        return file;
+      }
+
+      const availableLength = maxLength - extensionPart.length - 3;
+
+      if (availableLength <= 0) {
+        return '...'+ extensionPart;
+      }
+
+      const truncatedName = namePart.slice(0, availableLength);
+      return `${truncatedName}...${extensionPart}`;
+    },
     messageTimeAdded() {
       return this.message.time_added.time_added.split(" ")[0];
     },
