@@ -2,6 +2,7 @@ import { IUserPublicData } from "@/types/stores";
 
 interface IUserDefaultData extends IUserPublicData {
   id: number;
+  is_online: boolean;
 }
 
 interface IUserProfileData extends IUserDefaultData {

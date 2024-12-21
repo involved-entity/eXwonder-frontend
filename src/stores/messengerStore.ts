@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { MessengerUrl } from "../settings.ts";
 import { IMessage, IChat } from "../types/stores";
 import { useAuthenticationStore } from "../stores/authenticationStore.ts";
-import { IUserExtendedData } from "../types/globals";
+import { IUserDefaultData, IUserExtendedData } from "../types/globals";
 import { arrayBufferToBase64, parseDate } from "../helpers";
 
 export const useMessengerStore = defineStore("messenger", {
@@ -157,6 +157,26 @@ export const useMessengerStore = defineStore("messenger", {
         this.socket!.send(data);
       }
     },
+    changeUserOnlineStatus(user: IUserDefaultData, is_online: boolean = true) {
+      this.chats = this.chats.map(chat => {
+        let newChat;
+        if (chat.user.id === user.id) {
+          newChat = {
+            ...chat,
+            user: {
+              ...chat.user,
+              is_online,
+            },
+          };
+        } else {
+          newChat = chat;
+        }
+        if (this.activeChat && this.activeChat!.id === newChat.id) {
+          this.activeChat = newChat;
+        }
+        return newChat;
+      });
+    },
     onSocketMessage(event: object) {
       const data = JSON.parse(event.data);
       const type = data.type;
@@ -248,7 +268,21 @@ export const useMessengerStore = defineStore("messenger", {
           this.messages = this.messages.map(message =>
             message.id === data.message.id ? data.message : message
           );
-          this.chats = this.chats.map(chat => chat.last_message.id === data.message.id ? {...chat, last_message: data.message} : chat)
+          this.chats = this.chats.map(chat =>
+            chat.last_message.id === data.message.id
+              ? { ...chat, last_message: data.message }
+              : chat
+          );
+          break;
+        case "user_online":
+          console.log(data.user, "ONLINE");
+          this.changeUserOnlineStatus(data.user);
+          console.log(this.chats);
+          break;
+        case "user_offline":
+          console.log(data.user, "OFFLINE");
+          this.changeUserOnlineStatus(data.user, false);
+          console.log(this.chats);
           break;
       }
     },

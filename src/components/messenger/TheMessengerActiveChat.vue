@@ -1,10 +1,8 @@
 <template>
   <div class="flex flex-col relative" style="height: calc(100vh - 45px)">
-    <header
-      class="h-14 flex justify-between py-3 bg-gray-200 dark:bg-neutral-800"
-    >
+    <header class="h-14 relative bg-gray-200 dark:bg-neutral-800">
       <div
-        class="font-semibold text-xl ms-5 text-white my-auto cursor-pointer"
+        class="font-semibold flex flex-col space-y-0 text-xl absolute left-5 top-1/2 -translate-y-1/2 text-white cursor-pointer"
         @click="
           $router.push({
             name: 'user',
@@ -12,13 +10,28 @@
           })
         "
       >
-        {{ messengerStore.activeChat!.user.username }}
+        <div class="m-0">{{ messengerStore.activeChat!.user.username }}</div>
+        <div class="flex m-0">
+          <button
+            type="button"
+            class="px-1.5 uppercase font-semibold rounded poppins transition-all duration-300 text-gray-300 bg-emerald-700 text-sm inline-flex disabled:bg-emerald-800 disabled:text-gray-500"
+            :disabled="!messengerStore.activeChat!.user.is_online"
+          >
+            {{
+              messengerStore.activeChat!.user.is_online ? "online" : "offline"
+            }}
+          </button>
+        </div>
       </div>
-      <div class="mr-5 my-auto cursor-pointer text-white">
-        <AppDeleteDropdown
-          caption="Delete chat"
-          @delete="messengerStore.markChatDelete(messengerStore.activeChat!)"
-        />
+      <div
+        class="absolute right-5 top-1/2 -translate-y-1/2 cursor-pointer text-white"
+      >
+        <div class="m-auto">
+          <AppDeleteDropdown
+            caption="Delete chat"
+            @delete="messengerStore.markChatDelete(messengerStore.activeChat!)"
+          />
+        </div>
       </div>
     </header>
     <div class="flex-1 overflow-y-auto" ref="scrollContainer">
@@ -43,7 +56,9 @@
     <footer class="h-28 bg-gray-200 dark:bg-neutral-800">
       <label for="chat" class="sr-only">Your message</label>
       <div class="flex items-center space-x-1 py-2 px-3">
-        <div class="relative cursor-pointer hover:text-gray-900 hover:bg-gray-100 rounded-lg dark:hover:text-white dark:hover:bg-[#151515]">
+        <div
+          class="relative cursor-pointer hover:text-gray-900 hover:bg-gray-100 rounded-lg dark:hover:text-white dark:hover:bg-[#151515]"
+        >
           <input
             type="file"
             @change="attachmentChanged"
