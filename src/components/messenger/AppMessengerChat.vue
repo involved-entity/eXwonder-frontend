@@ -6,21 +6,21 @@
   />
   <div class="ms-2.5 my-auto space-y-1 w-full">
     <div class="flex w-full">
-      <div class="text-white font-medium">{{ chat!.user.username }}</div>
-      <div class="text-gray-600 font-medium text-sm ms-auto my-auto">
+      <div class="text-default font-medium">{{ chat!.user.username }}</div>
+      <div class="text-default-700 font-medium text-sm ms-auto my-auto">
         {{ chatTimeAdded }}
       </div>
     </div>
     <div class="flex w-full">
       <div class="flex space-x-1 items-center">
-        <div class="text-gray-50 text-sm" v-if="isSender">You:</div>
-        <div class="text-gray-500 text-sm">
+        <div class="text-default text-sm" v-if="isSender">You:</div>
+        <div class="text-default-800 text-sm">
           {{ chat!.last_message.body.slice(0, 36)
           }}{{ chat!.last_message.body.length > 35 ? "..." : "" }}
         </div>
       </div>
       <div
-        class="bg-gray-500 rounded-full ms-auto size-4"
+        class="bg-gray-300 dark:bg-gray-500 rounded-full ms-auto size-4"
         v-if="isChatUnread"
       ></div>
     </div>
@@ -48,8 +48,10 @@ export default {
       );
     },
     isSender() {
-      return this.chat!.last_message.sender.id === this.authenticationStore.user.id
-    }
+      return (
+        this.chat!.last_message.sender.id === this.authenticationStore.user.id
+      );
+    },
   },
 };
 </script>

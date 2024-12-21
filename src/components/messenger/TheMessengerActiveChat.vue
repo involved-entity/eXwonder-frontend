@@ -1,8 +1,8 @@
 <template>
   <div class="flex flex-col relative" style="height: calc(100vh - 45px)">
-    <header class="h-14 relative bg-gray-200 dark:bg-neutral-800">
+    <header class="h-14 text-default relative bg-gray-100 dark:bg-[#151515]">
       <div
-        class="font-semibold flex flex-col space-y-0 text-xl absolute left-5 top-1/2 -translate-y-1/2 text-white cursor-pointer"
+        class="font-medium dark:font-semibold flex flex-col space-y-0 text-xl absolute left-5 top-1/2 -translate-y-1/2 cursor-pointer"
         @click="
           $router.push({
             name: 'user',
@@ -23,9 +23,7 @@
           </button>
         </div>
       </div>
-      <div
-        class="absolute right-5 top-1/2 -translate-y-1/2 cursor-pointer text-white"
-      >
+      <div class="absolute right-5 top-1/2 -translate-y-1/2 cursor-pointer">
         <div class="m-auto">
           <AppDeleteDropdown
             caption="Delete chat"
@@ -34,7 +32,10 @@
         </div>
       </div>
     </header>
-    <div class="flex-1 overflow-y-auto" ref="scrollContainer">
+    <div
+      class="flex-1 overflow-y-auto bg-transparent/10 dark:bg-transparent/20"
+      ref="scrollContainer"
+    >
       <div class="relative ms-5 mr-3 mt-3">
         <div class="mb-1" v-for="message in getMessages" :key="message.id">
           <div
@@ -53,11 +54,11 @@
         </div>
       </div>
     </div>
-    <footer class="h-28 bg-gray-200 dark:bg-neutral-800">
+    <footer class="h-28 bg-gray-100 dark:bg-[#151515]">
       <label for="chat" class="sr-only">Your message</label>
       <div class="flex items-center space-x-1 py-2 px-3">
         <div
-          class="relative cursor-pointer hover:text-gray-900 hover:bg-gray-100 rounded-lg dark:hover:text-white dark:hover:bg-[#151515]"
+          class="relative cursor-pointer hover:bg-gray-200 dark:hover:bg-neutral-800 rounded-full"
         >
           <input
             type="file"
@@ -89,12 +90,12 @@
           rows="1"
           v-model="message"
           @keyup.ctrl.enter="sendMessage"
-          class="peer py-3 px-4 block w-full bg-gray-100 dark:bg-[#151515] border-transparent rounded-xl text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:border-transparent dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+          class="peer py-3 px-4 block w-full bg-gray-200 dark:bg-neutral-800 border-transparent rounded-xl text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:border-transparent dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
           placeholder="Your message..."
         ></textarea>
         <button
           type="submit"
-          class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-[#151515]"
+          class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-gray-200 dark:hover:bg-neutral-800"
           @click="sendMessage"
         >
           <svg

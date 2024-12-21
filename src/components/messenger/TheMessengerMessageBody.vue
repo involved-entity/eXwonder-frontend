@@ -45,7 +45,7 @@
     </div>
     <div>
       <div
-        class="min-w-[7.5rem] max-w-sm bg-white border border-gray-200 rounded-2xl text-sm px-4 py-3 space-y-3 dark:bg-neutral-900 text-white dark:border-neutral-700"
+        class="min-w-[7.5rem] max-w-sm bg-white border border-gray-200 rounded-2xl text-sm px-4 py-3 space-y-3 dark:bg-neutral-900 text-default dark:border-neutral-700"
       >
         {{ message.body }}
         <div class="mt-1" v-if="message.attachment">
@@ -55,17 +55,28 @@
             :alt="message.attachment.name + ' sended image'"
             v-if="isImageFile(message.attachment.name)"
           />
-          <a class="relative flex items-center" :href="message.attachment.link" v-else>
+          <a
+            class="relative flex items-center"
+            :href="message.attachment.link"
+            v-else
+          >
             <div
               class="inline-flex justify-center p-2 mr-1.5 my-1.5 text-neutral-900 rounded-full cursor-pointer bg-gold-300"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
-                <path d="M19.5 21a3 3 0 0 0 3-3v-4.5a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3V18a3 3 0 0 0 3 3h15ZM1.5 10.146V6a3 3 0 0 1 3-3h5.379a2.25 2.25 0 0 1 1.59.659l2.122 2.121c.14.141.331.22.53.22H19.5a3 3 0 0 1 3 3v1.146A4.483 4.483 0 0 0 19.5 9h-15a4.483 4.483 0 0 0-3 1.146Z" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                class="size-6"
+              >
+                <path
+                  d="M19.5 21a3 3 0 0 0 3-3v-4.5a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3V18a3 3 0 0 0 3 3h15ZM1.5 10.146V6a3 3 0 0 1 3-3h5.379a2.25 2.25 0 0 1 1.59.659l2.122 2.121c.14.141.331.22.53.22H19.5a3 3 0 0 1 3 3v1.146A4.483 4.483 0 0 0 19.5 9h-15a4.483 4.483 0 0 0-3 1.146Z"
+                />
               </svg>
             </div>
             <div class="flex flex-col space-y-1">
-              <div class="text-gray-50">{{fileName}}</div>
-              <div class="text-gray-500">Just click to open</div>
+              <div class="text-default">{{ fileName }}</div>
+              <div class="text-default-800">Just click to open</div>
             </div>
           </a>
         </div>
@@ -76,7 +87,9 @@
         <div class="flex space-x-1" v-if="isSender">
           <div>{{ messageTimeAdded }}</div>
           <div v-if="message.is_edit && showMessageMenu">|</div>
-          <div v-if="message.is_edit && showMessageMenu">Edited at {{ messageTimeUpdated }}</div>
+          <div v-if="message.is_edit && showMessageMenu">
+            Edited at {{ messageTimeUpdated }}
+          </div>
         </div>
         <span class="flex gap-x-1">
           <svg
@@ -98,7 +111,9 @@
           {{ message.is_read ? "Readed" : "Sent" }}
         </span>
         <div class="flex space-x-1" v-if="!isSender">
-          <div v-if="message.is_edit && showMessageMenu">Edited at {{ messageTimeUpdated }}</div>
+          <div v-if="message.is_edit && showMessageMenu">
+            Edited at {{ messageTimeUpdated }}
+          </div>
           <div v-if="message.is_edit && showMessageMenu">|</div>
           <div>{{ messageTimeAdded }}</div>
         </div>
@@ -147,11 +162,11 @@ export default {
   },
   computed: {
     fileName() {
-      const file = this.message.attachment.name
-      const maxLength = 25
-      const lastDotIndex = file.lastIndexOf('.');
+      const file = this.message.attachment.name;
+      const maxLength = 25;
+      const lastDotIndex = file.lastIndexOf(".");
       const namePart = lastDotIndex !== -1 ? file.slice(0, lastDotIndex) : file;
-      const extensionPart = lastDotIndex !== -1 ? file.slice(lastDotIndex) : '';
+      const extensionPart = lastDotIndex !== -1 ? file.slice(lastDotIndex) : "";
 
       if (file.length <= maxLength) {
         return file;
@@ -160,7 +175,7 @@ export default {
       const availableLength = maxLength - extensionPart.length - 3;
 
       if (availableLength <= 0) {
-        return '...'+ extensionPart;
+        return "..." + extensionPart;
       }
 
       const truncatedName = namePart.slice(0, availableLength);

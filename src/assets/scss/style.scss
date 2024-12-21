@@ -45,12 +45,29 @@
   @apply bg-gray-200 dark:bg-[#1b1919];
 }
 
+/* text styling */
+.text-default {
+  @apply text-gray-900 dark:text-gray-50;
+}
+
+.text-default-600 {
+  @apply text-gray-900 dark:text-gray-500;
+}
+
+.text-default-700 {
+  @apply text-gray-600 dark:text-gray-500;
+}
+
+.text-default-800 {
+  @apply text-gray-500;
+}
+
 body {
   @apply montserrat-semibold bg-gray-100 dark:bg-[#151515] m-0 p-0;
 }
 
 .shadow-theme-toggler {
-  @apply shadow-xl shadow-slate-900/50;
+  @apply shadow-lg shadow-slate-900/30 dark:shadow-slate-900/50;
 }
 
 @media (max-width: 1023px) {
