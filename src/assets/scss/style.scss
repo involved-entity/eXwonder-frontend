@@ -50,7 +50,7 @@ body {
 }
 
 .shadow-theme-toggler {
-  @apply shadow-xl shadow-slate-500/30 dark:shadow-slate-900/50;
+  @apply shadow-xl shadow-slate-900/50;
 }
 
 @media (max-width: 1023px) {

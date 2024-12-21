@@ -1,11 +1,11 @@
 <template>
   <nav
-    class="shadow-theme-toggler w-full fixed top-0 left-0 h-[44px] flex justify-center items-center bg-gray-100 dark:bg-[#222] z-10"
+    class="shadow-theme-toggler w-full fixed top-0 left-0 h-[44px] flex justify-center items-center bg-[#222] z-10"
     id="theme-toggler"
   >
     <div
       class="absolute left-5 top-1/2 transform -translate-y-1/2 h-full flex items-center cursor-pointer"
-      :class="{ hidden: this.$route.name !== 'messenger' }"
+      :class="{ hidden: $route.name !== 'messenger' }"
       @click="$router.go(-1)"
     >
       <svg
@@ -14,7 +14,7 @@
         viewBox="0 0 24 24"
         stroke-width="1.5"
         stroke="currentColor"
-        class="size-6 text-black dark:text-white"
+        class="size-6 text-white"
       >
         <path
           stroke-linecap="round"
@@ -27,7 +27,7 @@
       class="absolute left-1/2 top-1/2 transform -translate-y-1/2 -translate-x-1/2 h-full flex justify-center items-center"
     >
       <button
-        class="text-black dark:text-white"
+        class="text-white"
         type="button"
         @click="toggleTheme"
       >
@@ -63,7 +63,7 @@
     </div>
     <div
       class="absolute right-5 top-1/2 transform -translate-y-1/2 h-full flex space-x-3 items-center cursor-pointer"
-      :class="{ hidden: this.$route.name !== 'messenger' }"
+      :class="{ hidden: $route.name !== 'messenger' }"
     >
       <img :src="authenticationStore.user.avatar" alt="avatar" class="rounded-full size-7" @click="$router.push({name: 'user', params: {username: authenticationStore.user.username}})" />
       <button
