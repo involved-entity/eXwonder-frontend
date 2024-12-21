@@ -1,10 +1,17 @@
 <template>
   <div class="w-full flex" style="height: calc(100vh - 45px)">
     <div
-      class="h-full overflow-y-auto lg:overflow-y-hidden transition-all duration-150 lg:hover:overflow-y-auto overflow-x-hidden relative bg-gray-100 dark:bg-[#151515]"
-      :class="{'w-[28%]': showActiveChatWindow, 'w-full': !showActiveChatWindow && !messengerStore.activeChat, 'w-0': !showActiveChatWindow && messengerStore.activeChat}"
+      class="h-full scrollable overflow-y-auto lg:overflow-y-hidden transition-all duration-150 lg:hover:overflow-y-auto overflow-x-hidden relative bg-gray-100 dark:bg-[#151515]"
+      :class="{
+        'w-[28%]': showActiveChatWindow,
+        'w-full': !showActiveChatWindow && !messengerStore.activeChat,
+        'w-0': !showActiveChatWindow && messengerStore.activeChat,
+      }"
     >
-      <div class="h-1/6 px-3 py-5 sticky top-0 left-0 w-full" style="z-index: 1">
+      <div
+        class="h-1/6 px-3 py-5 sticky top-0 left-0 w-full"
+        style="z-index: 1"
+      >
         <div class="relative w-full">
           <input
             type="text"
@@ -109,7 +116,13 @@
         </div>
       </div>
     </div>
-    <div class="h-full overflow-y-auto overflow-x-hidden" :class="{'w-[72%]': showActiveChatWindow, 'w-full': !showActiveChatWindow && messengerStore.activeChat}">
+    <div
+      class="h-full overflow-y-auto overflow-x-hidden"
+      :class="{
+        'w-[72%]': showActiveChatWindow,
+        'w-full': !showActiveChatWindow && messengerStore.activeChat,
+      }"
+    >
       <TheMessengerActiveChat v-if="messengerStore.activeChat" />
     </div>
   </div>
@@ -168,10 +181,10 @@ export default {
     this.messengerStore.activeChat = undefined;
   },
   mounted() {
-    window.addEventListener('resize', this.handleResize);
+    window.addEventListener("resize", this.handleResize);
   },
   unmounted() {
-    window.removeEventListener('resize', this.handleResize);
+    window.removeEventListener("resize", this.handleResize);
   },
   watch: {
     async search() {
@@ -199,8 +212,28 @@ export default {
   computed: {
     ...mapStores(useMessengerStore, useUsersStore),
     showActiveChatWindow() {
-      return this.windowSize >= 1024
-    }
+      return this.windowSize >= 1024;
+    },
   },
 };
 </script>
+
+<style>
+::-webkit-scrollbar {
+  width: 6px; /* Ширина скроллбара */
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; /* Цвет фона трека */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #555; /* Цвет скроллбара при наведении */
+  border-radius: 10px; /* Закругление углов */
+}
+
+.scrollable {
+  scrollbar-width: thin; /* Узкий скроллбар */
+  scrollbar-color: #555 transparent; /* Цвет скроллбара и фона трека */
+}
+</style>

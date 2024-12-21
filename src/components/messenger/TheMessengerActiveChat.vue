@@ -16,7 +16,7 @@
             type="button"
             class="px-1.5 uppercase font-semibold rounded poppins transition-all duration-300 text-gray-300 bg-emerald-700 text-sm inline-flex disabled:bg-emerald-800 disabled:text-gray-500"
             :disabled="!messengerStore.activeChat!.user.is_online"
-            :class="{'mx-auto': showOnlineStatusCenter}"
+            :class="{ 'mx-auto': showOnlineStatusCenter }"
           >
             {{
               messengerStore.activeChat!.user.is_online ? "online" : "offline"
@@ -34,10 +34,10 @@
       </div>
     </header>
     <div
-      class="flex-1 overflow-y-auto bg-transparent/10 dark:bg-transparent/20"
+      class="flex-1 overflow-y-auto scrollable bg-transparent/10 dark:bg-transparent/20"
       ref="scrollContainer"
     >
-      <div class="relative ms-5 mr-3 mt-3">
+      <div class="relative ms-5 mt-3">
         <div class="mb-1" v-for="message in getMessages" :key="message.id">
           <div
             class="mt-1.5 mb-2.5 w-[10.25rem] mx-auto"
@@ -130,7 +130,7 @@ export default {
       message: "" as string,
       attachment: undefined as File | undefined,
       activeDay: "00:00 01.01.1917" as string,
-      messageEdit: undefined as number | unedefined,
+      messageEdit: undefined as number | undefined,
     };
   },
   methods: {
@@ -220,8 +220,8 @@ export default {
         .toReversed();
     },
     showOnlineStatusCenter() {
-      return window.innerWidth < 1024
-    }
+      return window.innerWidth < 1024;
+    },
   },
 };
 </script>

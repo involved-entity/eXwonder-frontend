@@ -6,7 +6,11 @@
     <div
       class="absolute left-5 top-1/2 transform -translate-y-1/2 h-full flex items-center cursor-pointer"
       :class="{ hidden: $route.name !== 'messenger' }"
-      @click="backButtonToMessenger ? messengerStore.activeChat = undefined : $router.go(-1)"
+      @click="
+        backButtonToMessenger
+          ? (messengerStore.activeChat = undefined)
+          : $router.go(-1)
+      "
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -26,11 +30,7 @@
     <div
       class="absolute left-1/2 top-1/2 transform -translate-y-1/2 -translate-x-1/2 h-full flex justify-center items-center"
     >
-      <button
-        class="text-white"
-        type="button"
-        @click="toggleTheme"
-      >
+      <button class="text-white" type="button" @click="toggleTheme">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -61,12 +61,24 @@
         </svg>
       </button>
     </div>
-    <div class="absolute right-5 top-1/2 cursor-pointer transform -translate-y-1/2 h-full hidden lg:block">
+    <div
+      class="absolute right-5 top-1/2 cursor-pointer transform -translate-y-1/2 h-full hidden lg:block"
+    >
       <div
         class="flex space-x-3 items-center h-full"
         :class="{ hidden: $route.name !== 'messenger' }"
       >
-        <img :src="authenticationStore.user.avatar" alt="avatar" class="rounded-full size-7" @click="$router.push({name: 'user', params: {username: authenticationStore.user.username}})" />
+        <img
+          :src="authenticationStore.user.avatar"
+          alt="avatar"
+          class="rounded-full size-7"
+          @click="
+            $router.push({
+              name: 'user',
+              params: { username: authenticationStore.user.username },
+            })
+          "
+        />
         <button
           class="!p-1 btn-no-w btn-green btn-green-hover text-sm xl:text-md"
           @click="logout"
@@ -95,7 +107,7 @@
 <script lang="ts">
 import TheMobileSidebar from "../layouts/TheMobileSidebar.vue";
 import { useAuthenticationStore } from "../stores/authenticationStore.ts";
-import {useMessengerStore} from "../stores/messengerStore.ts";
+import { useMessengerStore } from "../stores/messengerStore.ts";
 import { mapStores } from "pinia";
 import TheNotifications from "../components/TheNotifications.vue";
 import TheMessengerButton from "../components/messenger/TheMessengerButton.vue";
@@ -131,16 +143,16 @@ export default {
     }
   },
   mounted() {
-    window.addEventListener('resize', this.handleResize);
+    window.addEventListener("resize", this.handleResize);
   },
   unmounted() {
-    window.removeEventListener('resize', this.handleResize);
+    window.removeEventListener("resize", this.handleResize);
   },
   computed: {
     ...mapStores(useAuthenticationStore, useMessengerStore),
     backButtonToMessenger() {
-      return this.windowSize < 1024 && this.messengerStore.activeChat
-    }
+      return this.windowSize < 1024 && this.messengerStore.activeChat;
+    },
   },
 };
 </script>
