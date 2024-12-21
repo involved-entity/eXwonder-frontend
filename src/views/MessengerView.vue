@@ -1,10 +1,11 @@
 <template>
   <div class="w-full flex" style="height: calc(100vh - 45px)">
     <div
-      class="w-[28%] h-full overflow-y-hidden transition-all duration-150 hover:overflow-y-auto overflow-x-hidden relative bg-gray-100 dark:bg-[#151515]"
+      class="h-full overflow-y-auto lg:overflow-y-hidden transition-all duration-150 lg:hover:overflow-y-auto overflow-x-hidden relative bg-gray-100 dark:bg-[#151515]"
+      :class="{'w-[28%]': showActiveChatWindow, 'w-full': !showActiveChatWindow && !messengerStore.activeChat, 'w-0': !showActiveChatWindow && messengerStore.activeChat}"
     >
-      <div class="h-1/6 px-3 py-5 sticky top-0 left-0 z-10">
-        <div class="relative">
+      <div class="h-1/6 px-3 py-5 sticky top-0 left-0 w-full" style="z-index: 1">
+        <div class="relative w-full">
           <input
             type="text"
             class="peer py-3 px-4 block w-full bg-gray-200 dark:bg-neutral-800 border-transparent rounded-xl text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:border-transparent dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
@@ -108,7 +109,7 @@
         </div>
       </div>
     </div>
-    <div class="w-[72%] h-full overflow-y-auto overflow-x-hidden">
+    <div class="h-full overflow-y-auto overflow-x-hidden" :class="{'w-[72%]': showActiveChatWindow, 'w-full': !showActiveChatWindow && messengerStore.activeChat}">
       <TheMessengerActiveChat v-if="messengerStore.activeChat" />
     </div>
   </div>
@@ -143,6 +144,7 @@ export default {
       searchModeEnum: SearchMode,
       searchResults: [] as Array<IChat> | Array<IUserExtendedData>,
       searchLoading: false as boolean,
+      windowSize: window.innerWidth as number,
     };
   },
   methods: {
@@ -158,9 +160,18 @@ export default {
         }
       }
     },
+    handleResize() {
+      this.windowSize = window.innerWidth;
+    },
   },
   beforeRouteLeave() {
     this.messengerStore.activeChat = undefined;
+  },
+  mounted() {
+    window.addEventListener('resize', this.handleResize);
+  },
+  unmounted() {
+    window.removeEventListener('resize', this.handleResize);
   },
   watch: {
     async search() {
@@ -185,6 +196,11 @@ export default {
       this.searchLoading = false;
     },
   },
-  computed: { ...mapStores(useMessengerStore, useUsersStore) },
+  computed: {
+    ...mapStores(useMessengerStore, useUsersStore),
+    showActiveChatWindow() {
+      return this.windowSize >= 1024
+    }
+  },
 };
 </script>

@@ -15,8 +15,8 @@
       <div class="flex space-x-1 items-center">
         <div class="text-default text-sm" v-if="isSender">You:</div>
         <div class="text-default-800 text-sm">
-          {{ chat!.last_message.body.slice(0, 36)
-          }}{{ chat!.last_message.body.length > 35 ? "..." : "" }}
+          {{ chat!.last_message.body.slice(0, maxMessageLen)
+          }}{{ chat!.last_message.body.length > (maxMessageLen - 1) ? "..." : "" }}
         </div>
       </div>
       <div
@@ -36,6 +36,22 @@ export default {
   props: {
     chat: Object,
   },
+  data() {
+    return {
+      w: window.innerWidth as number,
+    }
+  },
+  methods: {
+    handleResize() {
+      this.w = window.innerWidth;
+    },
+  },
+  mounted() {
+    window.addEventListener('resize', this.handleResize);
+  },
+  unmounted() {
+    window.removeEventListener('resize', this.handleResize);
+  },
   computed: {
     ...mapStores(useAuthenticationStore),
     chatTimeAdded() {
@@ -44,7 +60,7 @@ export default {
     isChatUnread() {
       return (
         this.chat!.last_message.sender.id !==
-          this.authenticationStore.user.id && !this.chat!.is_read
+        this.authenticationStore.user.id && !this.chat!.is_read
       );
     },
     isSender() {
@@ -52,6 +68,27 @@ export default {
         this.chat!.last_message.sender.id === this.authenticationStore.user.id
       );
     },
+    maxMessageLen() {
+      if (this.w < 320) {
+        return 25
+      } else if (this.w < 375) {
+        return 30
+      } else if (this.w < 425) {
+        return 36
+      } else if (this.w < 500) {
+        return 50
+      } else if (this.w < 640) {
+        return 65
+      } else if (this.w < 768) {
+        return 75
+      } else if (this.w < 1024) {
+        return 90
+      } else if (this.w < 1280) {
+        return 20
+      } else {
+        return 30
+      }
+    }
   },
 };
 </script>

@@ -2,7 +2,7 @@
   <div class="flex flex-col relative" style="height: calc(100vh - 45px)">
     <header class="h-14 text-default relative bg-gray-100 dark:bg-[#151515]">
       <div
-        class="font-medium dark:font-semibold flex flex-col space-y-0 text-xl absolute left-5 top-1/2 -translate-y-1/2 cursor-pointer"
+        class="font-medium dark:font-semibold flex flex-col space-y-0 text-xl absolute left-1/2 -translate-x-1/2 lg:-translate-x-0 lg:left-5 top-1/2 -translate-y-1/2 cursor-pointer"
         @click="
           $router.push({
             name: 'user',
@@ -10,12 +10,13 @@
           })
         "
       >
-        <div class="m-0">{{ messengerStore.activeChat!.user.username }}</div>
-        <div class="flex m-0">
+        <div class="">{{ messengerStore.activeChat!.user.username }}</div>
+        <div class="flex">
           <button
             type="button"
             class="px-1.5 uppercase font-semibold rounded poppins transition-all duration-300 text-gray-300 bg-emerald-700 text-sm inline-flex disabled:bg-emerald-800 disabled:text-gray-500"
             :disabled="!messengerStore.activeChat!.user.is_online"
+            :class="{'mx-auto': showOnlineStatusCenter}"
           >
             {{
               messengerStore.activeChat!.user.is_online ? "online" : "offline"
@@ -218,6 +219,9 @@ export default {
         .filter(message => message.chat === this.messengerStore.activeChat!.id)
         .toReversed();
     },
+    showOnlineStatusCenter() {
+      return window.innerWidth < 1024
+    }
   },
 };
 </script>

@@ -5,7 +5,7 @@
     <transition name="slide">
       <div
         v-if="isOpen"
-        class="fixed inset-0 bg-black bg-opacity-50 z-20"
+        class="fixed inset-0 bg-black bg-opacity-50 z-40"
         @click="toggleSidebar(false)"
       ></div>
     </transition>
@@ -13,7 +13,7 @@
     <transition name="slide">
       <aside
         v-if="isOpen"
-        class="fixed right-0 top-0 h-full w-3/5 bg-gray-100 dark:bg-[#151515] shadow-lg z-30 transform transition-transform duration-300"
+        class="fixed right-0 top-0 h-full w-3/5 bg-gray-100 dark:bg-[#151515] shadow-lg z-50 transform transition-transform duration-300"
       >
         <div class="text-gray-700 dark:text-gray-300 p-4">
           <AppBurgerButton :nested="true" @changed="toggleSidebar(false)" />
