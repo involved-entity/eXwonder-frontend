@@ -43,28 +43,25 @@
       </div>
     </div>
   </main>
-  <div class="relative">
-    <div class="fixed left-5 top-5 z-50">
-      <app-alert
-        message="Enter 2FA code to login."
-        v-if="$route.query.action === 'login'"
-      />
-    </div>
-  </div>
+  <Alert
+    :message="alertMessage"
+    v-if="showAlert"
+  />
 </template>
 
 <script lang="ts">
 import { mapStores } from "pinia";
 import { useAuthenticationStore } from "../stores/authenticationStore.ts";
-import AppAlert from "../components/AppAlert.vue";
+import Alert from "../components/alert/Alert.vue";
 
 export default {
-  components: { AppAlert },
+  components: { Alert },
   data() {
     return {
       loading: false,
       code: "",
       errors: { code: "" },
+      alertMessage: "Enter 2FA code to login." as string,
     };
   },
   methods: {
@@ -83,10 +80,13 @@ export default {
     },
   },
   computed: {
+    ...mapStores(useAuthenticationStore),
     isValid() {
       return this.code.length === 5;
     },
-    ...mapStores(useAuthenticationStore),
+    showAlert() {
+      return this.$route.query.action === 'login'
+    }
   },
 };
 </script>

@@ -42,25 +42,22 @@
       </div>
     </div>
   </div>
-  <div class="relative">
-    <div class="fixed left-5 top-5 z-50">
-      <app-alert
-        message="Success log in."
-        v-if="$route.query.action === 'login'"
-      />
-    </div>
-  </div>
+  <Alert
+    :message="alertMessage"
+    v-if="showAlert"
+  />
 </template>
 
 <script lang="ts">
-import { IPost, IUserDefaultData } from "@/types/globals/index.js";
+import { IPost, IUserDefaultData } from "../types/globals";
 import { usePostsStore } from "../stores/postsStore.ts";
 import AppUsersScroll from "../components/AppUsersScroll.vue";
 import AppSwipeComponent from "../components/AppSwipeComponent.vue";
 import AppPostsFeed from "../components/AppPostsFeed.vue";
-import AppAlert from "../components/AppAlert.vue";
+import Alert from "../components/alert/Alert.vue";
 import { mapStores } from "pinia";
-import { IResponse } from "@/types/helpers";
+import { IResponse } from "../types/helpers";
+import {getUpdatedFollows} from "../services"
 
 export default {
   data() {
@@ -68,34 +65,41 @@ export default {
       updates: [] as Array<IPost>,
       updatedFollows: [] as Array<IUserDefaultData>,
       loading: false,
-      showSwipeScroll: false,
+      alertMessage: "Success log in." as string,
+      windowSize: window.innerWidth as number
     };
   },
   methods: {
     scroll(value: number) {
-      this.$refs.users.scroll(value);
+      (this.$refs.users as HTMLElement).scrollBy({
+        left: value,
+        behavior: 'smooth'
+      });
     },
-    checkScreenWidth() {
-      this.showSwipeScroll = window.innerWidth < 1024;
+    handleResize() {
+      this.windowSize = window.innerWidth;
     },
   },
   async mounted() {
+    window.addEventListener("resize", this.handleResize);
+
     this.loading = true;
-    this.checkScreenWidth();
-    window.addEventListener("resize", this.checkScreenWidth);
+
     const response: IResponse = await this.postsStore.getPostsTop();
     this.updates = response.data.results;
-    const followsUsernames: Array<string> = [];
-    this.updates.forEach((post: IPost) => {
-      if (!followsUsernames.includes(post.author.username)) {
-        this.updatedFollows.push(post.author);
-        followsUsernames.push(post.author.username);
-      }
-      post.activeImage = 0;
-    });
+    this.updatedFollows = getUpdatedFollows(response.data.results)
+
     this.loading = false;
   },
-  computed: { ...mapStores(usePostsStore) },
-  components: { AppUsersScroll, AppPostsFeed, AppAlert, AppSwipeComponent },
+  computed: {
+    ...mapStores(usePostsStore),
+    showSwipeScroll() {
+      return this.windowSize < 1024
+    },
+    showAlert() {
+      return this.$route.query.action === 'login'
+    }
+  },
+  components: { AppUsersScroll, AppPostsFeed, Alert, AppSwipeComponent },
 };
 </script>

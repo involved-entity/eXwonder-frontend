@@ -77,29 +77,21 @@
       </div>
     </div>
   </main>
-  <div class="relative">
-    <div class="fixed left-5 top-5 z-50">
-      <app-alert
-        message="Success sing up."
-        v-if="$route.query.action === 'sing-up'"
-      />
-      <app-alert
-        message="Login with new password now."
-        v-if="$route.query.action === 'password-reset-success'"
-      />
-    </div>
-  </div>
+  <Alert
+    :message="alertMessage"
+    v-if="showAlert"
+  />
 </template>
 
 <script lang="ts">
 import { mapStores } from "pinia";
 import { useAuthenticationStore } from "../stores/authenticationStore.ts";
-import AppAlert from "../components/AppAlert.vue";
+import Alert from "../components/alert/Alert.vue";
 import { initSocketConnection } from "../helpers";
 import { useMessengerStore } from "../stores/messengerStore.ts";
 
 export default {
-  components: { AppAlert },
+  components: { Alert },
   data() {
     return {
       username: "",
@@ -121,6 +113,7 @@ export default {
           this.errors = { non_field_errors: [] };
           this.authenticationStore.sessionKey = data.session_key;
           this.$router.push({ name: "2fa", query: { action: "login" } });
+
         } else if (success) {
           this.errors = { non_field_errors: [] };
           localStorage.setItem("token", data.token);
@@ -143,6 +136,7 @@ export default {
     },
   },
   computed: {
+    ...mapStores(useAuthenticationStore),
     isValid() {
       if (
         !this.username ||
@@ -155,7 +149,14 @@ export default {
       }
       return true;
     },
-    ...mapStores(useAuthenticationStore),
+    alertMessage() {
+      return this.$route.query.action === 'sing-up' ? "Now log in." : (
+        this.$route.query.action === 'password-reset-success' ? 'Login with new password now.' : undefined
+      )
+    },
+    showAlert() {
+      return this.$route.query.action === 'sing-up' || this.$route.query.action === 'password-reset-success'
+    }
   },
 };
 </script>

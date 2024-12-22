@@ -147,15 +147,11 @@
       </div>
     </div>
   </main>
-  <div class="relative">
-    <div class="fixed left-5 top-5 z-50">
-      <app-alert :message="getAlertMessage" v-if="showAlert" />
-    </div>
-  </div>
+  <Alert :message="alertMessage" v-if="showAlert" />
 </template>
 
 <script lang="ts">
-import { IPost, IUserProfileData, IUserExtendedData } from "@/types/globals";
+import { IPost, IUserProfileData, IUserExtendedData } from "../types/globals";
 import { mapStores } from "pinia";
 import { useUsersStore } from "../stores/usersStore.ts";
 import { usePostsStore } from "../stores/postsStore.ts";
@@ -163,7 +159,7 @@ import { useAuthenticationStore } from "../stores/authenticationStore.ts";
 
 import AppPostsGrid from "../components/AppPostsGrid.vue";
 import AppSubscriptionsModal from "../components/AppSubscriptionsModal.vue";
-import AppAlert from "../components/AppAlert.vue";
+import Alert from "../components/alert/Alert.vue";
 
 export default {
   data() {
@@ -275,7 +271,7 @@ export default {
   },
   computed: {
     ...mapStores(useUsersStore, usePostsStore, useAuthenticationStore),
-    getAlertMessage() {
+    alertMessage() {
       return this.$route.query.action === "new-post"
         ? "Post created."
         : this.$route.query.action === "post-deleted"
@@ -290,6 +286,6 @@ export default {
       );
     },
   },
-  components: { AppAlert, AppPostsGrid, AppSubscriptionsModal },
+  components: { Alert, AppPostsGrid, AppSubscriptionsModal },
 };
 </script>

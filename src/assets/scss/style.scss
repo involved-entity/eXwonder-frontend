@@ -183,21 +183,6 @@ body {
   }
 }
 
-.line {
-  @apply bg-teal-500 absolute bottom-0 left-0;
-  width: 100%;
-  height: 3px;
-  animation: shortenLine 5s forwards;
-}
-@keyframes shortenLine {
-  0% {
-    width: 100%;
-  }
-  100% {
-    width: 0;
-  }
-}
-
 .btn {
   @apply py-1 w-full px-3 uppercase font-semibold rounded border border-transparent transition-all duration-300 poppins;
 }

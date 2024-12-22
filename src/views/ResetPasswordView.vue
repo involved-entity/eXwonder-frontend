@@ -18,22 +18,18 @@
       </div>
     </div>
   </main>
-  <div class="relative">
-    <div class="fixed left-5 top-5 z-50">
-      <app-alert
-        @exited="showAlert = false"
-        message="Check your email now."
-        v-if="showAlert"
-      />
-    </div>
-  </div>
+  <Alert
+    @exited="showAlert = false"
+    message="Check your email now."
+    v-if="showAlert"
+  />
 </template>
 
 <script lang="ts">
 import TheResetPassword from "../components/TheResetPassword.vue";
 import TheResetPasswordConfirm from "../components/TheResetPasswordConfirm.vue";
 import { LocationQueryValue } from "vue-router";
-import AppAlert from "../components/AppAlert.vue";
+import Alert from "../components/alert/Alert.vue";
 
 export default {
   data() {
@@ -51,6 +47,6 @@ export default {
     });
     this.uid = this.$route.query.uid;
   },
-  components: { AppAlert, TheResetPasswordConfirm, TheResetPassword },
+  components: { Alert, TheResetPasswordConfirm, TheResetPassword },
 };
 </script>
