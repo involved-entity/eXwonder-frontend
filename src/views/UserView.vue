@@ -158,7 +158,7 @@ import { usePostsStore } from "../stores/postsStore.ts";
 import { useAuthenticationStore } from "../stores/authenticationStore.ts";
 
 import AppPostsGrid from "../components/AppPostsGrid.vue";
-import AppSubscriptionsModal from "../components/AppSubscriptionsModal.vue";
+import AppSubscriptionsModal from "../components/modals/AppSubscriptionsModal.vue";
 import Alert from "../components/alert/Alert.vue";
 
 export default {

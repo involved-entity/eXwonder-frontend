@@ -153,8 +153,8 @@
 import { PropType } from "vue";
 import { IUserFollowData } from "@/types/globals";
 import { mapStores } from "pinia";
-import { useUsersStore } from "../stores/usersStore.ts";
-import { useAuthenticationStore } from "../stores/authenticationStore.ts";
+import { useUsersStore } from "../../stores/usersStore.ts";
+import { useAuthenticationStore } from "../../stores/authenticationStore.ts";
 import { IResponse } from "@/types/helpers";
 
 export default {

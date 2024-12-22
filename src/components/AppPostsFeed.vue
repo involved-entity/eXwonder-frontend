@@ -293,10 +293,10 @@
 import { PropType } from "vue";
 import { IPost } from "../types/globals";
 import AppLikeButton from "./AppLikeButton.vue";
-import AppPostModal from "./AppPostModal.vue";
+import AppPostModal from "./modals/AppPostModal.vue";
 import AppSavePostButton from "./AppSavePostButton.vue";
 import AppSwipeComponent from "./AppSwipeComponent.vue";
-import AppCommentsModal from "./AppCommentsModal.vue";
+import AppCommentsModal from "./modals/AppCommentsModal.vue";
 import { useCommentsStore } from "../stores/commentsStore.ts";
 import { usePostsStore } from "../stores/postsStore.ts";
 import { useAuthenticationStore } from "../stores/authenticationStore.ts";

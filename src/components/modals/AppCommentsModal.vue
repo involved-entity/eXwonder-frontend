@@ -114,11 +114,11 @@
 
 <script lang="ts">
 import { PropType } from "vue";
-import AppCommentLikeButton from "./AppCommentLikeButton.vue";
-import { IComment, IPost } from "../types/globals/index.js";
+import AppCommentLikeButton from "../AppCommentLikeButton.vue";
+import { IComment, IPost } from "../../types/globals";
 import { mapStores } from "pinia";
-import { useAuthenticationStore } from "../stores/authenticationStore.ts";
-import { useCommentsStore } from "../stores/commentsStore.ts";
+import { useAuthenticationStore } from "../../stores/authenticationStore.ts";
+import { useCommentsStore } from "../../stores/commentsStore.ts";
 
 export default {
   components: { AppCommentLikeButton },

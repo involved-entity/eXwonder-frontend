@@ -112,7 +112,7 @@
 import { PropType } from "vue";
 import { IPost } from "../types/globals";
 import { isElementInViewport } from "../helpers";
-import AppPostModal from "./AppPostModal.vue";
+import AppPostModal from "./modals/AppPostModal.vue";
 
 export default {
   emits: ["updatePostsScroll"],

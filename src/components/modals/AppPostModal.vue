@@ -266,17 +266,17 @@
 </template>
 
 <script lang="ts">
-import { clearActiveClasses } from "../helpers";
+import { clearActiveClasses } from "../../helpers";
 import { PropType } from "vue";
-import { useCommentsStore } from "../stores/commentsStore.ts";
-import { useAuthenticationStore } from "../stores/authenticationStore.ts";
-import { usePostsStore } from "../stores/postsStore.ts";
+import { useCommentsStore } from "../../stores/commentsStore.ts";
+import { useAuthenticationStore } from "../../stores/authenticationStore.ts";
+import { usePostsStore } from "../../stores/postsStore.ts";
 import { mapStores } from "pinia";
-import AppLikeButton from "./AppLikeButton.vue";
-import AppSavePostButton from "./AppSavePostButton.vue";
-import AppCommentLikeButton from "./AppCommentLikeButton.vue";
-import { IComment, IPost } from "../types/globals";
-import AppDeleteDropdown from "./AppDeleteDropdown.vue";
+import AppLikeButton from "../AppLikeButton.vue";
+import AppSavePostButton from "../AppSavePostButton.vue";
+import AppCommentLikeButton from "../AppCommentLikeButton.vue";
+import { IComment, IPost } from "../../types/globals";
+import AppDeleteDropdown from "../AppDeleteDropdown.vue";
 
 export default {
   components: {
