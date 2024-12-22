@@ -93,7 +93,7 @@
     >
       <div class="ml-auto lg:ml-0 my-auto lg:w-6/12">
         <div class="flex justify-end space-x-1">
-          <TheMessengerButton />
+          <NavigateButton />
           <TheNotifications />
         </div>
       </div>
@@ -110,10 +110,10 @@ import { useAuthenticationStore } from "../stores/authenticationStore.ts";
 import { useMessengerStore } from "../stores/messengerStore.ts";
 import { mapStores } from "pinia";
 import TheNotifications from "../components/TheNotifications.vue";
-import TheMessengerButton from "../components/messenger/TheMessengerButton.vue";
+import NavigateButton from "../components/messenger/NavigateButton.vue";
 
 export default {
-  components: { TheMessengerButton, TheNotifications, TheMobileSidebar },
+  components: { NavigateButton, TheNotifications, TheMobileSidebar },
   data() {
     return {
       theme: "dark",

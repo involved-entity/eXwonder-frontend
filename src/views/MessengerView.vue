@@ -56,14 +56,8 @@
             :key="chat.id"
             @click="openChat(chat)"
           >
-            <AppMessengerChat
-              :chat="chat"
-              v-if="chat.last_message.time_added"
-            />
-            <AppMessengerEmptyChat
-              :user="chat.user"
-              v-if="!chat.last_message.time_added"
-            />
+            <Chat :chat="chat" v-if="chat.last_message.time_added" />
+            <EmptyChat :user="chat.user" v-if="!chat.last_message.time_added" />
           </div>
         </div>
 
@@ -86,14 +80,8 @@
             :key="chat.id"
             @click="openChat(chat)"
           >
-            <AppMessengerChat
-              :chat="chat"
-              v-if="chat.last_message.time_added"
-            />
-            <AppMessengerEmptyChat
-              :user="chat.user"
-              v-if="!chat.last_message.time_added"
-            />
+            <Chat :chat="chat" v-if="chat.last_message.time_added" />
+            <EmptyChat :user="chat.user" v-if="!chat.last_message.time_added" />
           </div>
         </div>
 
@@ -111,7 +99,7 @@
             :key="user.id"
             @click="openChat(user, true)"
           >
-            <AppMessengerEmptyChat :user="user" />
+            <EmptyChat :user="user" />
           </div>
         </div>
       </div>
@@ -123,7 +111,7 @@
         'w-full': !showActiveChatWindow && messengerStore.activeChat,
       }"
     >
-      <TheMessengerActiveChat v-if="messengerStore.activeChat" />
+      <ActiveChat v-if="messengerStore.activeChat" />
     </div>
   </div>
 </template>
@@ -133,10 +121,10 @@ import { useMessengerStore } from "../stores/messengerStore.ts";
 import { useUsersStore } from "../stores/usersStore.ts";
 import { mapStores } from "pinia";
 import { IChat } from "../types/stores";
-import AppMessengerChat from "../components/messenger/AppMessengerChat.vue";
+import Chat from "../components/messenger/Chat.vue";
 import { IUserExtendedData } from "../types/globals";
-import TheMessengerActiveChat from "../components/messenger/TheMessengerActiveChat.vue";
-import AppMessengerEmptyChat from "../components/messenger/AppMessengerEmptyChat.vue";
+import ActiveChat from "../components/messenger/ActiveChat.vue";
+import EmptyChat from "../components/messenger/EmptyChat.vue";
 import { useAuthenticationStore } from "../stores/authenticationStore.ts";
 
 enum SearchMode {
@@ -146,9 +134,9 @@ enum SearchMode {
 
 export default {
   components: {
-    AppMessengerEmptyChat,
-    TheMessengerActiveChat,
-    AppMessengerChat,
+    EmptyChat,
+    ActiveChat,
+    Chat,
   },
   data() {
     return {

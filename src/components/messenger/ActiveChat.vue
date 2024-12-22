@@ -51,7 +51,7 @@
               {{ getDateByTimeAdded(message.time_added.time_added) }}
             </div>
           </div>
-          <AppMessengerMessage :message="message" @editMessage="editMessage" />
+          <Message :message="message" @editMessage="editMessage" />
         </div>
       </div>
     </div>
@@ -118,13 +118,13 @@
 <script lang="ts">
 import { mapStores } from "pinia";
 import { useMessengerStore } from "../../stores/messengerStore.ts";
-import AppMessengerMessage from "./AppMessengerMessage.vue";
+import Message from "./Message.vue";
 import { parseDate } from "../../helpers";
 import AppDeleteDropdown from "../AppDeleteDropdown.vue";
 import { IMessage } from "../../types/stores";
 
 export default {
-  components: { AppDeleteDropdown, AppMessengerMessage },
+  components: { AppDeleteDropdown, Message },
   data() {
     return {
       message: "" as string,
@@ -162,15 +162,17 @@ export default {
             this.attachment as File
           );
         }
-        this.message = "";
-        this.attachment = undefined;
+        this.resetMessage();
       }
+    },
+    resetMessage() {
+      this.message = "";
+      this.attachment = undefined;
     },
     isDatesInDifferentDays(dateStr1: string, dateStr2: string): boolean {
       const date1 = parseDate(dateStr1);
       const date2 = parseDate(dateStr2);
-
-      const res: boolean =
+      const res =
         date1.getFullYear() !== date2.getFullYear() ||
         date1.getDate() !== date2.getDate();
       this.activeDay = res ? dateStr2 : dateStr1;
@@ -192,7 +194,6 @@ export default {
         "november",
         "december",
       ];
-
       return [date[0], monthNames[+date[1] - 1], date[2]].join(" ");
     },
   },

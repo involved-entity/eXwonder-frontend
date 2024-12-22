@@ -2,19 +2,14 @@
   <div class="flex gap-x-2 sm:gap-x-3" v-if="!isSender">
     <img
       class="inline-block size-9 rounded-full cursor-pointer"
-      @click="
-        $router.push({
-          name: 'user',
-          params: { username: message.sender.username },
-        })
-      "
+      @click="navigateToUser"
       :src="message.sender.avatar"
       :alt="message.sender.username"
     />
-    <TheMessengerMessageBody :message="message" />
+    <MessageBody :message="message" />
   </div>
   <div class="flex justify-end sm:mr-3 gap-x-2 sm:gap-x-3" v-else>
-    <TheMessengerMessageBody
+    <MessageBody
       :message="message"
       :isSender="true"
       @deleteMessage="messengerStore.markMessageDelete"
@@ -22,12 +17,7 @@
     />
     <img
       class="inline-block size-9 rounded-full cursor-pointer"
-      @click="
-        $router.push({
-          name: 'user',
-          params: { username: message.sender.username },
-        })
-      "
+      @click="navigateToUser"
       :src="message.sender.avatar"
       :alt="message.sender.username"
     />
@@ -35,7 +25,7 @@
 </template>
 
 <script lang="ts">
-import TheMessengerMessageBody from "./TheMessengerMessageBody.vue";
+import MessageBody from "./MessageBody.vue";
 import { mapStores } from "pinia";
 import { useAuthenticationStore } from "../../stores/authenticationStore.ts";
 import { useMessengerStore } from "../../stores/messengerStore.ts";
@@ -43,7 +33,7 @@ import { IMessage } from "../../types/stores";
 
 export default {
   emits: ["editMessage"],
-  components: { TheMessengerMessageBody },
+  components: { MessageBody },
   props: {
     message: {
       type: Object,
@@ -53,6 +43,12 @@ export default {
   methods: {
     emitEditMessage(message: IMessage) {
       this.$emit("editMessage", message);
+    },
+    navigateToUser() {
+      this.$router.push({
+        name: "user",
+        params: { username: this.message.sender.username },
+      });
     },
   },
   computed: {

@@ -8,9 +8,14 @@
 </template>
 
 <script lang="ts">
+import { IUserDefaultData } from "../../types/globals";
+
 export default {
   props: {
-    user: Object,
+    user: {
+      type: Object as () => IUserDefaultData,
+      required: true,
+    },
   },
 };
 </script>

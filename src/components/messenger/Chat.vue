@@ -40,12 +40,12 @@ export default {
   },
   data() {
     return {
-      w: window.innerWidth as number,
+      windowSize: window.innerWidth as number,
     };
   },
   methods: {
     handleResize() {
-      this.w = window.innerWidth;
+      this.windowSize = window.innerWidth;
     },
   },
   mounted() {
@@ -71,25 +71,25 @@ export default {
       );
     },
     maxMessageLen() {
-      if (this.w < 320) {
-        return 25;
-      } else if (this.w < 375) {
-        return 30;
-      } else if (this.w < 425) {
-        return 36;
-      } else if (this.w < 500) {
-        return 50;
-      } else if (this.w < 640) {
-        return 65;
-      } else if (this.w < 768) {
-        return 75;
-      } else if (this.w < 1024) {
-        return 90;
-      } else if (this.w < 1280) {
-        return 20;
-      } else {
-        return 30;
+      const breakpoints = [
+        { maxWidth: 320, length: 25 },
+        { maxWidth: 375, length: 30 },
+        { maxWidth: 425, length: 36 },
+        { maxWidth: 500, length: 50 },
+        { maxWidth: 640, length: 65 },
+        { maxWidth: 768, length: 75 },
+        { maxWidth: 1024, length: 90 },
+        { maxWidth: 1280, length: 20 },
+        { maxWidth: Infinity, length: 30 },
+      ];
+
+      for (const breakpoint of breakpoints) {
+        if (this.windowSize < breakpoint.maxWidth) {
+          return breakpoint.length;
+        }
       }
+
+      return 30;
     },
   },
 };

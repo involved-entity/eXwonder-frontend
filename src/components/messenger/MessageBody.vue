@@ -163,7 +163,7 @@ export default {
   computed: {
     fileName() {
       const file = this.message.attachment.name;
-      const maxLength = 25;
+      const maxLength = 30;
       const lastDotIndex = file.lastIndexOf(".");
       const namePart = lastDotIndex !== -1 ? file.slice(0, lastDotIndex) : file;
       const extensionPart = lastDotIndex !== -1 ? file.slice(lastDotIndex) : "";
