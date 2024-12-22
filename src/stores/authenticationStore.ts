@@ -1,10 +1,10 @@
 import { defineStore } from "pinia";
 import axios from "axios";
-import { Methods, initSocketConnection, request } from "../helpers";
+import { Methods, request } from "../helpers";
 import { IAuthenticationStoreState, IUserPublicData } from "../types/stores";
 import { IResponse } from "../types/helpers";
-import { useAccountStore } from "../stores/accountStore.ts";
-import { useMessengerStore } from "../stores/messengerStore.ts";
+import { useMessengerStore } from "./messengerStore.ts";
+import { useNotificationsStore } from "./notificationsStore.ts";
 
 export const useAuthenticationStore = defineStore("authentication", {
   state(): IAuthenticationStoreState {
@@ -20,7 +20,6 @@ export const useAuthenticationStore = defineStore("authentication", {
         avatar: undefined,
       },
       sessionKey: undefined,
-      socket: undefined,
       isAuth: !!localStorage.getItem("token"),
       token: localStorage.getItem("token") ?? "",
       availibleTimezones: [],
@@ -55,9 +54,10 @@ export const useAuthenticationStore = defineStore("authentication", {
         this.token = data.token;
         this.user.id = data.user_id;
         this.isAuth = true;
-        initSocketConnection();
         const messengerStore = useMessengerStore();
         messengerStore.initMessenger();
+        const notifsStore = useNotificationsStore();
+        notifsStore.initNotifications();
       }
       return { success, data };
     },
@@ -90,12 +90,10 @@ export const useAuthenticationStore = defineStore("authentication", {
       localStorage.removeItem("token");
       localStorage.removeItem("user_id");
       this.isAuth = false;
-      this.socket!.close(1000);
-      this.socket = undefined;
       const messengerStore = useMessengerStore();
       messengerStore.closeAndClear();
-      const accountStore = useAccountStore();
-      accountStore.notifications = [];
+      const notifsStore = useNotificationsStore();
+      notifsStore.closeAndClear();
       this.user.id = 0;
       this.user.username = "";
       this.user.avatar = undefined;

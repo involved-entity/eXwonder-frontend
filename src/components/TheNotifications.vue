@@ -16,7 +16,7 @@
         </svg>
         <div
           class="absolute top-0 right-1 bg-red-600 rounded-full size-3 text-white"
-          v-if="accountStore.notifications.length"
+          v-if="notifsStore.notifications.length"
         ></div>
       </div>
     </div>
@@ -24,7 +24,7 @@
       class="absolute -end-[120px] z-10 mt-3 w-60 rounded-lg bg-gray-200 dark:bg-[#181818] shadow-lg shadow-slate-900/50"
       role="menu"
       ref="notificationsDropdown"
-      v-if="show && accountStore.notifications.length"
+      v-if="show && notifsStore.notifications.length"
     >
       <div class="p-2">
         <div
@@ -36,7 +36,7 @@
         <div
           class="block rounded-lg px-2 py-2 text-xs text-gray-500 hover:bg-gray-300 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-[#151515] dark:hover:text-gray-300"
           role="menuitem"
-          v-for="notification in accountStore.notifications"
+          v-for="notification in notifsStore.notifications"
           :key="notification.id"
           @click="checkNotification(notification)"
         >
@@ -68,9 +68,8 @@
 </template>
 
 <script lang="ts">
-import { useAccountStore } from "../stores/accountStore.ts";
 import { mapStores } from "pinia";
-import { initSocketConnection } from "../helpers";
+import { useNotificationsStore } from "../stores/notificationsStore.ts";
 import { useAuthenticationStore } from "../stores/authenticationStore.ts";
 import { INotification } from "../types/globals";
 
@@ -88,32 +87,18 @@ export default {
       document.body.removeEventListener("click", this.handleClick);
     },
     showDropdown() {
-      if (this.accountStore.notifications.length) {
+      if (this.notifsStore.notifications.length) {
         this.show = true;
         document.body.addEventListener("click", this.handleClick);
       }
     },
     checkNotification(notification: INotification) {
-      this.markRead(notification.id);
+      this.notifsStore.markRead(notification.id);
       this.closeDropdown();
       this.$router.push("/" + notification.receiver.username + "/");
     },
-    markRead(id: number) {
-      const data = JSON.stringify({
-        type: "mark_read",
-        id,
-      });
-      this.authenticationStore.socket!.send(data);
-      this.accountStore.notifications = this.accountStore.notifications.filter(
-        notification => notification.id !== id
-      );
-    },
     markAllRead() {
-      const data = JSON.stringify({
-        type: "mark_all_read",
-      });
-      this.authenticationStore.socket!.send(data);
-      this.accountStore.notifications = [];
+      this.notifsStore.markAllRead();
       this.closeDropdown();
     },
     handleClick(event: Event) {
@@ -128,11 +113,11 @@ export default {
     },
   },
   mounted() {
-    initSocketConnection();
+    this.notifsStore.initNotifications();
   },
   unmounted() {
     document.body.removeEventListener("click", this.handleClick);
   },
-  computed: { ...mapStores(useAccountStore, useAuthenticationStore) },
+  computed: { ...mapStores(useNotificationsStore, useAuthenticationStore) },
 };
 </script>

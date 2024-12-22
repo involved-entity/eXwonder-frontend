@@ -77,18 +77,15 @@
       </div>
     </div>
   </main>
-  <Alert
-    :message="alertMessage"
-    v-if="showAlert"
-  />
+  <Alert :message="alertMessage" v-if="showAlert" />
 </template>
 
 <script lang="ts">
 import { mapStores } from "pinia";
 import { useAuthenticationStore } from "../stores/authenticationStore.ts";
 import Alert from "../components/alert/Alert.vue";
-import { initSocketConnection } from "../helpers";
 import { useMessengerStore } from "../stores/messengerStore.ts";
+import { useNotificationsStore } from "../stores/notificationsStore.ts";
 
 export default {
   components: { Alert },
@@ -113,7 +110,6 @@ export default {
           this.errors = { non_field_errors: [] };
           this.authenticationStore.sessionKey = data.session_key;
           this.$router.push({ name: "2fa", query: { action: "login" } });
-
         } else if (success) {
           this.errors = { non_field_errors: [] };
           localStorage.setItem("token", data.token);
@@ -122,9 +118,10 @@ export default {
           this.authenticationStore.user.id = data.user_id;
           this.authenticationStore.isAuth = true;
 
-          initSocketConnection();
           const messengerStore = useMessengerStore();
           messengerStore.initMessenger();
+          const notifsStore = useNotificationsStore();
+          notifsStore.initNotifications();
 
           this.$router.push({ name: "feed", query: { action: "login" } });
         } else {
@@ -150,13 +147,18 @@ export default {
       return true;
     },
     alertMessage() {
-      return this.$route.query.action === 'sing-up' ? "Now log in." : (
-        this.$route.query.action === 'password-reset-success' ? 'Login with new password now.' : undefined
-      )
+      return this.$route.query.action === "sing-up"
+        ? "Now log in."
+        : this.$route.query.action === "password-reset-success"
+          ? "Login with new password now."
+          : undefined;
     },
     showAlert() {
-      return this.$route.query.action === 'sing-up' || this.$route.query.action === 'password-reset-success'
-    }
+      return (
+        this.$route.query.action === "sing-up" ||
+        this.$route.query.action === "password-reset-success"
+      );
+    },
   },
 };
 </script>

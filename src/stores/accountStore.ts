@@ -4,14 +4,8 @@ import { useAuthenticationStore } from "./authenticationStore.ts";
 import { Methods, request } from "../helpers";
 import { IUserSettingsUpdates } from "../types/stores";
 import { IResponse } from "../types/helpers";
-import { INotification } from "../types/globals";
 
 export const useAccountStore = defineStore("account", {
-  state() {
-    return {
-      notifications: [] as Array<INotification>,
-    };
-  },
   actions: {
     async updateSettings(
       updates: IUserSettingsUpdates

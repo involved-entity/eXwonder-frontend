@@ -14,7 +14,6 @@ interface IAuthenticationStoreUser {
 interface IAuthenticationStoreState {
   user: IAuthenticationStoreUser;
   sessionKey?: string;
-  socket: undefined | WebSocket;
   isAuth: boolean;
   token: string;
   availibleTimezones: Array<string>;
