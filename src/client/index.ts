@@ -1,9 +1,6 @@
 import axios from "axios";
 import { ApiUrl } from "../settings.ts";
-
-interface IDefaultAxiosInstanceOptions {
-  baseURL: string;
-}
+import { IDefaultAxiosInstanceOptions } from "../types/client";
 
 function fetchClient() {
   const defaultOptions: IDefaultAxiosInstanceOptions = {
