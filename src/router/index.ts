@@ -24,98 +24,25 @@ declare global {
 }
 
 const routes: Array<IRoute> = [
-  {
-    path: "/feed/",
-    name: "feed",
-    component: FeedView,
-    meta: { requireLogin: true },
-  },
-  {
-    path: "/login/",
-    name: "login",
-    component: LoginView,
-    meta: { requireNoLogin: true },
-  },
-  {
-    path: "/sing-up/",
-    name: "sing-up",
-    component: SingUpView,
-    meta: { requireNoLogin: true },
-  },
-  {
-    path: "/2fa/",
-    name: "2fa",
-    component: TwoFactorAuthenticationView,
-    meta: { requireNoLogin: true },
-  },
-  {
-    path: "/reset-password/",
-    name: "reset-password",
-    component: ResetPasswordView,
-    meta: { requireNoLogin: true },
-  },
-  {
-    path: "/new/",
-    name: "new-post",
-    component: NewPostView,
-    meta: { requireLogin: true },
-  },
-  {
-    path: "/search/",
-    name: "search-user",
-    component: SearchView,
-    meta: { requireLogin: true },
-  },
-  {
-    path: "/explore/",
-    name: "explore",
-    component: ExploreView,
-    meta: { requireLogin: true },
-  },
-  {
-    path: "/saved/",
-    name: "saved-posts",
-    component: SavedPostsView,
-    meta: { requireLogin: true },
-  },
-  {
-    path: "/settings/",
-    name: "settings",
-    component: SettingsView,
-    meta: { requireLogin: true },
-  },
-  {
-    path: "/change-password/",
-    name: "change-password",
-    component: ChangePasswordView,
-    meta: { requireLogin: true },
-  },
-  {
-    path: "/:username/",
-    name: "user",
-    component: UserView,
-    meta: { requireLogin: true },
-  },
-  {
-    path: "/:username/:id/",
-    name: "user-post",
-    component: UserPostView,
-    meta: { requireLogin: true },
-  },
-  {
-    path: "/messenger/",
-    name: "messenger",
-    component: MessengerView,
-    meta: {
-      requireLogin: true,
-      fullWidth: true,
-    },
-  },
+  { path: "/feed/", name: "feed", component: FeedView, meta: { requireLogin: true } },
+  { path: "/login/", name: "login", component: LoginView, meta: { requireNoLogin: true } },
+  { path: "/sing-up/", name: "sing-up", component: SingUpView, meta: { requireNoLogin: true } },
+  { path: "/2fa/", name: "2fa", component: TwoFactorAuthenticationView, meta: { requireNoLogin: true } },
+  { path: "/reset-password/", name: "reset-password", component: ResetPasswordView, meta: { requireNoLogin: true } },
+  { path: "/new/", name: "new-post", component: NewPostView, meta: { requireLogin: true } },
+  { path: "/search/", name: "search-user", component: SearchView, meta: { requireLogin: true } },
+  { path: "/explore/", name: "explore", component: ExploreView, meta: { requireLogin: true } },
+  { path: "/saved/", name: "saved-posts", component: SavedPostsView, meta: { requireLogin: true } },
+  { path: "/settings/", name: "settings", component: SettingsView, meta: { requireLogin: true } },
+  { path: "/change-password/", name: "change-password", component: ChangePasswordView, meta: { requireLogin: true } },
+  { path: "/:username/", name: "user", component: UserView, meta: { requireLogin: true } },
+  { path: "/:username/:id/", name: "user-post", component: UserPostView, meta: { requireLogin: true } },
+  { path: "/messenger/", name: "messenger", component: MessengerView, meta: { requireLogin: true, fullWidth: true } },
 ];
 
 const router = createRouter({
-  routes,
   history: createWebHistory(),
+  routes,
   linkActiveClass: "active",
 });
 
@@ -128,13 +55,13 @@ router.beforeEach((to, from, next) => {
 
   if (
     (to.meta.requireNoLogin && authenticationStore.isAuth) ||
-    (to.name === "2fa" && !(from.name === "login")) ||
+    (to.name === "2fa" && from.name !== "login") ||
     to.path === "/"
   ) {
     return next({ name: "feed" });
   }
 
-  return next();
+  next();
 });
 
 router.afterEach((to, from, failure) => {
