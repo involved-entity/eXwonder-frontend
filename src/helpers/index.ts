@@ -1,10 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios";
 import client from "../client/index.js";
 import { IResponse } from "../types/helpers";
-import { useAuthenticationStore } from "../stores/authenticationStore.ts";
-import { useAccountStore } from "../stores/accountStore.ts";
 import { z } from "zod";
-import { NotificationsUrl } from "../settings.ts";
 
 enum Methods {
   GET = "get",
@@ -18,27 +15,19 @@ async function request(
   url: string,
   data?: object,
   config?: AxiosRequestConfig,
-  ...expectedStatuses: Array<number>
+  ...expectedStatuses: number[]
 ): Promise<IResponse> {
-  if (expectedStatuses.length === 0) {
-    expectedStatuses = [axios.HttpStatusCode.Ok];
-  }
+  const statuses = expectedStatuses.length
+    ? expectedStatuses
+    : [axios.HttpStatusCode.Ok];
 
-  const args: [string, object?, AxiosRequestConfig?] = data
-    ? [url, data, config]
-    : [url, config];
-  const response = await client[method](...args).catch(error => error);
-
-  if (expectedStatuses.includes(response.status)) {
-    return {
-      success: true,
-      data: response.data,
-    };
-  } else {
-    return {
-      success: false,
-      data: response.response.data,
-    };
+  try {
+    const response = await client[method](url, data, config);
+    return statuses.includes(response.status)
+      ? { success: true, data: response.data }
+      : { success: false, data: response.data };
+  } catch (error) {
+    return { success: false, data: error.response?.data || null };
   }
 }
 
@@ -54,27 +43,18 @@ function isElementInViewport(el?: HTMLElement): boolean {
   );
 }
 
-function clearActiveClasses() {
-  const removeActive = document.querySelectorAll<HTMLElement>(".remove-active");
-  removeActive.forEach(el => {
+function clearActiveClasses(): void {
+  document.querySelectorAll<HTMLElement>(".remove-active").forEach(el => {
     el.classList.remove("active");
   });
 }
 
 function checkIsEmailValid(email: string): boolean {
-  if (email.length === 0) return true;
-  const emailChecker = z.string().email();
-  return emailChecker.safeParse(email).success;
+  return email.length === 0 || z.string().email().safeParse(email).success;
 }
 
-function arrayBufferToBase64(buffer: unknown) {
-  let binary = "";
-  const bytes = new Uint8Array(buffer);
-  const len = bytes.byteLength;
-  for (let i = 0; i < len; i++) {
-    binary += String.fromCharCode(bytes[i]);
-  }
-  return window.btoa(binary);
+function arrayBufferToBase64(buffer: ArrayBuffer): string {
+  return window.btoa(String.fromCharCode(...new Uint8Array(buffer)));
 }
 
 function parseDate(dateStr: string): Date {
@@ -92,7 +72,6 @@ function messengerFormatDate(input: string): string {
   const now = new Date();
 
   const timeDiff = now.getTime() - inputDate.getTime();
-
   const twelveHours = 12 * 60 * 60 * 1000;
   const sevenDays = 7 * 24 * 60 * 60 * 1000;
 
@@ -112,7 +91,6 @@ export {
   isElementInViewport,
   clearActiveClasses,
   checkIsEmailValid,
-  initSocketConnection,
   arrayBufferToBase64,
   messengerFormatDate,
   parseDate,
