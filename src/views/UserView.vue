@@ -5,10 +5,7 @@
         <div class="py-10" v-if="loading">
           <div class="loader mx-auto"></div>
         </div>
-        <div
-          class="text-gray-700 dark:text-gray-300"
-          v-else-if="errorFetchUser.length"
-        >
+        <div class="text-gray-700 dark:text-gray-300" v-else-if="errorFetchUser.length">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -36,9 +33,7 @@
               />
             </div>
             <div class="ms-2 relative">
-              <p
-                class="text-gray-700 dark:text-gray-300 text-lg lg:text-xl mt-5"
-              >
+              <p class="text-gray-700 dark:text-gray-300 text-lg lg:text-xl mt-5">
                 {{ requestedUser.username }}
               </p>
               <button
@@ -53,9 +48,7 @@
               >
                 {{ followings.followed ? "Followed" : "Follow" }}
               </button>
-              <div
-                class="flex text-xl text-gray-600 dark:text-gray-400 pb-1 mt-auto"
-              >
+              <div class="flex text-xl text-gray-600 dark:text-gray-400 pb-1 mt-auto">
                 <div class="pr-4">
                   <div class="text-base lg:text-xl">
                     <span
@@ -69,8 +62,8 @@
                   class="pr-4"
                   :class="{
                     'cursor-pointer hover:text-gray-500':
-                      authenticationStore.user.username ===
-                        requestedUser.username && followings.followersCount > 0,
+                      authenticationStore.user.username === requestedUser.username &&
+                      followings.followersCount > 0,
                   }"
                   @click="showModal('followers')"
                 >
@@ -84,8 +77,7 @@
                 </div>
                 <div
                   :class="{
-                    'cursor-pointer hover:text-gray-500':
-                      followings.followingsCount > 0,
+                    'cursor-pointer hover:text-gray-500': followings.followingsCount > 0,
                   }"
                   @click="showModal('followings')"
                 >
@@ -98,9 +90,7 @@
                   </div>
                 </div>
               </div>
-              <p
-                class="text-lg text-gray-700 dark:text-gray-300 font-semibold pr-5"
-              >
+              <p class="text-lg text-gray-700 dark:text-gray-300 font-semibold pr-5">
                 {{ requestedUser.name }}
               </p>
               <p class="text-sm text-gray-600 dark:text-gray-400 pr-5">
@@ -113,11 +103,7 @@
             <hr class="border border-gray-600" />
           </div>
 
-          <app-posts-grid
-            :posts="posts"
-            @updatePostsScroll="getPostsNextPage"
-            v-if="posts"
-          />
+          <app-posts-grid :posts="posts" @updatePostsScroll="getPostsNextPage" v-if="posts" />
           <app-subscriptions-modal
             :follows-count="followings.followersCount"
             follow-mode="followers"
@@ -151,7 +137,7 @@
 </template>
 
 <script lang="ts">
-import { IPost, IUserProfileData, IUserExtendedData } from "../types/globals";
+import { IPost, IUserExtendedData } from "../types/globals";
 import { mapStores } from "pinia";
 import { useUsersStore } from "../stores/usersStore.ts";
 import { usePostsStore } from "../stores/postsStore.ts";
@@ -160,6 +146,7 @@ import { useAuthenticationStore } from "../stores/authenticationStore.ts";
 import AppPostsGrid from "../components/AppPostsGrid.vue";
 import AppSubscriptionsModal from "../components/modals/AppSubscriptionsModal.vue";
 import Alert from "../components/alert/Alert.vue";
+import { IUserProfileData } from "../types/IUserProfileData.ts";
 
 export default {
   data() {
@@ -197,9 +184,7 @@ export default {
           this.followings.followersCount++;
         }
       } else {
-        const { success } = await this.usersStore.disfollow(
-          this.requestedUser.id
-        );
+        const { success } = await this.usersStore.disfollow(this.requestedUser.id);
         if (success) {
           this.followings.followed = false;
           this.followings.followersCount--;
@@ -210,8 +195,7 @@ export default {
       switch (modalType) {
         case "followers":
           if (
-            this.authenticationStore.user.username ===
-              this.requestedUser.username &&
+            this.authenticationStore.user.username === this.requestedUser.username &&
             this.followings.followersCount > 0
           ) {
             this.showFollowersModal = true;
@@ -240,9 +224,7 @@ export default {
         this.followings.followersCount = data.followers_count;
         this.followings.followingsCount = data.followings_count;
         this.followings.followed = data.is_followed;
-        const posts = await this.postsStore.getUserPosts(
-          this.requestedUser.username
-        );
+        const posts = await this.postsStore.getUserPosts(this.requestedUser.username);
         this.posts = posts.data.results;
         this.postsCount = posts.data.count;
         this.currentPage = posts.data.next ? 2 : undefined;

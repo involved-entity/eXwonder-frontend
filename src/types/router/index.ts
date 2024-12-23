@@ -6,8 +6,6 @@ interface IRouteMeta {
   fullWidth?: boolean;
 }
 
-type IRoute = RouteRecordRaw & {
+export type IRoute = RouteRecordRaw & {
   meta: IRouteMeta;
 };
-
-export { IRoute };

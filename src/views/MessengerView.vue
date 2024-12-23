@@ -8,10 +8,7 @@
         'w-0': !showActiveChatWindow && messengerStore.activeChat,
       }"
     >
-      <div
-        class="h-1/6 px-3 py-5 sticky top-0 left-0 w-full"
-        style="z-index: 1"
-      >
+      <div class="h-1/6 px-3 py-5 sticky top-0 left-0 w-full" style="z-index: 1">
         <div class="relative w-full">
           <input
             type="text"
@@ -49,8 +46,7 @@
             class="hover:bg-transparent/10 dark:hover:bg-transparent/20 w-full px-3 flex relative py-3 cursor-pointer"
             :class="{
               'bg-transparent/10 dark:bg-transparent/20':
-                messengerStore.activeChat &&
-                chat.id === messengerStore.activeChat!.id,
+                messengerStore.activeChat && chat.id === messengerStore.activeChat!.id,
             }"
             v-for="chat in messengerStore.chats"
             :key="chat.id"
@@ -73,8 +69,7 @@
             class="hover:bg-transparent/10 dark:hover:bg-transparent/20 w-full px-3 flex relative py-3 cursor-pointer"
             :class="{
               'bg-transparent/10 dark:bg-transparent/20':
-                messengerStore.activeChat &&
-                chat.id === messengerStore.activeChat!.id,
+                messengerStore.activeChat && chat.id === messengerStore.activeChat!.id,
             }"
             v-for="chat in searchResults"
             :key="chat.id"
@@ -120,9 +115,8 @@
 import { useMessengerStore } from "../stores/messengerStore.ts";
 import { useUsersStore } from "../stores/usersStore.ts";
 import { mapStores } from "pinia";
-import { IChat } from "../types/stores";
 import Chat from "../components/messenger/Chat.vue";
-import { IUserExtendedData } from "../types/globals";
+import { IChat, IUserExtendedData } from "../types/globals";
 import ActiveChat from "../components/messenger/ActiveChat.vue";
 import EmptyChat from "../components/messenger/EmptyChat.vue";
 import { useAuthenticationStore } from "../stores/authenticationStore.ts";
@@ -186,9 +180,7 @@ export default {
       } else if (this.search.length >= 3) {
         const authStore = useAuthenticationStore();
         this.searchResults = await this.usersStore.searchUsers(this.search);
-        this.searchResults = this.searchResults.filter(
-          res => res.id !== authStore.user.id
-        );
+        this.searchResults = this.searchResults.filter(res => res.id !== authStore.user.id);
         this.searchMode = SearchMode.USERS;
       } else {
         this.searchResults = [];

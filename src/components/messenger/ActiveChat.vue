@@ -113,7 +113,8 @@ import { useMessengerStore } from "../../stores/messengerStore.ts";
 import Message from "./Message.vue";
 import { parseDate } from "../../helpers";
 import AppDeleteDropdown from "../AppDeleteDropdown.vue";
-import { IMessage } from "../../types/stores";
+
+import { IMessage } from "@/types/globals";
 
 export default {
   components: { AppDeleteDropdown, Message },

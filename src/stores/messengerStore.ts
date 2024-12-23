@@ -1,8 +1,8 @@
 import { defineStore } from "pinia";
 import { MessengerUrl } from "../settings.ts";
-import { IMessage, IChat, ISendMessage, IEditMessage } from "../types/stores";
+import { ISendMessage, IEditMessage } from "../types/stores";
 import { useAuthenticationStore } from "../stores/authenticationStore.ts";
-import { IUserDefaultData, IUserExtendedData } from "../types/globals";
+import { IChat, IMessage, IUserDefaultData, IUserExtendedData } from "../types/globals";
 import { arrayBufferToBase64, parseDate } from "../helpers";
 
 export const useMessengerStore = defineStore("messenger", {

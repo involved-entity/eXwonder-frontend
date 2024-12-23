@@ -1,15 +1,11 @@
 <template>
-  <div
-    class="fixed inset-0 bg-opacity-90 bg-black flex justify-center items-center z-50"
-  >
+  <div class="fixed inset-0 bg-opacity-90 bg-black flex justify-center items-center z-50">
     <div class="flex h-3/5 lg:h-2/3 text-gray-700 dark:text-gray-300">
       <div
         class="overflow-y-auto flex flex-col mb-auto max-h-full w-[21rem] lg:w-[28rem] rounded-xl bg-gray-200 dark:bg-[#111]"
         ref="modal"
       >
-        <div
-          class="sticky top-0 left-0 pt-3 pb-1 z-[1] bg-gray-300 dark:bg-[#070707]"
-        >
+        <div class="sticky top-0 left-0 pt-3 pb-1 z-[1] bg-gray-300 dark:bg-[#070707]">
           <div class="grid grid-cols-2 mx-3">
             <div class="col-span-1 text-2xl flex justify-start">
               {{ followMode.charAt(0).toUpperCase() + followMode.slice(1) }}
@@ -67,9 +63,7 @@
                     />
                   </router-link>
                 </div>
-                <div
-                  class="ms-3 my-auto text-gray-700 dark:text-gray-300 text-lg"
-                >
+                <div class="ms-3 my-auto text-gray-700 dark:text-gray-300 text-lg">
                   <div class="flex">
                     <router-link
                       :to="'/' + follow[followField].username + '/'"
@@ -86,16 +80,12 @@
                         'bg-blue-500': !follow.is_followed,
                       }"
                       @click="followUser(follow)"
-                      v-if="
-                        authenticationStore.user.id !== follow[followField].id
-                      "
+                      v-if="authenticationStore.user.id !== follow[followField].id"
                     >
                       {{ follow.is_followed ? "Followed" : "Follow" }}
                     </button>
                   </div>
-                  <div
-                    class="flex text-xl text-gray-600 dark:text-gray-400 pb-1 mt-auto"
-                  >
+                  <div class="flex text-xl text-gray-600 dark:text-gray-400 pb-1 mt-auto">
                     <div class="pr-4">
                       <div class="text-sm lg:text-lg">
                         <span
@@ -151,11 +141,11 @@
 
 <script lang="ts">
 import { PropType } from "vue";
-import { IUserFollowData } from "@/types/globals";
+import { IUserFollowData } from "../../types/IUserFollowData.ts";
 import { mapStores } from "pinia";
 import { useUsersStore } from "../../stores/usersStore.ts";
 import { useAuthenticationStore } from "../../stores/authenticationStore.ts";
-import { IResponse } from "@/types/helpers";
+import { IResponse } from "../../types/helpers";
 
 export default {
   emits: ["close", "userLeave"],
@@ -241,8 +231,7 @@ export default {
       response = await this.usersStore.getUserFollowings(this.requestedUserId);
     }
     this.follows = response!.data.results;
-    this.followField =
-      this.followMode === "followers" ? "follower" : "following";
+    this.followField = this.followMode === "followers" ? "follower" : "following";
     document.body.addEventListener("click", this.handleClick);
     this.followsLoading = false;
   },

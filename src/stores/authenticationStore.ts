@@ -1,10 +1,11 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 import { Methods, request } from "../helpers";
-import { IAuthenticationStoreState, IUserPublicData } from "../types/stores";
+import { IAuthenticationStoreState } from "../types/stores";
 import { IResponse } from "../types/helpers";
 import { useMessengerStore } from "./messengerStore.ts";
 import { useNotificationsStore } from "./notificationsStore.ts";
+import { IUserPublicData } from "@/types/globals";
 
 export const useAuthenticationStore = defineStore("authentication", {
   state(): IAuthenticationStoreState {
@@ -61,11 +62,7 @@ export const useAuthenticationStore = defineStore("authentication", {
       }
       return { success, data };
     },
-    async singUp(
-      username: string,
-      password: string,
-      email: string | null
-    ): Promise<IResponse> {
+    async singUp(username: string, password: string, email: string | null): Promise<IResponse> {
       return await request(
         Methods.POST,
         "/api/v1/account/account/",
@@ -100,10 +97,7 @@ export const useAuthenticationStore = defineStore("authentication", {
     },
     async getMe(permanent: boolean = false): Promise<IUserPublicData> {
       if (!this.user.username || permanent) {
-        const { data } = await request(
-          Methods.GET,
-          "/api/v1/account/account/me/"
-        );
+        const { data } = await request(Methods.GET, "/api/v1/account/account/me/");
         this.user.id = data.user.id;
         this.user.name = data.user.name;
         this.user.email = data.user.email;

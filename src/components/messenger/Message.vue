@@ -29,7 +29,8 @@ import MessageBody from "./MessageBody.vue";
 import { mapStores } from "pinia";
 import { useAuthenticationStore } from "../../stores/authenticationStore.ts";
 import { useMessengerStore } from "../../stores/messengerStore.ts";
-import { IMessage } from "../../types/stores";
+
+import { IMessage } from "@/types/globals";
 
 export default {
   emits: ["editMessage"],

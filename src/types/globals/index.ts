@@ -1,33 +1,21 @@
-import { IUserPublicData } from "@/types/stores";
+export interface IUserPublicData {
+  username: string;
+  avatar?: string;
+}
 
-interface IUserDefaultData extends IUserPublicData {
+export interface IUserDefaultData extends IUserPublicData {
   id: number;
   is_online: boolean;
 }
 
-interface IUserProfileData extends IUserDefaultData {
-  name: string;
-  desc: string;
-}
-
-interface IUserExtendedData extends IUserDefaultData {
+export interface IUserExtendedData extends IUserDefaultData {
   posts_count: number;
   is_followed: boolean;
   followers_count: number;
   followings_count: number;
 }
 
-interface IUserFollowData {
-  id: number;
-  posts_count: number;
-  is_followed: boolean;
-  followers_count: number;
-  followings_count: number;
-  follower?: IUserDefaultData;
-  following?: IUserDefaultData;
-}
-
-interface IDateTime {
+export interface IDateTime {
   time_added: string;
   timezone: string;
 }
@@ -40,20 +28,20 @@ interface IDefaultInstance {
   likes_count: number;
 }
 
-interface IComment extends IDefaultInstance {
+export interface IComment extends IDefaultInstance {
   post: number;
   comment: string;
 }
 
-interface IImage {
+export interface IImage {
   id: number;
   image: string;
   image_crop: string;
 }
 
-interface IPost extends IDefaultInstance {
+export interface IPost extends IDefaultInstance {
   signature: string;
-  images: Array<IImage>;
+  images: IImage[];
   comments_count: number;
   is_commented: boolean;
   is_saved: boolean;
@@ -61,28 +49,41 @@ interface IPost extends IDefaultInstance {
   isModalVisible?: boolean;
 }
 
-interface INotification {
+export interface INotification {
   id: number;
   receiver: IUserDefaultData;
   is_read: boolean;
   time_added: IDateTime;
 }
 
-enum Tops {
+export enum Tops {
   RECENT = "recent",
   UPDATES = "updates",
   LIKES = "likes",
   RECOMMENDED = "recommended",
 }
 
-export {
-  IUserDefaultData,
-  IUserProfileData,
-  IUserExtendedData,
-  IComment,
-  IPost,
-  Tops,
-  IUserFollowData,
-  INotification,
-  IDateTime,
-};
+interface IMessageFile {
+  link: string;
+  name: string;
+}
+
+export interface IMessage {
+  id: number;
+  chat: number;
+  sender: IUserDefaultData;
+  receiver: IUserDefaultData;
+  body: string;
+  attachment: null | IMessageFile;
+  time_added: IDateTime;
+  time_updated: IDateTime;
+  is_edit: boolean;
+  is_read: boolean;
+}
+
+export interface IChat {
+  id: number;
+  user: IUserDefaultData;
+  last_message: IMessage;
+  is_read: boolean;
+}
