@@ -58,9 +58,28 @@ interface IChat {
   is_read: boolean;
 }
 
+interface ISendMessage {
+  type: "send_message";
+  chat_id: number;
+  receiver: number;
+  body: string;
+  attachment?: string;
+  attachment_name?: string;
+}
+
+interface IEditMessage {
+  type: "edit_message";
+  message: number;
+  body: string;
+  attachment?: string;
+  attachment_name?: string;
+}
+
 export {
   IAuthenticationStoreUser,
   IAuthenticationStoreState,
+  ISendMessage,
+  IEditMessage,
   IUserPublicData,
   IUserSettingsUpdates,
   IMessage,

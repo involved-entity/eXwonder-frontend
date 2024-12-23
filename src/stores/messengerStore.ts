@@ -1,129 +1,118 @@
 import { defineStore } from "pinia";
 import { MessengerUrl } from "../settings.ts";
-import { IMessage, IChat } from "../types/stores";
+import { IMessage, IChat, ISendMessage, IEditMessage } from "../types/stores";
 import { useAuthenticationStore } from "../stores/authenticationStore.ts";
 import { IUserDefaultData, IUserExtendedData } from "../types/globals";
 import { arrayBufferToBase64, parseDate } from "../helpers";
 
 export const useMessengerStore = defineStore("messenger", {
-  state() {
-    return {
-      messages: [] as Array<IMessage>,
-      chats: [] as Array<IChat>,
-      chatsWithHistory: [] as Array<number>,
-      socket: undefined as WebSocket | undefined,
-      activeChat: undefined as IChat | undefined,
-    };
-  },
+  state: () => ({
+    messages: [] as IMessage[],
+    chats: [] as IChat[],
+    chatsWithHistory: [] as number[],
+    socket: undefined as WebSocket | undefined,
+    activeChat: undefined as IChat | undefined,
+  }),
+
   actions: {
     changeActiveChat(chat: IChat) {
       if (this.activeChat !== chat) {
         this.activeChat = chat;
       }
     },
-    onSocketOpen() {
+
+    sendSocketMessage(message: object) {
+      this.socket!.send(JSON.stringify(message));
+    },
+
+    authenticate() {
       const authStore = useAuthenticationStore();
-      let data = JSON.stringify({
+      this.sendSocketMessage({
         type: "authenticate",
         token: authStore.token,
         user_id: authStore.user.id,
       });
-      this.socket!.send(data);
-      data = JSON.stringify({
+      this.sendSocketMessage({
         type: "connect_to_chats",
       });
-      this.socket!.send(data);
     },
+
+    onSocketOpen() {
+      this.authenticate();
+    },
+
     startChat(user: IUserExtendedData) {
-      const data = JSON.stringify({
+      this.sendSocketMessage({
         type: "start_chat",
         receiver: user.id,
       });
-      this.socket!.send(data);
     },
+
     getChatHistory(chatId?: number): boolean {
-      const checkIsChatHistoryEmtpy = !this.chatsWithHistory.some(
-        id => id === (chatId ?? this.activeChat!.id)
-      );
-      if (checkIsChatHistoryEmtpy) {
-        const data = JSON.stringify({
+      const id = chatId ?? this.activeChat!.id;
+      if (!this.chatsWithHistory.includes(id)) {
+        this.sendSocketMessage({
           type: "get_chat_history",
-          chat: chatId ?? this.activeChat!.id,
+          chat: id,
         });
-        this.socket!.send(data);
-        this.chatsWithHistory.push(chatId ?? this.activeChat!.id);
+        this.chatsWithHistory.push(id);
+        return true;
       }
-      return checkIsChatHistoryEmtpy;
+      return false;
     },
-    sendMessage(
-      chatId: number,
-      receiverId: number,
-      body: string,
-      attachment: File
-    ) {
+
+    sendMessage(chatId: number, receiverId: number, body: string, attachment?: File) {
+      const message: ISendMessage = {
+        type: "send_message",
+        chat_id: chatId,
+        receiver: receiverId,
+        body,
+      };
+
       if (attachment) {
         const reader = new FileReader();
         reader.onload = e => {
-          const arrayBuffer = e.target.result;
-          const data = JSON.stringify({
-            type: "send_message",
-            chat_id: chatId,
-            receiver: receiverId,
-            body,
-            attachment: arrayBufferToBase64(arrayBuffer),
-            attachment_name: attachment.name,
-          });
-          this.socket!.send(data);
+          const arrayBuffer = e.target!.result;
+          message.attachment = arrayBufferToBase64(arrayBuffer as ArrayBuffer);
+          message.attachment_name = attachment.name;
+          this.sendSocketMessage(message);
         };
         reader.readAsArrayBuffer(attachment);
       } else {
-        const data = JSON.stringify({
-          type: "send_message",
-          chat_id: chatId,
-          receiver: receiverId,
-          body,
-        });
-        this.socket!.send(data);
+        this.sendSocketMessage(message);
       }
     },
+
     markChatRead(chatId?: number): boolean {
       const id = chatId ?? this.activeChat!.id;
       const authStore = useAuthenticationStore();
-      const checkIsUserLastMessageReceiver =
-        authStore.user.id ===
-        this.chats.find(chat => chat.id === id)!.last_message.receiver.id;
-      if (checkIsUserLastMessageReceiver) {
-        const data = JSON.stringify({
-          type: "read_chat",
-          id,
-        });
-        this.socket!.send(data);
+      const chat = this.chats.find(chat => chat.id === id);
+      const isUserLastMessageReceiver = authStore.user.id === chat?.last_message.receiver.id;
+
+      if (isUserLastMessageReceiver) {
+        this.sendSocketMessage({ type: "read_chat", id });
       }
-      return checkIsUserLastMessageReceiver;
+      return isUserLastMessageReceiver;
     },
+
     markMessageDelete(message: IMessage): boolean {
       const authStore = useAuthenticationStore();
-      const checkPermsToDeleteMessage = authStore.user.id === message.sender.id;
-      if (checkPermsToDeleteMessage) {
-        const data = JSON.stringify({
-          type: "delete_message",
-          id: message.id,
-        });
-        this.socket!.send(data);
+      const canDelete = authStore.user.id === message.sender.id;
+
+      if (canDelete) {
+        this.sendSocketMessage({ type: "delete_message", id: message.id });
       }
-      return checkPermsToDeleteMessage;
+      return canDelete;
     },
+
     markChatDelete(chat: IChat): boolean {
-      const data = JSON.stringify({
-        type: "delete_chat",
-        id: chat.id,
-      });
-      this.socket!.send(data);
+      this.sendSocketMessage({ type: "delete_chat", id: chat.id });
       return true;
     },
-    sortChatsByLastMessageTimeAdded(sourceArray?: Array<IChat>) {
+
+    sortChatsByLastMessageTimeAdded(sourceArray?: IChat[]) {
       const array = sourceArray ?? this.chats;
-      this.chats = array.sort((a: IChat, b: IChat) => {
+      this.chats = array.sort((a, b) => {
         const dateA = a.last_message.time_added
           ? parseDate(a.last_message.time_added.time_added)
           : -Infinity;
@@ -133,173 +122,169 @@ export const useMessengerStore = defineStore("messenger", {
         return dateB - dateA;
       });
     },
-    editMessage(messageId: number, body: string, attachment: File) {
+
+    editMessage(messageId: number, body: string, attachment?: File) {
+      const message: IEditMessage = {
+        type: "edit_message",
+        message: messageId,
+        body,
+      };
+
       if (attachment) {
         const reader = new FileReader();
         reader.onload = e => {
-          const arrayBuffer = e.target.result;
-          const data = JSON.stringify({
-            type: "edit_message",
-            message: messageId,
-            body,
-            attachment: arrayBufferToBase64(arrayBuffer),
-            attachment_name: attachment.name,
-          });
-          this.socket!.send(data);
+          const arrayBuffer = e.target!.result;
+          message.attachment = arrayBufferToBase64(arrayBuffer as ArrayBuffer);
+          message.attachment_name = attachment.name;
+          this.sendSocketMessage(message);
         };
         reader.readAsArrayBuffer(attachment);
       } else {
-        const data = JSON.stringify({
-          type: "edit_message",
-          message: messageId,
-          body,
-        });
-        this.socket!.send(data);
+        this.sendSocketMessage(message);
       }
     },
-    changeUserOnlineStatus(user: IUserDefaultData, is_online: boolean = true) {
+
+    changeUserOnlineStatus(user: IUserDefaultData, isOnline: boolean = true) {
       this.chats = this.chats.map(chat => {
-        let newChat;
-        if (chat.user.id === user.id) {
-          newChat = {
-            ...chat,
-            user: {
-              ...chat.user,
-              is_online,
-            },
-          };
-        } else {
-          newChat = chat;
+        const updatedChat =
+          chat.user.id === user.id
+            ? { ...chat, user: { ...chat.user, is_online: isOnline } }
+            : chat;
+        if (this.activeChat && this.activeChat.id === updatedChat.id) {
+          this.activeChat = updatedChat;
         }
-        if (this.activeChat && this.activeChat!.id === newChat.id) {
-          this.activeChat = newChat;
-        }
-        return newChat;
+        return updatedChat;
       });
     },
-    onSocketMessage(event: object) {
-      const data = JSON.parse(event.data);
+
+    handleIncomingMessage(data: any) {
       const type = data.type;
+
       switch (type) {
         case "connect_to_chats":
           this.sortChatsByLastMessageTimeAdded(data.payload);
           break;
+
         case "chat_started":
-          this.chats.push(data.payload);
-          break;
         case "connect_to_chat":
           this.chats.push(data.payload);
+          this.sortChatsByLastMessageTimeAdded();
           break;
+
         case "get_chat_history":
           this.messages = [...data.payload, ...this.messages];
           break;
+
         case "on_message":
-          const checkMessageUnique = !this.messages.some(
-            msg => msg.id === data.payload.id
-          );
-          const checkChatHistoryEmpty = this.chatsWithHistory.some(
-            id => id === data.payload.chat
-          );
-          if (checkMessageUnique && checkChatHistoryEmpty) {
-            this.messages = [data.payload, ...this.messages];
-          }
-
-          const updateChatLastMessage = (chat: IChat): IChat => {
-            return chat.id === data.payload.chat
-              ? { ...chat, last_message: data.payload }
-              : chat;
-          };
-          this.chats = this.chats.map(updateChatLastMessage);
-          const index = this.chats.findIndex(
-            chat => chat.id === data.payload.chat
-          );
-          const [chat] = this.chats.splice(index, 1);
-          this.chats.unshift(chat);
-
-          const checkChatIsActive =
-            this.activeChat && data.payload.chat === this.activeChat!.id;
-          if (checkChatIsActive) {
-            this.markChatRead();
-          } else {
-            const authStore = useAuthenticationStore();
-            const checkIsUserMessageReceiver =
-              authStore.user.id === data.payload.receiver.id;
-            if (checkIsUserMessageReceiver)
-              this.chats.find(chat => chat.id === data.payload.chat)!.is_read =
-                false;
-          }
+          this.handleNewMessage(data.payload);
           break;
+
         case "send_read_chat":
-          const updateChatAsRead = (chat: IChat): IChat =>
-            chat.id === data.chat ? { ...chat, is_read: true } : chat;
-          this.chats = this.chats.map(updateChatAsRead);
-          const updateChatMessagesAsRead = (message: IMessage): IMessage => {
-            return message.chat === data.chat && !message.is_read
-              ? { ...message, is_read: true }
-              : message;
-          };
-          this.messages = this.messages.map(updateChatMessagesAsRead);
+          this.markChatAsRead(data.chat);
           break;
+
         case "send_delete_message":
-          const messageIndex: number = this.messages.findIndex(
-            message => message.id === data.message
-          );
-          if (messageIndex !== -1) {
-            const changeMessageChatLastMessage = (chat: IChat) => {
-              return chat.id === this.messages[messageIndex].chat
-                ? data.chat
-                : chat;
-            };
-            this.chats = this.chats.map(changeMessageChatLastMessage);
-            this.messages.splice(messageIndex, 1);
-            this.sortChatsByLastMessageTimeAdded();
-          }
+          this.handleDeleteMessage(data);
           break;
+
         case "send_delete_chat":
-          const checkActiveChat =
-            this.activeChat && this.activeChat.id === data.chat;
-          if (checkActiveChat) this.activeChat = undefined;
-          this.messages = this.messages.filter(
-            message => message.chat !== data.chat
-          );
-          this.chats = this.chats.filter(chat => chat.id !== data.chat);
+          this.handleDeleteChat(data);
           break;
+
         case "send_edit_message":
-          this.messages = this.messages.map(message =>
-            message.id === data.message.id ? data.message : message
-          );
-          this.chats = this.chats.map(chat =>
-            chat.last_message.id === data.message.id
-              ? { ...chat, last_message: data.message }
-              : chat
-          );
+          this.handleEditMessage(data.message);
           break;
+
         case "user_online":
-          console.log(data.user, "ONLINE");
           this.changeUserOnlineStatus(data.user);
-          console.log(this.chats);
           break;
+
         case "user_offline":
-          console.log(data.user, "OFFLINE");
           this.changeUserOnlineStatus(data.user, false);
-          console.log(this.chats);
           break;
       }
     },
+
+    handleNewMessage(message: IMessage) {
+      const isUnique = !this.messages.some(msg => msg.id === message.id);
+      const hasChatHistory = this.chatsWithHistory.includes(message.chat);
+
+      if (isUnique && hasChatHistory) {
+        this.messages.unshift(message);
+      }
+
+      const updateChatLastMessage = (chat: IChat) => {
+        return chat.id === message.chat ? { ...chat, last_message: message } : chat;
+      };
+      this.chats = this.chats.map(updateChatLastMessage);
+
+      const chatIndex = this.chats.findIndex(chat => chat.id === message.chat);
+      const [chat] = this.chats.splice(chatIndex, 1);
+      this.chats.unshift(chat);
+
+      if (this.activeChat && message.chat === this.activeChat.id) {
+        this.markChatRead();
+      } else {
+        const authStore = useAuthenticationStore();
+        const isUserReceiver = authStore.user.id === message.receiver.id;
+        if (isUserReceiver) {
+          this.chats.find(chat => chat.id === message.chat)!.is_read = false;
+        }
+      }
+    },
+
+    markChatAsRead(chatId: number) {
+      this.chats = this.chats.map(chat => (chat.id === chatId ? { ...chat, is_read: true } : chat));
+      this.messages = this.messages.map(message =>
+        message.chat === chatId && !message.is_read ? { ...message, is_read: true } : message
+      );
+    },
+
+    handleDeleteMessage(data: any) {
+      const messageIndex = this.messages.findIndex(message => message.id === data.message);
+      if (messageIndex !== -1) {
+        const chatId = this.messages[messageIndex].chat;
+        this.chats = this.chats.map(chat => (chat.id === chatId ? data.chat : chat));
+        this.messages.splice(messageIndex, 1);
+        this.sortChatsByLastMessageTimeAdded();
+      }
+    },
+
+    handleDeleteChat(data: any) {
+      if (this.activeChat && this.activeChat.id === data.chat) {
+        this.activeChat = undefined;
+      }
+      this.messages = this.messages.filter(message => message.chat !== data.chat);
+      this.chats = this.chats.filter(chat => chat.id !== data.chat);
+    },
+
+    handleEditMessage(message: IMessage) {
+      this.messages = this.messages.map(msg => (msg.id === message.id ? message : msg));
+      this.chats = this.chats.map(chat =>
+        chat.last_message.id === message.id ? { ...chat, last_message: message } : chat
+      );
+    },
+
+    onSocketMessage(event: MessageEvent) {
+      const data = JSON.parse(event.data);
+      this.handleIncomingMessage(data);
+    },
+
     initMessenger() {
       const authStore = useAuthenticationStore();
       if (authStore.isAuth) {
         this.socket = new WebSocket(MessengerUrl);
         this.socket.onopen = this.onSocketOpen;
-        this.socket.onmessage = this.onSocketMessage;
-        this.socket.onclose = function (event) {
-          console.log("Соединение закрыто:", event);
+        this.socket.onmessage = this.onSocketMessage.bind(this);
+        this.socket.onclose = event => {
+          console.error("Connection closed:", event);
           if (event.code) {
-            console.error("Код закрытия:", event.code);
+            console.error("Close code:", event.code);
           }
         };
       }
     },
+
     closeAndClear() {
       this.socket!.close(1000);
       this.socket = undefined;

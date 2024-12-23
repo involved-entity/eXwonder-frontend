@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import { useAuthenticationStore } from "./authenticationStore.ts";
 import { Methods, request } from "../helpers";
 import { IUserSettingsUpdates } from "../types/stores";
@@ -9,9 +9,7 @@ export const useAccountStore = defineStore("account", {
   actions: {
     async updateSettings(
       updates: IUserSettingsUpdates
-    ): Promise<
-      undefined | AxiosResponse<Record<string, Array<string>>>["data"]
-    > {
+    ): Promise<void | Record<string, Array<string>>> {
       const authenticationStore = useAuthenticationStore();
 
       const { success, data } = await request(
@@ -29,36 +27,32 @@ export const useAccountStore = defineStore("account", {
       }
 
       await authenticationStore.getMe(true);
-      return undefined;
     },
+
     async resetPassword(email: string): Promise<IResponse> {
-      return await request(Methods.POST, "/api/v1/account/password-reset/", {
-        email,
-      });
+      return request(Methods.POST, "/api/v1/account/password-reset/", { email });
     },
+
     async resetPasswordConfirm(
       uid: string,
       token: string,
       password1: string,
       password2: string
     ): Promise<IResponse> {
-      return await request(
-        Methods.POST,
-        "/api/v1/account/password-reset-confirm/",
-        {
-          uid,
-          token,
-          new_password1: password1,
-          new_password2: password2,
-        }
-      );
+      return request(Methods.POST, "/api/v1/account/password-reset-confirm/", {
+        uid,
+        token,
+        new_password1: password1,
+        new_password2: password2,
+      });
     },
+
     async changePassword(
       oldPassword: string,
       newPassword1: string,
       newPassword2: string
     ): Promise<IResponse> {
-      return await request(Methods.POST, "/api/v1/account/password-change/", {
+      return request(Methods.POST, "/api/v1/account/password-change/", {
         old_password: oldPassword,
         new_password1: newPassword1,
         new_password2: newPassword2,

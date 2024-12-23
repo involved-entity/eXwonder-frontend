@@ -18,7 +18,7 @@
     </button>
     <div
       id="dropdownMenu"
-      class="z-10 hidden shadow-xl shadow-slate-500/30 dark:shadow-none bg-gray-300 dark:bg-[#1b1919] divide-y divide-gray-100 border-red rounded w-36"
+      class="z-50 hidden shadow-xl shadow-slate-500/30 dark:shadow-none bg-gray-300 dark:bg-[#1b1919] divide-y divide-gray-100 border-red rounded w-36"
     >
       <ul class="py-1 text-sm" aria-labelledby="dropdownButton">
         <li>

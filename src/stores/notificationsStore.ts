@@ -1,61 +1,58 @@
-import {defineStore} from "pinia";
+import { defineStore } from "pinia";
 import { INotification } from "../types/globals";
 import { useAuthenticationStore } from "./authenticationStore.ts";
 import { NotificationsUrl } from "../settings.ts";
 
-export const useNotificationsStore = defineStore('notifs', {
+export const useNotificationsStore = defineStore("notifs", {
   state() {
     return {
       socket: undefined as WebSocket | undefined,
       notifications: [] as Array<INotification>,
-    }
+    };
   },
   actions: {
     onSocketOpen() {
       const authStore = useAuthenticationStore();
-      let data = JSON.stringify({
+      this.sendSocketMessage({
         type: "authenticate",
         token: authStore.token,
         user_id: authStore.user.id,
       });
-      this.socket!.send(data);
-      data = JSON.stringify({
-        type: "get_unreaded_notifications",
-      });
-      this.socket!.send(data);
+      this.sendSocketMessage({ type: "get_unreaded_notifications" });
     },
+
     markRead(notifId: number) {
-      const data = JSON.stringify({
+      this.sendSocketMessage({
         type: "mark_read",
         id: notifId,
       });
-      this.socket!.send(data);
-      this.notifications = this.notifications.filter(
-        notification => notification.id !== notifId
-      );
+      this.notifications = this.notifications.filter(notification => notification.id !== notifId);
     },
+
     markAllRead() {
-      const data = JSON.stringify({
-        type: "mark_all_read",
-      });
-      this.socket!.send(data);
+      this.sendSocketMessage({ type: "mark_all_read" });
       this.notifications = [];
     },
-    onSocketMessage(event: object) {
+
+    onSocketMessage(event: MessageEvent) {
       const data = JSON.parse(event.data);
-      if (data.type === "notify") {
-        this.notifications.unshift(data.payload);
-      } else if (data.type === "get_unreaded_notifications") {
-        this.notifications.push(...data.payload);
+      switch (data.type) {
+        case "notify":
+          this.notifications.unshift(data.payload);
+          break;
+        case "get_unreaded_notifications":
+          this.notifications.push(...data.payload);
+          break;
       }
     },
+
     initNotifications() {
       const authStore = useAuthenticationStore();
       if (authStore.isAuth) {
         this.socket = new WebSocket(NotificationsUrl);
-        this.socket.onopen = this.onSocketOpen;
-        this.socket.onmessage = this.onSocketMessage;
-        this.socket.onclose = function (event) {
+        this.socket.onopen = this.onSocketOpen.bind(this);
+        this.socket.onmessage = this.onSocketMessage.bind(this);
+        this.socket.onclose = event => {
           console.log("Соединение закрыто:", event);
           if (event.code) {
             console.error("Код закрытия:", event.code);
@@ -63,10 +60,15 @@ export const useNotificationsStore = defineStore('notifs', {
         };
       }
     },
+
     closeAndClear() {
       this.socket!.close(1000);
       this.socket = undefined;
-      this.notifications = []
+      this.notifications = [];
+    },
+
+    sendSocketMessage(data: object) {
+      this.socket!.send(JSON.stringify(data));
     },
   },
-})
+});

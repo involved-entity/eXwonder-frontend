@@ -5,26 +5,25 @@ import { IResponse } from "../types/helpers";
 
 export const useCommentsStore = defineStore("comments", {
   actions: {
-    async getPostComments(
-      postId: number,
-      page: number = 1
-    ): Promise<IResponse> {
-      return await request(
-        Methods.GET,
-        `/api/v1/posts/comments/?post_id=${postId}&page=${page}`
-      );
+    async getPostComments(postId: number, page: number = 1): Promise<IResponse> {
+      return request(Methods.GET, `/api/v1/posts/comments/?post_id=${postId}&page=${page}`);
     },
+
     async addComment(postId: number, comment: string): Promise<IResponse> {
-      return await request(
+      return request(
         Methods.POST,
         "/api/v1/posts/comments/",
-        { post_id: postId, comment },
+        {
+          post_id: postId,
+          comment,
+        },
         undefined,
         axios.HttpStatusCode.Created
       );
     },
+
     async deleteComment(commentId: number): Promise<IResponse> {
-      return await request(
+      return request(
         Methods.DELETE,
         `/api/v1/posts/comments/${commentId}/`,
         undefined,
@@ -32,17 +31,21 @@ export const useCommentsStore = defineStore("comments", {
         axios.HttpStatusCode.NoContent
       );
     },
+
     async addCommentLike(commentId: number): Promise<IResponse> {
-      return await request(
+      return request(
         Methods.POST,
         "/api/v1/posts/comment-likes/",
-        { comment_id: commentId },
+        {
+          comment_id: commentId,
+        },
         undefined,
         axios.HttpStatusCode.Created
       );
     },
+
     async deleteCommentLike(commentId: number): Promise<IResponse> {
-      return await request(
+      return request(
         Methods.DELETE,
         `/api/v1/posts/comment-likes/${commentId}/`,
         undefined,

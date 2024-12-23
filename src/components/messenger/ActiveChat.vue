@@ -18,13 +18,11 @@
             :disabled="!messengerStore.activeChat!.user.is_online"
             :class="{ 'mx-auto': showOnlineStatusCenter }"
           >
-            {{
-              messengerStore.activeChat!.user.is_online ? "online" : "offline"
-            }}
+            {{ messengerStore.activeChat!.user.is_online ? "online" : "offline" }}
           </button>
         </div>
       </div>
-      <div class="absolute right-5 top-1/2 -translate-y-1/2 cursor-pointer">
+      <div class="absolute right-5 top-1/2 -translate-y-1/2 cursor-pointer z-50">
         <div class="m-auto">
           <AppDeleteDropdown
             caption="Delete chat"
@@ -41,9 +39,7 @@
         <div class="mb-1" v-for="message in getMessages" :key="message.id">
           <div
             class="mt-1.5 mb-2.5 w-[10.25rem] mx-auto"
-            v-if="
-              isDatesInDifferentDays(activeDay, message.time_added.time_added)
-            "
+            v-if="isDatesInDifferentDays(activeDay, message.time_added.time_added)"
           >
             <div
               class="rounded-xl flex items-center justify-center text-sm py-1 px-3 bg-black/30 text-white"
@@ -61,11 +57,7 @@
         <div
           class="relative cursor-pointer hover:bg-gray-200 dark:hover:bg-neutral-800 rounded-full"
         >
-          <input
-            type="file"
-            @change="attachmentChanged"
-            class="absolute inset-0 opacity-0"
-          />
+          <input type="file" @change="attachmentChanged" class="absolute inset-0 opacity-0" />
           <button
             type="button"
             class="inline-flex justify-center p-2 text-gray-500 dark:text-gray-400"
@@ -148,11 +140,7 @@ export default {
     sendMessage() {
       if (this.isValid) {
         if (this.messageEdit) {
-          this.messengerStore.editMessage(
-            this.messageEdit,
-            this.message,
-            this.attachment as File
-          );
+          this.messengerStore.editMessage(this.messageEdit, this.message, this.attachment as File);
           this.messageEdit = undefined;
         } else {
           this.messengerStore.sendMessage(
@@ -173,8 +161,7 @@ export default {
       const date1 = parseDate(dateStr1);
       const date2 = parseDate(dateStr2);
       const res =
-        date1.getFullYear() !== date2.getFullYear() ||
-        date1.getDate() !== date2.getDate();
+        date1.getFullYear() !== date2.getFullYear() || date1.getDate() !== date2.getDate();
       this.activeDay = res ? dateStr2 : dateStr1;
       return res;
     },
@@ -210,10 +197,7 @@ export default {
   computed: {
     ...mapStores(useMessengerStore),
     isValid() {
-      return (
-        (this.message.length > 0 && this.message.length <= 4096) ||
-        this.attachment
-      );
+      return (this.message.length > 0 && this.message.length <= 4096) || this.attachment;
     },
     getMessages() {
       return this.messengerStore.messages

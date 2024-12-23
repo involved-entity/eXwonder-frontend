@@ -17,9 +17,7 @@ async function request(
   config?: AxiosRequestConfig,
   ...expectedStatuses: number[]
 ): Promise<IResponse> {
-  const statuses = expectedStatuses.length
-    ? expectedStatuses
-    : [axios.HttpStatusCode.Ok];
+  const statuses = expectedStatuses.length ? expectedStatuses : [axios.HttpStatusCode.Ok];
 
   try {
     const response = await client[method](url, data, config);
@@ -37,8 +35,7 @@ function isElementInViewport(el?: HTMLElement): boolean {
   return (
     rect.top >= 0 &&
     rect.left >= 0 &&
-    rect.bottom <=
-      (window.innerHeight || document.documentElement.clientHeight) &&
+    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
     rect.right <= (window.innerWidth || document.documentElement.clientWidth)
   );
 }
@@ -53,8 +50,14 @@ function checkIsEmailValid(email: string): boolean {
   return email.length === 0 || z.string().email().safeParse(email).success;
 }
 
-function arrayBufferToBase64(buffer: ArrayBuffer): string {
-  return window.btoa(String.fromCharCode(...new Uint8Array(buffer)));
+function arrayBufferToBase64(buffer: ArrayBuffer) {
+  let binary = "";
+  const bytes = new Uint8Array(buffer);
+  const len = bytes.byteLength;
+  for (let i = 0; i < len; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return window.btoa(binary);
 }
 
 function parseDate(dateStr: string): Date {
