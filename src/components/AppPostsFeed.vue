@@ -22,35 +22,22 @@
     <div class="pb-3" v-for="post in posts" :key="post.id">
       <div class="flex w-full mb-1">
         <router-link :to="'/' + post.author.username + '/'">
-          <img
-            :src="post.author.avatar"
-            alt="avatar"
-            class="size-8 rounded-full"
-          />
+          <img :src="post.author.avatar" alt="avatar" class="size-8 rounded-full" />
         </router-link>
         <p class="text-gray-700 dark:text-gray-300 text-md my-auto ms-1">
-          <router-link
-            :to="'/' + post.author.username + '/'"
-            class="hover:text-gray-400"
-          >
+          <router-link :to="'/' + post.author.username + '/'" class="hover:text-gray-400">
             {{ post.author.username }}
           </router-link>
         </p>
         <div class="flex ms-auto">
-          <p
-            class="text-gray-600 dark:text-gray-500 text-sm lg:text-md my-auto montserrat"
-          >
+          <p class="text-gray-600 dark:text-gray-500 text-sm lg:text-md my-auto montserrat">
             {{ post.time_added.time_added }} ago
           </p>
           <div
             class="mx-1 text-gray-700 dark:text-gray-300"
             v-if="post.author.id === authenticationStore.user.id"
           >
-            <button
-              :id="`dropdownButton${post.id}`"
-              class="cursor-pointer"
-              type="button"
-            >
+            <button :id="`dropdownButton${post.id}`" class="cursor-pointer" type="button">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -70,15 +57,9 @@
               :id="`dropdownMenu${post.id}`"
               class="z-10 hidden shadow-xl shadow-slate-500/30 dark:shadow-none bg-gray-300 dark:bg-[#1b1919] divide-y divide-gray-100 border-red rounded w-36"
             >
-              <ul
-                class="py-1 text-sm text-gray-300"
-                aria-labelledby="dropdownButton"
-              >
+              <ul class="py-1 text-sm text-gray-300" aria-labelledby="dropdownButton">
                 <li>
-                  <button
-                    class="px-3 py-2 text-red-600 flex"
-                    @click="postDelete(post)"
-                  >
+                  <button class="px-3 py-2 text-red-600 flex" @click="postDelete(post)">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -149,8 +130,7 @@
         <button
           class="size-7 absolute right-1 top-1/2 bg-gray-50 rounded-full hidden lg:block"
           :class="{
-            'opacity-100 cursor-pointer':
-              post.activeImage! + 1 < post.images.length,
+            'opacity-100 cursor-pointer': post.activeImage! + 1 < post.images.length,
             'opacity-0': post.activeImage! + 1 >= post.images.length,
           }"
           style="transform: translateY(-50%)"
@@ -226,10 +206,7 @@
           </div>
         </div>
       </div>
-      <div
-        class="text-gray-600 dark:text-gray-300"
-        v-if="post.signature.length"
-      >
+      <div class="text-gray-600 dark:text-gray-300" v-if="post.signature.length">
         <span class="text-gray-700 dark:text-white montserrat-bold">{{
           post.author.username
         }}</span>
@@ -296,7 +273,7 @@ import AppLikeButton from "./AppLikeButton.vue";
 import AppPostModal from "./modals/AppPostModal.vue";
 import AppSavePostButton from "./AppSavePostButton.vue";
 import AppSwipeComponent from "./AppSwipeComponent.vue";
-import AppCommentsModal from "./modals/AppCommentsModal.vue";
+import AppCommentsModal from "./modals/CommentsModal/CommentsModal.vue";
 import { useCommentsStore } from "../stores/commentsStore.ts";
 import { usePostsStore } from "../stores/postsStore.ts";
 import { useAuthenticationStore } from "../stores/authenticationStore.ts";
@@ -346,17 +323,9 @@ export default {
       }
     },
     async createComment(post: IPost) {
-      const commentInput = this.$refs[
-        `comment_input_${post.id}`
-      ] as HTMLInputElement[];
-      if (
-        commentInput[0].value.length >= 10 &&
-        commentInput[0].value.length <= 2048
-      ) {
-        const { success } = await this.commentsStore.addComment(
-          post.id,
-          commentInput[0].value
-        );
+      const commentInput = this.$refs[`comment_input_${post.id}`] as HTMLInputElement[];
+      if (commentInput[0].value.length >= 10 && commentInput[0].value.length <= 2048) {
+        const { success } = await this.commentsStore.addComment(post.id, commentInput[0].value);
         if (success) {
           this.errors[`${post.id}`] = undefined;
           commentInput[0].value = "";
