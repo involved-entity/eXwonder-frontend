@@ -1,30 +1,17 @@
 <template>
-  <div
-    class="mb-3 grid grid-cols-8"
-    v-for="comment in comments"
-    :key="comment.id"
-  >
-    <RouterLink
-      :to="'/' + comment.author.username + '/'"
-      class="col-span-1"
-    >
-      <img
-        :src="comment.author.avatar"
-        alt="avatar"
-        class="w-11 rounded-full h-11 mx-auto"
-      />
+  <div class="mb-3 grid grid-cols-8" v-for="comment in comments" :key="comment.id">
+    <RouterLink :to="'/' + comment.author.username + '/'" class="col-span-1 remove-active">
+      <img :src="comment.author.avatar" alt="avatar" class="w-11 rounded-full h-11 mx-auto" />
     </RouterLink>
     <div class="ms-3 col-span-6">
       <div class="flex">
         <RouterLink
           :to="'/' + comment.author.username + '/'"
-          class="hover:text-gray-600 dark:hover:text-gray-400"
+          class="hover:text-gray-600 dark:hover:text-gray-400 remove-active"
         >
           {{ comment.author.username }}
         </RouterLink>
-        <p
-          class="text-gray-600 dark:text-gray-400 text-sm ms-2 my-auto montserrat"
-        >
+        <p class="text-gray-600 dark:text-gray-400 text-sm ms-2 my-auto montserrat">
           {{ comment.time_added.time_added }} ago
         </p>
         <svg
@@ -44,7 +31,7 @@
           />
         </svg>
       </div>
-      <div class="text-gray-500 text-sm">{{ comment.comment }}</div>
+      <div class="text-gray-600 dark:text-gray-500 text-sm">{{ comment.comment }}</div>
     </div>
     <div class="col-span-1 justify-end">
       <AppCommentLikeButton :comment="comment" />
@@ -53,10 +40,10 @@
 </template>
 
 <script lang="ts">
-import AppCommentLikeButton from "../../AppCommentLikeButton.vue";
-import { IComment } from "../../../types/globals";
-import {useAuthenticationStore} from "../../../stores/authenticationStore.ts";
-import {mapStores} from 'pinia'
+import AppCommentLikeButton from "../AppCommentLikeButton.vue";
+import { IComment } from "../../types/globals";
+import { useAuthenticationStore } from "../../stores/authenticationStore.ts";
+import { mapStores } from "pinia";
 
 export default {
   emits: ["commentDelete"],
@@ -64,9 +51,9 @@ export default {
   components: { AppCommentLikeButton },
   props: {
     comments: {
-      type: Array as () => IComment[]
+      type: Array as () => IComment[],
     },
   },
-  computed: {...mapStores(useAuthenticationStore)}
+  computed: { ...mapStores(useAuthenticationStore) },
 };
 </script>

@@ -11,7 +11,9 @@
               Comments
               <div class="ms-1 varela-round">({{ post!.comments_count }})</div>
             </div>
-            <ModalCloseButton @close="close" />
+            <div class="col-span-1 ms-auto">
+              <ModalCloseButton @close="close" />
+            </div>
           </div>
         </header>
         <main class="m-2">
@@ -20,7 +22,7 @@
           </div>
 
           <div class="mt-1" v-else-if="comments.length">
-            <CommentsList :commentDelete="commentDelete" :comments="comments" />
+            <CommentsList @commentDelete="commentDelete" :comments="comments" />
           </div>
 
           <div class="text-center text-3xl text-gray-500 h-full" v-else>
@@ -39,9 +41,9 @@ import { IComment, IPost } from "../../../types/globals";
 import { mapStores } from "pinia";
 import { useAuthenticationStore } from "../../../stores/authenticationStore.ts";
 import { useCommentsStore } from "../../../stores/commentsStore.ts";
-import CommentsList from "./CommentsList.vue";
-import ModalCloseButton from "./ModalCloseButton.vue";
-import NoCommentsSvg from "./NoCommentsSvg.vue";
+import CommentsList from "../CommentsList.vue";
+import ModalCloseButton from "../ModalCloseButton.vue";
+import NoCommentsSvg from "../NoCommentsSvg.vue";
 
 export default {
   components: { NoCommentsSvg, ModalCloseButton, CommentsList },

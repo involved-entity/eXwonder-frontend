@@ -253,12 +253,12 @@
         <hr class="border border-gray-600" />
       </div>
     </div>
-    <app-post-modal
+    <PostModal
       :post="activeModalPost"
       v-if="activeModalPost?.id!"
       @close="activeModalPost = undefined"
     />
-    <app-comments-modal
+    <CommentsModal
       :post="activeModalCommmentsPost"
       v-if="activeModalCommmentsPost?.id!"
       @close="activeModalCommmentsPost = undefined"
@@ -270,10 +270,10 @@
 import { PropType } from "vue";
 import { IPost } from "../types/globals";
 import AppLikeButton from "./AppLikeButton.vue";
-import AppPostModal from "./modals/AppPostModal.vue";
+import PostModal from "./modals/PostModal/PostModal.vue";
 import AppSavePostButton from "./AppSavePostButton.vue";
 import AppSwipeComponent from "./AppSwipeComponent.vue";
-import AppCommentsModal from "./modals/CommentsModal/CommentsModal.vue";
+import CommentsModal from "./modals/CommentsModal/CommentsModal.vue";
 import { useCommentsStore } from "../stores/commentsStore.ts";
 import { usePostsStore } from "../stores/postsStore.ts";
 import { useAuthenticationStore } from "../stores/authenticationStore.ts";
@@ -284,9 +284,9 @@ export default {
   components: {
     AppSavePostButton,
     AppLikeButton,
-    AppPostModal,
+    PostModal,
     AppSwipeComponent,
-    AppCommentsModal,
+    CommentsModal,
   },
   emits: ["close"],
   props: {

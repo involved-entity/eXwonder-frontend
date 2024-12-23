@@ -1,5 +1,5 @@
 <template>
-  <div class="col-span-1 ms-auto cursor-pointer" @click="$emit('close')">
+  <div class="cursor-pointer" @click="$emit('close')">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
@@ -17,7 +17,6 @@
 
 <script lang="ts">
 export default {
-  emits: ["close"],
-  name: "ModalCloseButton",
-};
+  emits: ['close']
+}
 </script>
