@@ -104,7 +104,7 @@
           </div>
 
           <app-posts-grid :posts="posts" @updatePostsScroll="getPostsNextPage" v-if="posts" />
-          <app-subscriptions-modal
+          <SubscriptionsModal
             :follows-count="followings.followersCount"
             follow-mode="followers"
             :requested-user-id="requestedUser.id"
@@ -115,7 +115,7 @@
             "
             v-if="showFollowersModal"
           />
-          <app-subscriptions-modal
+          <SubscriptionsModal
             :follows-count="followings.followingsCount"
             follow-mode="followings"
             :requested-user-id="requestedUser.id"
@@ -144,7 +144,7 @@ import { usePostsStore } from "../stores/postsStore.ts";
 import { useAuthenticationStore } from "../stores/authenticationStore.ts";
 
 import AppPostsGrid from "../components/AppPostsGrid.vue";
-import AppSubscriptionsModal from "../components/modals/AppSubscriptionsModal.vue";
+import SubscriptionsModal from "../components/modals/SubscriptionsModal/SubscriptionsModal.vue";
 import Alert from "../components/alert/Alert.vue";
 import { IUserProfileData } from "../types/IUserProfileData.ts";
 
@@ -268,6 +268,6 @@ export default {
       );
     },
   },
-  components: { Alert, AppPostsGrid, AppSubscriptionsModal },
+  components: { Alert, AppPostsGrid, SubscriptionsModal },
 };
 </script>
