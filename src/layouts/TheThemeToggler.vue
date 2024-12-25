@@ -6,11 +6,7 @@
     <div
       class="absolute left-5 top-1/2 transform -translate-y-1/2 h-full flex items-center cursor-pointer"
       :class="{ hidden: $route.name !== 'messenger' }"
-      @click="
-        backButtonToMessenger
-          ? (messengerStore.activeChat = undefined)
-          : $router.go(-1)
-      "
+      @click="backButtonToMessenger ? (messengerStore.activeChat = undefined) : $router.go(-1)"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -79,22 +75,16 @@
             })
           "
         />
-        <button
-          class="!p-1 btn-no-w btn-green btn-green-hover text-sm xl:text-md"
-          @click="logout"
-        >
+        <button class="!p-1 btn-no-w btn-green btn-green-hover text-sm xl:text-md" @click="logout">
           Logout
         </button>
       </div>
     </div>
-    <div
-      class="space-x-1 flex w-full lg:mr-5 lg:justify-center"
-      v-if="authenticationStore.isAuth"
-    >
+    <div class="space-x-1 flex w-full lg:mr-5 lg:justify-center" v-if="authenticationStore.isAuth">
       <div class="ml-auto lg:ml-0 my-auto lg:w-6/12">
         <div class="flex justify-end space-x-1">
           <NavigateButton />
-          <TheNotifications />
+          <NotificationsComponent />
         </div>
       </div>
       <div class="ml-auto block lg:hidden">
@@ -109,11 +99,11 @@ import TheMobileSidebar from "../layouts/TheMobileSidebar.vue";
 import { useAuthenticationStore } from "../stores/authenticationStore.ts";
 import { useMessengerStore } from "../stores/messengerStore.ts";
 import { mapStores } from "pinia";
-import TheNotifications from "../components/TheNotifications.vue";
+import NotificationsComponent from "../components/NotificationsComponent.vue";
 import NavigateButton from "../components/messenger/NavigateButton.vue";
 
 export default {
-  components: { NavigateButton, TheNotifications, TheMobileSidebar },
+  components: { NavigateButton, NotificationsComponent, TheMobileSidebar },
   data() {
     return {
       theme: "dark",

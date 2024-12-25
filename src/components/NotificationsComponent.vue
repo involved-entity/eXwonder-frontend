@@ -1,6 +1,6 @@
 <template>
   <div class="relative cursor-pointer">
-    <div class="overflow-hidden" @click="showDropdown">
+    <div class="overflow-hidden" @click="toggleDropdown">
       <div class="relative">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -38,7 +38,7 @@
           role="menuitem"
           v-for="notification in notifsStore.notifications"
           :key="notification.id"
-          @click="checkNotification(notification)"
+          @click="handleNotificationClick(notification)"
         >
           <div class="flex w-full space-x-1">
             <div class="w-1/5">
@@ -50,14 +50,11 @@
             </div>
             <div class="w-4/5 flex items-center">
               <div>
-                <span class="link">
-                  {{ notification.receiver.username }}
-                </span>
+                <span class="link">{{ notification.receiver.username }}</span>
                 creates new post<br />
-                <span
-                  class="text-gray-600 dark:text-gray-400 text-[11px] montserrat"
-                  >{{ notification.time_added.time_added }} ago</span
-                >
+                <span class="text-gray-600 dark:text-gray-400 text-[11px] montserrat">
+                  {{ notification.time_added.time_added }} ago
+                </span>
               </div>
             </div>
           </div>
@@ -81,32 +78,30 @@ export default {
     };
   },
   methods: {
-    closeDropdown() {
-      this.show = false;
-      this.isDropdownClosable = false;
-      document.body.removeEventListener("click", this.handleClick);
-    },
-    showDropdown() {
+    toggleDropdown() {
       if (this.notifsStore.notifications.length) {
-        this.show = true;
-        document.body.addEventListener("click", this.handleClick);
+        this.show = !this.show;
+        this.show ? document.body.addEventListener("click", this.handleClick) : document.body.removeEventListener("click", this.handleClick);
       }
     },
-    checkNotification(notification: INotification) {
+    handleNotificationClick(notification: INotification) {
       this.notifsStore.markRead(notification.id);
-      this.closeDropdown();
       this.$router.push("/" + notification.receiver.username + "/");
+      this.closeDropdown();
     },
     markAllRead() {
       this.notifsStore.markAllRead();
       this.closeDropdown();
     },
+    closeDropdown() {
+      this.show = false;
+      this.isDropdownClosable = false;
+      document.body.removeEventListener("click", this.handleClick);
+    },
     handleClick(event: Event) {
-      if (this.show && this.isDropdownClosable) {
-        const dropdown = this.$refs.notificationsDropdown;
-        if (!dropdown.contains(event.target)) {
-          this.closeDropdown();
-        }
+      const dropdown = this.$refs.notificationsDropdown;
+      if (this.show && this.isDropdownClosable && !dropdown.contains(event.target)) {
+        this.closeDropdown();
       } else {
         this.isDropdownClosable = true;
       }
@@ -118,6 +113,8 @@ export default {
   unmounted() {
     document.body.removeEventListener("click", this.handleClick);
   },
-  computed: { ...mapStores(useNotificationsStore, useAuthenticationStore) },
+  computed: {
+    ...mapStores(useNotificationsStore, useAuthenticationStore)
+  },
 };
 </script>
