@@ -20,15 +20,15 @@
     <div class="loader mx-auto"></div>
   </div>
   <div v-else-if="post && post.author">
-    <app-posts-feed :posts="[post]" :closable-mode="true" @close="exitFeed" />
+    <PostsFeed :posts="[post]" :closable-mode="true" @close="exitFeed" />
   </div>
 </template>
 
 <script lang="ts">
 import { mapStores } from "pinia";
 import { usePostsStore } from "../stores/postsStore.ts";
-import AppPostsFeed from "../components/AppPostsFeed.vue";
-import { IPost } from "@/types/globals";
+import PostsFeed from "../components/PostsFeed/PostsFeed.vue";
+import { IPost } from "../types/globals";
 
 export default {
   data() {
@@ -45,9 +45,7 @@ export default {
   },
   async mounted() {
     this.loading = true;
-    const { success, data } = await this.postsStore.getPost(
-      +this.$route.params.id
-    );
+    const { success, data } = await this.postsStore.getPost(+this.$route.params.id);
     if (success) {
       this.post = data;
       this.post!.activeImage = 0;
@@ -57,6 +55,6 @@ export default {
     this.loading = false;
   },
   computed: { ...mapStores(usePostsStore) },
-  components: { AppPostsFeed },
+  components: { PostsFeed },
 };
 </script>

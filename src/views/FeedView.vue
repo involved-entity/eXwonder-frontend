@@ -18,7 +18,7 @@
           :users="updatedFollows"
           v-if="!loading && !showSwipeScroll"
         />
-        <app-posts-feed :posts="updates" v-if="!loading"></app-posts-feed>
+        <PostsFeed :posts="updates" v-if="!loading" />
       </div>
       <div class="text-gray-600 dark:text-gray-500 py-10" v-else>
         <svg
@@ -45,7 +45,7 @@ import { IPost, IUserDefaultData } from "../types/globals";
 import { usePostsStore } from "../stores/postsStore.ts";
 import UsersScroll from "../components/UsersScroll.vue";
 import SwipeComponent from "../components/SwipeComponent.vue";
-import AppPostsFeed from "../components/AppPostsFeed.vue";
+import PostsFeed from "../components/PostsFeed/PostsFeed.vue";
 import Alert from "../components/alert/Alert.vue";
 import { mapStores } from "pinia";
 import { IResponse } from "../types/helpers";
@@ -92,6 +92,6 @@ export default {
       return this.$route.query.action === "login";
     },
   },
-  components: { UsersScroll, AppPostsFeed, Alert, SwipeComponent },
+  components: { UsersScroll, PostsFeed, Alert, SwipeComponent },
 };
 </script>
