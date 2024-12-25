@@ -1,17 +1,11 @@
 <template>
-  <div
-    class="flex items-center justify-center ms-auto text-white dark:text-black pr-5"
-  >
-    <button
-      @click="toggle"
-      class="focus:outline-none bg-transparent border-none cursor-pointer"
-    >
+  <div class="flex items-center justify-center ms-auto text-white dark:text-black pr-5">
+    <button @click="toggle" class="focus:outline-none bg-transparent border-none cursor-pointer">
       <div class="relative">
         <svg
           :class="{
             'opacity-0 transition-opacity duration-300': status,
-            'transition-opacity duration-300 opacity-100 absolute inset-0':
-              !status,
+            'transition-opacity duration-300 opacity-100 absolute inset-0': !status,
           }"
           xmlns="http://www.w3.org/2000/svg"
           width="28"
@@ -28,8 +22,7 @@
         <svg
           :class="{
             'opacity-0 transition-opacity duration-300': !status,
-            'transition-opacity duration-300 opacity-100 absolute inset-0':
-              status,
+            'transition-opacity duration-300 opacity-100 absolute inset-0': status,
           }"
           xmlns="http://www.w3.org/2000/svg"
           width="28"
@@ -50,21 +43,11 @@
 export default {
   emits: ["changed"],
   props: {
-    nested: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-    depends: {
-      type: Boolean,
-      required: false,
-      default: null,
-    },
+    nested: { type: Boolean, default: false },
+    depends: { type: Boolean as () => boolean | null, default: null },
   },
   data() {
-    return {
-      isOpen: false,
-    };
+    return { isOpen: this.nested };
   },
   methods: {
     toggle() {
@@ -78,11 +61,6 @@ export default {
     status() {
       return this.depends === null ? this.isOpen : this.depends;
     },
-  },
-  mounted() {
-    if (this.nested) {
-      this.isOpen = this.nested;
-    }
   },
 };
 </script>

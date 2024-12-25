@@ -1,6 +1,6 @@
 <template>
   <div>
-    <AppBurgerButton :depends="isOpen" @changed="toggleSidebar(true)" />
+    <BurgerButton :depends="isOpen" @changed="toggleSidebar(true)" />
 
     <transition name="slide">
       <div
@@ -16,7 +16,7 @@
         class="fixed right-0 top-0 h-full w-3/5 bg-gray-100 dark:bg-[#151515] shadow-lg z-50 transform transition-transform duration-300"
       >
         <div class="text-gray-700 dark:text-gray-300 p-4">
-          <AppBurgerButton :nested="true" @changed="toggleSidebar(false)" />
+          <BurgerButton :nested="true" @changed="toggleSidebar(false)" />
           <ul class="mt-4">
             <li>
               <router-link :to="{ name: 'saved-posts' }">
@@ -115,10 +115,10 @@
 </template>
 
 <script lang="ts">
-import AppBurgerButton from "../components/AppBurgerButton.vue";
+import BurgerButton from "../components/BurgerButton.vue";
 
 export default {
-  components: { AppBurgerButton },
+  components: { BurgerButton },
   data() {
     return {
       isOpen: false,

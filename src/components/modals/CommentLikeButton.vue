@@ -8,7 +8,7 @@
       stroke="currentColor"
       class="btn-svg mx-auto"
       v-if="!comment.is_liked"
-      @click="likeComment"
+      @click="toggleLike"
     >
       <path
         stroke-linecap="round"
@@ -22,7 +22,7 @@
       fill="currentColor"
       class="btn-svg mx-auto text-red-600"
       v-if="comment.is_liked"
-      @click="likeComment(false)"
+      @click="toggleLike(false)"
     >
       <path
         d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z"
@@ -31,8 +31,8 @@
     <div
       class="text-gray-600 dark:text-white text-center varela-round"
       :class="{
-        'text-lg': String(comment.likes_count).length <= 2,
-        'text-sm': String(comment.likes_count).length > 2,
+        'text-lg': isLikesCountShort,
+        'text-sm': !isLikesCountShort,
       }"
     >
       {{ comment.likes_count }}
@@ -42,7 +42,7 @@
 
 <script lang="ts">
 import { mapStores } from "pinia";
-import { useCommentsStore } from "../stores/commentsStore.ts";
+import { useCommentsStore } from "../../stores/commentsStore.ts";
 
 export default {
   props: {
@@ -52,18 +52,29 @@ export default {
     },
   },
   methods: {
-    async likeComment(action: boolean = true): Promise<void> {
-      if (action && !this.comment.is_liked) {
-        await this.commentsStore.addCommentLike(this.comment.id);
-        this.comment.is_liked = true;
-        this.comment.likes_count += 1;
-      } else if (!action && this.comment.is_liked) {
-        await this.commentsStore.deleteCommentLike(this.comment.id);
-        this.comment.is_liked = false;
-        this.comment.likes_count -= 1;
+    async toggleLike(isLike: boolean = true): Promise<void> {
+      if (isLike) {
+        await this.likeComment();
+      } else {
+        await this.unlikeComment();
       }
     },
+    async likeComment(): Promise<void> {
+      await this.commentsStore.addCommentLike(this.comment.id);
+      this.comment.is_liked = true;
+      this.comment.likes_count += 1;
+    },
+    async unlikeComment(): Promise<void> {
+      await this.commentsStore.deleteCommentLike(this.comment.id);
+      this.comment.is_liked = false;
+      this.comment.likes_count -= 1;
+    },
   },
-  computed: { ...mapStores(useCommentsStore) },
+  computed: {
+    ...mapStores(useCommentsStore),
+    isLikesCountShort() {
+      return String(this.comment.likes_count).length <= 2;
+    },
+  },
 };
 </script>

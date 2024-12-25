@@ -41,11 +41,7 @@
         <div class="py-10" v-if="loading">
           <div class="loader mx-auto"></div>
         </div>
-        <app-posts-grid
-          :posts="topPosts"
-          @updatePostsScroll="getPostsNextPage"
-          v-if="!loading"
-        ></app-posts-grid>
+        <PostsGrid :posts="topPosts" @updatePostsScroll="getPostsNextPage" v-if="!loading" />
         <div class="py-10" v-if="loadingNextPage">
           <div class="loader mx-auto"></div>
         </div>
@@ -58,7 +54,7 @@
 import { IPost, Tops } from "../types/globals";
 import { usePostsStore } from "../stores/postsStore.ts";
 import { mapStores } from "pinia";
-import AppPostsGrid from "../components/AppPostsGrid.vue";
+import PostsGrid from "../components/PostsGrid/PostsGrid.vue";
 import { IResponse } from "../types/helpers";
 
 export default {
@@ -103,10 +99,7 @@ export default {
     async getPostsNextPage() {
       if (this.currentPage && this.activeTab === 0) {
         this.loadingNextPage = true;
-        const { data } = await this.postsStore.getPostsTop(
-          Tops.RECOMMENDED,
-          this.currentPage
-        );
+        const { data } = await this.postsStore.getPostsTop(Tops.RECOMMENDED, this.currentPage);
         this.topPosts.push(...data.results);
         this.currentPage = data.next ? this.currentPage + 1 : undefined;
         this.loadingNextPage = false;
@@ -117,6 +110,6 @@ export default {
     await this.getTopPosts();
   },
   computed: { ...mapStores(usePostsStore) },
-  components: { AppPostsGrid },
+  components: { PostsGrid },
 };
 </script>

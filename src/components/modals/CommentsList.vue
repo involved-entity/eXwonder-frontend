@@ -34,13 +34,13 @@
       <div class="text-gray-600 dark:text-gray-500 text-sm">{{ comment.comment }}</div>
     </div>
     <div class="col-span-1 justify-end">
-      <AppCommentLikeButton :comment="comment" />
+      <CommentLikeButton :comment="comment" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import AppCommentLikeButton from "../AppCommentLikeButton.vue";
+import CommentLikeButton from "./CommentLikeButton.vue";
 import { IComment } from "../../types/globals";
 import { useAuthenticationStore } from "../../stores/authenticationStore.ts";
 import { mapStores } from "pinia";
@@ -48,7 +48,7 @@ import { mapStores } from "pinia";
 export default {
   emits: ["commentDelete"],
   name: "CommentsList",
-  components: { AppCommentLikeButton },
+  components: { CommentLikeButton },
   props: {
     comments: {
       type: Array as () => IComment[],

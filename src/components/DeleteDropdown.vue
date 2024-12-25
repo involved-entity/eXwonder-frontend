@@ -53,22 +53,19 @@ export default {
   props: {
     caption: {
       type: String,
-      required: false,
       default: "Delete post",
     },
   },
   mounted() {
-    const $targetEl = document.getElementById("dropdownMenu");
-    const $triggerEl = document.getElementById("dropdownButton");
+    const dropdownMenu = document.getElementById("dropdownMenu");
+    const dropdownButton = document.getElementById("dropdownButton");
 
-    const options = {
-      placement: "bottom",
-      offsetSkidding: 0,
-      offsetDistance: 10,
-    };
-
-    if ($targetEl) {
-      new Dropdown($targetEl, $triggerEl, options);
+    if (dropdownMenu && dropdownButton) {
+      new Dropdown(dropdownMenu, dropdownButton, {
+        placement: "bottom",
+        offsetSkidding: 0,
+        offsetDistance: 10,
+      });
     }
   },
 };

@@ -154,11 +154,7 @@
         <div class="grid grid-cols-12">
           <div class="col-span-10 flex">
             <div class="text-gray-700 dark:text-gray-300">
-              <app-like-button
-                :post="post"
-                :centered="false"
-                :flex-likes-count="true"
-              ></app-like-button>
+              <PostLikeButton :post="post" :centered="false" :flex-likes-count="true" />
             </div>
             <div class="flex text-gray-700 dark:text-gray-300 ms-1">
               <svg
@@ -269,7 +265,7 @@
 <script lang="ts">
 import { PropType } from "vue";
 import { IPost } from "../types/globals";
-import AppLikeButton from "./AppLikeButton.vue";
+import PostLikeButton from "./PostLikeButton.vue";
 import PostModal from "./modals/PostModal/PostModal.vue";
 import AppSavePostButton from "./AppSavePostButton.vue";
 import AppSwipeComponent from "./AppSwipeComponent.vue";
@@ -283,7 +279,7 @@ import { Dropdown } from "flowbite";
 export default {
   components: {
     AppSavePostButton,
-    AppLikeButton,
+    PostLikeButton,
     PostModal,
     AppSwipeComponent,
     CommentsModal,

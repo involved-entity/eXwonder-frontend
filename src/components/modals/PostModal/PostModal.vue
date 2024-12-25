@@ -13,7 +13,7 @@
               <div class="ms-1 varela-round">({{ post.comments_count }})</div>
             </div>
             <div class="flex col-span-1 ms-auto">
-              <AppDeleteDropdown
+              <DeleteDropdown
                 v-if="post.author.id === authenticationStore.user.id"
                 @delete="postDelete"
               />
@@ -43,7 +43,7 @@
           class="sticky bottom-0 left-0 w-full py-3 grid grid-cols-12 bg-gray-300 dark:bg-[#070707] h-[28%]"
         >
           <div class="col-span-2">
-            <AppLikeButton :post="post" />
+            <PostLikeButton :post="post" />
           </div>
           <div class="col-span-8">
             <div class="h-full">
@@ -95,9 +95,9 @@ import { useCommentsStore } from "../../../stores/commentsStore.ts";
 import { useAuthenticationStore } from "../../../stores/authenticationStore.ts";
 import { usePostsStore } from "../../../stores/postsStore.ts";
 import { mapStores } from "pinia";
-import AppLikeButton from "../../AppLikeButton.vue";
+import PostLikeButton from "../../PostLikeButton.vue";
 import { IComment, IPost } from "../../../types/globals";
-import AppDeleteDropdown from "../../AppDeleteDropdown.vue";
+import DeleteDropdown from "../../DeleteDropdown.vue";
 import ImagesCarousel from "./ImagesCarousel.vue";
 import ModalCloseButton from "../ModalCloseButton.vue";
 import CommentsList from "../CommentsList.vue";
@@ -111,8 +111,8 @@ export default {
     CommentsList,
     ModalCloseButton,
     ImagesCarousel,
-    AppDeleteDropdown,
-    AppLikeButton,
+    DeleteDropdown,
+    PostLikeButton,
   },
   emits: ["close"],
   props: {

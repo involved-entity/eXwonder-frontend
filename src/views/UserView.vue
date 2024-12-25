@@ -103,7 +103,7 @@
             <hr class="border border-gray-600" />
           </div>
 
-          <app-posts-grid :posts="posts" @updatePostsScroll="getPostsNextPage" v-if="posts" />
+          <PostsGrid :posts="posts" @updatePostsScroll="getPostsNextPage" v-if="posts" />
           <SubscriptionsModal
             :follows-count="followings.followersCount"
             follow-mode="followers"
@@ -143,7 +143,7 @@ import { useUsersStore } from "../stores/usersStore.ts";
 import { usePostsStore } from "../stores/postsStore.ts";
 import { useAuthenticationStore } from "../stores/authenticationStore.ts";
 
-import AppPostsGrid from "../components/AppPostsGrid.vue";
+import PostsGrid from "../components/PostsGrid/PostsGrid.vue";
 import SubscriptionsModal from "../components/modals/SubscriptionsModal/SubscriptionsModal.vue";
 import Alert from "../components/alert/Alert.vue";
 import { IUserProfileData } from "../types/IUserProfileData.ts";
@@ -268,6 +268,6 @@ export default {
       );
     },
   },
-  components: { Alert, AppPostsGrid, SubscriptionsModal },
+  components: { Alert, PostsGrid, SubscriptionsModal },
 };
 </script>

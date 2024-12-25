@@ -24,7 +24,7 @@
       </div>
       <div class="absolute right-5 top-1/2 -translate-y-1/2 cursor-pointer z-50">
         <div class="m-auto">
-          <AppDeleteDropdown
+          <DeleteDropdown
             caption="Delete chat"
             @delete="messengerStore.markChatDelete(messengerStore.activeChat!)"
           />
@@ -112,12 +112,12 @@ import { mapStores } from "pinia";
 import { useMessengerStore } from "../../stores/messengerStore.ts";
 import Message from "./Message.vue";
 import { parseDate } from "../../helpers";
-import AppDeleteDropdown from "../AppDeleteDropdown.vue";
+import DeleteDropdown from "../DeleteDropdown.vue";
 
-import { IMessage } from "@/types/globals";
+import { IMessage } from "../../types/globals";
 
 export default {
-  components: { AppDeleteDropdown, Message },
+  components: { DeleteDropdown, Message },
   data() {
     return {
       message: "" as string,
