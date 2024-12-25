@@ -5,24 +5,19 @@
         <div class="loader mx-auto"></div>
       </div>
       <div v-else-if="updates.length">
-        <app-swipe-component
+        <SwipeComponent
           @swipe-left="scroll(-200)"
           @swipe-right="scroll(200)"
           v-if="!loading && showSwipeScroll"
         >
-          <app-users-scroll
-            :users="updatedFollows"
-            ref="users"
-            @scroll="scroll"
-            v-if="!loading"
-          ></app-users-scroll>
-        </app-swipe-component>
-        <app-users-scroll
+          <UsersScroll :users="updatedFollows" ref="users" @scroll="scroll" v-if="!loading" />
+        </SwipeComponent>
+        <UsersScroll
           @scroll="scroll"
           ref="users"
           :users="updatedFollows"
           v-if="!loading && !showSwipeScroll"
-        ></app-users-scroll>
+        />
         <app-posts-feed :posts="updates" v-if="!loading"></app-posts-feed>
       </div>
       <div class="text-gray-600 dark:text-gray-500 py-10" v-else>
@@ -42,22 +37,19 @@
       </div>
     </div>
   </div>
-  <Alert
-    :message="alertMessage"
-    v-if="showAlert"
-  />
+  <Alert :message="alertMessage" v-if="showAlert" />
 </template>
 
 <script lang="ts">
 import { IPost, IUserDefaultData } from "../types/globals";
 import { usePostsStore } from "../stores/postsStore.ts";
-import AppUsersScroll from "../components/AppUsersScroll.vue";
-import AppSwipeComponent from "../components/AppSwipeComponent.vue";
+import UsersScroll from "../components/UsersScroll.vue";
+import SwipeComponent from "../components/SwipeComponent.vue";
 import AppPostsFeed from "../components/AppPostsFeed.vue";
 import Alert from "../components/alert/Alert.vue";
 import { mapStores } from "pinia";
 import { IResponse } from "../types/helpers";
-import {getUpdatedFollows} from "../services"
+import { getUpdatedFollows } from "../services";
 
 export default {
   data() {
@@ -66,14 +58,14 @@ export default {
       updatedFollows: [] as Array<IUserDefaultData>,
       loading: false,
       alertMessage: "Success log in." as string,
-      windowSize: window.innerWidth as number
+      windowSize: window.innerWidth as number,
     };
   },
   methods: {
     scroll(value: number) {
       (this.$refs.users as HTMLElement).scrollBy({
         left: value,
-        behavior: 'smooth'
+        behavior: "smooth",
       });
     },
     handleResize() {
@@ -87,19 +79,19 @@ export default {
 
     const response: IResponse = await this.postsStore.getPostsTop();
     this.updates = response.data.results;
-    this.updatedFollows = getUpdatedFollows(response.data.results)
+    this.updatedFollows = getUpdatedFollows(response.data.results);
 
     this.loading = false;
   },
   computed: {
     ...mapStores(usePostsStore),
     showSwipeScroll() {
-      return this.windowSize < 1024
+      return this.windowSize < 1024;
     },
     showAlert() {
-      return this.$route.query.action === 'login'
-    }
+      return this.$route.query.action === "login";
+    },
   },
-  components: { AppUsersScroll, AppPostsFeed, Alert, AppSwipeComponent },
+  components: { UsersScroll, AppPostsFeed, Alert, SwipeComponent },
 };
 </script>

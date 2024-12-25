@@ -34,28 +34,28 @@
       </div>
     </div>
     <div class="col-span-1 justify-end">
-      <AppSavePostButton :post="post" />
+      <PostSaveButton :post="post" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import AppSavePostButton from "../../AppSavePostButton.vue";
+import PostSaveButton from "../../PostSaveButton.vue";
 import { IPost } from "../../../types/globals";
 
 export default {
   name: "PostBasicInfo",
-  components: { AppSavePostButton },
+  components: { PostSaveButton },
   props: {
     post: {
       type: Object as () => IPost,
-      required: true
+      required: true,
     },
   },
   data() {
     return {
-      signatureExpanded: false
-    }
+      signatureExpanded: false,
+    };
   },
 };
 </script>

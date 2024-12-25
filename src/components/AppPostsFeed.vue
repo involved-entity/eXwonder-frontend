@@ -111,7 +111,7 @@
             />
           </svg>
         </button>
-        <app-swipe-component
+        <SwipeComponent
           class="block lg:hidden"
           @swipe-left="changeImage(post, false)"
           @swipe-right="changeImage(post)"
@@ -121,7 +121,7 @@
             alt="Post image"
             class="max-h-full rounded"
           />
-        </app-swipe-component>
+        </SwipeComponent>
         <img
           :src="post.images[post.activeImage!].image"
           alt="Post image"
@@ -197,7 +197,7 @@
           </div>
           <div class="col-span-2">
             <div class="flex text-gray-700 dark:text-gray-300 justify-end">
-              <app-save-post-button :post="post"></app-save-post-button>
+              <PostSaveButton :post="post" />
             </div>
           </div>
         </div>
@@ -267,8 +267,8 @@ import { PropType } from "vue";
 import { IPost } from "../types/globals";
 import PostLikeButton from "./PostLikeButton.vue";
 import PostModal from "./modals/PostModal/PostModal.vue";
-import AppSavePostButton from "./AppSavePostButton.vue";
-import AppSwipeComponent from "./AppSwipeComponent.vue";
+import PostSaveButton from "./PostSaveButton.vue";
+import SwipeComponent from "./SwipeComponent.vue";
 import CommentsModal from "./modals/CommentsModal/CommentsModal.vue";
 import { useCommentsStore } from "../stores/commentsStore.ts";
 import { usePostsStore } from "../stores/postsStore.ts";
@@ -278,10 +278,10 @@ import { Dropdown } from "flowbite";
 
 export default {
   components: {
-    AppSavePostButton,
+    PostSaveButton,
     PostLikeButton,
     PostModal,
-    AppSwipeComponent,
+    SwipeComponent,
     CommentsModal,
   },
   emits: ["close"],

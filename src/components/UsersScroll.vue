@@ -76,7 +76,7 @@
 
 <script lang="ts">
 import { PropType } from "vue";
-import { IUserDefaultData } from "@/types/globals/index.js";
+import { IUserDefaultData } from "../types/globals/index.js";
 
 export default {
   emits: ["scroll"],
@@ -94,12 +94,10 @@ export default {
   },
   methods: {
     scroll(value: number) {
-      const users: Element = this.$refs.usersScroll;
+      const users: HTMLElement = this.$refs.usersScroll;
 
       if (users) {
         users.scrollBy({ left: value, behavior: "smooth" });
-      } else {
-        console.warn("Users not exists");
       }
     },
   },
