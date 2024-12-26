@@ -38,18 +38,20 @@ export default {
     };
   },
   methods: {
-    formatSavedPosts: (post: IPost) => {
-      post.post.likes_count = post.likes_count;
-      post.post.comments_count = post.comments_count;
-      post.post.is_liked = post.is_liked;
-      post.post.is_commented = post.is_commented;
-      post.post.is_saved = post.is_saved;
-      return post.post;
+    formatSavedPost(post: IPost) {
+      return {
+        ...post.post,
+        likes_count: post.likes_count,
+        comments_count: post.comments_count,
+        is_liked: post.is_liked,
+        is_commented: post.is_commented,
+        is_saved: post.is_saved,
+      };
     },
     async getPostsSaved() {
       this.loading = true;
       const response: IResponse = await this.postsStore.getSavedPosts();
-      this.saved = response.data.results.map(this.formatSavedPosts);
+      this.saved = response.data.results.map(this.formatSavedPost);
       this.currentPage = response.data.next ? 2 : undefined;
       this.loading = false;
     },
@@ -57,7 +59,7 @@ export default {
       if (this.currentPage) {
         this.loadingNextPage = true;
         const { data } = await this.postsStore.getSavedPosts(this.currentPage);
-        this.saved.push(...data.results.map(this.formatSavedPosts));
+        this.saved.push(...data.results.map(this.formatSavedPost));
         this.currentPage = data.next ? this.currentPage + 1 : undefined;
         this.loadingNextPage = false;
       }

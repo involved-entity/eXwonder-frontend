@@ -5,23 +5,8 @@
         <div class="py-10" v-if="loading">
           <div class="loader mx-auto"></div>
         </div>
-        <div class="text-gray-700 dark:text-gray-300" v-else-if="errorFetchUser.length">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="size-60 m-auto"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"
-            />
-          </svg>
-          <p class="text-4xl text-center pb-5">{{ errorFetchUser }}</p>
-        </div>
+
+        <FetchUserError v-else-if="errorFetchUser.length" />
 
         <div v-else>
           <div class="flex justify-center mb-1.5">
@@ -32,71 +17,15 @@
                 class="border-2 border-gray-600 p-1 rounded-full max-w-full"
               />
             </div>
-            <div class="ms-2 relative">
-              <p class="text-gray-700 dark:text-gray-300 text-lg lg:text-xl mt-5">
-                {{ requestedUser.username }}
-              </p>
-              <button
-                class="btn-follow absolute top-0 right-0 mt-5"
-                type="button"
-                :class="{
-                  'bg-gray-500 dark:bg-gray-600': followings.followed,
-                  'bg-blue-500': !followings.followed,
-                }"
-                @click="followUser"
-                v-if="authenticationStore.user.id !== requestedUser.id"
-              >
-                {{ followings.followed ? "Followed" : "Follow" }}
-              </button>
-              <div class="flex text-xl text-gray-600 dark:text-gray-400 pb-1 mt-auto">
-                <div class="pr-4">
-                  <div class="text-base lg:text-xl">
-                    <span
-                      class="text-gray-700 dark:text-gray-300 text-xl font-semibold varela-round"
-                      >{{ postsCount }}</span
-                    >
-                    posts
-                  </div>
-                </div>
-                <div
-                  class="pr-4"
-                  :class="{
-                    'cursor-pointer hover:text-gray-500':
-                      authenticationStore.user.username === requestedUser.username &&
-                      followings.followersCount > 0,
-                  }"
-                  @click="showModal('followers')"
-                >
-                  <div class="text-base lg:text-xl">
-                    <span
-                      class="text-gray-700 dark:text-gray-300 text-xl font-semibold varela-round"
-                      >{{ followings.followersCount }}</span
-                    >
-                    followers
-                  </div>
-                </div>
-                <div
-                  :class="{
-                    'cursor-pointer hover:text-gray-500': followings.followingsCount > 0,
-                  }"
-                  @click="showModal('followings')"
-                >
-                  <div class="text-base lg:text-xl">
-                    <span
-                      class="text-gray-700 dark:text-gray-300 text-xl font-semibold varela-round"
-                      >{{ followings.followingsCount }}</span
-                    >
-                    followings
-                  </div>
-                </div>
-              </div>
-              <p class="text-lg text-gray-700 dark:text-gray-300 font-semibold pr-5">
-                {{ requestedUser.name }}
-              </p>
-              <p class="text-sm text-gray-600 dark:text-gray-400 pr-5">
-                {{ requestedUser.desc }}
-              </p>
-            </div>
+            <UserInfo
+              @follow="followUser"
+              :posts-count="postsCount"
+              :possibleToFollow="authenticationStore.user.id !== requestedUser.id"
+              :requested-user="requestedUser"
+              :followings="followings"
+              @followersModal="showModal('followers')"
+              @followingsModal="showModal('followings')"
+            />
           </div>
 
           <div class="px-1 pb-1.5 h-1">
@@ -147,6 +76,8 @@ import PostsGrid from "../components/PostsGrid/PostsGrid.vue";
 import SubscriptionsModal from "../components/modals/SubscriptionsModal/SubscriptionsModal.vue";
 import Alert from "../components/alert/Alert.vue";
 import { IUserProfileData } from "../types/IUserProfileData.ts";
+import FetchUserError from "../components/FetchUserError.vue";
+import UserInfo from "../components/UserInfo.vue";
 
 export default {
   data() {
@@ -268,6 +199,6 @@ export default {
       );
     },
   },
-  components: { Alert, PostsGrid, SubscriptionsModal },
+  components: { UserInfo, FetchUserError, Alert, PostsGrid, SubscriptionsModal },
 };
 </script>

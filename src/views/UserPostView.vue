@@ -46,12 +46,14 @@ export default {
   async mounted() {
     this.loading = true;
     const { success, data } = await this.postsStore.getPost(+this.$route.params.id);
+
     if (success) {
       this.post = data;
       this.post!.activeImage = 0;
     } else {
       this.error = true;
     }
+
     this.loading = false;
   },
   computed: { ...mapStores(usePostsStore) },

@@ -1,9 +1,7 @@
 <template>
   <div class="container-border" @keyup.ctrl.enter="submit">
     <div class="justify-center shadow pt-1">
-      <p
-        class="text-gray-700 dark:text-gray-300 text-4xl text-center lg:ms-3 lg:text-start"
-      >
+      <p class="text-gray-700 dark:text-gray-300 text-4xl text-center lg:ms-3 lg:text-start">
         New post uploading
       </p>
       <hr class="ms-3 mr-3 mt-3 mb-4 border-gray-600" />
@@ -15,35 +13,30 @@
           <input
             type="file"
             ref="images"
-            @change="imagesChanged"
+            @change="images = $refs.images.files"
             id="imagesInput"
             required
             multiple
             class="absolute inset-0 opacity-0 cursor-pointer"
           />
-          <button class="btn-no-w btn-green btn-green-hover">
-            Select File
-          </button>
+          <button class="btn-no-w btn-green btn-green-hover">Select File</button>
         </div>
-        <div
-          class="text-sm text-gray-700 dark:text-gray-300 h-full m-auto"
-          v-if="images.length"
-        >
+        <div class="text-sm text-gray-700 dark:text-gray-300 h-full m-auto" v-if="images.length">
           {{ images.length }}
           {{ images.length === 1 ? "file" : "files" }} selected
         </div>
       </div>
 
-      <label class="form-label block mb-2 !ms-3 mt-4"
-        >Signature for post
-        <code class="text-slate-500">(optional)</code>:</label
-      >
+      <label class="form-label block mb-2 !ms-3 mt-4">
+        Signature for post
+        <code class="text-slate-500">(optional)</code>:
+      </label>
       <textarea rows="3" class="form-textarea" v-model="signature" />
 
-      <label class="form-label block mb-2 !ms-3 mt-4"
-        >Tags for post
-        <code class="text-slate-500">(optional, comma sep)</code>:</label
-      >
+      <label class="form-label block mb-2 !ms-3 mt-4">
+        Tags for post
+        <code class="text-slate-500">(optional, comma sep)</code>:
+      </label>
       <textarea rows="3" class="form-textarea" v-model="tags" />
 
       <button
@@ -107,9 +100,6 @@ export default {
         }
         this.loading = false;
       }
-    },
-    imagesChanged() {
-      this.images = this.$refs.images!.files;
     },
   },
   computed: {

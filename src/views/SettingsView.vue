@@ -22,9 +22,7 @@
             @keyup.down="$refs.emailInput.focus()"
           />
           <p>
-            <small class="form-error-label" v-if="errors.name?.length">{{
-              errors.name[0]
-            }}</small>
+            <small class="form-error-label" v-if="errors.name?.length">{{ errors.name[0] }}</small>
           </p>
 
           <p class="form-label mt-3">E-mail:</p>
@@ -57,10 +55,7 @@
             list="timezones"
           />
           <datalist id="timezones">
-            <option
-              v-for="timezone in authenticationStore.availibleTimezones"
-              :key="timezone"
-            >
+            <option v-for="timezone in authenticationStore.availibleTimezones" :key="timezone">
               {{ timezone }}
             </option>
           </datalist>
@@ -80,9 +75,7 @@
           v-model="desc"
         />
         <p>
-          <small class="form-error-label" v-if="errors.desc?.length">{{
-            errors.desc[0]
-          }}</small>
+          <small class="form-error-label" v-if="errors.desc?.length">{{ errors.desc[0] }}</small>
         </p>
 
         <div class="flex mt-3 space-x-1.5">
@@ -105,14 +98,9 @@
               @change="avatarChanged"
               class="absolute inset-0 opacity-0 cursor-pointer"
             />
-            <button class="btn-no-w btn-green btn-green-hover">
-              Select File
-            </button>
+            <button class="btn-no-w btn-green btn-green-hover">Select File</button>
           </div>
-          <div
-            class="text-sm text-gray-700 dark:text-gray-300 h-full m-auto"
-            v-if="avatar"
-          >
+          <div class="text-sm text-gray-700 dark:text-gray-300 h-full m-auto" v-if="avatar">
             1 file selected
           </div>
         </div>
@@ -213,14 +201,14 @@ export default {
   },
   computed: {
     isValid() {
-      if (!checkIsEmailValid(this.email)) return false;
       return (
-        this.name !== "" ||
-        this.email !== "" ||
-        this.timezone !== "" ||
-        this.desc !== "" ||
-        this.is2faEnabled !== this.authenticationStore.user.is2faEnabled ||
-        this.avatar
+        checkIsEmailValid(this.email) &&
+        (this.name !== "" ||
+          this.email !== "" ||
+          this.timezone !== "" ||
+          this.desc !== "" ||
+          this.is2faEnabled !== this.authenticationStore.user.is2faEnabled ||
+          this.avatar)
       );
     },
     ...mapStores(useAccountStore, useAuthenticationStore),

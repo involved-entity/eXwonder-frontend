@@ -43,58 +43,40 @@
 
         <div v-if="!searchLoading && !search.length">
           <div
-            class="hover:bg-transparent/10 dark:hover:bg-transparent/20 w-full px-3 flex relative py-3 cursor-pointer"
-            :class="{
-              'bg-transparent/10 dark:bg-transparent/20':
-                messengerStore.activeChat && chat.id === messengerStore.activeChat!.id,
-            }"
             v-for="chat in messengerStore.chats"
             :key="chat.id"
             @click="openChat(chat)"
-          >
-            <Chat :chat="chat" v-if="chat.last_message.time_added" />
-            <EmptyChat :user="chat.user" v-if="!chat.last_message.time_added" />
-          </div>
-        </div>
-
-        <div
-          v-if="
-            !searchLoading &&
-            search.length &&
-            searchResults.length &&
-            searchMode === searchModeEnum.CHATS
-          "
-        >
-          <div
             class="hover:bg-transparent/10 dark:hover:bg-transparent/20 w-full px-3 flex relative py-3 cursor-pointer"
             :class="{
               'bg-transparent/10 dark:bg-transparent/20':
                 messengerStore.activeChat && chat.id === messengerStore.activeChat!.id,
             }"
-            v-for="chat in searchResults"
-            :key="chat.id"
-            @click="openChat(chat)"
           >
-            <Chat :chat="chat" v-if="chat.last_message.time_added" />
-            <EmptyChat :user="chat.user" v-if="!chat.last_message.time_added" />
+            <Chat v-if="chat.last_message.time_added" :chat="chat" />
+            <EmptyChat v-if="!chat.last_message.time_added" :user="chat.user" />
           </div>
         </div>
 
-        <div
-          v-if="
-            !searchLoading &&
-            search.length &&
-            searchResults.length &&
-            searchMode === searchModeEnum.USERS
-          "
-        >
+        <div v-if="!searchLoading && search.length && searchResults.length">
           <div
+            v-for="item in searchResults"
+            :key="item.id"
+            @click="openChat(item, searchMode === searchModeEnum.USERS)"
             class="hover:bg-transparent/10 dark:hover:bg-transparent/20 w-full px-3 flex relative py-3 cursor-pointer"
-            v-for="user in searchResults"
-            :key="user.id"
-            @click="openChat(user, true)"
+            :class="{
+              'bg-transparent/10 dark:bg-transparent/20':
+                messengerStore.activeChat && item.id === messengerStore.activeChat!.id,
+            }"
           >
-            <EmptyChat :user="user" />
+            <Chat
+              v-if="searchMode === searchModeEnum.CHATS && item.last_message.time_added"
+              :chat="item"
+            />
+            <EmptyChat
+              v-if="searchMode === searchModeEnum.CHATS && !item.last_message.time_added"
+              :user="item.user"
+            />
+            <EmptyChat v-if="searchMode === searchModeEnum.USERS" :user="item" />
           </div>
         </div>
       </div>
@@ -146,14 +128,17 @@ export default {
     openChat(chatOrUser: IChat | IUserExtendedData, start: boolean = false) {
       if (start) {
         this.messengerStore.startChat(chatOrUser as IUserExtendedData);
-        this.search = "";
-        this.searchResults = [];
-        this.searchMode = undefined;
+        this.resetSearch();
       } else {
         if (this.messengerStore.activeChat !== chatOrUser) {
           this.messengerStore.changeActiveChat(chatOrUser as IChat);
         }
       }
+    },
+    resetSearch() {
+      this.search = "";
+      this.searchResults = [];
+      this.searchMode = undefined;
     },
     handleResize() {
       this.windowSize = window.innerWidth;
@@ -183,8 +168,7 @@ export default {
         this.searchResults = this.searchResults.filter(res => res.id !== authStore.user.id);
         this.searchMode = SearchMode.USERS;
       } else {
-        this.searchResults = [];
-        this.searchMode = undefined;
+        this.resetSearch();
       }
       this.searchLoading = false;
     },
@@ -200,20 +184,20 @@ export default {
 
 <style>
 ::-webkit-scrollbar {
-  width: 6px; /* Ширина скроллбара */
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent; /* Цвет фона трека */
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #555; /* Цвет скроллбара при наведении */
-  border-radius: 10px; /* Закругление углов */
+  background: #555;
+  border-radius: 10px;
 }
 
 .scrollable {
-  scrollbar-width: thin; /* Узкий скроллбар */
-  scrollbar-color: #555 transparent; /* Цвет скроллбара и фона трека */
+  scrollbar-width: thin;
+  scrollbar-color: #555 transparent;
 }
 </style>

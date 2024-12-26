@@ -1,12 +1,8 @@
 <template>
   <main class="relative">
     <div class="hw-centered flex flex-col">
-      <ResetPassword @submitted="showAlert = true" v-if="!(uid?.length && token?.length)" />
-      <ResetPasswordConfirm
-        :token="String(token)"
-        :uid="String(uid)"
-        v-if="uid?.length && token?.length"
-      />
+      <ResetPassword @submitted="showAlert = true" v-if="!hasResetToken" />
+      <ResetPasswordConfirm :token="token" :uid="uid" v-if="hasResetToken" />
       <div class="footer-links flex flex-col">
         <div class="mx-auto">
           Already have an account?
@@ -28,9 +24,14 @@ export default {
   data() {
     return {
       showAlert: false,
-      uid: null as LocationQueryValue | Array<LocationQueryValue>,
       token: null as LocationQueryValue | Array<LocationQueryValue>,
+      uid: null as LocationQueryValue | Array<LocationQueryValue>,
     };
+  },
+  computed: {
+    hasResetToken() {
+      return this.token !== null && this.uid !== null;
+    },
   },
   mounted() {
     Object.keys(this.$route.query).forEach(el => {

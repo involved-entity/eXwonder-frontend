@@ -58,7 +58,7 @@
       <div class="footer-links flex flex-col">
         <div class="mx-auto">
           Don't have an account?
-          <RouterLink :to="{ name: 'sing-up' }" class="link">Sing up</RouterLink>
+          <RouterLink :to="{ name: 'sign-up' }" class="link">Sign up</RouterLink>
         </div>
         <div class="mx-auto">
           Forgive your password?
@@ -129,7 +129,7 @@ export default {
       return this.username.length >= 5 && this.username.length <= 16 && this.password.length >= 8;
     },
     alertMessage() {
-      return this.$route.query.action === "sing-up"
+      return this.$route.query.action === "sign-up"
         ? "Now log in."
         : this.$route.query.action === "password-reset-success"
           ? "Login with new password now."
@@ -137,7 +137,7 @@ export default {
     },
     showAlert() {
       return (
-        this.$route.query.action === "sing-up" ||
+        this.$route.query.action === "sign-up" ||
         this.$route.query.action === "password-reset-success"
       );
     },

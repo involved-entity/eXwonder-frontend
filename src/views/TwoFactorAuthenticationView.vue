@@ -5,21 +5,15 @@
       <div class="card">
         <div class="w-full h-full items-center justify-center mt-3">
           <div class="mb-3 mx-3">
-            <p class="form-label">
-              Code <code class="text-slate-600">(check your email)</code>:
-            </p>
+            <p class="form-label">Code <code class="text-slate-600">(check your email)</code>:</p>
             <input
               type="text"
               class="form-input"
               v-model="code"
-              :class="{
-                '!border-red-600 focus:border-none': errors.code.length,
-              }"
+              :class="{ '!border-red-600 focus:border-none': errors.code }"
             />
             <p>
-              <small class="form-error-label" v-if="errors.code.length">{{
-                errors.code
-              }}</small>
+              <small class="form-error-label" v-if="errors.code">{{ errors.code }}</small>
             </p>
 
             <button
@@ -43,10 +37,7 @@
       </div>
     </div>
   </main>
-  <Alert
-    :message="alertMessage"
-    v-if="showAlert"
-  />
+  <Alert :message="alertMessage" v-if="showAlert" />
 </template>
 
 <script lang="ts">
@@ -61,21 +52,23 @@ export default {
       loading: false,
       code: "",
       errors: { code: "" },
-      alertMessage: "Enter 2FA code to login." as string,
+      alertMessage: "Enter 2FA code to login.",
     };
   },
   methods: {
     async submit() {
       if (this.isValid) {
-        const { success, data } =
-          await this.authenticationStore.twoFactorAuthentication(this.code);
+        this.loading = true;
+        const { success, data } = await this.authenticationStore.twoFactorAuthentication(this.code);
 
         if (success) {
-          this.errors = { code: "" };
+          this.errors.code = "";
           this.$router.push({ name: "feed", query: { action: "login" } });
         } else {
           this.errors.code = data.detail;
         }
+
+        this.loading = false;
       }
     },
   },
@@ -85,8 +78,8 @@ export default {
       return this.code.length === 5;
     },
     showAlert() {
-      return this.$route.query.action === 'login'
-    }
+      return this.$route.query.action === "login";
+    },
   },
 };
 </script>

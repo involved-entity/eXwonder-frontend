@@ -53,7 +53,7 @@ export const useAuthenticationStore = defineStore("authentication", {
       if (success) loginAndInitStores(data);
       return { success, data };
     },
-    async singUp(username: string, password: string, email: string | null): Promise<IResponse> {
+    async signUp(username: string, password: string, email: string | null): Promise<IResponse> {
       return await request(
         Methods.POST,
         "/api/v1/account/account/",

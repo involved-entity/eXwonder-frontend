@@ -23,9 +23,7 @@
               }}</small>
             </p>
 
-            <p class="form-label">
-              Email <code class="text-slate-500">(optional)</code>:
-            </p>
+            <p class="form-label">Email <code class="text-slate-500">(optional)</code>:</p>
             <input
               type="email"
               class="form-input"
@@ -71,7 +69,7 @@
               :class="{ 'btn-gree-hover': isValid }"
               :disabled="!isValid"
             >
-              Sing Up
+              Sign Up
             </button>
           </form>
           <div class="mx-3">
@@ -109,15 +107,15 @@ export default {
     async submit() {
       if (this.isValid) {
         this.loading = true;
-        const { success, data } = await this.authenticationStore.singUp(
+        const { success, data } = await this.authenticationStore.signUp(
           this.username,
           this.password1,
-          this.email.length ? this.email : null
+          this.email || null
         );
 
         if (success) {
           this.errors = { username: [], email: [] };
-          this.$router.push({ name: "login", query: { action: "sing-up" } });
+          this.$router.push({ name: "login", query: { action: "sign-up" } });
         } else {
           this.errors = data;
         }
@@ -128,20 +126,11 @@ export default {
   },
   computed: {
     isValid() {
-      if (
-        this.username.length < 5 ||
-        this.username.length > 16 ||
-        !checkIsEmailValid(this.email)
-      ) {
-        return false;
-      }
-      return !(
-        !this.password1 ||
-        this.password1.length < 8 ||
-        !this.password2 ||
-        this.password2.length < 8 ||
-        this.password1 !== this.password2
-      );
+      const isUsernameValid = this.username.length >= 5 && this.username.length <= 16;
+      const isEmailValid = !this.email || checkIsEmailValid(this.email);
+      const isPasswordValid = this.password1.length >= 8 && this.password1 === this.password2;
+
+      return isUsernameValid && isEmailValid && isPasswordValid;
     },
     ...mapStores(useAuthenticationStore),
   },
