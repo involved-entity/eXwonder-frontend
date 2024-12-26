@@ -1,52 +1,45 @@
 <template>
   <div class="flex relative" v-if="!fullWidth">
-    <div
-      class="w-3/12 fixed top-0 left-0 hidden lg:block"
-      v-if="authenticationStore.isAuth"
-    >
-      <the-navbar />
+    <div class="w-3/12 fixed top-0 left-0 hidden lg:block" v-if="authenticationStore.isAuth">
+      <DesktopNavSidebar />
     </div>
     <div
       class="w-3/12 fixed top-0 right-0 hidden lg:block mt-[44px]"
       v-if="authenticationStore.isAuth"
     >
-      <the-sidebar />
+      <DesktopUserSidebar />
     </div>
-    <the-theme-toggler></the-theme-toggler>
+    <TopToolbar />
     <div
       :class="{
-        'w-full m-auto lg:w-6/12 pb-14 lg:pb-0 mt-[45px]':
-          authenticationStore.isAuth,
+        'w-full m-auto lg:w-6/12 pb-14 lg:pb-0 mt-[45px]': authenticationStore.isAuth,
         'w-full': !authenticationStore.isAuth,
       }"
     >
-      <router-view />
+      <RouterView />
     </div>
-    <div
-      class="w-full fixed bottom-0 left-0 block lg:hidden"
-      v-if="authenticationStore.isAuth"
-    >
-      <the-bottom-navbar />
+    <div class="w-full fixed bottom-0 left-0 block lg:hidden" v-if="authenticationStore.isAuth">
+      <MobileNavSidebar />
     </div>
   </div>
   <div class="flex relative" v-if="fullWidth">
-    <the-theme-toggler></the-theme-toggler>
+    <TopToolbar />
     <div class="w-full mt-[45px] h-full">
-      <router-view />
+      <RouterView />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import TheNavbar from "./layouts/TheNavbar.vue";
-import TheSidebar from "./layouts/TheSidebar.vue";
-import TheBottomNavbar from "./layouts/TheBottomNavbar.vue";
-import TheThemeToggler from "./layouts/TheThemeToggler.vue";
+import DesktopNavSidebar from "./layouts/desktop/DesktopNavSidebar.vue";
+import DesktopUserSidebar from "./layouts/desktop/DesktopUserSidebar.vue";
+import MobileNavSidebar from "./layouts/mobile/MobileNavSidebar.vue";
+import TopToolbar from "./layouts/TopToolbar.vue";
 import { mapStores } from "pinia";
 import { useAuthenticationStore } from "./stores/authenticationStore.ts";
 
 export default {
-  components: { TheSidebar, TheNavbar, TheBottomNavbar, TheThemeToggler },
+  components: { DesktopUserSidebar, DesktopNavSidebar, MobileNavSidebar, TopToolbar },
   computed: {
     ...mapStores(useAuthenticationStore),
     fullWidth() {

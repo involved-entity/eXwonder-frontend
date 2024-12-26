@@ -2,10 +2,7 @@
   <nav>
     <div class="hw-centered">
       <div class="grid grid-cols-1 items-center ps-1">
-        <router-link
-          :to="{ name: 'feed' }"
-          :class="{ inactive: $route.path.name !== 'feed' }"
-        >
+        <RouterLink :to="{ name: 'feed' }" :class="{ inactive: $route.path.name !== 'feed' }">
           <button class="nav-btn">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -23,9 +20,9 @@
             </svg>
             <span class="nav-btn-text">Home</span>
           </button>
-        </router-link>
+        </RouterLink>
 
-        <router-link
+        <RouterLink
           :to="{ name: 'search-user' }"
           :class="{ inactive: $route.path.name !== 'search-user' }"
         >
@@ -46,12 +43,9 @@
             </svg>
             <span class="nav-btn-text">Search</span>
           </button>
-        </router-link>
+        </RouterLink>
 
-        <router-link
-          to="/explore/"
-          :class="{ inactive: $route.path.indexOf('/explore') === -1 }"
-        >
+        <RouterLink to="/explore/" :class="{ inactive: $route.path.indexOf('/explore') === -1 }">
           <button class="nav-btn">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -69,9 +63,9 @@
             </svg>
             <span class="nav-btn-text">Explore</span>
           </button>
-        </router-link>
+        </RouterLink>
 
-        <router-link
+        <RouterLink
           :to="{ name: 'saved-posts' }"
           :class="{ inactive: $route.path.name !== 'saved-posts' }"
         >
@@ -92,9 +86,9 @@
             </svg>
             <span class="nav-btn-text">Saved</span>
           </button>
-        </router-link>
+        </RouterLink>
 
-        <router-link
+        <RouterLink
           :to="{ name: 'new-post' }"
           :class="{ inactive: $route.path.name !== 'new-post' }"
         >
@@ -115,9 +109,10 @@
             </svg>
             <span class="nav-btn-text">Create</span>
           </button>
-        </router-link>
+        </RouterLink>
 
-        <router-link
+        <RouterLink
+          v-if="authenticationStore.user.username"
           :to="'/' + authenticationStore.user.username + '/'"
           :class="{ inactive: $route.path.name !== 'user' }"
         >
@@ -138,9 +133,9 @@
             </svg>
             <span class="nav-btn-text">Profile</span>
           </button>
-        </router-link>
+        </RouterLink>
 
-        <router-link
+        <RouterLink
           :to="{ name: 'settings' }"
           :class="{ inactive: $route.path.name !== 'settings' }"
         >
@@ -166,7 +161,7 @@
             </svg>
             <span class="nav-btn-text">Settings</span>
           </button>
-        </router-link>
+        </RouterLink>
       </div>
     </div>
   </nav>
@@ -174,7 +169,7 @@
 
 <script lang="ts">
 import { mapStores } from "pinia";
-import { useAuthenticationStore } from "../stores/authenticationStore.ts";
+import { useAuthenticationStore } from "../../stores/authenticationStore.ts";
 
 export default {
   computed: { ...mapStores(useAuthenticationStore) },

@@ -6,7 +6,7 @@
     <div
       class="absolute left-5 top-1/2 transform -translate-y-1/2 h-full flex items-center cursor-pointer"
       :class="{ hidden: $route.name !== 'messenger' }"
-      @click="backButtonToMessenger ? (messengerStore.activeChat = undefined) : $router.go(-1)"
+      @click="goBack"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -28,13 +28,13 @@
     >
       <button class="text-white" type="button" @click="toggleTheme">
         <svg
+          v-if="theme === 'light'"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 28 28"
           stroke-width="1.5"
           stroke="currentColor"
           class="size-7"
-          v-if="theme === 'light'"
         >
           <path
             stroke-linecap="round"
@@ -43,11 +43,11 @@
           />
         </svg>
         <svg
+          v-if="theme === 'dark'"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           fill="currentColor"
           class="size-7"
-          v-if="theme === 'dark'"
         >
           <path
             fill-rule="evenodd"
@@ -68,12 +68,7 @@
           :src="authenticationStore.user.avatar"
           alt="avatar"
           class="rounded-full size-7"
-          @click="
-            $router.push({
-              name: 'user',
-              params: { username: authenticationStore.user.username },
-            })
-          "
+          @click="goToUserProfile"
         />
         <button class="!p-1 btn-no-w btn-green btn-green-hover text-sm xl:text-md" @click="logout">
           Logout
@@ -88,14 +83,14 @@
         </div>
       </div>
       <div class="ml-auto block lg:hidden">
-        <TheMobileSidebar />
+        <MobileNavDrawer />
       </div>
     </div>
   </nav>
 </template>
 
 <script lang="ts">
-import TheMobileSidebar from "../layouts/TheMobileSidebar.vue";
+import MobileNavDrawer from "./mobile/MobileNavDrawer.vue";
 import { useAuthenticationStore } from "../stores/authenticationStore.ts";
 import { useMessengerStore } from "../stores/messengerStore.ts";
 import { mapStores } from "pinia";
@@ -103,22 +98,33 @@ import NotificationsComponent from "../components/NotificationsComponent.vue";
 import NavigateButton from "../components/messenger/NavigateButton.vue";
 
 export default {
-  components: { NavigateButton, NotificationsComponent, TheMobileSidebar },
+  components: { NavigateButton, NotificationsComponent, MobileNavDrawer },
   data() {
     return {
       theme: "dark",
-      windowSize: window.innerWidth as number,
+      windowSize: window.innerWidth,
     };
   },
   methods: {
     toggleTheme() {
-      const currentTheme = document.documentElement.classList.toggle("dark");
-      localStorage.setItem("theme", currentTheme ? "dark" : "light");
-      this.theme = currentTheme ? "dark" : "light";
+      const isDark = document.documentElement.classList.toggle("dark");
+      localStorage.setItem("theme", isDark ? "dark" : "light");
+      this.theme = isDark ? "dark" : "light";
     },
     async logout() {
       await this.authenticationStore.logout();
       this.$router.push({ name: "login" });
+    },
+    goBack() {
+      this.backButtonToMessenger
+        ? (this.messengerStore.activeChat = undefined)
+        : this.$router.go(-1);
+    },
+    goToUserProfile() {
+      this.$router.push({
+        name: "user",
+        params: { username: this.authenticationStore.user.username },
+      });
     },
     handleResize() {
       this.windowSize = window.innerWidth;
@@ -126,9 +132,8 @@ export default {
   },
   beforeMount() {
     const savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "light") {
-      this.theme = "light";
-    } else {
+    this.theme = savedTheme === "light" ? "light" : "dark";
+    if (this.theme === "dark") {
       document.documentElement.classList.add("dark");
     }
   },

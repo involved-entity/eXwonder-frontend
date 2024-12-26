@@ -1,5 +1,5 @@
 <template>
-  <div :class="{ 'flex mr-1': flexLikesCount }">
+  <div class="text-gray-700 dark:text-gray-300" :class="{ 'flex mr-1': flexLikesCount }">
     <svg
       v-if="!post.is_liked"
       xmlns="http://www.w3.org/2000/svg"
