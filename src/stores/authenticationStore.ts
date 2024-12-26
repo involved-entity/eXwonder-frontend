@@ -5,7 +5,8 @@ import { IAuthenticationStoreState } from "../types/stores";
 import { IResponse } from "../types/helpers";
 import { useMessengerStore } from "./messengerStore.ts";
 import { useNotificationsStore } from "./notificationsStore.ts";
-import { IUserPublicData } from "@/types/globals";
+import { IUserPublicData } from "../types/globals";
+import { loginAndInitStores } from "../services";
 
 export const useAuthenticationStore = defineStore("authentication", {
   state(): IAuthenticationStoreState {
@@ -49,17 +50,7 @@ export const useAuthenticationStore = defineStore("authentication", {
           session_key: this.sessionKey,
         }
       );
-      if (success) {
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("user_id", data.user_id);
-        this.token = data.token;
-        this.user.id = data.user_id;
-        this.isAuth = true;
-        const messengerStore = useMessengerStore();
-        messengerStore.initMessenger();
-        const notifsStore = useNotificationsStore();
-        notifsStore.initNotifications();
-      }
+      if (success) loginAndInitStores(data);
       return { success, data };
     },
     async singUp(username: string, password: string, email: string | null): Promise<IResponse> {

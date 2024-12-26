@@ -8,17 +8,12 @@
         <SwipeComponent
           @swipe-left="scroll(-200)"
           @swipe-right="scroll(200)"
-          v-if="!loading && showSwipeScroll"
+          v-if="showSwipeScroll"
         >
-          <UsersScroll :users="updatedFollows" ref="users" @scroll="scroll" v-if="!loading" />
+          <UsersScroll :users="updatedFollows" ref="users" @scroll="scroll" />
         </SwipeComponent>
-        <UsersScroll
-          @scroll="scroll"
-          ref="users"
-          :users="updatedFollows"
-          v-if="!loading && !showSwipeScroll"
-        />
-        <PostsFeed :posts="updates" v-if="!loading" />
+        <UsersScroll @scroll="scroll" ref="users" :users="updatedFollows" v-if="!showSwipeScroll" />
+        <PostsFeed :posts="updates" />
       </div>
       <div class="text-gray-600 dark:text-gray-500 py-10" v-else>
         <svg

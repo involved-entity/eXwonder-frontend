@@ -11,19 +11,16 @@
               class="form-input"
               v-model="username"
               :class="{
-                '!border-red-600 focus:border-none':
-                  errors.non_field_errors.length,
+                '!border-red-600 focus:border-none': errors.non_field_errors.length,
               }"
               @keyup.down="$refs.passwordInput.focus()"
               ref="usernameInput"
               autocomplete="username"
             />
             <p>
-              <small
-                class="form-error-label"
-                v-if="errors.non_field_errors.length"
-                >{{ errors.non_field_errors[0] }}</small
-              >
+              <small class="form-error-label" v-if="errors.non_field_errors.length">{{
+                errors.non_field_errors[0]
+              }}</small>
             </p>
 
             <p class="form-label mt-1">Password:</p>
@@ -32,19 +29,16 @@
               class="form-input"
               v-model="password"
               :class="{
-                '!border-red-600 focus:border-none':
-                  errors.non_field_errors.length,
+                '!border-red-600 focus:border-none': errors.non_field_errors.length,
               }"
               @keyup.up="$refs.usernameInput.focus()"
               ref="passwordInput"
               autocomplete="current-password"
             />
             <p>
-              <small
-                class="form-error-label"
-                v-if="errors.non_field_errors.length"
-                >{{ errors.non_field_errors[0] }}</small
-              >
+              <small class="form-error-label" v-if="errors.non_field_errors.length">{{
+                errors.non_field_errors[0]
+              }}</small>
             </p>
 
             <button
@@ -64,15 +58,11 @@
       <div class="footer-links flex flex-col">
         <div class="mx-auto">
           Don't have an account?
-          <router-link :to="{ name: 'sing-up' }" class="link"
-            >Sing up</router-link
-          >
+          <RouterLink :to="{ name: 'sing-up' }" class="link">Sing up</RouterLink>
         </div>
         <div class="mx-auto">
           Forgive your password?
-          <router-link :to="{ name: 'reset-password' }" class="link"
-            >Reset password</router-link
-          >
+          <RouterLink :to="{ name: 'reset-password' }" class="link">Reset password</RouterLink>
         </div>
       </div>
     </div>
@@ -84,8 +74,15 @@
 import { mapStores } from "pinia";
 import { useAuthenticationStore } from "../stores/authenticationStore.ts";
 import Alert from "../components/alert/Alert.vue";
-import { useMessengerStore } from "../stores/messengerStore.ts";
-import { useNotificationsStore } from "../stores/notificationsStore.ts";
+import { loginAndInitStores } from "../services";
+
+interface IData {
+  code?: string;
+  session_key?: string;
+  token?: string;
+  user_id?: number;
+  non_field_errors?: string[];
+}
 
 export default {
   components: { Alert },
@@ -106,45 +103,30 @@ export default {
           this.password
         );
 
-        if (success && data.code === "CODE_SENDED") {
-          this.errors = { non_field_errors: [] };
+        this.handleSubmitResponse(success, data);
+        this.loading = false;
+      }
+    },
+    handleSubmitResponse(success: boolean, data: IData) {
+      this.errors = { non_field_errors: [] };
+
+      if (success) {
+        if (data.code === "CODE_SENDED") {
           this.authenticationStore.sessionKey = data.session_key;
           this.$router.push({ name: "2fa", query: { action: "login" } });
-        } else if (success) {
-          this.errors = { non_field_errors: [] };
-          localStorage.setItem("token", data.token);
-          localStorage.setItem("user_id", data.user_id);
-          this.authenticationStore.token = data.token;
-          this.authenticationStore.user.id = data.user_id;
-          this.authenticationStore.isAuth = true;
-
-          const messengerStore = useMessengerStore();
-          messengerStore.initMessenger();
-          const notifsStore = useNotificationsStore();
-          notifsStore.initNotifications();
-
-          this.$router.push({ name: "feed", query: { action: "login" } });
         } else {
-          this.errors = data;
+          loginAndInitStores(data);
+          this.$router.push({ name: "feed", query: { action: "login" } });
         }
-
-        this.loading = false;
+      } else {
+        this.errors = data;
       }
     },
   },
   computed: {
     ...mapStores(useAuthenticationStore),
     isValid() {
-      if (
-        !this.username ||
-        this.username.length < 5 ||
-        this.username.length > 16
-      ) {
-        return false;
-      } else if (!this.password || this.password.length < 8) {
-        return false;
-      }
-      return true;
+      return this.username.length >= 5 && this.username.length <= 16 && this.password.length >= 8;
     },
     alertMessage() {
       return this.$route.query.action === "sing-up"

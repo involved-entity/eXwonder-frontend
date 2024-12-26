@@ -7,34 +7,16 @@
             class="header-xl !mb-0 space-x-1 sm:w-fit mx-auto sm:px-4 py-2 rounded-sm flex md:flex-no-wrap sm:flex-wrap cursor-pointer varela-round"
           >
             <div
+              v-for="(tab, index) in tabs"
+              :key="index"
               class="px-3 rounded-b-md"
               :class="{
-                'border-b-2 border-[#008c8c]': activeTab === 0,
-                'hover:border-b-2 hover:border-[#008c8c]': activeTab !== 0,
+                'border-b-2 border-[#008c8c]': activeTab === index,
+                'hover:border-b-2 hover:border-[#008c8c]': activeTab !== index,
               }"
-              @click="changeActiveTab(tops.RECOMMENDED)"
+              @click="changeActiveTab(tab)"
             >
-              Recs
-            </div>
-            <div
-              class="px-3 rounded-b-md"
-              :class="{
-                'border-b-2 border-[#008c8c]': activeTab === 1,
-                'hover:border-b-2 border-[#008c8c]': activeTab !== 1,
-              }"
-              @click="changeActiveTab(tops.RECENT)"
-            >
-              Recent
-            </div>
-            <div
-              class="px-3 rounded-b-md"
-              :class="{
-                'border-b-2 border-[#008c8c]': activeTab === 2,
-                'hover:border-b-2 border-[#008c8c]': activeTab !== 2,
-              }"
-              @click="changeActiveTab(tops.LIKES)"
-            >
-              Likes
+              {{ tab.name }}
             </div>
           </div>
         </div>
@@ -60,7 +42,11 @@ import { IResponse } from "../types/helpers";
 export default {
   data() {
     return {
-      tops: Tops,
+      tabs: [
+        { name: "Recs", value: Tops.RECOMMENDED },
+        { name: "Recent", value: Tops.RECENT },
+        { name: "Likes", value: Tops.LIKES },
+      ],
       activeTab: 0,
       topPosts: [] as Array<IPost>,
       loading: false,
@@ -76,24 +62,10 @@ export default {
       this.currentPage = response.data.next ? 2 : undefined;
       this.loading = false;
     },
-    async changeActiveTab(top: Tops = Tops.RECENT) {
-      if (
-        (top === Tops.RECOMMENDED && this.activeTab !== 0) ||
-        (top === Tops.RECENT && this.activeTab !== 1) ||
-        (top === Tops.LIKES && this.activeTab !== 2)
-      ) {
-        await this.getTopPosts(top);
-        switch (top) {
-          case Tops.RECOMMENDED:
-            this.activeTab = 0;
-            break;
-          case Tops.RECENT:
-            this.activeTab = 1;
-            break;
-          case Tops.LIKES:
-            this.activeTab = 2;
-            break;
-        }
+    async changeActiveTab(tab: { name: string; value: Tops }) {
+      if (this.activeTab !== this.tabs.indexOf(tab)) {
+        await this.getTopPosts(tab.value);
+        this.activeTab = this.tabs.indexOf(tab);
       }
     },
     async getPostsNextPage() {

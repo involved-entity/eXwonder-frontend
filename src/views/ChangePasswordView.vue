@@ -14,16 +14,13 @@
               @keyup.down="$refs.password1.focus()"
               ref="oldPasswordInput"
               :class="{
-                '!border-red-600 focus:border-none':
-                  errors.old_password?.length,
+                '!border-red-600 focus:border-none': errors.old_password?.length,
               }"
             />
             <p>
-              <small
-                class="form-error-label"
-                v-if="errors.old_password?.length"
-                >{{ errors.old_password[0] }}</small
-              >
+              <small class="form-error-label" v-if="errors.old_password?.length">{{
+                errors.old_password[0]
+              }}</small>
             </p>
 
             <p class="form-label mt-1">New password:</p>
@@ -36,16 +33,13 @@
               @keyup.down="$refs.password2.focus()"
               ref="password1"
               :class="{
-                '!border-red-600 focus:border-none':
-                  errors.new_password1?.length,
+                '!border-red-600 focus:border-none': errors.new_password1?.length,
               }"
             />
             <p>
-              <small
-                class="form-error-label"
-                v-if="errors.new_password1?.length"
-                >{{ errors.new_password1[0] }}</small
-              >
+              <small class="form-error-label" v-if="errors.new_password1?.length">{{
+                errors.new_password1[0]
+              }}</small>
             </p>
 
             <p class="form-label mt-1">New password repeat:</p>
@@ -57,16 +51,13 @@
               ref="password2"
               @keyup.up="$refs.password1.focus()"
               :class="{
-                '!border-red-600 focus:border-none':
-                  errors.new_password2?.length,
+                '!border-red-600 focus:border-none': errors.new_password2?.length,
               }"
             />
             <p>
-              <small
-                class="form-error-label"
-                v-if="errors.new_password2?.length"
-                >{{ errors.new_password2[0] }}</small
-              >
+              <small class="form-error-label" v-if="errors.new_password2?.length">{{
+                errors.new_password2[0]
+              }}</small>
             </p>
 
             <button
@@ -109,15 +100,16 @@ export default {
           this.newPassword1,
           this.newPassword2
         );
+        this.loading = false;
+
         if (success) {
           this.$router.push({
             name: "feed",
-            query: { action: "passwond-change" },
+            query: { action: "password-change" },
           });
         } else {
           this.errors = data;
         }
-        this.loading = false;
       }
     },
   },
@@ -125,9 +117,7 @@ export default {
     isValid() {
       const oldPassword = this.oldPassword.length >= 8;
       const newPassword1 = this.newPassword1.length >= 8;
-      const newPassword2 =
-        this.newPassword2.length >= 8 &&
-        this.newPassword1 === this.newPassword2;
+      const newPassword2 = this.newPassword2.length >= 8 && this.newPassword1 === this.newPassword2;
       return oldPassword && newPassword1 && newPassword2;
     },
     ...mapStores(useAccountStore),
