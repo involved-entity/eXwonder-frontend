@@ -4,14 +4,8 @@
     @mouseover="showMessageMenu = true"
     @mouseleave="showMessageMenu = false"
   >
-    <div
-      class="text-sm p-1.5 rounded-lg space-y-1"
-      v-show="showMessageMenu && isSender"
-    >
-      <div
-        class="text-red-600 cursor-pointer"
-        @click="$emit('deleteMessage', message)"
-      >
+    <div class="text-sm p-1.5 rounded-lg space-y-1" v-show="showMessageMenu && isSender">
+      <div class="text-red-600 cursor-pointer" @click="$emit('deleteMessage', message)">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -27,10 +21,7 @@
           />
         </svg>
       </div>
-      <div
-        class="text-gray-500 cursor-pointer"
-        @click="$emit('editMessage', message)"
-      >
+      <div class="text-gray-500 cursor-pointer" @click="$emit('editMessage', message)">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -55,11 +46,7 @@
             :alt="message.attachment.name + ' sended image'"
             v-if="isImageFile(message.attachment.name)"
           />
-          <a
-            class="relative flex items-center"
-            :href="message.attachment.link"
-            v-else
-          >
+          <a class="relative flex items-center" :href="message.attachment.link" v-else>
             <div
               class="inline-flex justify-center p-2 mr-1.5 my-1.5 text-neutral-900 rounded-full cursor-pointer bg-gold-300"
             >
@@ -87,9 +74,7 @@
         <div class="flex space-x-1" v-if="isSender">
           <div>{{ messageTimeAdded }}</div>
           <div v-if="message.is_edit && showMessageMenu">|</div>
-          <div v-if="message.is_edit && showMessageMenu">
-            Edited at {{ messageTimeUpdated }}
-          </div>
+          <div v-if="message.is_edit && showMessageMenu">Edited at {{ messageTimeUpdated }}</div>
         </div>
         <span class="flex gap-x-1">
           <svg
@@ -111,9 +96,7 @@
           {{ message.is_read ? "Readed" : "Sent" }}
         </span>
         <div class="flex space-x-1" v-if="!isSender">
-          <div v-if="message.is_edit && showMessageMenu">
-            Edited at {{ messageTimeUpdated }}
-          </div>
+          <div v-if="message.is_edit && showMessageMenu">Edited at {{ messageTimeUpdated }}</div>
           <div v-if="message.is_edit && showMessageMenu">|</div>
           <div>{{ messageTimeAdded }}</div>
         </div>
@@ -143,21 +126,11 @@ export default {
   },
   methods: {
     isImageFile(fileName: string) {
-      const imageExtensions = [
-        ".jpg",
-        ".jpeg",
-        ".png",
-        ".gif",
-        ".bmp",
-        ".svg",
-        ".webp",
-      ];
+      const imageExtensions = [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".svg", ".webp"];
 
       const lowerCaseFileName = fileName.toLowerCase();
 
-      return imageExtensions.some(extension =>
-        lowerCaseFileName.endsWith(extension)
-      );
+      return imageExtensions.some(extension => lowerCaseFileName.endsWith(extension));
     },
   },
   computed: {

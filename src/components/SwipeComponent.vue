@@ -1,10 +1,5 @@
 <template>
-  <div
-    @touchstart="touchStart"
-    @touchmove="touchMove"
-    @touchend="touchEnd"
-    class="swipe-container"
-  >
+  <div @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd" class="swipe-container">
     <slot></slot>
   </div>
 </template>

@@ -37,16 +37,16 @@ import FeedCreateComment from "./FeedCreateComment.vue";
 
 export default {
   name: "PostsFeedList",
-  emits: ['setActiveModalPost', 'setActiveModalCommentsPost'],
+  emits: ["setActiveModalPost", "setActiveModalCommentsPost"],
   components: { FeedCreateComment, FeedButtons, FeedImages, FeedHeader },
   props: {
     posts: { type: Array as () => Array<IPost>, required: true },
-    closableMode: { type: Boolean, default: false }
+    closableMode: { type: Boolean, default: false },
   },
   methods: {
     showComments(post: IPost) {
       const isDesktop = window.innerWidth >= 1024;
-      this.$emit(isDesktop ? 'setActiveModalPost' : 'setActiveModalCommentsPost', post)
+      this.$emit(isDesktop ? "setActiveModalPost" : "setActiveModalCommentsPost", post);
     },
     getPostIndex(postToFind: IPost) {
       return this.posts.findIndex(post => post.id === postToFind.id);

@@ -10,11 +10,11 @@
       <div class="flex" :class="{ 'h-full items-center': !post.signature.length }">
         <RouterLink
           :to="{ name: 'user', params: { username: post.author.username } }"
-          class="hover:text-gray-600 dark:hover:text-gray-400 remove-active"
+          class="hover:text-gray-600 text-sm dark:hover:text-gray-400 remove-active"
         >
           {{ post.author.username }}
         </RouterLink>
-        <p class="text-gray-600 dark:text-gray-400 text-sm ms-2 montserrat">
+        <p class="text-gray-600 dark:text-gray-400 text-[13px] ms-2 montserrat">
           {{ post.time_added.time_added }} ago
         </p>
       </div>

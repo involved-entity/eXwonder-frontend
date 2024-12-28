@@ -81,7 +81,9 @@ export default {
     toggleDropdown() {
       if (this.notifsStore.notifications.length) {
         this.show = !this.show;
-        this.show ? document.body.addEventListener("click", this.handleClick) : document.body.removeEventListener("click", this.handleClick);
+        this.show
+          ? document.body.addEventListener("click", this.handleClick)
+          : document.body.removeEventListener("click", this.handleClick);
       }
     },
     handleNotificationClick(notification: INotification) {
@@ -114,7 +116,7 @@ export default {
     document.body.removeEventListener("click", this.handleClick);
   },
   computed: {
-    ...mapStores(useNotificationsStore, useAuthenticationStore)
+    ...mapStores(useNotificationsStore, useAuthenticationStore),
   },
 };
 </script>

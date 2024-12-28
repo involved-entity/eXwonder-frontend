@@ -20,11 +20,7 @@
         />
       </svg>
     </button>
-    <div
-      class="flex flex-nowrap w-full overflow-x-hidden"
-      v-if="users.length"
-      ref="usersScroll"
-    >
+    <div class="flex flex-nowrap w-full overflow-x-hidden" v-if="users.length" ref="usersScroll">
       <div
         class="w-full space-x-[5.5rem] sm:space-x-[3.5rem] md:space-x-[3rem] flex flex-nowrap"
         id="usersBlock"
@@ -37,16 +33,9 @@
           :key="user.username"
         >
           <router-link :to="'/' + user.username + '/'">
-            <img
-              :src="user.avatar"
-              alt="user"
-              class="rounded-full mb-1 max-w-[4.5rem]"
-            />
+            <img :src="user.avatar" alt="user" class="rounded-full mb-1 max-w-[4.5rem]" />
           </router-link>
-          <router-link
-            :to="'/' + user.username + '/'"
-            class="header-transition"
-          >
+          <router-link :to="'/' + user.username + '/'" class="header-transition">
             <p class="text-center text-xs lg:text-base">{{ user.username }}</p>
           </router-link>
         </div>

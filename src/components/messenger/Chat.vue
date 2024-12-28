@@ -1,9 +1,5 @@
 <template>
-  <img
-    :src="chat!.user.avatar"
-    class="rounded-full size-14"
-    :alt="chat!.user.username"
-  />
+  <img :src="chat!.user.avatar" class="rounded-full size-14" :alt="chat!.user.username" />
   <div class="ms-2.5 my-auto space-y-1 w-full">
     <div class="flex w-full">
       <div class="text-default font-medium">{{ chat!.user.username }}</div>
@@ -16,9 +12,7 @@
         <div class="text-default text-sm" v-if="isSender">You:</div>
         <div class="text-default-800 text-sm">
           {{ chat!.last_message.body.slice(0, maxMessageLen)
-          }}{{
-            chat!.last_message.body.length > maxMessageLen - 1 ? "..." : ""
-          }}
+          }}{{ chat!.last_message.body.length > maxMessageLen - 1 ? "..." : "" }}
         </div>
       </div>
       <div
@@ -61,14 +55,12 @@ export default {
     },
     isChatUnread() {
       return (
-        this.chat!.last_message.sender.id !==
-          this.authenticationStore.user.id && !this.chat!.is_read
+        this.chat!.last_message.sender.id !== this.authenticationStore.user.id &&
+        !this.chat!.is_read
       );
     },
     isSender() {
-      return (
-        this.chat!.last_message.sender.id === this.authenticationStore.user.id
-      );
+      return this.chat!.last_message.sender.id === this.authenticationStore.user.id;
     },
     maxMessageLen() {
       const breakpoints = [

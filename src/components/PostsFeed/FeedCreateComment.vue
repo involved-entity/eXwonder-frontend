@@ -37,16 +37,16 @@ export default {
   },
   data() {
     return {
-      error: '',
-      comment: '',
-    }
+      error: "",
+      comment: "",
+    };
   },
   methods: {
     async createComment() {
       if (this.comment.length >= 10 && this.comment.length <= 2048) {
         const { success } = await this.commentsStore.addComment(this.post.id, this.comment);
         if (success) {
-          this.error = '';
+          this.error = "";
           this.comment = "";
           this.post.comments_count += 1;
           this.post.is_commented = true;
@@ -57,7 +57,7 @@ export default {
     },
   },
   computed: {
-    ...mapStores(useCommentsStore)
-  }
+    ...mapStores(useCommentsStore),
+  },
 };
 </script>

@@ -38,7 +38,7 @@
               'text-xl': String(post.comments_count).length <= 2,
               'text-md': String(post.comments_count).length > 2,
             }"
-          >{{ post.comments_count }}</span
+            >{{ post.comments_count }}</span
           >
         </div>
       </div>

@@ -7,11 +7,11 @@
       <div class="flex">
         <RouterLink
           :to="'/' + comment.author.username + '/'"
-          class="hover:text-gray-600 dark:hover:text-gray-400 remove-active"
+          class="hover:text-gray-600 text-sm dark:hover:text-gray-400 remove-active"
         >
           {{ comment.author.username }}
         </RouterLink>
-        <p class="text-gray-600 dark:text-gray-400 text-sm ms-2 my-auto montserrat">
+        <p class="text-gray-600 dark:text-gray-400 text-[13px] ms-2 my-auto montserrat">
           {{ comment.time_added.time_added }} ago
         </p>
         <svg

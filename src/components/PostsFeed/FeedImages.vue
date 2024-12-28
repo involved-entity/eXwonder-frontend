@@ -87,6 +87,6 @@ export default {
         this.post.activeImage = Math.max(this.post.activeImage! - 1, 0);
       }
     },
-  }
+  },
 };
 </script>

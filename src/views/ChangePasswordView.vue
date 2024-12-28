@@ -3,12 +3,11 @@
     <div class="shadow justify-center">
       <div class="w-full flex h-full items-center justify-center">
         <div class="w-3/4 lg:w-2/3">
-          <div class="header-2xl">Change your account password</div>
+          <div class="header-2xl mt-1">Change your account password</div>
           <div class="mx-3 mb-3 mt-1">
             <p class="form-label">Old password:</p>
             <input
               type="password"
-              placeholder="Your old password"
               class="form-input"
               v-model="oldPassword"
               @keyup.down="$refs.password1.focus()"
@@ -26,7 +25,6 @@
             <p class="form-label mt-1">New password:</p>
             <input
               type="password"
-              placeholder="Your new password"
               class="form-input"
               v-model="newPassword1"
               @keyup.up="$refs.oldPasswordInput.focus()"
@@ -45,7 +43,6 @@
             <p class="form-label mt-1">New password repeat:</p>
             <input
               type="password"
-              placeholder="Your new password repeat"
               class="form-input"
               v-model="newPassword2"
               ref="password2"

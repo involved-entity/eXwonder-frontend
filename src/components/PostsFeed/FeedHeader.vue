@@ -1,10 +1,13 @@
 <template>
   <div class="flex w-full mb-1">
-    <RouterLink :to="{name: 'user', params: {'username': post.author.username}}">
+    <RouterLink :to="{ name: 'user', params: { username: post.author.username } }">
       <img :src="post.author.avatar" alt="avatar" class="size-8 rounded-full" />
     </RouterLink>
     <p class="text-gray-700 dark:text-gray-300 text-md my-auto ms-1">
-      <RouterLink :to="{name: 'user', params: {'username': post.author.username}}" class="hover:text-gray-400">
+      <RouterLink
+        :to="{ name: 'user', params: { username: post.author.username } }"
+        class="hover:text-gray-400"
+      >
         {{ post.author.username }}
       </RouterLink>
     </p>
@@ -64,18 +67,18 @@
 </template>
 
 <script lang="ts">
-import {mapStores} from "pinia";
-import {useAuthenticationStore} from "../../stores/authenticationStore.ts";
+import { mapStores } from "pinia";
+import { useAuthenticationStore } from "../../stores/authenticationStore.ts";
 import { IPost } from "../../types/globals";
 
 export default {
-  emits: ['postDelete'],
+  emits: ["postDelete"],
   name: "FeedHeader",
   props: {
     post: { type: Object as () => IPost, required: true },
   },
   computed: {
-    ...mapStores(useAuthenticationStore)
-  }
+    ...mapStores(useAuthenticationStore),
+  },
 };
 </script>

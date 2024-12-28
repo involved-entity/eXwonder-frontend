@@ -22,11 +22,11 @@
                 >):
               </div>
               <div
-                class="flex relative mx-3 hover:bg-gray-200 dark:hover:bg-slate-700 mt-3 ps-1 lg:ps-3"
+                class="flex relative hover:bg-gray-200 dark:hover:bg-slate-700 mt-2.5 mx-3 py-1 px-1.5"
                 v-for="result in results"
                 :key="result.id"
               >
-                <div class="w-1/12 my-3">
+                <div class="w-[12%] my-1">
                   <RouterLink :to="{ name: 'user', params: { username: result.username } }">
                     <img :src="result.avatar" alt="avatar" class="rounded-full max-w-full" />
                   </RouterLink>

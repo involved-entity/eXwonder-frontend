@@ -1,7 +1,7 @@
 <template>
-  <div class="mb-3" v-for="follow in follows" :key="follow.id">
+  <div class="mb-1.5" v-for="follow in follows" :key="follow.id">
     <div class="flex relative">
-      <div class="subs-avatar-w my-3">
+      <div class="subs-avatar-w my-1.5">
         <router-link :to="'/' + follow[followField].username + '/'" @click="$emit('userLeave')">
           <img :src="follow[followField].avatar" alt="avatar" class="rounded-full max-w-full" />
         </router-link>

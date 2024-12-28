@@ -24,7 +24,7 @@
         </div>
         <div
           class="text-default-600 pt-5"
-          v-if="!searchLoading && search.length && !searchResults.length"
+          v-else-if="search.length && !searchResults.length"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -41,7 +41,7 @@
           <div class="text-center text-2xl">No results found :/</div>
         </div>
 
-        <div v-if="!searchLoading && !search.length">
+        <div v-else-if="!search.length">
           <div
             v-for="chat in messengerStore.chats"
             :key="chat.id"
@@ -57,7 +57,7 @@
           </div>
         </div>
 
-        <div v-if="!searchLoading && search.length && searchResults.length">
+        <div v-else-if="search.length && searchResults.length">
           <div
             v-for="item in searchResults"
             :key="item.id"
@@ -88,7 +88,7 @@
         'w-full': !showActiveChatWindow && messengerStore.activeChat,
       }"
     >
-      <ActiveChat v-if="messengerStore.activeChat" />
+      <ActiveChat />
     </div>
   </div>
 </template>

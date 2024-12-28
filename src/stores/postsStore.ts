@@ -16,19 +16,10 @@ export const usePostsStore = defineStore("posts", {
       );
     },
     async getUserPosts(username: string, page: number = 1): Promise<IResponse> {
-      return await request(
-        Methods.GET,
-        `/api/v1/posts/posts/?user=${username}&page=${page}`
-      );
+      return await request(Methods.GET, `/api/v1/posts/posts/?user=${username}&page=${page}`);
     },
-    async getPostsTop(
-      top: Tops = Tops.UPDATES,
-      page: number = 1
-    ): Promise<IResponse> {
-      return await request(
-        Methods.GET,
-        `/api/v1/posts/posts/?top=${top}&page=${page}`
-      );
+    async getPostsTop(top: Tops = Tops.UPDATES, page: number = 1): Promise<IResponse> {
+      return await request(Methods.GET, `/api/v1/posts/posts/?top=${top}&page=${page}`);
     },
     async addPostToSaved(postId: number): Promise<IResponse> {
       return await request(

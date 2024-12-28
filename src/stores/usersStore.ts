@@ -8,16 +8,9 @@ import { IResponse } from "../types/helpers";
 export const useUsersStore = defineStore("users", {
   actions: {
     async getUser(username: string): Promise<IResponse> {
-      return await request(
-        Methods.GET,
-        `/api/v1/account/user/?username=${username}&fields=all`
-      );
+      return await request(Methods.GET, `/api/v1/account/user/?username=${username}&fields=all`);
     },
-    async getUserFollowings(
-      userId: number,
-      page: number = 1,
-      search?: string
-    ): Promise<IResponse> {
+    async getUserFollowings(userId: number, page: number = 1, search?: string): Promise<IResponse> {
       let url = `/api/v1/account/followings/user/${userId}/?page=${page}`;
       if (search) {
         url = url + `&search=${search}`;
@@ -42,9 +35,7 @@ export const useUsersStore = defineStore("users", {
         axios.HttpStatusCode.NoContent
       );
     },
-    async searchUsers(
-      usernameQuery: string
-    ): Promise<Array<IUserExtendedData>> {
+    async searchUsers(usernameQuery: string): Promise<Array<IUserExtendedData>> {
       const { data } = await request(
         Methods.GET,
         `/api/v1/account/account/?search=${usernameQuery}`

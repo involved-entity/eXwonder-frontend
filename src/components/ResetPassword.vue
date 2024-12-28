@@ -6,11 +6,7 @@
         <form @submit.prevent="handleSubmit">
           <div class="form-group">
             <label class="form-label">Email:</label>
-            <input
-              type="email"
-              class="form-input"
-              v-model="email"
-            />
+            <input type="email" class="form-input" v-model="email" />
           </div>
           <button
             type="submit"

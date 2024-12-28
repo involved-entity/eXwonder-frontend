@@ -6,9 +6,9 @@
       fill="currentColor"
       class="size-10 ms-auto my-auto"
       :class="{
-            'opacity-100 cursor-pointer': activeImage > 0,
-            'opacity-0': activeImage <= 0,
-          }"
+        'opacity-100 cursor-pointer': activeImage > 0,
+        'opacity-0': activeImage <= 0,
+      }"
       @click="prevImage"
       ref="prevImageBtn"
     >
@@ -18,21 +18,16 @@
         clip-rule="evenodd"
       />
     </svg>
-    <img
-      :src="post.images[activeImage].image"
-      alt="Post image"
-      class="max-h-full"
-      ref="image"
-    />
+    <img :src="post.images[activeImage].image" alt="Post image" class="max-h-full" ref="image" />
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       fill="currentColor"
       class="size-10 me-auto my-auto"
       :class="{
-            'opacity-100 cursor-pointer': activeImage + 1 < post.images.length,
-            'opacity-0': activeImage + 1 >= post.images.length,
-          }"
+        'opacity-100 cursor-pointer': activeImage + 1 < post.images.length,
+        'opacity-0': activeImage + 1 >= post.images.length,
+      }"
       @click="nextImage"
       ref="nextImageBtn"
     >
@@ -53,11 +48,11 @@ export default {
   props: {
     post: {
       type: Object as () => IPost,
-      required: true
+      required: true,
     },
   },
   data: () => ({
-    activeImage: 0 as number
+    activeImage: 0 as number,
   }),
   methods: {
     prevImage() {
@@ -71,6 +66,6 @@ export default {
         this.activeImage++;
       }
     },
-  }
+  },
 };
 </script>

@@ -9,8 +9,8 @@
         <FetchUserError v-else-if="errorFetchUser.length" />
 
         <div v-else>
-          <div class="flex justify-center mb-1.5">
-            <div class="w-1/5 lg:w-1/6 ms-2 my-3">
+          <div class="flex justify-center items-center h-full mb-3">
+            <div class="w-1/5 lg:w-1/6 ms-2 mt-3">
               <img
                 :src="requestedUser.avatar"
                 alt="avatar"

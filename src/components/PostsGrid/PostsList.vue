@@ -80,7 +80,7 @@
 import { IPost } from "../../types/globals";
 
 export default {
-  emits: ['postClick'],
+  emits: ["postClick"],
   name: "PostsList",
   props: {
     posts: { type: Array as () => Array<IPost>, required: true },
