@@ -35,9 +35,29 @@
 
       <label class="form-label block mb-2 !ms-3 mt-4">
         Tags for post
-        <code class="text-slate-500">(optional, comma sep)</code>:
+        <code class="text-slate-500">(optional)</code>:
       </label>
-      <textarea rows="3" class="form-textarea" v-model="tags" />
+      <TagsInputRoot
+        v-model="tags"
+        class="flex gap-x-1 items-center px-2 ms-3 -mr-10 w-10/12 text-lg text-gray-700 rounded-lg dark:text-gray-400 outline-none dark:bg-[#161616] bg-gray-200 flex-wrap shadow-sm py-1"
+      >
+        <TagsInputItem
+          v-for="item in tags"
+          :key="item"
+          :value="item"
+          class="text-gray-900 dark:text-gray-50 bg-green-600 font-medium flex items-center justify-center gap-x-1.5 rounded p-0.5"
+        >
+          <!-- bg-grass8 aria-[current=true]:bg-grass9 -->
+          <TagsInputItemText class="text-sm pl-1" />
+          <TagsInputItemDelete class="rounded bg-transparent hover:bg-transparent/30">
+            <Icon icon="lucide:x" />
+          </TagsInputItemDelete>
+        </TagsInputItem>
+        <TagsInputInput
+          placeholder="Tags..."
+          class="text-sm focus:outline-none flex-1 rounded text-grass9 bg-transparent placeholder:text-mauve9 px-1.5 !ms-0 border-none"
+        />
+      </TagsInputRoot>
 
       <button
         type="submit"
@@ -59,13 +79,29 @@
 import { mapStores } from "pinia";
 import { usePostsStore } from "../stores/postsStore.ts";
 import { useAuthenticationStore } from "../stores/authenticationStore.ts";
+import {
+  TagsInputInput,
+  TagsInputItem,
+  TagsInputItemDelete,
+  TagsInputItemText,
+  TagsInputRoot,
+} from "reka-ui";
+import { Icon } from "@iconify/vue";
 
 export default {
+  components: {
+    TagsInputInput,
+    TagsInputItem,
+    TagsInputItemDelete,
+    TagsInputItemText,
+    TagsInputRoot,
+    Icon,
+  },
   data() {
     return {
       images: [] as Array<File>,
       signature: "" as string,
-      tags: "" as string,
+      tags: [] as string[],
       loading: false as boolean,
       errors: {} as object,
     };
@@ -76,13 +112,7 @@ export default {
         this.loading = true;
         const formData: FormData = new FormData();
         formData.append("signature", this.signature);
-        formData.append(
-          "tags",
-          this.tags
-            .split(",")
-            .map(val => val.trim())
-            .join(",")
-        );
+        formData.append("tags", this.tags.map(val => val.trim()).join(","));
         const images: HTMLInputElement | unknown = this.$refs.images;
         for (let index = 0; index < this.images.length; index++) {
           formData.append("image" + index, images!.files![index]);
@@ -105,7 +135,7 @@ export default {
   computed: {
     isValid() {
       if (!(this.images.length > 0 && this.images.length <= 10)) return false;
-      return this.tags.split(",").every(value => value.length <= 32);
+      return this.tags.every(value => value.length <= 32);
     },
     ...mapStores(usePostsStore, useAuthenticationStore),
   },
