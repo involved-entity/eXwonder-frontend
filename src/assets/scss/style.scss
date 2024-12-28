@@ -230,7 +230,8 @@ body {
   @apply ms-1 text-gray-700 dark:text-slate-400;
 }
 .form-input {
-  @apply my-1 text-gray-700 dark:text-gray-400 bg-gray-custom w-full px-5 py-1 transition-all duration-100 border border-gray-300 dark:border-transparent rounded;
+  @apply my-1 text-gray-700 dark:text-gray-400 bg-gray-custom w-full px-5 py-1 transition-all duration-100 border;
+  @apply border-gray-300 dark:border-transparent rounded;
 }
 .form-error-label {
   @apply p-1 text-red-600;
