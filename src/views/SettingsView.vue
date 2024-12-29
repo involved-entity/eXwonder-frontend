@@ -11,21 +11,7 @@
           class="size-[13.5rem] mx-auto lg:mx-0"
         />
         <div class="mx-auto w-full">
-          <p class="form-label">Name:</p>
-          <input
-            type="text"
-            :placeholder="authenticationStore.user.name"
-            class="form-input"
-            v-model="name"
-            :class="{ '!border-red-600': errors.name?.length }"
-            ref="nameInput"
-            @keyup.down="$refs.emailInput.focus()"
-          />
-          <p>
-            <small class="form-error-label" v-if="errors.name?.length">{{ errors.name[0] }}</small>
-          </p>
-
-          <p class="form-label mt-3">E-mail:</p>
+          <p class="form-label">E-mail:</p>
           <input
             type="email"
             :placeholder="authenticationStore.user.email"
@@ -64,47 +50,20 @@
               errors.timezone[0]
             }}</small>
           </p>
+
+          <div class="flex mt-3 space-x-1.5">
+            <div class="form-label">Is 2FA enabled:</div>
+            <input
+              type="checkbox"
+              v-model="is2faEnabled"
+              class="w-4 h-4 text-blue-600 rounded bg-gray-custom my-auto"
+              ref="is2faEnabled"
+            />
+          </div>
+          <p></p>
         </div>
       </div>
       <div class="ps-3 pr-3 lg:pr-6 lg:ps-6 pb-5 pt-1.5">
-        <p class="form-label">Description:</p>
-        <textarea
-          rows="3"
-          class="form-textarea !ms-0"
-          :placeholder="authenticationStore.user.desc"
-          v-model="desc"
-        />
-        <p>
-          <small class="form-error-label" v-if="errors.desc?.length">{{ errors.desc[0] }}</small>
-        </p>
-
-        <div class="flex mt-3 space-x-1.5">
-          <div class="form-label">Is 2FA enabled:</div>
-          <input
-            type="checkbox"
-            v-model="is2faEnabled"
-            class="w-4 h-4 text-blue-600 rounded bg-gray-custom my-auto"
-            ref="is2faEnabled"
-          />
-        </div>
-        <p></p>
-
-        <p class="form-label mt-3">Avatar:</p>
-        <div class="flex space-x-3">
-          <div class="relative">
-            <input
-              type="file"
-              ref="images"
-              @change="avatarChanged"
-              class="absolute inset-0 opacity-0 cursor-pointer"
-            />
-            <button class="btn-no-w btn-green btn-green-hover">Select File</button>
-          </div>
-          <div class="text-sm text-gray-700 dark:text-gray-300 h-full m-auto" v-if="avatar">
-            1 file selected
-          </div>
-        </div>
-
         <div class="w-full">
           <div class="grid grid-cols-2 w-full gap-x-3">
             <button
@@ -112,7 +71,7 @@
               class="mt-3 btn col-span-1 btn-green"
               :class="{ 'btn-green-hover': isValid }"
               :disabled="!isValid"
-              @click="submit"
+              @click="submit(false)"
             >
               Save & Close
             </button>
@@ -129,7 +88,90 @@
             Logout
           </button>
         </div>
-        <div class="loader my-5 mx-auto" v-if="loading"></div>
+
+        <div class="mt-3">
+          <DialogRoot>
+            <DialogTrigger class="btn btn-green btn-green-hover"> Edit public info </DialogTrigger>
+            <DialogPortal>
+              <DialogOverlay class="bg-transparent/50 fixed inset-0 z-30" />
+              <DialogContent
+                class="fixed top-[50%] left-[50%] max-h-[90vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-default p-[20px] focus:outline-none z-[100]"
+              >
+                <DialogTitle class="text-default m-0 text-[17px] font-semibold">
+                  Edit public info
+                </DialogTitle>
+                <DialogDescription class="text-default-700 mt-[10px] mb-5 text-sm leading-normal">
+                  Change your public information here. Click
+                  <span class="text-green-600">"SAVE CHANGES"</span> when you're done.
+                </DialogDescription>
+                <fieldset class="mb-[15px] flex text-default items-center gap-5">
+                  <label class="w-[90px] text-right text-sm" for="name"> Name </label>
+                  <input
+                    id="name"
+                    class="text-default placeholder-default placeholder-opac bg-transparent h-[35px] w-full flex-1 items-center justify-center rounded-lg inline-flex leading-none shadow-[0_0_0_1px] focus:shadow-[0_0_0_2px] px-[10px] text-sm"
+                    :placeholder="authenticationStore.user.name"
+                    v-model="name"
+                    :class="{ '!border-red-600': errors.name?.length }"
+                    ref="nameInput"
+                    @keyup.down="$refs.emailInput.focus()"
+                  />
+                  <p>
+                    <small class="form-error-label" v-if="errors.name?.length">{{
+                      errors.name[0]
+                    }}</small>
+                  </p>
+                </fieldset>
+                <fieldset class="mb-[15px] text-default flex items-center gap-5">
+                  <label class="w-[90px] text-right text-sm" for="desc"> Description </label>
+                  <textarea
+                    id="desc"
+                    class="text-default placeholder-default bg-transparent inline-flex h-[35px] w-full flex-1 items-center justify-center rounded-lg px-[10px] text-sm leading-none shadow-[0_0_0_1px] focus:shadow-[0_0_0_2px]"
+                    :placeholder="authenticationStore.user.desc"
+                    rows="1"
+                    v-model="desc"
+                  />
+                  <p>
+                    <small class="form-error-label" v-if="errors.desc?.length">{{
+                      errors.desc[0]
+                    }}</small>
+                  </p>
+                </fieldset>
+                <fieldset class="mb-[15px] text-default flex items-center gap-5">
+                  <label class="w-[90px] text-right text-sm" for="desc"> Avatar </label>
+                  <div class="relative">
+                    <input
+                      type="file"
+                      ref="images"
+                      @change="avatarChanged"
+                      class="absolute inset-0 opacity-0 cursor-pointer"
+                    />
+                    <button class="btn-no-w btn-green btn-green-hover">Select File</button>
+                  </div>
+                </fieldset>
+                <div class="mt-[25px] flex justify-end">
+                  <div class="flex gap-x-7 items-center">
+                    <div class="loader size-[25px]" v-if="loadingModal"></div>
+                    <button
+                      class="btn-no-w btn-green"
+                      :class="{ 'btn-green-hover': isValid }"
+                      :disabled="!isValid"
+                      @click="submit(true)"
+                    >
+                      Save & Close
+                    </button>
+                  </div>
+                </div>
+                <DialogClose
+                  class="text-emerald-600 hover:bg-green-500 hover:text-gray-50 absolute top-[10px] right-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full focus:shadow-[0_0_0_2px] focus:outline-none"
+                  aria-label="Close"
+                >
+                  <Icon icon="lucide:x" />
+                </DialogClose>
+              </DialogContent>
+            </DialogPortal>
+          </DialogRoot>
+        </div>
+        <div class="loader my-5 mx-auto" v-if="loadingDefault"></div>
       </div>
     </div>
   </div>
@@ -140,11 +182,34 @@ import { mapStores } from "pinia";
 import { checkIsEmailValid } from "../helpers";
 import { useAccountStore } from "../stores/accountStore.ts";
 import { useAuthenticationStore } from "../stores/authenticationStore.ts";
+import {
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogOverlay,
+  DialogPortal,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+} from "reka-ui";
+import { Icon } from "@iconify/vue";
 
 export default {
+  components: {
+    Icon,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogOverlay,
+    DialogPortal,
+    DialogRoot,
+    DialogTitle,
+    DialogTrigger,
+  },
   data() {
     return {
-      loading: false,
+      loadingDefault: false,
+      loadingModal: false,
       name: "",
       email: "",
       timezone: "",
@@ -156,15 +221,19 @@ export default {
   },
   methods: {
     async logout() {
-      this.loading = true;
+      this.loadingDefault = true;
       await this.authenticationStore.logout();
       this.$router.push({ name: "login" });
-      this.loading = false;
+      this.loadingDefault = false;
     },
 
-    async submit() {
+    async submit(modal: boolean) {
       if (this.isValid) {
-        this.loading = true;
+        if (modal) {
+          this.loadingModal = true;
+        } else {
+          this.loadingDefault = true;
+        }
         const data = {
           name: this.name,
           email: this.email,
@@ -189,7 +258,7 @@ export default {
           this.errors.desc = errors.description;
         }
 
-        this.loading = false;
+        modal ? (this.loadingModal = false) : (this.loadingDefault = false);
       }
     },
     avatarChanged(event: Event) {

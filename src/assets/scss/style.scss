@@ -49,17 +49,24 @@
 .text-default {
   @apply text-gray-900 dark:text-gray-50;
 }
-
 .text-default-600 {
   @apply text-gray-900 dark:text-gray-500;
 }
-
 .text-default-700 {
   @apply text-gray-600 dark:text-gray-500;
 }
-
 .text-default-800 {
   @apply text-gray-500;
+}
+
+/* bg styling */
+.bg-default {
+  @apply dark:bg-[#161616] bg-gray-200;
+}
+
+/* placeholder styling */
+.placeholder-default {
+  @apply placeholder-gray-600 dark:placeholder-gray-500;
 }
 
 body {

@@ -47,7 +47,6 @@
           :value="item"
           class="text-gray-900 dark:text-gray-50 bg-green-600 font-medium flex items-center justify-center gap-x-1.5 rounded p-0.5"
         >
-          <!-- bg-grass8 aria-[current=true]:bg-grass9 -->
           <TagsInputItemText class="text-sm pl-1" />
           <TagsInputItemDelete class="rounded bg-transparent hover:bg-transparent/30">
             <Icon icon="lucide:x" />
