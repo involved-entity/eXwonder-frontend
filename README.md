@@ -8,9 +8,9 @@
 
 # eXwonder-frontend
 
-__Frontend__ клиент для онлайн хостинга картинок с элементами соц-сети `eXwonder`, являющегося по функционалу урезанной версией
-`Instagram`. Код написан на __[Vue.js 3](https://vuejs.org/)__, для стилизации использовались
-__[TailwindCSS](https://tailwindcss.com/)__ и __[SCSS](https://sass-lang.com/)__. Верстка проекта адаптивна под разные размеры экрана, поддерживаются две темы.
+__Frontend__ клиент для полноценной социальной сети, основанной на картинках `eXwonder`, вдохновленной `Instagram`. 
+Код написан на __[Vue.js 3](https://vuejs.org/)__, для стилизации использовались __[TailwindCSS](https://tailwindcss.com/)__ и __[SCSS](https://sass-lang.com/)__. 
+Верстка проекта адаптивна под разные размеры экрана, поддерживаются две темы.
 
 <!-- TOC --><a name="installation"></a>
 
@@ -59,17 +59,23 @@ bun dev
    <img alt="image" height="356" src=".githubscreenshots/explore.png" width="700"/>
 5. Создание поста:<br>
    <img alt="image" height="356" src=".githubscreenshots/new-post.png" width="700"/>
-6. Аккаунт:<br>
+6. Мессенджер 1:<br>
+   <img alt="image" height="356" src=".githubscreenshots/messenger-first.png" width="700"/>
+7. Мессенджер 1:<br>
+   <img alt="image" height="356" src=".githubscreenshots/messenger-second.png" width="700"/>
+8. Аккаунт:<br>
    <img alt="image" height="356" src=".githubscreenshots/user.png" width="700"/>
-7. Настройки аккаунта и уведомления:<br>
+9. Настройки аккаунта 1:<br>
    <img alt="image" height="356" src=".githubscreenshots/settings.png" width="700"/>
-8. Просмотр поста:<br>
+10. Уведомления и настройки аккаунта 2:<br>
+   <img alt="image" height="356" src=".githubscreenshots/notifications.png" width="700"/>
+11. Просмотр поста:<br>
    <img alt="image" height="356" src=".githubscreenshots/post.png" width="700"/>
-9. Просмотр подписок пользователя:<br>
+12. Просмотр подписок пользователя:<br>
    <img alt="image" height="356" src=".githubscreenshots/followings.png" width="700"/>
-10. Глобальный поиск пользователей:<br>
+13. Глобальный поиск пользователей:<br>
     <img alt="image" height="356" src=".githubscreenshots/search.png" width="700"/>
-11. Сохраненные посты:<br>
+14. Сохраненные посты:<br>
     <img alt="image" height="356" src=".githubscreenshots/saved.png" width="700"/>
 <!-- TOC --><a name="license"></a>
 

@@ -129,8 +129,6 @@ export default {
         this.searchResults = await this.usersStore.searchUsers(this.search);
         this.searchResults = this.searchResults.filter(res => res.id !== authStore.user.id);
         this.searchMode = SearchMode.USERS;
-      } else {
-        this.resetSearch();
       }
       this.searchLoading = false;
     },
