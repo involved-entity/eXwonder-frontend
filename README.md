@@ -61,7 +61,7 @@ bun dev
    <img alt="image" height="356" src=".githubscreenshots/new-post.png" width="700"/>
 6. Мессенджер 1:<br>
    <img alt="image" height="356" src=".githubscreenshots/messenger-first.png" width="700"/>
-7. Мессенджер 1:<br>
+7. Мессенджер 2:<br>
    <img alt="image" height="356" src=".githubscreenshots/messenger-second.png" width="700"/>
 8. Аккаунт:<br>
    <img alt="image" height="356" src=".githubscreenshots/user.png" width="700"/>
