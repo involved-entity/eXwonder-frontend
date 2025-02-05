@@ -1,15 +1,19 @@
 <template>
   <div class="relative" style="height: calc(100vh - 45px)">
-    <div class="flex flex-col relative" style="height: calc(100vh - 45px)" v-if="messengerStore.activeChat">
+    <div
+      class="flex flex-col relative"
+      style="height: calc(100vh - 45px)"
+      v-if="messengerStore.activeChat"
+    >
       <header class="h-14 text-default relative bg-gray-100 dark:bg-[#151515]">
         <div
           class="font-medium dark:font-semibold flex flex-col space-y-0 text-xl absolute left-1/2 -translate-x-1/2 lg:-translate-x-0 lg:left-5 top-1/2 -translate-y-1/2 cursor-pointer"
           @click="
-          $router.push({
-            name: 'user',
-            params: { username: messengerStore.activeChat!!.user.username },
-          })
-        "
+            $router.push({
+              name: 'user',
+              params: { username: messengerStore.activeChat!!.user.username },
+            })
+          "
         >
           <div class="">{{ messengerStore.activeChat!.user.username }}</div>
           <div class="flex">
@@ -54,7 +58,9 @@
         </div>
       </div>
       <div class="flex-1 bg-transparent/10 dark:bg-transparent/20 h-full relative" v-else>
-        <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-xl flex items-center justify-center text-sm py-1 px-3 bg-black/30 text-white">
+        <div
+          class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-xl flex items-center justify-center text-sm py-1 px-3 bg-black/30 text-white"
+        >
           Write first message
         </div>
       </div>
@@ -112,7 +118,10 @@
         </div>
       </footer>
     </div>
-    <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-xl flex items-center justify-center text-sm py-1 px-3 bg-black/30 text-white" v-else>
+    <div
+      class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-xl flex items-center justify-center text-sm py-1 px-3 bg-black/30 text-white"
+      v-else
+    >
       Select chat to open here
     </div>
   </div>

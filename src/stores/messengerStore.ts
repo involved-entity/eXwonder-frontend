@@ -12,6 +12,7 @@ export const useMessengerStore = defineStore("messenger", {
     chatsWithHistory: [] as number[],
     socket: undefined as WebSocket | undefined,
     activeChat: undefined as IChat | undefined,
+    errorGetUser: undefined as string | undefined,
   }),
 
   actions: {
@@ -41,10 +42,10 @@ export const useMessengerStore = defineStore("messenger", {
       this.authenticate();
     },
 
-    startChat(user: IUserExtendedData) {
+    startChat(user: IUserExtendedData | string) {
       this.sendSocketMessage({
         type: "start_chat",
-        receiver: user.id,
+        receiver: user.id ?? user,
       });
     },
 
@@ -167,8 +168,12 @@ export const useMessengerStore = defineStore("messenger", {
 
         case "chat_started":
         case "connect_to_chat":
-          this.chats.push(data.payload);
-          this.sortChatsByLastMessageTimeAdded();
+          if (data.payload.error_get_user) {
+            this.errorGetUser = data.payload.error_get_user;
+          } else {
+            this.chats.push(data.payload);
+            this.sortChatsByLastMessageTimeAdded();
+          }
           break;
 
         case "get_chat_history":
