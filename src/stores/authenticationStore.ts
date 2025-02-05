@@ -18,6 +18,7 @@ export const useAuthenticationStore = defineStore("authentication", {
         timezone: "",
         desc: "",
         is2faEnabled: undefined,
+        isPrivate: undefined,
         username: "",
         avatar: undefined,
       },
@@ -67,13 +68,6 @@ export const useAuthenticationStore = defineStore("authentication", {
       );
     },
     async logout(): Promise<void> {
-      await request(
-        Methods.GET,
-        "/api/v1/account/account/logout/",
-        undefined,
-        undefined,
-        axios.HttpStatusCode.NoContent
-      );
       this.token = "";
       localStorage.removeItem("token");
       localStorage.removeItem("user_id");
@@ -95,6 +89,7 @@ export const useAuthenticationStore = defineStore("authentication", {
         this.user.timezone = data.user.timezone;
         this.user.desc = data.user.description;
         this.user.is2faEnabled = data.user.is_2fa_enabled;
+        this.user.isPrivate = data.user.is_private;
         this.user.username = data.user.username;
         this.user.avatar = data.user.avatar;
         this.availibleTimezones = data.availible_timezones;

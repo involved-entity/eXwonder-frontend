@@ -61,6 +61,17 @@
             />
           </div>
           <p></p>
+
+          <div class="flex mt-3 space-x-1.5">
+            <div class="form-label">Is account private:</div>
+            <input
+              type="checkbox"
+              v-model="isPrivate"
+              class="w-4 h-4 text-blue-600 rounded bg-gray-custom my-auto"
+              ref="isPrivate"
+            />
+          </div>
+          <p></p>
         </div>
       </div>
       <div class="ps-3 pr-3 lg:pr-6 lg:ps-6 pb-5 pt-1.5">
@@ -215,6 +226,7 @@ export default {
       timezone: "",
       desc: "",
       is2faEnabled: undefined as boolean | undefined,
+      isPrivate: undefined as boolean | undefined,
       avatar: undefined as File | undefined,
       errors: { name: [], email: [], timezone: [], desc: [] },
     };
@@ -240,6 +252,7 @@ export default {
           timezone: this.timezone,
           description: this.desc,
           is_2fa_enabled: this.is2faEnabled,
+          is_private: this.isPrivate,
           avatar: this.avatar,
         };
         const errors: Record<string, Array<string>> | undefined =
@@ -267,6 +280,7 @@ export default {
   },
   mounted() {
     this.is2faEnabled = this.authenticationStore.user.is2faEnabled;
+    this.isPrivate = this.authenticationStore.user.isPrivate;
   },
   computed: {
     isValid() {
@@ -277,6 +291,7 @@ export default {
           this.timezone !== "" ||
           this.desc !== "" ||
           this.is2faEnabled !== this.authenticationStore.user.is2faEnabled ||
+          this.isPrivate !== this.authenticationStore.user.isPrivate ||
           this.avatar)
       );
     },
