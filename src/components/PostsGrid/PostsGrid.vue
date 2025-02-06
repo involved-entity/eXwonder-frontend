@@ -3,7 +3,11 @@
     <div class="grid grid-cols-3 space-x-0.5 space-y-0.5">
       <PostsList @postClick="postClick" :posts="sortedPosts" />
       <div class="hidden lg:block" v-if="visibleModalPosts.length">
-        <PostModal :post="visibleModalPosts[0]" @close="exitModal(visibleModalPosts[0])" />
+        <PostModal
+          :post="visibleModalPosts[0]"
+          @close="exitModal(visibleModalPosts[0])"
+          @pinPost="pinPost"
+        />
       </div>
     </div>
   </div>
@@ -38,7 +42,7 @@ export default {
     return {
       isPostsMayBeUpdated: false,
       isLoading: false,
-      sortedPosts: [],
+      sortedPosts: [] as IPost[],
     };
   },
   computed: {
@@ -71,6 +75,10 @@ export default {
           this.$emit("updatePostsScroll");
         }
       }
+    },
+    pinPost(post: IPost) {
+      post.pinned = !post.pinned;
+      this.sortedPosts = sortPostsByPinned(this.posts);
     },
   },
   mounted() {

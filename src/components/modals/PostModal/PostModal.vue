@@ -13,9 +13,11 @@
               <div class="ms-1 varela-round">({{ post.comments_count }})</div>
             </div>
             <div class="flex col-span-1 ms-auto">
-              <DeleteDropdown
+              <PostOptionsDropdown
                 v-if="post.author.id === authenticationStore.user.id"
+                :isPinned="post.pinned"
                 @delete="postDelete"
+                @pin="pinPost"
               />
               <ModalCloseButton @close="close" />
             </div>
@@ -89,7 +91,7 @@
 </template>
 
 <script lang="ts">
-import { clearActiveClasses } from "../../../helpers";
+import { clearActiveClasses, Methods, request } from "../../../helpers";
 import { PropType } from "vue";
 import { useCommentsStore } from "../../../stores/commentsStore.ts";
 import { useAuthenticationStore } from "../../../stores/authenticationStore.ts";
@@ -97,12 +99,13 @@ import { usePostsStore } from "../../../stores/postsStore.ts";
 import { mapStores } from "pinia";
 import PostLikeButton from "../../PostLikeButton.vue";
 import { IComment, IPost } from "../../../types/globals";
-import DeleteDropdown from "../../DeleteDropdown.vue";
+import PostOptionsDropdown from "./PostOptionsDropdown.vue";
 import ImagesCarousel from "./ImagesCarousel.vue";
 import ModalCloseButton from "../ModalCloseButton.vue";
 import CommentsList from "../CommentsList.vue";
 import NoCommentsSvg from "../NoCommentsSvg.vue";
 import PostBasicInfo from "./PostBasicInfo.vue";
+import axios from "axios";
 
 export default {
   components: {
@@ -111,10 +114,10 @@ export default {
     CommentsList,
     ModalCloseButton,
     ImagesCarousel,
-    DeleteDropdown,
+    PostOptionsDropdown,
     PostLikeButton,
   },
-  emits: ["close"],
+  emits: ["close", "pinPost"],
   props: {
     post: {
       type: Object as PropType<IPost>,
@@ -151,6 +154,18 @@ export default {
     resetCommentInput() {
       this.errors.commentInput = undefined;
       this.commentInput = "";
+    },
+
+    async pinPost() {
+      await request(
+        Methods.POST,
+        `/api/v1/posts/pinned/${this.post.id}/${this.post.pinned ? "unpin" : "pin"}/`,
+        undefined,
+        undefined,
+        axios.HttpStatusCode.NoContent
+      );
+      this.$emit("pinPost", this.post);
+      this.$emit("close");
     },
 
     async updateComments() {
