@@ -30,3 +30,9 @@ export const loginAndInitStores = (data: { token: string; user_id: number }): vo
   const notifsStore = useNotificationsStore();
   notifsStore.initNotifications();
 };
+
+export const sortPostsByPinned = (posts: IPost[]) => {
+  const pinnedPosts = posts.filter(post => post.pinned);
+  const unpinnedPosts = posts.filter(post => !post.pinned);
+  return [...pinnedPosts, ...unpinnedPosts];
+};

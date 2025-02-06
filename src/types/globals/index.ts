@@ -43,6 +43,9 @@ export interface IPost extends IDefaultInstance {
   signature: string;
   images: IImage[];
   comments_count: number;
+  can_comment: boolean;
+  pinned: boolean;
+  is_liked: boolean;
   is_commented: boolean;
   is_saved: boolean;
   activeImage?: number;

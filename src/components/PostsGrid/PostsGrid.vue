@@ -1,7 +1,7 @@
 <template>
-  <div class="ps-0.5 pr-1 pb-1" v-if="posts.length">
+  <div class="ps-0.5 pr-1 pb-1" v-if="sortedPosts.length">
     <div class="grid grid-cols-3 space-x-0.5 space-y-0.5">
-      <PostsList @postClick="postClick" :posts="posts" />
+      <PostsList @postClick="postClick" :posts="sortedPosts" />
       <div class="hidden lg:block" v-if="visibleModalPosts.length">
         <PostModal :post="visibleModalPosts[0]" @close="exitModal(visibleModalPosts[0])" />
       </div>
@@ -19,6 +19,7 @@ import { isElementInViewport } from "../../helpers";
 import PostModal from "../modals/PostModal/PostModal.vue";
 import PostsList from "./PostsList.vue";
 import NoResults from "../NoResults.vue";
+import { sortPostsByPinned } from "../../services";
 
 export default {
   emits: ["updatePostsScroll"],
@@ -27,16 +28,22 @@ export default {
       type: Array as PropType<Array<IPost>>,
       required: true,
     },
+    pinnedMode: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   data() {
     return {
       isPostsMayBeUpdated: false,
       isLoading: false,
+      sortedPosts: [],
     };
   },
   computed: {
     visibleModalPosts() {
-      return this.posts.filter(post => post.isModalVisible);
+      return this.sortedPosts.filter(post => post.isModalVisible);
     },
   },
   methods: {
@@ -69,6 +76,8 @@ export default {
   mounted() {
     this.isPostsMayBeUpdated = this.posts.length % 50 === 0;
     window.addEventListener("scroll", this.checkScroll);
+    if (this.pinnedMode) this.sortedPosts = sortPostsByPinned(this.posts);
+    else this.sortedPosts = this.posts;
   },
   unmounted() {
     window.removeEventListener("scroll", this.checkScroll);
@@ -77,6 +86,8 @@ export default {
     posts: {
       handler(newPosts) {
         this.isPostsMayBeUpdated = newPosts.length % 50 === 0;
+        if (this.pinnedMode) this.sortedPosts = sortPostsByPinned(this.posts);
+        else this.sortedPosts = this.posts;
         this.isLoading = false;
       },
       deep: true,

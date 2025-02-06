@@ -32,7 +32,12 @@
             <hr class="border border-gray-600" />
           </div>
 
-          <PostsGrid :posts="posts" @updatePostsScroll="getPostsNextPage" v-if="posts" />
+          <PostsGrid
+            :posts="posts"
+            @updatePostsScroll="getPostsNextPage"
+            v-if="posts"
+            :pinnedMode="true"
+          />
           <SubscriptionsModal
             :follows-count="followings.followersCount"
             follow-mode="followers"
