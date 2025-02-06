@@ -43,6 +43,7 @@
         </div>
         <div
           class="sticky bottom-0 left-0 w-full py-3 grid grid-cols-12 bg-gray-300 dark:bg-[#070707] h-[28%]"
+          v-if="post.can_comment"
         >
           <div class="col-span-2">
             <PostLikeButton :post="post" />
