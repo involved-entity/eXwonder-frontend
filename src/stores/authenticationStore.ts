@@ -19,6 +19,7 @@ export const useAuthenticationStore = defineStore("authentication", {
         desc: "",
         is2faEnabled: undefined,
         isPrivate: undefined,
+        commentsPrivateStatus: undefined,
         username: "",
         avatar: undefined,
       },
@@ -90,6 +91,7 @@ export const useAuthenticationStore = defineStore("authentication", {
         this.user.desc = data.user.description;
         this.user.is2faEnabled = data.user.is_2fa_enabled;
         this.user.isPrivate = data.user.is_private;
+        this.user.commentsPrivateStatus = data.user.comments_private_status;
         this.user.username = data.user.username;
         this.user.avatar = data.user.avatar;
         this.availibleTimezones = data.availible_timezones;

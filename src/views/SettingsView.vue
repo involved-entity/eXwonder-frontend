@@ -1,14 +1,14 @@
 <template>
   <div class="container-border">
     <div class="shadow">
-      <div class="ps-3 pr-3 pb-3 h-1 pt-3">
+      <div class="ps-3 pr-3 lg:pr-6 lg:ps-4 pb-3 h-1 pt-3">
         <hr class="border border-gray-600" />
       </div>
-      <div class="lg:flex ps-3 pr-3 lg:space-x-7">
+      <div class="lg:flex ps-3 pr-3 lg:pr-4 lg:ps-4 lg:space-x-5">
         <img
           :src="authenticationStore.user.avatar"
           alt="avatar"
-          class="size-[13.5rem] mx-auto lg:mx-0"
+          class="size-[14rem] mx-auto lg:mx-0"
         />
         <div class="mx-auto w-full">
           <p class="form-label">E-mail:</p>
@@ -28,7 +28,7 @@
             }}</small>
           </p>
 
-          <p class="form-label mt-3">Time zone:</p>
+          <p class="form-label mt-1.5">Time zone:</p>
           <input
             type="text"
             :placeholder="authenticationStore.user.timezone"
@@ -51,7 +51,7 @@
             }}</small>
           </p>
 
-          <div class="flex mt-3 space-x-1.5">
+          <div class="flex mt-1.5 space-x-1.5">
             <div class="form-label">Is 2FA enabled:</div>
             <input
               type="checkbox"
@@ -62,7 +62,7 @@
           </div>
           <p></p>
 
-          <div class="flex mt-3 space-x-1.5">
+          <div class="flex mt-1.5 space-x-1.5">
             <div class="form-label">Is account private:</div>
             <input
               type="checkbox"
@@ -74,7 +74,15 @@
           <p></p>
         </div>
       </div>
-      <div class="ps-3 pr-3 lg:pr-6 lg:ps-6 pb-5 pt-1.5">
+      <div class="ps-3 pr-3 lg:pr-4 lg:ps-4 pt-1.5">
+        <div class="form-label">Who can leave comments to your posts:</div>
+        <select class="form-input text-lg" v-model="commentsPrivateStatus">
+          <option value="E" :selected="commentsPrivateStatus === 'E'">Everyone</option>
+          <option value="F" :selected="commentsPrivateStatus === 'F'">Followers</option>
+          <option value="N" :selected="commentsPrivateStatus === 'N'">No one</option>
+        </select>
+      </div>
+      <div class="ps-3 pr-3 lg:pr-4 lg:ps-4 pb-4 pt-1">
         <div class="w-full">
           <div class="grid grid-cols-2 w-full gap-x-3">
             <button
@@ -203,6 +211,18 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "reka-ui";
+import {
+  ComboboxAnchor,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxGroup,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxRoot,
+  ComboboxSeparator,
+  ComboboxTrigger,
+  ComboboxViewport,
+} from "reka-ui";
 import { Icon } from "@iconify/vue";
 
 export default {
@@ -216,6 +236,16 @@ export default {
     DialogRoot,
     DialogTitle,
     DialogTrigger,
+    ComboboxAnchor,
+    ComboboxContent,
+    ComboboxEmpty,
+    ComboboxGroup,
+    ComboboxInput,
+    ComboboxItem,
+    ComboboxRoot,
+    ComboboxSeparator,
+    ComboboxTrigger,
+    ComboboxViewport,
   },
   data() {
     return {
@@ -227,6 +257,7 @@ export default {
       desc: "",
       is2faEnabled: undefined as boolean | undefined,
       isPrivate: undefined as boolean | undefined,
+      commentsPrivateStatus: undefined as string | undefined,
       avatar: undefined as File | undefined,
       errors: { name: [], email: [], timezone: [], desc: [] },
     };
@@ -253,6 +284,7 @@ export default {
           description: this.desc,
           is_2fa_enabled: this.is2faEnabled,
           is_private: this.isPrivate,
+          comments_private_status: this.commentsPrivateStatus,
           avatar: this.avatar,
         };
         const errors: Record<string, Array<string>> | undefined =
@@ -281,6 +313,7 @@ export default {
   mounted() {
     this.is2faEnabled = this.authenticationStore.user.is2faEnabled;
     this.isPrivate = this.authenticationStore.user.isPrivate;
+    this.commentsPrivateStatus = this.authenticationStore.user.commentsPrivateStatus;
   },
   computed: {
     isValid() {
@@ -292,6 +325,7 @@ export default {
           this.desc !== "" ||
           this.is2faEnabled !== this.authenticationStore.user.is2faEnabled ||
           this.isPrivate !== this.authenticationStore.user.isPrivate ||
+          this.commentsPrivateStatus !== this.authenticationStore.user.commentsPrivateStatus ||
           this.avatar)
       );
     },

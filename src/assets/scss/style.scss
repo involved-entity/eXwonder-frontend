@@ -234,7 +234,7 @@ body {
 }
 
 .form-label {
-  @apply ms-1 text-gray-700 dark:text-slate-400;
+  @apply ms-1 text-gray-700 dark:text-slate-400 font-medium;
 }
 .form-input {
   @apply my-1 text-gray-700 dark:text-gray-400 bg-gray-custom w-full px-5 py-1 transition-all duration-100 border;
