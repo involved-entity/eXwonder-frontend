@@ -16,12 +16,12 @@ __Frontend__ клиент для полноценной социальной с�
 
 ## Установка
 
-Перед использованием клиента убедитесь, что у вас установлена и запущена __[Backend часть](https://github.com/involved-entity/eXwonder-backend/)__ проекта.
+Перед использованием клиента убедитесь, что у вас установлена и запущена __[Backend часть](https://github.com/wellwe11well/eXwonder-backend/)__ проекта.
 
 1. Клонируем репозиторий:
 
 ```cmd
-git clone https://github.com/involved-entity/eXwonder-frontend.git
+git clone https://github.com/wellwe11well/eXwonder-frontend.git
 cd eXwonder-frontend/
 ```
 
@@ -43,7 +43,7 @@ bun dev
 
 ## Краткое описание функционала
 
-Доступно [здесь](https://github.com/involved-entity/eXwonder-backend/blob/main/README.md).
+Доступно [здесь](https://github.com/wellwe11well/eXwonder-backend/blob/main/README.md).
 
 <!-- TOC --><a name="screenshots"></a>
 
@@ -81,4 +81,4 @@ bun dev
 
 ## Лицензия
 
-У этого проекта [MIT лицензия](https://github.com/involved-entity/eXwonder-frontend/blob/main/LICENSE).
+У этого проекта [MIT лицензия](https://github.com/wellwe11well/eXwonder-frontend/blob/main/LICENSE).
